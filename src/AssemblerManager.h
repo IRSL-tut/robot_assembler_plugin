@@ -42,9 +42,7 @@ public:
     void deleteRobot(ra::RASceneRobot *_rb);
     void deleteAllRobots();
     void attachRobots(bool _just_align = false);
-    void itemSelected(AssemblerItemPtr itm, bool on) {
-        DEBUG_STREAM(" item_selected: " << itm->name() << " : " << on);
-    }
+    void itemSelected(AssemblerItemPtr itm, bool on);
     void com_attach()  { attachRobots(); }
     void com_align()   { attachRobots(true); }
     void com_unalign() { }
@@ -58,6 +56,7 @@ public:
             (*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
         }
     }
+    SignalProxy<void(ra::RoboasmRobotPtr _rb)>  sigRobotSelected() { return robotSelectedFunc; }
 
     int uniq_id;
     ra::RASceneConnectingPoint *clickedPoint0;
@@ -83,10 +82,11 @@ protected:
     //virtual void onFocusChanged(SceneWidgetEvent* event, bool on) override;
     virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
 
+    Signal<void(ra::RoboasmRobotPtr _rb)> robotSelectedFunc;
+
 private:
     class Impl;
     Impl* impl;
 };
-
 }
 #endif

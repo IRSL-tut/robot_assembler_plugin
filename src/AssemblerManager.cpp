@@ -426,6 +426,11 @@ void AssemblerManager::attachRobots(bool _just_align)
     deleteRobot(to_delete);
     //notifyUpdate(); // update at delete robot
 }
+void AssemblerManager::itemSelected(AssemblerItemPtr itm, bool on)
+{
+    ra::RASceneRobot *rb_ = dynamic_cast<ra::RASceneRobot*>(itm->getScene());
+    robotSelectedFunc(rb_->robot());
+}
 void AssemblerManager::onSceneModeChanged(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();

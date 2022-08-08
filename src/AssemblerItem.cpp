@@ -34,7 +34,10 @@ public:
 
     ~Impl();
 
-    void itemSelected(bool on);
+    void itemSelected(bool on)
+    {
+        if(!!manager) manager->itemSelected(self, on);
+    }
     void setTransparency(float t);
 
     //Signal<void(int flags)> sigModelUpdated;
@@ -196,10 +199,4 @@ void AssemblerItem::setTransparency(float t)
 void AssemblerItem::Impl::setTransparency(float t)
 {
     //[todo]
-}
-void AssemblerItem::Impl::itemSelected(bool on)
-{
-    if(!!manager) {
-        manager->itemSelected(self, on);
-    }
 }
