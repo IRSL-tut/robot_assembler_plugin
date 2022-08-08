@@ -60,21 +60,18 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
         }
         ra::SettingsPtr ra_settings = std::make_shared<ra::Settings> ();
         bool ret = ra_settings->parseYaml(fname_);
-
         if (ret) {
-            DEBUG_STREAM(" settings created");
             AssemblerManager *manager = AssemblerManager::instance();
             if(!!manager) {
-                DEBUG_STREAM(" manager find 0 : " << ppath_);
                 manager->setProjectDirectory(ppath_);
                 manager->ra_settings = ra_settings;
-                DEBUG_STREAM(" manager find 1");
                 manager->roboasm = std::make_shared<ra::Roboasm>(ra_settings);
-                DEBUG_STREAM(" manager find 2");
                 AssemblerView *ptr = AssemblerView::instance();
-                DEBUG_STREAM(" manager find 3");
                 ptr->createButtons();
             }
+        }
+        if(variables.count("assembler-robot")) {
+            std::string fname_ = variables["assembler-robot"].as<std::string>();
         }
     }
 }
@@ -100,6 +97,7 @@ bool RobotAssemblerPlugin::initialize()
     DEBUG_PRINT();
     OptionManager& om = this->optionManager();
     om.addOption("assembler", po::value<std::string>(), "load robot_assembler config file");
+    om.addOption("assembler-robot", po::value<std::string>(), "load robot_assembler .roboasm file");
     //om.sigOptionsParsed(1).connect(onSigOptionsParsed);
     om.sigOptionsParsed(1).connect(
         [&](po::variables_map& _v) { impl->onSigOptionsParsed(_v); } );
