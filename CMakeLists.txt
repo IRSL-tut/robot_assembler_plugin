@@ -10,7 +10,6 @@ set(sources
   src/AssemblerBar.cpp
   src/AssemblerTreeView.cpp
   )
-
 set(headers
   src/irsl_choreonoid/Coordinates.h
   src/RobotAssemblerSettings.h
@@ -24,6 +23,7 @@ set(headers
   src/AssemblerBar.h
   src/AssemblerTreeView.h
   )
+add_definitions(-Wno-deprecated-declarations)
 if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   # Build as a master project
   cmake_minimum_required(VERSION 3.10)

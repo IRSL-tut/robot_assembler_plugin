@@ -1,5 +1,8 @@
 #include "AssemblerManager.h"
 
+#include "RobotAssemblerBody.h"
+#include <cnoid/StdBodyWriter>
+
 #include <cnoid/MenuManager>
 #include <cnoid/RootItem>
 #include <cnoid/ItemList>
@@ -272,6 +275,7 @@ void AssemblerManager::deleteAllRobots()
     for(auto it = lst.begin(); it != lst.end(); it++) {
         (*it)->removeFromParentItem();
     }
+    RootItem::instance()->notifyUpdate();//??
     clickedPoint0 = nullptr;
     clickedPoint1 = nullptr;
     selectable_spoint_set.clear();
@@ -291,12 +295,14 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
             if (rbt == _rb) {
                 // delete
                 DEBUG_STREAM(" delete:" );
+                (*it)->setChecked(false);
                 (*it)->removeFromParentItem();
             } else {
                 srobot_set.insert(rbt);
             }
         }
     }
+    RootItem::instance()->notifyUpdate();//??
     clickedPoint0 = nullptr;
     clickedPoint1 = nullptr;
     selectable_spoint_set.clear();
@@ -360,7 +366,7 @@ void AssemblerManager::attachRobots(bool _just_align)
     } else {
         DEBUG_STREAM(" attach: " << ccid);
     }
-    ra::RoboasmParts *attached_parts = dynamic_cast<ra::RoboasmParts*>(cp0->point()->parent());
+    ra::RoboasmParts *attached_parts = dynamic_cast<ra::RoboasmParts*>(cp1->point()->parent());
     bool res_attach = rb0->attach(rb1, cp1->point(), cp0->point(), ccid, _just_align);
     if (!res_attach) {
         DEBUG_STREAM(" attach failed " );
@@ -390,22 +396,22 @@ void AssemblerManager::attachRobots(bool _just_align)
     if (cp1->scene_robot()->history.size() == 1) {
         cp0->scene_robot()->attachHistory(
             cp1->scene_robot()->history,
-            cp1->point()->parent()->name(),//parent,
-            cp1->point()->name(),          //robot_point,
-            attached_parts->name(),        //parts_name,
-            attached_parts->info->type,    //parts_type,
-            cp0->point()->name(),          //parts_point,
+            cp0->point()->parent()->name(), //parent,
+            cp0->point()->name(),           //robot_point,
+            attached_parts->name(),         //parts_name,
+            attached_parts->info->type,     //parts_type,
+            cp1->point()->name(),           //parts_point,
             config_);
     } else {
         ra::AttachHistory hist_;
-        attached_parts->dumpConnectFromParent(hist_);
+        attached_parts->dumpConnectFromParent(hist_); //??
         cp0->scene_robot()->attachHistory(
             hist_,
-            cp1->point()->parent()->name(),//parent,
-            cp1->point()->name(),          //robot_point,
-            attached_parts->name(),        //parts_name,
-            attached_parts->info->type,    //parts_type,
-            cp0->point()->name(),          //parts_point,
+            cp0->point()->parent()->name(), //parent,
+            cp0->point()->name(),           //robot_point,
+            attached_parts->name(),         //parts_name,
+            attached_parts->info->type,     //parts_type,
+            cp1->point()->name(),           //parts_point,
             config_);
     }
     // erase(rb1)
@@ -446,8 +452,10 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     menu->addItem("Undo")->sigTriggered().connect(
         [this](){ com_undo(); } );
     menu->addSeparator();
+    menu->addItem("Save history")->sigTriggered().connect(
+        [this](){ com_save_history(); } );
     menu->addItem("Save model")->sigTriggered().connect(
-        [this](){ save(); } );
+        [this](){ com_save_model(); } );
     menu->addSeparator();
     menu->addItem("Delete All")->sigTriggered().connect(
         [this](){ com_delete_all(); } );
@@ -455,13 +463,91 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     //return true;
     return false;
 }
-void AssemblerManager::save()
+void AssemblerManager::com_save_history()
+{
+    ItemList<AssemblerItem> lst =  RootItem::instance()->checkedItems<AssemblerItem>();
+    DEBUG_STREAM(" lst : " << lst.size());
+    if(lst.size() == 1) {
+        SgNode *node = lst.front()->getScene();
+        ra::RASceneRobot *rbt = dynamic_cast<ra::RASceneRobot*>(node);
+        if(!!rbt) {
+            save_history(rbt);
+        }
+    } else {
+        ERROR_STREAM(" AssemblerItem more than 1");
+    }
+}
+void AssemblerManager::com_save_model()
+{
+    ItemList<AssemblerItem> lst =  RootItem::instance()->checkedItems<AssemblerItem>();
+    DEBUG_STREAM(" lst : " << lst.size());
+    if(lst.size() == 1) {
+        SgNode *node = lst.front()->getScene();
+        ra::RASceneRobot *rbt = dynamic_cast<ra::RASceneRobot*>(node);
+        if(!!rbt) {
+            save_model(rbt);
+        }
+    } else {
+        ERROR_STREAM(" AssemblerItem more than 1");
+    }
+}
+void AssemblerManager::save_history(ra::RASceneRobot *_sr)
 {
     DEBUG_PRINT();
 
     auto dialog = new FileDialog();
+    int filter_id = 0;
+    dialog->sigFilterSelected().connect( [&filter_id](int i) { filter_id = i; });
+    dialog->setWindowTitle("Save assemble history");
+    dialog->setFileMode(QFileDialog::AnyFile);
+    dialog->setAcceptMode(QFileDialog::AcceptSave);
+    dialog->setViewMode(QFileDialog::List);
+    dialog->setLabelText(QFileDialog::Accept, "Save");
+    dialog->setLabelText(QFileDialog::Reject, "Cancel");
+    dialog->setOption(QFileDialog::DontConfirmOverwrite);
 
-    dialog->setWindowTitle("Save a model");
+    QStringList filters;
+    filters << "roboasm files (*.roboasm)";
+    filters << "Any files (*)";
+    dialog->setNameFilters(filters);
+
+    std::string initialname = _sr->name() + ".roboasm";
+    dialog->selectFile(initialname);
+    if(dialog->exec() == QDialog::Accepted) {
+        DEBUG_STREAM(" accepted");
+        auto fnames = dialog->selectedFiles();
+        std::string fname;
+        if(!fnames.isEmpty()) {
+            fname = fnames.front().toStdString();
+            filesystem::path path(fromUTF8(fname));
+            std::string ext = path.extension().string();
+            if(ext == ".roboasm"){
+                DEBUG_STREAM(" roboasm : " << fname);
+            } else {
+                if (filter_id == 0) {
+                    fname += ".roboasm";
+                }
+                DEBUG_STREAM(" roboasm : " << fname);
+            }
+        }
+        if(fname.size() > 0) {
+            ra::RoboasmFile raf;
+            raf.history = _sr->history;
+            _sr->robot()->writeConfig(raf.config);
+            raf.dumpRoboasm(fname);
+        }
+    }
+
+    delete dialog;
+}
+void AssemblerManager::save_model(ra::RASceneRobot *_sr)
+{
+    DEBUG_PRINT();
+
+    auto dialog = new FileDialog();
+    int filter_id = 0;
+    dialog->sigFilterSelected().connect( [&filter_id](int i) { filter_id = i; });
+    dialog->setWindowTitle("Save a robot model");
     dialog->setFileMode(QFileDialog::AnyFile);
     dialog->setAcceptMode(QFileDialog::AcceptSave);
     dialog->setViewMode(QFileDialog::List);
@@ -475,23 +561,43 @@ void AssemblerManager::save()
     filters << "Any files (*)";
     dialog->setNameFilters(filters);
 
+    std::string initialname = _sr->name() + ".body";
+    dialog->selectFile(initialname);
     if(dialog->exec() == QDialog::Accepted) {
         DEBUG_STREAM(" accepted");
         auto fnames = dialog->selectedFiles();
+        std::string fname;
+        bool urdf = false;
         if(!fnames.isEmpty()) {
-            std::string fname = fnames.front().toStdString();
+            fname = fnames.front().toStdString();
             filesystem::path path(fromUTF8(fname));
             std::string ext = path.extension().string();
             if(ext == ".body"){
                 DEBUG_STREAM(" body : " << fname);
             } else if (ext == ".urdf") {
                 DEBUG_STREAM(" urdf : " << fname);
+                urdf = true;
             } else {
+                DEBUG_STREAM(" filter? " << filter_id); // 0, 1, 2
                 // path.extension().string();
-                DEBUG_STREAM(" body : " << fname << ".body");
+                //DEBUG_STREAM(" body : " << fname << ".body");
+                if (filter_id == 0) {
+                    urdf = true;
+                    fname += ".urdf";
+                } else if (filter_id == 1) {
+                    fname += ".body";
+                }
             }
         }
+        if(fname.size() > 0) {
+            // createBody
+            ra::RoboasmBodyCreator bc;
+            BodyPtr bd = bc.createBody(_sr->robot());
+            StdBodyWriter writer;
+            writer.writeBody(bd, fname);
+            // [TODO] if urdf
+        }
     }
-
     delete dialog;
 }
+

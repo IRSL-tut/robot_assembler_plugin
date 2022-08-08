@@ -859,6 +859,8 @@ bool RoboasmRobot::createRoboasm(RoboasmFile &_roboasm)
 }
 bool RoboasmRobot::writeConfig(AssembleConfig &_config)
 {
+    _config.robot_name = name();
+    _config.initial_coords = worldcoords();
     return true;
 }
 void RoboasmRobot::connectedPoints(connectingPointPtrList &lst)

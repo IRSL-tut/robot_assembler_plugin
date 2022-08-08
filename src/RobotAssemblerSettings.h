@@ -314,8 +314,8 @@ public:
     }
 
     bool isValid() { return valid_; }
-    AttachHistory history;
-    AssembleConfig config;
+    AttachHistory  history;
+    AssembleConfig  config;
 
     bool parseRoboasm(const std::string &_filename);
     bool dumpRoboasm(const std::string &_filename);

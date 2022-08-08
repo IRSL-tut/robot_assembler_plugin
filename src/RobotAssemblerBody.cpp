@@ -260,6 +260,7 @@ bool RoboasmBodyCreator::appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr
             appendChildLink(_bd, clk, (*it));
         }
     }
+    return true;
 }
 BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb)
 {

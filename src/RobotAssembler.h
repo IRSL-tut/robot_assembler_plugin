@@ -313,6 +313,7 @@ public:
       return nullptr;
     }
     bool createRoboasm(RoboasmFile &_roboasm);
+    bool writeConfig(AssembleConfig &_config);
     void connectedPoints(connectingPointPtrList &lst);
 protected:
     SettingsPtr settings;
@@ -320,7 +321,6 @@ protected:
     friend RoboasmCoords;
     friend RoboasmParts;
     friend RoboasmConnectingPoint;
-    bool writeConfig(AssembleConfig &_config);
 };
 
 class Roboasm

@@ -84,26 +84,6 @@ public:
     ~RASceneRobot();
 
     RoboasmRobotPtr robot() { return self; }
-    //bool addParts(RASceneParts *pt) {};
-    bool mergeRobot(RASceneRobot *_rb) {
-        coordinates base_coords = self->worldcoords();
-        coordinates trans;
-        Position p;
-        _rb->clearChildren();
-        for(auto pt_it = _rb->sparts_set.begin(); pt_it != _rb->sparts_set.end(); pt_it++) {
-            this->addChild(*pt_it);
-            base_coords.transformation(trans, (*pt_it)->parts()->worldcoords());
-            trans.toPosition(p);
-            (*pt_it)->position() = p;
-            sparts_set.insert(*pt_it);
-            (*pt_it)->robot_ptr = this;
-            for(auto pit = (*pt_it)->spoint_list.begin(); pit != (*pt_it)->spoint_list.end(); pit++) {
-                (*pit)->robot_ptr = this;
-                spoint_set.insert(*pit);
-            }
-        }
-    }
-
     void setCoords(coordinates &_coords) {
         self->newcoords(_coords);
         self->updateDescendants();
@@ -114,12 +94,13 @@ public:
         Position p; self->toPosition(p);
         this->position() = p;
     }
-
+    bool mergeRobot(RASceneRobot *_rb);
+#if 0
     void debug() {
         partsPtrList plst;
         self->allParts(plst);
         if(plst.size() != sparts_set.size()) {
-            DEBUG_STREAM_NL(" Roboasm: " << plst.size() << " != Scene: " << sparts_set.size() << std::endl);
+            DEBUG_STREAM(" Roboasm: " << plst.size() << " != Scene: " << sparts_set.size());
         }
         for(auto it = plst.begin(); it != plst.end(); it++) {
             bool exist = false;
@@ -155,6 +136,7 @@ public:
             }
         }
     }
+#endif
     // removeParts [TODO]
 
     //// overrides : SceneWidgetEventHandler

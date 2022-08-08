@@ -1073,6 +1073,7 @@ static bool parse(ValueNode *_vn, AttachHistoryItem& hist)
 
     ValueNode *vn = mp_->find("initial-parts");
     if(vn->isValid()) hist.initial_parts = true;
+    return true;
 }
 static bool parse(ValueNode *_vn, AssembleConfig& config)
 {
@@ -1107,6 +1108,7 @@ static bool parse(ValueNode *_vn, AssembleConfig& config)
             }
         }
     }
+    return true;
 }
 bool RoboasmFile::parseRoboasm(const std::string &_filename)
 {

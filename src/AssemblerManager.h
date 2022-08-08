@@ -28,7 +28,8 @@ public:
 
     void partsButtonClicked(const std::string &_name);
 
-    void save();
+    void save_model(ra::RASceneRobot *_sr);
+    void save_history(ra::RASceneRobot *_sr);
     int pointClicked(ra::RASceneConnectingPoint *_cp);
     int partsClicked(ra::RASceneParts *_pt);
 
@@ -52,7 +53,8 @@ public:
     void com_align()   { attachRobots(true); }
     void com_unalign() { }
     void com_undo()    { }
-    void com_save()    { save(); }
+    void com_save_model();
+    void com_save_history();
     void com_delete_all() { deleteAllRobots(); }
 
     void notifyUpdate() {

@@ -206,6 +206,25 @@ RASceneRobot::~RASceneRobot()
 {
     DEBUG_STREAM(self->name());
 }
+bool RASceneRobot::mergeRobot(RASceneRobot *_rb) {
+    coordinates base_coords = self->worldcoords();
+    coordinates trans;
+    Position p;
+    _rb->clearChildren();//
+    for(auto pt_it = _rb->sparts_set.begin(); pt_it != _rb->sparts_set.end(); pt_it++) {
+        this->addChild(*pt_it);
+        base_coords.transformation(trans, (*pt_it)->parts()->worldcoords());
+        trans.toPosition(p);
+        (*pt_it)->position() = p;
+        sparts_set.insert(*pt_it);
+        (*pt_it)->robot_ptr = this;
+        for(auto pit = (*pt_it)->spoint_list.begin(); pit != (*pt_it)->spoint_list.end(); pit++) {
+            (*pit)->robot_ptr = this;
+            spoint_set.insert(*pit);
+        }
+    }
+    return true;
+}
 //// overrides : SceneWidgetEventHandler
 void RASceneRobot::onSceneModeChanged(SceneWidgetEvent* event)
 {
@@ -351,10 +370,20 @@ bool RASceneRobot::onContextMenuRequest(SceneWidgetEvent* event)
 
     if (!!lastClickedParts) {
         menu->addSeparator();
-        std::string label_ = "Delete This: ";
-        label_ += this->name();
-        menu->addItem(label_)->sigTriggered().connect(
+
+        std::string label0_ = "Save history : " + this->name();
+        menu->addItem(label0_)->sigTriggered().connect(
+            [this](){ manager->save_history(this); });
+        std::string label1_ = "Save model : " + this->name();
+        menu->addItem(label1_)->sigTriggered().connect(
+            [this](){ manager->save_model(this); });
+        menu->addSeparator();
+        std::string label2_ = "Delete This: " + this->name();
+        menu->addItem(label2_)->sigTriggered().connect(
             [this](){ manager->deleteRobot(this); });
+        menu->addSeparator();
+        std::string label3_ = "Select Parts : " + lastClickedParts->name();
+        menu->addItem(label3_);
     }
     if (!!lastClickedPoint) {
         menu->addSeparator();
