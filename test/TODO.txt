@@ -1,0 +1,25 @@
+# TEST
+
+## coordinates
+### base function
+
+## RobotAssemblerSetting
+### read/write setting
+### read/write history
+### process history
+
+## RoobasmCoords
+### base function(cascaded)
+### toRootLink
+
+## RobotAssembler
+### assemble by hand
+### assemble from history
+### write history
+
+## RobotAssemblerBody
+### create Body from RobotAssembler 
+### merge link 
+### add paremeter fron config
+
+## GUI??
