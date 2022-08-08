@@ -511,7 +511,7 @@ void AssemblerManager::save_history(ra::RASceneRobot *_sr)
     filters << "Any files (*)";
     dialog->setNameFilters(filters);
 
-    std::string initialname = _sr->name() + ".roboasm";
+    std::string initialname = _sr->robot()->name() + ".roboasm";
     dialog->selectFile(initialname);
     if(dialog->exec() == QDialog::Accepted) {
         DEBUG_STREAM(" accepted");
@@ -561,7 +561,7 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
     filters << "Any files (*)";
     dialog->setNameFilters(filters);
 
-    std::string initialname = _sr->name() + ".body";
+    std::string initialname = _sr->robot()->name() + ".body";
     dialog->selectFile(initialname);
     if(dialog->exec() == QDialog::Accepted) {
         DEBUG_STREAM(" accepted");
