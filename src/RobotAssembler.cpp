@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define IRSL_DEBUG
+//#define IRSL_DEBUG
 #include "irsl_debug.h"
 
 using namespace cnoid;

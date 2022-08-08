@@ -7,10 +7,6 @@
 #include <cnoid/Body>
 #include <set>
 
-// temp
-#define IRSL_DEBUG
-#include "irsl_debug.h"
-
 namespace cnoid {
 class AssemblerManager;
 

@@ -13,7 +13,7 @@
 
 #include "RobotAssembler.h"
 
-#define IRSL_DEBUG
+//#define IRSL_DEBUG
 #include "irsl_debug.h"
 
 using namespace cnoid;
@@ -27,7 +27,6 @@ RobotAssemblerPlugin* instance_ = nullptr;
 }
 
 namespace cnoid {
-
 class RobotAssemblerPlugin::Impl
 {
 public:
@@ -37,7 +36,6 @@ public:
 
     void onSigOptionsParsed(po::variables_map& variables);
 };
-
 }
 void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables)
 {

@@ -7,13 +7,9 @@
 
 #include "exportdecl.h"
 
-#define IRSL_DEBUG
-#include "irsl_debug.h"
-
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
-
 class CNOID_EXPORT AssemblerManager : public SceneWidgetEventHandler
 {
 public:

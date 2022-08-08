@@ -8,7 +8,7 @@
 #include <cnoid/UTF8>
 #include <cnoid/stdx/filesystem>
 
-#define IRSL_DEBUG
+//#define IRSL_DEBUG
 #include "irsl_debug.h"
 
 namespace filesystem = cnoid::stdx::filesystem;

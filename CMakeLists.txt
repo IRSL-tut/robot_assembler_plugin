@@ -24,6 +24,7 @@ set(headers
   src/AssemblerTreeView.h
   )
 add_definitions(-Wno-deprecated-declarations)
+add_definitions(-DIRSL_DEBUG)
 if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   # Build as a master project
   cmake_minimum_required(VERSION 3.10)
