@@ -1,0 +1,2 @@
+# robot_assembler_plugin
+robot_assembler_plugin for choreonoid
