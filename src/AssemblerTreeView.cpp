@@ -57,7 +57,7 @@ public:
 }
 void AssemblerTreeView::initializeClass(ExtensionManager* ext)
 {
-    ext->viewManager().registerClass<AssemblerTreeView>("AssemblerTreeView", "AssemblerTreeView_View");
+    ext->viewManager().registerClass<AssemblerTreeView>("AssemblerTreeView", "AssemblerTree");
 }
 AssemblerTreeView* AssemblerTreeView::instance()
 {
