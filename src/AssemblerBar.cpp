@@ -1,4 +1,5 @@
 #include "AssemblerBar.h"
+#include "AssemblerManager.h"
 #include <cnoid/FileDialog>
 #include <vector>
 
@@ -15,11 +16,11 @@ public:
     Impl(AssemblerBar* _self);
 
     AssemblerBar *self;
+    AssemblerManager *manager;
     std::vector<ToolButton *> buttons;
 
     void addButton(const char *icon, const char *tooltip, std::function<void()> func);
 
-    void buttonClicked(int n);
 };
 
 }
@@ -43,17 +44,27 @@ AssemblerBar::~AssemblerBar()
 
 AssemblerBar::Impl::Impl(AssemblerBar* _self)
 {
+    manager = AssemblerManager::instance();
+
     self = _self;
-    addButton(":/Body/icon/storepose.svg", "No tooltip 0",
-              [&](){ buttonClicked(0); } );
-    // align -
-    // align +
-    // un align
-    // attach
-    // [undo]
-    // write body
-    // write urdf
-    // delete All
+    addButton(":/Body/icon/storepose.svg", "Save History",
+              [this](){ manager->com_save_history(); } );
+    addButton(":/Body/icon/storepose.svg", "Save Model",
+              [this](){ manager->com_save_model(); } );
+    addButton(":/Body/icon/storepose.svg", "Align increment",
+              [this](){ manager->com_align(); } );
+    addButton(":/Body/icon/storepose.svg", "Align decrement",
+              [this](){ manager->com_align_back(); } );
+    addButton(":/Body/icon/storepose.svg", "Undo Align",
+              [this](){ manager->com_unalign(); } );
+    addButton(":/Body/icon/storepose.svg", "Attach",
+              [this](){ manager->com_attach(); } );
+    addButton(":/Body/icon/storepose.svg", "Undo",
+              [this](){ manager->com_undo(); } );
+    addButton(":/Body/icon/storepose.svg", "Load History",
+              [this](){ manager->com_load(); } );
+    addButton(":/Body/icon/storepose.svg", "Delete All",
+              [this](){ manager->com_delete_all(); } );
 }
 
 void AssemblerBar::Impl::addButton(const char *icon, const char *tooltip, std::function<void()> func)
@@ -64,9 +75,4 @@ void AssemblerBar::Impl::addButton(const char *icon, const char *tooltip, std::f
     button->sigClicked().connect(func);
 
     buttons.push_back(button);
-}
-
-void AssemblerBar::Impl::buttonClicked(int n)
-{
-    DEBUG_STREAM_NL(" buttonClicked:" << n << std::endl);
 }

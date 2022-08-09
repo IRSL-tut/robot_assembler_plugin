@@ -41,15 +41,17 @@ public:
     }
     void deleteRobot(ra::RASceneRobot *_rb);
     void deleteAllRobots();
-    void attachRobots(bool _just_align = false);
+    void attachRobots(bool _just_align = false, int _increment = 1);
     void itemSelected(AssemblerItemPtr itm, bool on);
     void loadRoboasm(const std::string &_fname);
     void com_attach()  { attachRobots(); }
     void com_align()   { attachRobots(true); }
+    void com_align_back()   { attachRobots(true, -1); }
     void com_unalign() { }
     void com_undo()    { }
     void com_save_model();
     void com_save_history();
+    void com_load() {}
     void com_delete_all() { deleteAllRobots(); }
 
     void notifyUpdate() {

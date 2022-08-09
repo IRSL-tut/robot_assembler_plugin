@@ -184,6 +184,8 @@ int AssemblerManager::pointClicked(ra::RASceneConnectingPoint *_cp)
     } else {
         DEBUG_STREAM(" === unknown state === : " << _cp->name() );
     }
+    DEBUG_STREAM(" 0: " << (!!(clickedPoint0) ? clickedPoint0->name() : "null")
+                 << " | 1: " << (!!(clickedPoint1) ? clickedPoint1->name() : "null"));
     if(modified) {
         updateConnectingPoints();
         for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
@@ -321,7 +323,7 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
     notifyUpdate();
     SceneView::instance()->sceneWidget()->viewAll();
 }
-void AssemblerManager::attachRobots(bool _just_align)
+void AssemblerManager::attachRobots(bool _just_align, int increment)
 {
     DEBUG_PRINT();
     if(!clickedPoint0 || !clickedPoint1) {
@@ -334,14 +336,14 @@ void AssemblerManager::attachRobots(bool _just_align)
     if(cp1->scene_robot()->robot()->partsNum() >
        cp0->scene_robot()->robot()->partsNum() ) { // swap 0 and 1
         ra::RASceneConnectingPoint *tmp = cp0;
-        cp0 = cp1; cp1 = cp0;
+        cp0 = cp1; cp1 = tmp;
     }
 
     ra::RoboasmRobotPtr rb0 = cp0->scene_robot()->robot();
     ra::RoboasmRobotPtr rb1 = cp1->scene_robot()->robot();
 
     DEBUG_STREAM(" rb0: " << rb0->name() << " <=(attach) rb1:" << rb1->name() );
-    DEBUG_STREAM(" cp0-point(): " << cp0->point()->name() << " cp1-point()" << cp1->point()->name() );
+    DEBUG_STREAM(" cp0-point(): " << cp0->point()->name() << " | cp1-point(): " << cp1->point()->name() );
 
     bool res;
     std::vector<ra::ConnectingTypeMatch*> res_match_lst;
@@ -354,8 +356,8 @@ void AssemblerManager::attachRobots(bool _just_align)
     DEBUG_STREAM(" matched : " << res_match_lst.size() );
     int counter_ = 0; bool find_ = false;
     int target_config_ = current_align_configuration;
-    if(_just_align) target_config_++;
-    ra::ConnectingConfigurationID ccid = res_match_lst[0]->allowed_configuration[0];
+    if(_just_align) target_config_ += increment;
+    ra::ConnectingConfigurationID ccid = res_match_lst.front()->allowed_configuration.front();
     for(int i = 0; i < res_match_lst.size(); i++) {
         ra::ConnectingTypeMatch* mt_ = res_match_lst[i];
         for(int j = 0; j < mt_->allowed_configuration.size(); j++) {
@@ -366,12 +368,14 @@ void AssemblerManager::attachRobots(bool _just_align)
             counter_++;
         }
     }
-    if(!find_) {
+    if(target_config_ < 0) {
+        current_align_configuration = counter_ - 1;
+        ccid = res_match_lst.back()->allowed_configuration.back();
+    } else if(!find_) {
         current_align_configuration = 0;
     } else {
-        current_align_configuration++;
+        current_align_configuration = target_config_;
     }
-
     if(_just_align) {
         DEBUG_STREAM(" align: " << ccid);
     } else {
