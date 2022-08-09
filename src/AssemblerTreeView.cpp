@@ -89,8 +89,10 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
 
     modeCombo.addItem("ALL");
     modeCombo.addItem("Parts");
-    modeCombo.addItem("Parts + ConnectingPoint");
     modeCombo.addItem("Parts + Actuator");
+    modeCombo.addItem("Parts + ConnectingPoint");
+    modeCombo.addItem("Actuator");
+    modeCombo.addItem("ConnectingPoint");
     modeCombo.addItem("Link");
     modeCombo.addItem("Link + Actuator");
 
@@ -129,38 +131,51 @@ void AssemblerTreeView::Impl::robotSelected(ra::RoboasmRobotPtr _rb)
     case 1: // parts
         createTree(_rb, [](ra::RoboasmCoordsPtr _rb) { return _rb->isParts(); } );
         break;
-    case 2: // parts + conn
-        createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
-                if (_rb->isParts()) return true;
-                ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
-                if(!!cp_ && cp_->isConnected()) return true;
-                return false; } );
-        break;
-    case 3: // parts + act
+    case 2: // parts + act
         createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
                 if (_rb->isParts()) return true;
                 ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
                 if(!!cp_ && cp_->isConnected() && cp_->isActuator()) return true;
                 return false; } );
         break;
-    case 4: // link
+    case 3: // parts + conn
         createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
-                if (_rb->isParts()) {
-                    if(_rb->parent()->isRobot()) return true;
-                    ra::RoboasmConnectingPoint *cp_ = _rb->parent()->parent()->toConnectingPoint();
-                    if(cp_->isActuator()) return true;
-                } return false; } );
+                if (_rb->isParts()) return true;
+                ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
+                if(!!cp_ && cp_->isConnected()) return true;
+                return false; } );
         break;
-    case 5: // link + act
+
+    case 4: // actuator
+        createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
+                ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
+                if(!!cp_ && cp_->isConnected() && cp_->isActuator()) return true;
+                return false; } );
+        break;
+    case 5: // connecting
+        createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
+                ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
+                if(!!cp_ && cp_->isConnected() && cp_->isActuator()) return true;
+                return false; } );
+        break;
+    case 6: // link
         createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
                 if (_rb->isParts()) {
                     if(_rb->parent()->isRobot()) return true;
-                    ra::RoboasmConnectingPoint *cp_ = _rb->parent()->parent()->toConnectingPoint();
-                    if(cp_->isActuator()) return true;
+                    if (_rb->parent()->toConnectingPoint()->isActuator() ||
+                        _rb->parent()->parent()->toConnectingPoint()->isActuator()) return true; }
+                return false; } );
+        break;
+    case 7: // link + act
+        createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
+                if (_rb->isParts()) {
+                    if(_rb->parent()->isRobot()) return true;
+                    if (_rb->parent()->toConnectingPoint()->isActuator() ||
+                        _rb->parent()->parent()->toConnectingPoint()->isActuator()) return true;
                 } else {
                     ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
-                    if(!!cp_ && cp_->isConnected() && cp_->isActuator()) return true;
-                } return false; } );
+                    if(!!cp_ && cp_->isConnected() && cp_->isActuator()) return true; }
+                return false; } );
         break;
     }
 }
