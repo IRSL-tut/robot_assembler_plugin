@@ -65,7 +65,7 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
             if(!!manager) {
                 manager->setProjectDirectory(ppath_);
                 manager->ra_settings = ra_settings;
-                manager->roboasm = std::make_shared<ra::Roboasm>(ra_settings);
+                manager->ra_util = std::make_shared<ra::RoboasmUtil>(ra_settings);
                 AssemblerView *ptr = AssemblerView::instance();
                 ptr->createButtons();
             }

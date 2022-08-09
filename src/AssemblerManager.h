@@ -65,7 +65,7 @@ public:
 
     int current_align_configuration;
     ra::SettingsPtr ra_settings; // from option
-    ra::RoboasmPtr roboasm; // from settings
+    ra::RoboasmUtilPtr ra_util; // from settings
     std::set<ra::RASceneRobot*> srobot_set;
     std::string _project_directory;
 protected:

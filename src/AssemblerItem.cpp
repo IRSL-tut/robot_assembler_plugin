@@ -48,9 +48,9 @@ public:
 };
 }
 
-AssemblerItemPtr AssemblerItem::createItem(const std::string &robot_name, const std::string &parts_key, RoboasmPtr roboasm, AssemblerManager *_ma)
+AssemblerItemPtr AssemblerItem::createItem(const std::string &robot_name, const std::string &parts_key, RoboasmUtilPtr _ra_util, AssemblerManager *_ma)
 {
-    RoboasmRobotPtr rb = roboasm->makeRobot(robot_name, parts_key);
+    RoboasmRobotPtr rb = _ra_util->makeRobot(robot_name, parts_key);
     AssemblerItemPtr ret(new AssemblerItem(robot_name));
     ret->impl->manager = _ma;
 

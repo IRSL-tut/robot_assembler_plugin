@@ -506,14 +506,14 @@ bool RoboasmParts::parentParts(RoboasmPartsPtr &_res_parent,
     if(!self_pt) return false;
     RoboasmCoords *pp = parent_ptr->parent()->parent()->parent();
     if(!pp) return false;
-    _res_parent = Roboasm::toParts(pp->isDirectDescendant(p_parts));
+    _res_parent = RoboasmUtil::toParts(pp->isDirectDescendant(p_parts));
     if(!_res_parent) return false;
-    _res_parent_point = Roboasm::toConnectingPoint(p_parts->isDirectDescendant(p_pt));
+    _res_parent_point = RoboasmUtil::toConnectingPoint(p_parts->isDirectDescendant(p_pt));
     if(!_res_parent_point) {
         _res_parent = nullptr;
         return false;
     }
-    _res_self_point = Roboasm::toConnectingPoint(p_pt->isDirectDescendant(self_pt));
+    _res_self_point = RoboasmUtil::toConnectingPoint(p_pt->isDirectDescendant(self_pt));
     if(!_res_self_point) {
         _res_parent = nullptr;
         _res_parent_point = nullptr;
@@ -875,8 +875,8 @@ void RoboasmRobot::connectedPoints(connectingPointPtrList &lst)
         }
     }
 }
-//// [Roboasm] ////
-Roboasm::Roboasm(const std::string &filename)
+//// [RoboasmUtil] ////
+RoboasmUtil::RoboasmUtil(const std::string &filename)
 {
     SettingsPtr p = std::make_shared<Settings>();
     if (p->parseYaml(filename)) {
@@ -887,7 +887,7 @@ Roboasm::Roboasm(const std::string &filename)
         current_settings = nullptr;
     }
 }
-Roboasm::Roboasm(SettingsPtr settings)
+RoboasmUtil::RoboasmUtil(SettingsPtr settings)
 {
     if(!!settings) {
         parts_counter = 0;
@@ -895,22 +895,22 @@ Roboasm::Roboasm(SettingsPtr settings)
     }
     current_settings = settings;
 }
-Roboasm::~Roboasm()
+RoboasmUtil::~RoboasmUtil()
 {
     //DEBUG_STREAM(" [" << this << "] " << name_str);
 }
-bool Roboasm::isReady()
+bool RoboasmUtil::isReady()
 {
     return (!!current_settings);
 }
-RoboasmPartsPtr Roboasm::makeParts(const std::string &_parts_key)
+RoboasmPartsPtr RoboasmUtil::makeParts(const std::string &_parts_key)
 {
     std::ostringstream os;
     os << _parts_key << "_" << pid << "_" << parts_counter;
     parts_counter++;
     return makeParts(_parts_key, os.str());
 }
-RoboasmPartsPtr Roboasm::makeParts
+RoboasmPartsPtr RoboasmUtil::makeParts
 (const std::string &_parts_key, const std::string &_parts_name)
 {
     auto res = current_settings->mapParts.find(_parts_key);
@@ -922,23 +922,23 @@ RoboasmPartsPtr Roboasm::makeParts
     RoboasmPartsPtr ret = std::make_shared<RoboasmParts> (_parts_name, &(res->second));
     return ret;
 }
-RoboasmRobotPtr Roboasm::makeRobot(const std::string &_name, const std::string &_parts_key)
+RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, const std::string &_parts_key)
 {
     RoboasmPartsPtr pt_ = makeParts(_parts_key);
     return std::make_shared<RoboasmRobot>(_name, pt_, current_settings);
 }
-RoboasmRobotPtr Roboasm::makeRobot(const std::string &_name, const std::string &_parts_key,
+RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, const std::string &_parts_key,
                                           const std::string &_parts_name)
 {
     RoboasmPartsPtr pt_ = makeParts(_parts_key, _parts_name);
     return std::make_shared<RoboasmRobot>(_name, pt_, current_settings);
 }
-RoboasmRobotPtr Roboasm::makeRobot(const std::string &_name, RoboasmPartsPtr _parts)
+RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, RoboasmPartsPtr _parts)
 {
     return std::make_shared<RoboasmRobot>(_name, _parts, current_settings);
 }
 
-bool Roboasm::canMatch(RoboasmConnectingPointPtr _a, RoboasmConnectingPointPtr _b)
+bool RoboasmUtil::canMatch(RoboasmConnectingPointPtr _a, RoboasmConnectingPointPtr _b)
 {
     std::vector<ConnectingTypeID> &rtp = _a->info->type_list;
     std::vector<ConnectingTypeID> &ptp = _b->info->type_list;
@@ -954,7 +954,7 @@ bool Roboasm::canMatch(RoboasmConnectingPointPtr _a, RoboasmConnectingPointPtr _
     }
     return match;
 }
-RoboasmRobotPtr Roboasm::makeRobot(RoboasmFile &_roboasm_file)
+RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
 {
     RoboasmRobotPtr ret;
     std::string name_;

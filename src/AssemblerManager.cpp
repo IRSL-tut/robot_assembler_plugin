@@ -65,7 +65,7 @@ void AssemblerManager::partsButtonClicked(const std::string &_name)
     } else {
         rb_name = _name;
     }
-    AssemblerItemPtr itm = AssemblerItem::createItem(rb_name, _name, roboasm, this);
+    AssemblerItemPtr itm = AssemblerItem::createItem(rb_name, _name, ra_util, this);
     if (!!itm) {
         ra::RASceneRobot* rb_scene = dynamic_cast<ra::RASceneRobot*> (itm->getScene());
         const BoundingBox &rb_bb = rb_scene->boundingBox();
@@ -194,7 +194,7 @@ void AssemblerManager::updateConnectingPoints()
         DEBUG_STREAM(" state 0 : both clicked" );
         //selectable_spoint_set.clear();
         // can match clickedPoint0/clickedPoint1
-        bool can_match = roboasm->canMatch(clickedPoint0->point(), clickedPoint1->point());
+        bool can_match = ra_util->canMatch(clickedPoint0->point(), clickedPoint1->point());
         updateMatchedPoints(clickedPoint0);
         // updateMatchedPoints(clickedPoint1);
         if(can_match) {
@@ -246,7 +246,7 @@ void AssemblerManager::updateMatchedPoints(ra::RASceneConnectingPoint *_pt, bool
         }
         auto pit_end = (*it)->spoint_set.end();
         for(auto pit = (*it)->spoint_set.begin(); pit != pit_end; pit++) {
-            if(roboasm->canMatch(cp_, (*pit)->point())) {
+            if(ra_util->canMatch(cp_, (*pit)->point())) {
                 (*pit)->changeState(matchedState);
             } else {
                 (*pit)->changeState(clearState);

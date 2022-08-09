@@ -323,13 +323,13 @@ protected:
     friend RoboasmConnectingPoint;
 };
 
-class Roboasm
+class RoboasmUtil
 {
 public:
-    Roboasm() = delete;
-    Roboasm(const std::string &filename);
-    Roboasm(SettingsPtr settings);
-    ~Roboasm();
+    RoboasmUtil() = delete;
+    RoboasmUtil(const std::string &filename);
+    RoboasmUtil(SettingsPtr settings);
+    ~RoboasmUtil();
     bool isReady();
     static RoboasmConnectingPointPtr toConnectingPoint(RoboasmCoordsPtr p) {
         return std::dynamic_pointer_cast<RoboasmConnectingPoint>(p);
@@ -363,7 +363,7 @@ private:
     int pid;
     int parts_counter;
 };
-typedef std::shared_ptr<Roboasm> RoboasmPtr;
+typedef std::shared_ptr<RoboasmUtil> RoboasmUtilPtr;
 
 // inline
 inline bool RoboasmCoords::isConnectingPoint() {
