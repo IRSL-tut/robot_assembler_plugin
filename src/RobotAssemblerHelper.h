@@ -36,6 +36,7 @@ public:
     //~RASceneConnectingPoint();
     RoboasmConnectingPointPtr point() { return self; }
     void switchOn(bool on) {  if (!!switch_node) switch_node->setTurnedOn(on); }
+    void setScale(double _scl) { if (!!scale_node) scale_node->setScale(_scl); }
     void changeState(Clicked _clk = DEFAULT);
     RASceneRobot *scene_robot() { return robot_ptr; }
 protected:
@@ -43,6 +44,7 @@ protected:
     RoboasmConnectingPointPtr self;
     SgMaterialPtr material;
     SgSwitchableGroupPtr switch_node;
+    SgScaleTransformPtr scale_node;
     Clicked current_state;
 
     friend RASceneParts;

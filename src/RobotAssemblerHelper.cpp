@@ -25,7 +25,7 @@ static const Vector3f color_can_connect1(0.0f, 1.0f, 1.0f);
 static const Vector3f color_selected(0.5f, 0.0f, 0.5f);
 
 static void createShapeConnectingPoint(SgPosTransform *_root, SgMaterialPtr &_res_material,
-                                       SgSwitchableGroupPtr &_res_switch)
+                                       SgSwitchableGroupPtr &_res_switch, SgScaleTransformPtr &_res_scl)
 {
     // create shape
     const std::string &name_ = _root->name();
@@ -37,9 +37,9 @@ static void createShapeConnectingPoint(SgPosTransform *_root, SgMaterialPtr &_re
     material->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
     material->setSpecularColor(Vector3f(0.0f, 0.0f, 0.0f));
     material->setAmbientIntensity(0.7f);
-#define SCP_LENGTH_LONG  0.014
-#define SCP_LENGTH_SHORT 0.007
-#define SCP_WIDTH 0.004
+#define SCP_LENGTH_LONG  0.015
+#define SCP_LENGTH_SHORT 0.006
+#define SCP_WIDTH 0.003
     SgSwitchableGroupPtr sw_g(new SgSwitchableGroup());
     sw_g->setName(name_ + "/switch");
     MeshGenerator mg;
@@ -76,7 +76,9 @@ static void createShapeConnectingPoint(SgPosTransform *_root, SgMaterialPtr &_re
         pt->addChild(shape);
         sw_g->addChild(pt);
     }
-    _root->addChild(sw_g);
+    _res_scl = new SgScaleTransform(0.5);
+    _res_scl->addChild(sw_g);
+    _root->addChild(_res_scl);
 
     _res_material = material;
     _res_switch = sw_g;
@@ -86,9 +88,10 @@ RASceneConnectingPoint::RASceneConnectingPoint(RoboasmConnectingPointPtr _c)
     : SgPosTransform(), self(_c), current_state(DEFAULT)
 {
     setName("CP:" + self->name());
-    SgMaterialPtr mat_;//todo
-    SgSwitchableGroupPtr sw_;//todo
-    createShapeConnectingPoint(this, mat_, sw_);
+    SgMaterialPtr mat_;
+    SgSwitchableGroupPtr sw_;
+    SgScaleTransformPtr scl_;
+    createShapeConnectingPoint(this, mat_, sw_, scl_);
 
     coordinates *cds = static_cast<coordinates *>(self.get());
     Position p;
@@ -97,6 +100,7 @@ RASceneConnectingPoint::RASceneConnectingPoint(RoboasmConnectingPointPtr _c)
 
     material = mat_;
     switch_node = sw_;
+    scale_node = scl_;
 }
 RASceneConnectingPoint::~RASceneConnectingPoint()
 {
