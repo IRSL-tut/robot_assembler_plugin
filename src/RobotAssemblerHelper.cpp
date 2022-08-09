@@ -236,11 +236,11 @@ bool RASceneRobot::onButtonPressEvent(SceneWidgetEvent* event)
     SceneWidgetEvent::EventType tp = event->type();
     DEBUG_STREAM(" Type: " << tp);
 
-    SgNodePath pt = event->nodePath();
+    SgNodePath enp = event->nodePath();
 #if 0
-    DEBUG_STREAM(" event->nodePath() : " << pt.size());
-    for (int i = 0 ; i < pt.size(); i++) {
-        SgNode *ptr = pt[i];
+    DEBUG_STREAM(" event->nodePath() : " << enp.size());
+    for (int i = 0 ; i < enp.size(); i++) {
+        SgNode *ptr = enp[i];
         DEBUG_STREAM(" ---");
         DEBUG_STREAM(" " << static_cast<void *> (ptr));
         DEBUG_STREAM(" name: " << ptr->name());
@@ -262,8 +262,8 @@ bool RASceneRobot::onButtonPressEvent(SceneWidgetEvent* event)
 #endif
     RASceneParts *pt_ = nullptr;
     RASceneConnectingPoint *cp_ = nullptr;
-    for (int i = 0 ; i < pt.size(); i++) {
-        SgNode *ptr = pt[i];
+    for (int i = 0 ; i < enp.size(); i++) {
+        SgNode *ptr = enp[i];
         if(!pt_) pt_ = dynamic_cast<RASceneParts *>(ptr);
         if(!cp_) cp_ = dynamic_cast<RASceneConnectingPoint *>(ptr);
         if(!!pt_ && !!cp_) break;

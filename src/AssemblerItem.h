@@ -31,11 +31,7 @@ public:
 
     virtual bool setName(const std::string& name) override;
 
-    static AssemblerItemPtr createItem(const std::string &robot_name, const std::string &parts_key,
-                                       ra::RoboasmUtilPtr _ra_util, AssemblerManager *_ma);
-
-    //SignalProxy<void(int flags)> sigModelUpdated();
-    //void notifyModelUpdate(int flags);
+    static AssemblerItemPtr createItem(ra::RoboasmRobotPtr _rb, AssemblerManager *_ma = nullptr);
 
     // RenderableItem function
     virtual SgNode* getScene() override;

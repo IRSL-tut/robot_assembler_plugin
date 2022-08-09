@@ -1,5 +1,4 @@
 #include "AssemblerItem.h"
-#include "RobotAssemblerHelper.h"
 #include "AssemblerManager.h"
 
 #include <cnoid/RootItem>
@@ -48,14 +47,13 @@ public:
 };
 }
 
-AssemblerItemPtr AssemblerItem::createItem(const std::string &robot_name, const std::string &parts_key, RoboasmUtilPtr _ra_util, AssemblerManager *_ma)
+AssemblerItemPtr AssemblerItem::createItem(RoboasmRobotPtr _rb, AssemblerManager *_ma)
 {
-    RoboasmRobotPtr rb = _ra_util->makeRobot(robot_name, parts_key);
-    AssemblerItemPtr ret(new AssemblerItem(robot_name));
-    ret->impl->manager = _ma;
+    AssemblerItemPtr ret(new AssemblerItem(_rb->name()));
+    ret->impl->manager = _ma; //
 
-    RASceneRobotPtr rb_scene(new RASceneRobot(rb, _ma));
-    ret->impl->scene = dynamic_pointer_cast<SgNode>(rb_scene);
+    RASceneRobotPtr rb_scene(new RASceneRobot(_rb, _ma));
+    ret->impl->scene = dynamic_pointer_cast<SgNode>(rb_scene); //
 
     return ret;
 }

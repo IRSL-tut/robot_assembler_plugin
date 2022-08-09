@@ -23,7 +23,7 @@ public:
     void setProjectDirectory(const std::string &_proj) { _project_directory = _proj; };
 
     void partsButtonClicked(const std::string &_name);
-
+    void addAssemblerItem(ra::RoboasmRobotPtr _rb);
     void save_model(ra::RASceneRobot *_sr);
     void save_history(ra::RASceneRobot *_sr);
     int pointClicked(ra::RASceneConnectingPoint *_cp);
@@ -43,6 +43,7 @@ public:
     void deleteAllRobots();
     void attachRobots(bool _just_align = false);
     void itemSelected(AssemblerItemPtr itm, bool on);
+    void loadRoboasm(const std::string &_fname);
     void com_attach()  { attachRobots(); }
     void com_align()   { attachRobots(true); }
     void com_unalign() { }

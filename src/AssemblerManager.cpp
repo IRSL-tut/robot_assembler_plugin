@@ -51,45 +51,56 @@ AssemblerManager::~AssemblerManager()
 }
 void AssemblerManager::partsButtonClicked(const std::string &_name)
 {
-    DEBUG_STREAM( " index: " << _name );
+    DEBUG_STREAM( " parts: " << _name );
     //PushButton *bp = partsButtons[index];
     //std::string name = bp->text().toStdString();
-    const BoundingBox &bb = SceneView::instance()->sceneWidget()->scene()->boundingBox();
-    Vector3 cent = bb.center();
-    Vector3 size = bb.size();
-    DEBUG_STREAM(" cent: " << cent(0) << ", " << cent(1) << ", " << cent(2) );
-    DEBUG_STREAM(" size: " << size(0) << ", " << size(1) << ", " << size(2) );
     std::string rb_name;
     if (srobot_set.size() == 0) {
         rb_name = "AssembleRobot";
     } else {
         rb_name = _name;
     }
-    AssemblerItemPtr itm = AssemblerItem::createItem(rb_name, _name, ra_util, this);
+    ra::RoboasmRobotPtr rb_ = ra_util->makeRobot(rb_name, _name);
+    if(!!rb_) {
+        addAssemblerItem(rb_);
+    } else {
+        ERROR_STREAM(" robot create error from parts : " << _name);
+    }
+}
+void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb)
+{
+    AssemblerItemPtr itm = AssemblerItem::createItem(_rb, this);
     if (!!itm) {
+        // scene boundingbox
+        const BoundingBox &bb = SceneView::instance()->sceneWidget()->scene()->boundingBox();
+        Vector3 cent = bb.center();
+        Vector3 size = bb.size();
+        DEBUG_STREAM(" cent: " << cent(0) << ", " << cent(1) << ", " << cent(2) );
+        DEBUG_STREAM(" size: " << size(0) << ", " << size(1) << ", " << size(2) );
+        // robot boundingbox
         ra::RASceneRobot* rb_scene = dynamic_cast<ra::RASceneRobot*> (itm->getScene());
         const BoundingBox &rb_bb = rb_scene->boundingBox();
         Vector3 rb_cent = rb_bb.center();
         Vector3 rb_size = rb_bb.size();
         DEBUG_STREAM(" rb_cent: " << rb_cent(0) << ", " << rb_cent(1) << ", " << rb_cent(2) );
         DEBUG_STREAM(" rb_size: " << rb_size(0) << ", " << rb_size(1) << ", " << rb_size(2) );
+        // move robot
         coordinates cds(Vector3(0, cent(1) + size(1)/2 +  rb_size(1)/2, 0));
         rb_scene->setCoords(cds);
-
+        //
         current_align_configuration = -1;
         clickedPoint0 = nullptr;
         clickedPoint1 = nullptr;
         selectable_spoint_set.clear();
         itm->setChecked(true);
         RootItem::instance()->addChildItem(itm);
-
         //
         updateRobots();
         clearAllPoints();
         notifyUpdate();
         SceneView::instance()->sceneWidget()->viewAll();
     } else {
-        ERROR_STREAM(" item create error : " << rb_name << " / " << _name);
+        ERROR_STREAM(" item create error : " << _rb->name());
     }
 }
 int AssemblerManager::pointClicked(ra::RASceneConnectingPoint *_cp)
@@ -431,6 +442,12 @@ void AssemblerManager::itemSelected(AssemblerItemPtr itm, bool on)
     ra::RASceneRobot *rb_ = dynamic_cast<ra::RASceneRobot*>(itm->getScene());
     robotSelectedFunc(rb_->robot());
 }
+void AssemblerManager::loadRoboasm(const std::string &_fname)
+{
+    ra::RoboasmRobotPtr rb_ = ra_util->makeRobotFromFile(_fname);
+    addAssemblerItem(rb_);
+}
+//// protected
 void AssemblerManager::onSceneModeChanged(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
@@ -444,6 +461,29 @@ bool AssemblerManager::onDoubleClickEvent(SceneWidgetEvent* event)
 bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
+    SgNodePath enp = event->nodePath();
+    DEBUG_STREAM(" event->nodePath() : " << enp.size());
+    for (int i = 0 ; i < enp.size(); i++) {
+        SgNode *ptr = enp[i];
+        DEBUG_STREAM(" ---");
+        DEBUG_STREAM(" " << static_cast<void *> (ptr));
+        DEBUG_STREAM(" name: " << ptr->name());
+        DEBUG_STREAM(" class: " << ptr->className());
+        DEBUG_STREAM(" attr: " << ptr->attributes());
+        if (ptr->hasUri()) {
+            DEBUG_STREAM( " uri: " << ptr->uri());
+        }
+        if (ptr->hasAbsoluteUri()) {
+            DEBUG_STREAM( " abs_uri: " << ptr->absoluteUri());
+        }
+        if (ptr->hasParents()) {
+            int j = 0;
+            for(auto it = ptr->parentBegin(); it != ptr->parentEnd(); it++, j++) {
+                DEBUG_STREAM(" p" << j << " : " << static_cast<void *>(*it));
+            }
+        }
+    }
+
     auto menu = event->contextMenu();
 
     menu->addSeparator();
