@@ -69,9 +69,12 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
                 AssemblerView *ptr = AssemblerView::instance();
                 ptr->createButtons();
             }
-        }
-        if(variables.count("assembler-robot")) {
-            std::string fname_ = variables["assembler-robot"].as<std::string>();
+            if(variables.count("assembler-robot")) {
+                std::string fname_ = variables["assembler-robot"].as<std::string>();
+                if(!!manager) {
+                    manager->loadRoboasm(fname_);
+                }
+            }
         }
     }
 }

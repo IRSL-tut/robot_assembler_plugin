@@ -449,7 +449,12 @@ void AssemblerManager::itemSelected(AssemblerItemPtr itm, bool on)
 void AssemblerManager::loadRoboasm(const std::string &_fname)
 {
     ra::RoboasmRobotPtr rb_ = ra_util->makeRobotFromFile(_fname);
-    addAssemblerItem(rb_);
+    rb_->updateDescendants();//?
+    if(!!rb_) {
+        addAssemblerItem(rb_);
+    } else {
+        DEBUG_STREAM(" robot build failed");
+    }
 }
 //// protected
 void AssemblerManager::onSceneModeChanged(SceneWidgetEvent* event)
@@ -673,16 +678,7 @@ void AssemblerManager::com_load()
         auto fnames = dialog->selectedFiles();
         std::string fname = fnames.front().toStdString();
         if(fname.size() > 0) {
-            ra::RoboasmFile raf(fname);
-            if(raf.isValid()) {
-                ra::RoboasmRobotPtr rb_ = ra_util->makeRobot(raf);
-                rb_->updateDescendants();
-                if(!!rb_) {
-                    addAssemblerItem(rb_);
-                } else {
-                    DEBUG_STREAM(" robot build failed");
-                }
-            }
+            loadRoboasm(fname);
         }
     }
     delete dialog;
