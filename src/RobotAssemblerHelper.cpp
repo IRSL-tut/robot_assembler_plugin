@@ -154,7 +154,8 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
     setName("PT:" + self->name());
     createSceneFromGeometry(this, self->info->visual, _proj_dir);
     //partsScene = node;
-
+    Position p; _p->worldcoords().toPosition(p);
+    position() = p;
     coordsPtrList lst;
     _p->directDescendants(lst);
     for(auto it = lst.begin(); it != lst.end(); it++) {
@@ -180,8 +181,6 @@ RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
     for(auto it = lst.begin(); it != lst.end(); it++) {
         RASceneParts *pt;
         if (!!manager) {
-            DEBUG_STREAM( " path: ");
-            DEBUG_STREAM( " path: " << manager->project_directory());
             pt = new RASceneParts(*it, manager->project_directory());
         } else {
             pt = new RASceneParts(*it);

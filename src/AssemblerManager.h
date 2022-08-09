@@ -51,7 +51,7 @@ public:
     void com_undo()    { }
     void com_save_model();
     void com_save_history();
-    void com_load() {}
+    void com_load();
     void com_delete_all() { deleteAllRobots(); }
 
     void notifyUpdate() {

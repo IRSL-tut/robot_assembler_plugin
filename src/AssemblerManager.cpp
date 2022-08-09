@@ -649,4 +649,41 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
     }
     delete dialog;
 }
+void AssemblerManager::com_load()
+{
+    DEBUG_PRINT();
+    auto dialog = new FileDialog();
+    int filter_id = 0;
+    dialog->sigFilterSelected().connect( [&filter_id](int i) { filter_id = i; });
+    dialog->setWindowTitle("Load assemble history");
+    dialog->setFileMode(QFileDialog::ExistingFile);
+    dialog->setAcceptMode(QFileDialog::AcceptOpen);
+    dialog->setViewMode(QFileDialog::List);
+    dialog->setLabelText(QFileDialog::Accept, "Load");
+    dialog->setLabelText(QFileDialog::Reject, "Cancel");
+    dialog->setOption(QFileDialog::DontConfirmOverwrite);
 
+    QStringList filters;
+    filters << "roboasm files (*.roboasm)";
+    filters << "Any files (*)";
+    dialog->setNameFilters(filters);
+
+    if(dialog->exec() == QDialog::Accepted) {
+        DEBUG_STREAM(" accepted");
+        auto fnames = dialog->selectedFiles();
+        std::string fname = fnames.front().toStdString();
+        if(fname.size() > 0) {
+            ra::RoboasmFile raf(fname);
+            if(raf.isValid()) {
+                ra::RoboasmRobotPtr rb_ = ra_util->makeRobot(raf);
+                rb_->updateDescendants();
+                if(!!rb_) {
+                    addAssemblerItem(rb_);
+                } else {
+                    DEBUG_STREAM(" robot build failed");
+                }
+            }
+        }
+    }
+    delete dialog;
+}

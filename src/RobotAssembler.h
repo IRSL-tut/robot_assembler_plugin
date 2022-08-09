@@ -229,7 +229,7 @@ public:
     bool checkAttach(RoboasmCoordsPtr robot_or_parts,
                      RoboasmConnectingPointPtr _parts_point,
                      RoboasmConnectingPointPtr _robot_point,
-                     ConnectingConfiguration *_config,
+                     ConnectingConfiguration * &_config,
                      ConnectingTypeMatch * &_res_match, bool check = true);
     bool searchMatch(RoboasmCoordsPtr robot_or_parts,
                      RoboasmConnectingPointPtr _parts_point,
@@ -276,6 +276,7 @@ public:
                                 _res_parts_point, _res_robot_point,
                                 _res_config, _res_match) )
         {
+          std::cerr << "checkAttachByName fail" << std::endl;
             return false;
         }
         return attach(robot_or_parts, _res_parts_point, _res_robot_point, _res_config, just_align);

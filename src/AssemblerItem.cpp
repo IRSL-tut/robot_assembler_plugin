@@ -168,7 +168,7 @@ void AssemblerItem::Impl::doPutProperties(PutPropertyFunction& putProperty)
 // override
 bool AssemblerItem::setName(const std::string& name)
 {
-    DEBUG_STREAM_NL(" name: " << name << std::endl);
+    DEBUG_STREAM(" name: " << name);
     if(!!(impl->scene)) {
         RASceneRobotPtr p = dynamic_pointer_cast<RASceneRobot>(impl->scene);
         if(!!p) {

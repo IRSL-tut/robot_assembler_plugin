@@ -646,19 +646,24 @@ bool RoboasmRobot::checkAttachByName(RoboasmCoordsPtr robot_or_parts,
     // search configuration
     ConnectingConfiguration *cc_ = settings->searchConnectingConfiguration(name_config);
     if (!cc_) {
-        return false;
+        if ( name_config == "default") {
+            cc_ = nullptr;
+        } else {
+            ERROR_STREAM(" no connecting point : " << name_config);
+            return false;
+        }
     }
     _res_config = cc_;
     _res_parts_point = std::dynamic_pointer_cast<RoboasmConnectingPoint> (
         robot_or_parts->find<RoboasmConnectingPoint>(name_parts_point));
     if(!!_res_parts_point && _res_parts_point->hasDescendants()) {
-        // [todo]
+        ERROR_STREAM(" invalid parts point : " << name_parts_point);
         return false;
     }
     _res_robot_point = std::dynamic_pointer_cast<RoboasmConnectingPoint> (
         find<RoboasmConnectingPoint>(name_robot_point));
     if(!!_res_robot_point && _res_robot_point->hasDescendants()) {
-        // [todo]
+        ERROR_STREAM(" invalid robot point : " << name_robot_point);
         return false;
     }
     return checkAttach(robot_or_parts, _res_parts_point, _res_robot_point,
@@ -667,7 +672,7 @@ bool RoboasmRobot::checkAttachByName(RoboasmCoordsPtr robot_or_parts,
 bool RoboasmRobot::checkAttach(RoboasmCoordsPtr robot_or_parts,
                                RoboasmConnectingPointPtr _parts_point,
                                RoboasmConnectingPointPtr _robot_point,
-                               ConnectingConfiguration *_config,
+                               ConnectingConfiguration * &_config,
                                ConnectingTypeMatch * &_res_match, bool check)
 {
     if (check && !checkCorrectPoint(robot_or_parts, _parts_point, _robot_point)) {
@@ -679,7 +684,11 @@ bool RoboasmRobot::checkAttach(RoboasmCoordsPtr robot_or_parts,
     ConnectingTypeMatch *tm_ = nullptr;
     for(int i = 0; i < rtp.size(); i++) {
         for(int j = 0; j < ptp.size(); j++) {
-            tm_ = settings->searchConnection(rtp[i], ptp[j], _config->index);
+            if( _config == nullptr ) {
+                tm_ = settings->searchMatch(rtp[i], ptp[j]);
+            } else {
+                tm_ = settings->searchConnection(rtp[i], ptp[j], _config->index);
+            }
             if (!!tm_) break;
         }
     }
@@ -688,6 +697,9 @@ bool RoboasmRobot::checkAttach(RoboasmCoordsPtr robot_or_parts,
         return false;
     }
     _res_match = tm_;
+    if( _config == nullptr ) {
+        _config = &( settings->listConnectingConfiguration[tm_->allowed_configuration.front()] );
+    }
     return true;
 }
 bool RoboasmRobot::searchMatch(RoboasmCoordsPtr robot_or_parts,
@@ -747,9 +759,11 @@ bool RoboasmRobot::attach(RoboasmCoordsPtr robot_or_parts,
     //DEBUG_SIMPLE( "p_base_w: " ;  print(p_base_w << std::endl;
     //DEBUG_SIMPLE( "p_point_w: " ;  print(p_point_w << std::endl;
 
-    r_point_w.transform(_conf_coords);
+    r_point_w.transform(_conf_coords); // new version | move parent point
+
     DEBUG_SIMPLE( "r_point_w(with_conf): " << r_point_w);
     coordinates p_base_to_point = *static_cast<coordinates *>(_parts_point.get());
+    //p_base_to_point.transform(_conf_coords); // eus version | move parts point
     //p_base_w.transformation(p_base_to_point, p_point_w);
     DEBUG_SIMPLE( "p_base_to_point: "  << p_base_to_point);
     p_base_to_point.inverse();
@@ -976,11 +990,16 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
         RoboasmPartsPtr parts_ = makeParts(_roboasm_file.history[i].parts_type,
                                            _roboasm_file.history[i].parts_name);
         if(!parts_) {
+            DEBUG_STREAM(" parts make error, name: " << _roboasm_file.history[i].parts_name
+                         << "| type: " << _roboasm_file.history[i].parts_type);
             return nullptr;
         }
         if (! ret->attach(parts_, _roboasm_file.history[i].parts_point,
                           _roboasm_file.history[i].robot_parts_point,
                           _roboasm_file.history[i].configuration) ) {
+            DEBUG_STREAM(" attach error, parts-point: " << _roboasm_file.history[i].parts_point
+                         << " | robot-point: " << _roboasm_file.history[i].robot_parts_point
+                         << " | config: " << _roboasm_file.history[i].configuration);
             return nullptr;
         }
     }
