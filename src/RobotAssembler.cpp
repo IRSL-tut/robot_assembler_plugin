@@ -1023,6 +1023,12 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
             return nullptr;
         }
     }
+    // assemble-config
+    if (!_roboasm_file.config.initial_coords.isInitial()) {
+        DEBUG_STREAM(" initial-coords : " << _roboasm_file.config.initial_coords);
+        ret->newcoords(_roboasm_file.config.initial_coords);
+        ret->updateDescendants();
+    }
     return ret;
 }
 std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &cds)

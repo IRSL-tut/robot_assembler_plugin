@@ -1027,8 +1027,20 @@ bool Settings::Impl::parseExtraInfo(ValueNode *vn, ExtraInfo &einfo)
     // TODO
     return true;
 }
-static bool parse(Mapping *map_, coordinates &cds)
+static bool parse(Mapping *map_, coordinates &cds, bool check = true)
 {
+    if (check) {
+        bool valid = false;
+        ValueNode *val = map_->find("rotation");
+        if(val->isValid() && val->isListing()) valid = true;
+        if(!valid) {
+            ValueNode *valt = map_->find("translation");
+            if(valt->isValid() && valt->isListing()) valid = true;
+        }
+        if(!valid) {
+            DEBUG_STREAM(" invalid coords in yaml");
+        }
+    }
     bool all_res = true;
     ValueNode *valr = map_->find("rotation");
     if (valr->isValid()) {
@@ -1080,12 +1092,10 @@ static bool parse(ValueNode *_vn, AssembleConfig& config)
     if(! _vn->isMapping()) return false;
     Mapping *mp_ = _vn->toMapping();
     mapString(mp_, "robot-name", config.robot_name, std::cerr, false);
-#if 0
     ValueNode *vi = mp_->find("initial-coords");
     if(vi->isValid() && vi->isMapping()) {
         parse(vi->toMapping(), config.initial_coords);
     }
-#endif
     ValueNode *an = mp_->find("actuator-name");
     if(an->isValid() && an->isMapping()) {
         Mapping *am = an->toMapping();
