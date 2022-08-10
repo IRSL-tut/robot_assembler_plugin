@@ -35,14 +35,9 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
             sceneLoader.setMessageSink(std::cerr);
             std::string geom_file_path = geom.url;
             filesystem::path path_(fromUTF8(geom.url));
-            DEBUG_STREAM("a0");
-            DEBUG_STREAM("a0 : " << _proj_dir);
             if(_proj_dir.size() > 0 && path_.is_relative()) {
-                DEBUG_STREAM("a1");
                 geom_file_path = _proj_dir;
-                DEBUG_STREAM("a2");
                 geom_file_path = geom_file_path + "/" + geom.url;
-                DEBUG_STREAM("a3");
             }
             DEBUG_STREAM(" mesh load: " << geom_file_path);
             SgNodePtr shape = sceneLoader.load(geom_file_path);
