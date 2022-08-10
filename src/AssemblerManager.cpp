@@ -355,8 +355,16 @@ void AssemblerManager::attachRobots(bool _just_align, int increment)
     }
     DEBUG_STREAM(" matched : " << res_match_lst.size() );
     int counter_ = 0; bool find_ = false;
-    int target_config_ = current_align_configuration;
-    if(_just_align) target_config_ += increment;
+    int target_config_;
+    if(_just_align) {
+        target_config_ = current_align_configuration + increment;
+    } else {
+        if(current_align_configuration < 0) {
+            target_config_ = 0; // attach by initial condition
+        } else {
+            target_config_ = current_align_configuration;
+        }
+    }
     ra::ConnectingConfigurationID ccid = res_match_lst.front()->allowed_configuration.front();
     for(int i = 0; i < res_match_lst.size(); i++) {
         ra::ConnectingTypeMatch* mt_ = res_match_lst[i];
