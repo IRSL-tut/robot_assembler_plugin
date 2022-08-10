@@ -184,8 +184,28 @@ template void RoboasmCoords::allDescendants<RoboasmParts>(coordsPtrList &lst);
 //template void RoboasmCoords::allDescendants<RoboasmRobot>(coordsPtrList &lst);
 template void RoboasmCoords::allDescendants<RoboasmConnectingPoint>(connectingPointPtrList &lst);
 template void RoboasmCoords::allDescendants<RoboasmParts>(partsPtrList &lst);
-
-void RoboasmCoords::toNextLink(){}
+void RoboasmCoords::searchCondition(coordsPtrList &lst,
+                                    std::function<bool(RoboasmCoordsPtr _rc)> addlist,
+                                    std::function<bool(RoboasmCoordsPtr _rc)> finish)
+{
+    for(auto it = descendants.begin(); it != descendants.end(); it++) {
+        if(addlist(*it)) lst.push_back(*it);
+        if(!!finish && finish(*it)) continue;
+        (*it)->searchCondition(lst, addlist, finish);
+    }
+}
+void RoboasmCoords::toNextLink(coordsPtrList &lst, bool parts)
+{
+    if (parts) {
+        searchCondition(lst,
+                        [](RoboasmCoordsPtr _rc) { return _rc->isParts(); },
+                        [](RoboasmCoordsPtr _rc) { return (_rc->isConnectingPoint() && _rc->toConnectingPoint()->isActuator()); } );
+    } else {
+        searchCondition(lst,
+                        [](RoboasmCoordsPtr _rc) { return true; },
+                        [](RoboasmCoordsPtr _rc) { return (_rc->isConnectingPoint() && _rc->toConnectingPoint()->isActuator()); } );
+    }
+}
 void RoboasmCoords::connectingPoints(connectingPointPtrList &activelst,
                                      connectingPointPtrList &inactivelst)
 {

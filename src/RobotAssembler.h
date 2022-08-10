@@ -77,7 +77,10 @@ public:
     void allDescendants(coordsPtrList &lst);
     template <typename T> void allDescendants(coordsPtrList &lst);
     template <typename T> void allDescendants(std::vector< std::shared_ptr < T > >&lst);
-    void toNextLink(); // ??
+    void searchCondition(coordsPtrList &lst,
+                         std::function<bool(RoboasmCoordsPtr _rc)> addlist,
+                         std::function<bool(RoboasmCoordsPtr _rc)> finish);
+    void toNextLink(coordsPtrList &lst, bool parts = false); // ??
     //// point
     void connectingPoints(connectingPointPtrList &lst) {
         allDescendants<RoboasmConnectingPoint> (lst);
