@@ -20,7 +20,7 @@ public:
     std::vector<ToolButton *> buttons;
 
     void addButton(const char *icon, const char *tooltip, std::function<void()> func);
-
+    void addButton(QIcon &icon, const char *tooltip, std::function<void()> func);
 };
 
 }
@@ -47,30 +47,47 @@ AssemblerBar::Impl::Impl(AssemblerBar* _self)
     manager = AssemblerManager::instance();
 
     self = _self;
-    addButton(":/Body/icon/storepose.svg", "Save History",
-              [this](){ manager->com_save_history(); } );
-    addButton(":/Body/icon/storepose.svg", "Save Model",
+    //addButton("SaveModel", "Save History", // floppy H
+    //[this](){ manager->com_save_history(); } );
+    {
+        QIcon qi(":/Body/icon/storepose.svg");
+        addButton(qi, "Save History", // floppy L
+                  [this](){ manager->com_save_history(); } );
+    }
+    addButton("SaveModel", "Save Model",  // floppy M
               [this](){ manager->com_save_model(); } );
-    addButton(":/Body/icon/storepose.svg", "Align increment",
-              [this](){ manager->com_align(); } );
-    addButton(":/Body/icon/storepose.svg", "Align decrement",
+    addButton("<<", "Align decrement", // >
               [this](){ manager->com_align_back(); } );
-    addButton(":/Body/icon/storepose.svg", "Undo Align",
+    addButton(">>", "Align increment", // <
+              [this](){ manager->com_align(); } );
+    addButton("UnAlign", "Undo Align", // ^
               [this](){ manager->com_unalign(); } );
-    addButton(":/Body/icon/storepose.svg", "Attach",
+    addButton("Attach", "Attach", // A
               [this](){ manager->com_attach(); } );
-    addButton(":/Body/icon/storepose.svg", "Undo",
+    addButton("Undo", "Undo", // U
               [this](){ manager->com_undo(); } );
-    addButton(":/Body/icon/storepose.svg", "Load History",
-              [this](){ manager->com_load(); } );
-    addButton(":/Body/icon/storepose.svg", "Delete All",
+    {
+        QIcon qi(":/Body/icon/restorepose.svg");
+        addButton(qi, "Load History", // floppy L
+                  [this](){ manager->com_load(); } );
+    }
+    addButton("DeleteAll", "Delete All", // Delete all
               [this](){ manager->com_delete_all(); } );
 }
 
 void AssemblerBar::Impl::addButton(const char *icon, const char *tooltip, std::function<void()> func)
 {
     ToolButton *button;
-    button = self->addButton(QIcon(icon));
+    button = self->addButton(icon);
+    button->setToolTip(tooltip);
+    button->sigClicked().connect(func);
+
+    buttons.push_back(button);
+}
+void AssemblerBar::Impl::addButton(QIcon &icon, const char *tooltip, std::function<void()> func)
+{
+    ToolButton *button;
+    button = self->addButton(icon);
     button->setToolTip(tooltip);
     button->sigClicked().connect(func);
 
