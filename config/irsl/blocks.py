@@ -2,11 +2,13 @@ import sys
 
 stud = 8.0
 
-def print_connecting_point(name, _type, x, y, z):
+def print_connecting_point(name, _type, x, y, z, rotate = None):
     print('      -')
     print('        name: {}'.format(name))
     print('        types: [{}]'.format(_type))
     print('        translation: [ {}, {}, {}]'.format(x, y, z))
+    if not (rotate is None):
+        print('        rotation: [ 0, 0, 1, {}]'.format(rotate))
 
 def print_plate(row = 1, column = 1, color = None, strm = sys.stdout):
     height_ = (2 * stud)/5
@@ -47,8 +49,8 @@ def print_one_geom(row, column, height_, color = None, strm = sys.stdout):
             print_connecting_point('PL1_{}_{}'.format(ix,iy), 'PC1', (ix + 0.5) * stud, (iy + 0.5) * stud, 0)
             print_connecting_point('SK1_{}_{}'.format(ix,iy), 'SC1', (ix + 0.5) * stud, (iy + 0.5) * stud, - height_)
             if iy > 0:
-                print_connecting_point('PL2X_{}_{}'.format(ix,iy), 'PC2', (ix + 0.5) * stud, (iy + 0.0) * stud, 0)
-                print_connecting_point('SK2X_{}_{}'.format(ix,iy), 'SC2', (ix + 0.5) * stud, (iy + 0.0) * stud, - height_)
+                print_connecting_point('PL2X_{}_{}'.format(ix,iy), 'PC2', (ix + 0.5) * stud, (iy + 0.0) * stud, 0, rotate = 90)
+                print_connecting_point('SK2X_{}_{}'.format(ix,iy), 'SC2', (ix + 0.5) * stud, (iy + 0.0) * stud, - height_, rotate = 90)
             if ix > 0:
                 print_connecting_point('PL2Y_{}_{}'.format(ix,iy), 'PC2', (ix + 0.0) * stud, (iy + 0.5) * stud, 0)
                 print_connecting_point('SK2Y_{}_{}'.format(ix,iy), 'SC2', (ix + 0.0) * stud, (iy + 0.5) * stud, - height_)
