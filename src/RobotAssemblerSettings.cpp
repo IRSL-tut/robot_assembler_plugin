@@ -1062,7 +1062,7 @@ static bool parse(Mapping *map_, coordinates &cds, bool check = true)
         std::vector<double> vec;
         if(readVector(valt, vec, std::cerr)) {
             if (vec.size() >= 3) {
-                Vector3 _a_pos;
+                Vector3 _a_pos(vec[0], vec[1], vec[2]);
                 cds.set(_a_pos);
             } else {
                 all_res = false;
