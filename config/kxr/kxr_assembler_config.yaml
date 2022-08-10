@@ -128,6 +128,7 @@ ConnectingConstraintSettings:
 #      translation:
 #      rotation:
 #      scale:
+#      color: or material: [TODO]
 #  collision:
 #    - type:
 #      parameter: []
@@ -2036,3 +2037,5 @@ PartsSettings:
         types: [4holes]
         translation: [0.0, -33.0, 3.0]
         rotation: [0.70710678118655, 0.70710678118655, 0.00000000000000, 180.0]
+PanelSettings: ## just for choreonoid
+  
