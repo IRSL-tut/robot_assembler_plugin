@@ -7,8 +7,11 @@
 #include <cnoid/MenuManager>
 
 #include <QStyle>
+#include <QLabel>
 #include <QBoxLayout>
+#include <QGridLayout>
 #include <QAbstractItemModel>
+#include <cnoid/LineEdit>
 
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
@@ -24,15 +27,19 @@ public:
     {
         element = _elm;
     }
+    virtual ~AssemblerTreeItem()
+    {
+        //DEBUG_STREAM(" " << this);
+    }
     ra::RoboasmCoordsPtr element;
     virtual QVariant data(int column, int role) const override
     {
-        DEBUG_STREAM(" col: " << column << ", role: " << role);
+        //DEBUG_STREAM(" col: " << column << ", role: " << role);
         return QTreeWidgetItem::data(column, role);
     }
     virtual void setData(int column, int role, const QVariant& value) override
     {
-        DEBUG_STREAM(" col: " << column << ", role: " << role);
+        //DEBUG_STREAM(" col: " << column << ", role: " << role);
         return QTreeWidgetItem::setData(column, role, value);
     }
 };
@@ -45,6 +52,7 @@ public:
     TreeWidget tree;
     ComboBox modeCombo;
     AssemblerManager *manager;
+    AssemblerTreeItem *top_item;
     int mode;
     //AssemblerItem *current_item;
     void setMode(int _mode, bool doUpdate);
@@ -75,7 +83,7 @@ AssemblerTreeView::~AssemblerTreeView()
 }
 //
 AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
-    self(_self), tree(nullptr)
+    self(_self), tree(nullptr), top_item(nullptr)
 {
     manager = AssemblerManager::instance();
     if(!!manager) {
@@ -84,7 +92,7 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
     }
     self->setDefaultLayoutArea(BottomLeftArea);
 
-    auto vbox = new QVBoxLayout;
+    auto vbox = new QVBoxLayout();
     vbox->setSpacing(0);
 
     modeCombo.addItem("ALL");
@@ -98,10 +106,13 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
 
     vbox->addWidget(&modeCombo);
 
-    // tree settings
+    //tree settings
+    //tree.setColumnCount(1);
     tree.setSelectionMode(QAbstractItemView::ExtendedSelection);
     tree.setIndentation(12);
-    tree.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //tree.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //Qt::ScrollBarAlwaysOn
+    //Qt::ScrollBarAsNeeded
     tree.setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     tree.setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
@@ -186,7 +197,7 @@ void AssemblerTreeView::Impl::createTree(ra::RoboasmRobotPtr _rb,
     AssemblerTreeItem *itm = new AssemblerTreeItem(_rb);
     itm->setText(0, _rb->name().c_str());
     tree.addTopLevelItem(itm);
-
+    top_item = itm;
     createSubTree(itm, _rb, test);
 }
 void AssemblerTreeView::Impl::createSubTree(QTreeWidgetItem *_p_itm,
