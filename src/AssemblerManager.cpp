@@ -1,8 +1,9 @@
 #include "AssemblerManager.h"
 
 #include "RobotAssemblerBody.h"
+#include "AssemblerView.h"
 #include <cnoid/StdBodyWriter>
-
+#include <cnoid/YAMLReader>
 #include <cnoid/MenuManager>
 #include <cnoid/RootItem>
 #include <cnoid/ItemList>
@@ -48,6 +49,35 @@ AssemblerManager::AssemblerManager()
 AssemblerManager::~AssemblerManager()
 {
     delete impl;
+}
+void AssemblerManager::loadSettings(const std::string _fname)
+{
+    filesystem::path path_(fromUTF8(_fname));
+    std::string ppath_;
+    if(path_.is_relative()) {
+        auto ap_ = filesystem::absolute(path_);
+        ppath_ = ap_.parent_path().generic_string();
+        DEBUG_STREAM("rel: ppath: " << ppath_);
+    } else {
+        ppath_ = path_.parent_path().generic_string();
+        DEBUG_STREAM("abs: ppath: " << ppath_);
+    }
+    ra::SettingsPtr _ra_settings = std::make_shared<ra::Settings> ();
+    bool ret = _ra_settings->parseYaml(_fname);
+    if (ret) {
+        setProjectDirectory(ppath_);
+        ra_settings = _ra_settings;
+        ra_util = std::make_shared<ra::RoboasmUtil>(_ra_settings);
+        AssemblerView *ptr = AssemblerView::instance();
+        if(!!ptr) {
+            PanelSettings pnl_;
+            if(parseButtonYaml(_fname, pnl_)) {
+                ptr->createButtons(pnl_);
+            } else {
+                ptr->createButtons(pnl_);
+            }
+        }
+    }
 }
 void AssemblerManager::partsButtonClicked(const std::string &_name)
 {
@@ -690,4 +720,78 @@ void AssemblerManager::com_load()
         }
     }
     delete dialog;
+}
+//
+static bool generated_reader(Mapping *mp, PartsTabInfo &result)
+{
+  { // read string name
+    bool res = mp->read("name", result.name);
+    // if (!res)
+  } // end read
+  { // read std::vector<string> parts
+    ValueNode *v;
+    if ((v = mp->find("parts"))->isValid() && (v->isListing())) {
+      Listing *lt = v->toListing();
+      for(auto it = lt->begin(); it != lt->end(); it++) {
+        std::string val;
+        bool res = (*it)->read(val);
+        if (res) { result.parts.push_back(val); } else { }
+      }
+    }
+  } // end read
+  return true;
+} // bool generated_reader(Mapping *mp, PartsTabInfo &result)
+static bool generated_reader(Mapping *mp, PanelSettings &result)
+{
+  { // read std::vector<PartsTabInfo> tab_list
+    ValueNode *v;
+    if ((v = mp->find("tab_list"))->isValid() && (v->isListing())) {
+      Listing *lt = v->toListing();
+      for(auto it = lt->begin(); it != lt->end(); it++) {
+        if ((*it)->isMapping()) {
+          PartsTabInfo val;
+          Mapping *nmp = (*it)->toMapping();
+          bool res = generated_reader(nmp, val);
+          if (res) { result.tab_list.push_back(val); } else { }
+        }
+      }
+    }
+  } // end read
+  { // read std::vector<string> combo_list
+    ValueNode *v;
+    if ((v = mp->find("combo_list"))->isValid() && (v->isListing())) {
+      Listing *lt = v->toListing();
+      for(auto it = lt->begin(); it != lt->end(); it++) {
+        std::string val;
+        bool res = (*it)->read(val);
+        if (res) { result.combo_list.push_back(val); } else { }
+      }
+    }
+  } // end read
+  return true;
+} // bool generated_reader(Mapping *mp, PanelSettings &result)
+bool AssemblerManager::parseButtonYaml(const std::string &filename, PanelSettings &_res)
+{
+    YAMLReader yaml_reader;
+    if (! yaml_reader.load(filename)) {
+        std::cerr << "File Loading error : " << filename << std::endl;
+        return false;
+    }
+    bool ret = false;
+    for(int i = 0; i < yaml_reader.numDocuments(); i++) {
+        ValueNode *val = yaml_reader.document(i);
+        if ( val->isMapping() ) {
+            std::string key = "PanelSettings";
+            ValueNode *target = val->toMapping()->find(key);
+            if(target->isValid() && target->isMapping()) {
+                ret = generated_reader(target->toMapping(), _res);
+            }
+            break;
+        }
+    }
+    if (!ret) {
+        std::cerr << "failed parse settings" << std::endl;
+        return false;
+    }
+    return true;
 }

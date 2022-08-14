@@ -18,7 +18,7 @@
 #include <cnoid/ConnectionSet>
 #include <cnoid/Widget>
 #include <cnoid/Buttons>
-
+#include <cnoid/ComboBox>
 #include <cnoid/FileDialog>
 
 #include <QLabel>
@@ -32,6 +32,7 @@
 #include <cnoid/stdx/filesystem>
 
 #include <vector>
+#include <algorithm>
 
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
@@ -51,15 +52,19 @@ public:
 
     QVBoxLayout *topLayout;
     QTabWidget *partsTab;
-
+    ComboBox *parts_combo;
+    ComboBox *color_combo;
+    PushButton *parts_button;
     Impl(AssemblerView* self);
 
     void initialize(bool config);
 
-    void createButtons();
+    void createButtons(PanelSettings &_settings);
+    void createButtonsOrg();
     void partsButtonClicked(int index);
-
+    void createButtonClicked();
     std::vector<PushButton *> partsButtons;
+    std::vector<std::string> comboItems;
     //
     AssemblerManager *manager;
 };
@@ -132,10 +137,10 @@ bool AssemblerView::restoreState(const Archive& archive)
 #endif
     return true;
 }
-void AssemblerView::createButtons()
+void AssemblerView::createButtons(PanelSettings &_settings)
 {
     if(!!(impl->manager)) {
-        impl->createButtons();
+        impl->createButtons(_settings);
     }
 }
 //// Impl
@@ -161,16 +166,28 @@ void AssemblerView::Impl::initialize(bool config)
     int tmargin = style->pixelMetric(QStyle::PM_LayoutTopMargin);
     int bmargin = style->pixelMetric(QStyle::PM_LayoutBottomMargin);
 
-    auto hbox = new QHBoxLayout;
-    hbox->setContentsMargins(lmargin, tmargin / 2, rmargin, bmargin / 2);
-    targetLabel.setStyleSheet("font-weight: bold");
-    targetLabel.setAlignment(Qt::AlignLeft);
-    targetLabel.setText("---not initialized---");
-    hbox->addWidget(&targetLabel);
-    hbox->addStretch();
-    //
-    topLayout->addLayout(hbox);
+    color_combo = new ComboBox();
+    color_combo->addItem("default");
+    color_combo->addItem("Red");
+    color_combo->addItem("Green");
+    color_combo->addItem("Blue");
+    color_combo->addItem("Black");
+    color_combo->addItem("White");
+    color_combo->addItem("Yellow");
+    color_combo->addItem("Cyan");
+    color_combo->addItem("Purple");
+    // intent-/saturation-
+    // orange, gray silver, lime navy
+    parts_combo = new ComboBox();
+    parts_combo->addItem("--- not initialized ---"); // test
 
+    parts_button = new PushButton("Create Parts");
+
+    topLayout->addWidget(color_combo);
+    topLayout->addWidget(parts_combo);
+    topLayout->addWidget(parts_button);
+
+    parts_button->sigClicked().connect([this]() { createButtonClicked(); });
 #if 0
     if (!config) {
         return;
@@ -178,7 +195,50 @@ void AssemblerView::Impl::initialize(bool config)
     addTabs(config);
 #endif
 }
-void AssemblerView::Impl::createButtons()
+void AssemblerView::Impl::createButtons(PanelSettings &_settings)
+{
+    if(_settings.tab_list.size() == 0 && _settings.combo_list.size() == 0) {
+        createButtonsOrg();
+        return;
+    }
+    if (!!partsTab) {
+        partsButtons.clear();
+        comboItems.clear();
+        delete partsTab;
+    }
+    if (_settings.tab_list.size() > 0) {
+        partsTab = new QTabWidget(self); // parent??
+        DEBUG_STREAM(" size: " << _settings.tab_list.size());
+        for(auto it = _settings.tab_list.begin();
+            it != _settings.tab_list.end(); it++) {
+            DEBUG_STREAM(" name: " << (*it).name);
+            Widget *wd = new Widget(partsTab);
+            QVBoxLayout *qvbox = new QVBoxLayout(wd);
+            //
+            for(auto nameit = (*it).parts.begin();
+                nameit != (*it).parts.end(); nameit++) {
+                std::string name_ = (*nameit);
+                auto pt_ = manager->ra_settings->mapParts.find(name_);
+                if(pt_ == manager->ra_settings->mapParts.end()) continue;
+                PushButton *bp = new PushButton(name_.c_str(), partsTab);
+                bp->sigClicked().connect( [this, name_]() {
+                        manager->partsButtonClicked(name_); } );
+                qvbox->addWidget(bp);
+                partsButtons.push_back(bp);
+            }
+            partsTab->addTab(wd, (*it).name.c_str());
+        }
+        topLayout->addWidget(partsTab);
+    }
+
+    comboItems.push_back("dummy");
+    for(auto it = _settings.combo_list.begin();
+        it != _settings.combo_list.end(); it++) {
+        parts_combo->addItem((*it).c_str());
+        comboItems.push_back(*it);
+    }
+}
+void AssemblerView::Impl::createButtonsOrg()
 {
     if (!!partsTab) {
         partsButtons.clear();
@@ -188,8 +248,13 @@ void AssemblerView::Impl::createButtons()
     DEBUG_STREAM(" settings : " << (!!(manager->ra_settings)));
     ra::SettingsPtr &ra_settings = manager->ra_settings;
     //RoboasmPtr &roboasm = manager->roboasm;
-
-    int parts_num = ra_settings->mapParts.size();
+    std::vector<std::string> pt_lst;
+    for(auto pt_ = ra_settings->mapParts.begin();
+        pt_ != ra_settings->mapParts.end(); pt_++) {
+        pt_lst.push_back(pt_->first);
+    }
+    std::sort(pt_lst.begin(), pt_lst.end());
+    int parts_num = pt_lst.size();
     int tab_num = ((parts_num - 1) / 10) + 1;
 
     targetLabel.setText("---initialized---");
@@ -199,14 +264,14 @@ void AssemblerView::Impl::createButtons()
     //auto hbox = new QHBoxLayout;
 
     int parts_index = 0;
-    auto parts = ra_settings->mapParts.begin();
+    auto parts = pt_lst.begin();
     for(int tab_idx = 0; tab_idx < tab_num; tab_idx++) {
         Widget *wd = new Widget(partsTab);
         QVBoxLayout *qvbox = new QVBoxLayout(wd);
         //
         for(int j = 0; j < 10; j++) {
-            if (parts != ra_settings->mapParts.end()) {
-                std::string name = parts->first;
+            if (parts != pt_lst.end()) {
+                std::string name = (*parts);
                 PushButton *bp = new PushButton(name.c_str(), partsTab);
                 bp->sigClicked().connect( [this, parts_index]() {
                         partsButtonClicked(parts_index); } );
@@ -221,11 +286,23 @@ void AssemblerView::Impl::createButtons()
         std::string tab_name = "Tab";
         partsTab->addTab(wd, tab_name.c_str());
     }
+    //
 
+    //
     topLayout->addWidget(partsTab);
 }
 void AssemblerView::Impl::partsButtonClicked(int index)
 {
     PushButton *bp = partsButtons[index];
+    //int color_id = color_combo->currentIndex();
     manager->partsButtonClicked(bp->text().toStdString());
+}
+void AssemblerView::Impl::createButtonClicked()
+{
+    int color_id = color_combo->currentIndex();
+    int parts_id = parts_combo->currentIndex();
+    DEBUG_STREAM(" color: " << color_id << ", parts: " << parts_id);
+    if(parts_id > 0 && parts_id < comboItems.size()) {
+        manager->partsButtonClicked(comboItems[parts_id]);
+    }
 }

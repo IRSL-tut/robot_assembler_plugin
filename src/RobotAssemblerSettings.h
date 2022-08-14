@@ -211,7 +211,6 @@ public:
     std::map<std::string, Parts> mapParts;
 
     bool parseYaml(const std::string &filename);
-
     ConnectingTypeMatch *searchMatch(ConnectingTypeID _a, ConnectingTypeID _b);
     ConnectingTypeMatch *searchConnection(ConnectingTypeID _a, ConnectingTypeID _b,
                                           ConnectingConfigurationID _tp);

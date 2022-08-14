@@ -8,7 +8,7 @@
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
-
+struct PanelSettings;
 class CNOID_EXPORT AssemblerView : public View
 {
 public:
@@ -18,7 +18,7 @@ public:
     AssemblerView();
     virtual ~AssemblerView();
 
-    void createButtons();
+    void createButtons(PanelSettings &_settings);
 
 protected:
     virtual void onActivated() override;

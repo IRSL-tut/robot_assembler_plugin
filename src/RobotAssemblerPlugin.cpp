@@ -48,6 +48,11 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
     if(variables.count("assembler")) {
         std::string fname_ = variables["assembler"].as<std::string>();
         DEBUG_STREAM("robot_assembler config file: " << fname_);
+        AssemblerManager *manager = AssemblerManager::instance();
+        if (!!manager) {
+            manager->loadSettings(fname_);
+        }
+#if 0
         filesystem::path path_(fromUTF8(fname_));
         std::string ppath_;
         if(path_.is_relative()) {
@@ -74,6 +79,14 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
                 if(!!manager) {
                     manager->loadRoboasm(fname_);
                 }
+            }
+        }
+#endif
+        if(variables.count("assembler-robot")) {
+            std::string fname_ = variables["assembler-robot"].as<std::string>();
+            AssemblerManager *manager = AssemblerManager::instance();
+            if(!!manager) {
+                manager->loadRoboasm(fname_);
             }
         }
     }

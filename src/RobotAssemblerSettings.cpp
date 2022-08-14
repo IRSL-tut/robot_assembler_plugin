@@ -1275,5 +1275,4 @@ bool RoboasmFile::dumpRoboasm(const std::string &_filename)
 
     return true;
 }
-
 } }

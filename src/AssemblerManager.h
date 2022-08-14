@@ -10,6 +10,15 @@
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
+struct PartsTabInfo {
+  std::string name;
+  std::vector<std::string> parts;
+};
+struct PanelSettings {
+  std::vector<PartsTabInfo> tab_list;
+  std::vector<std::string> combo_list;
+};
+
 class CNOID_EXPORT AssemblerManager : public SceneWidgetEventHandler
 {
 public:
@@ -19,8 +28,10 @@ public:
     AssemblerManager();
     virtual ~AssemblerManager();
 
+    void loadSettings(const std::string _fname);
     const std::string &project_directory() { return _project_directory; }
     void setProjectDirectory(const std::string &_proj) { _project_directory = _proj; };
+    bool parseButtonYaml(const std::string &filename, PanelSettings &_res);
 
     void partsButtonClicked(const std::string &_name);
     void addAssemblerItem(ra::RoboasmRobotPtr _rb);
@@ -60,6 +71,8 @@ public:
         }
     }
     SignalProxy<void(ra::RoboasmRobotPtr _rb)>  sigRobotSelected() { return robotSelectedFunc; }
+    SignalProxy<void(ra::RoboasmCoordsPtr _pt)> coordsSelected() { return coordsSelectedFunc; }
+    SignalProxy<void()> sigUpdateRobots() { return updateRobotsFunc; }
 
     int uniq_id;
     ra::RASceneConnectingPoint *clickedPoint0;
@@ -86,6 +99,9 @@ protected:
     virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
 
     Signal<void(ra::RoboasmRobotPtr _rb)> robotSelectedFunc;
+    Signal<void(ra::RoboasmCoordsPtr _pt)> coordsSelectedFunc;
+    Signal<void()> updateRobotsFunc;
+
 
 private:
     class Impl;
