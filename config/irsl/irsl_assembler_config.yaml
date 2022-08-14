@@ -94,7 +94,18 @@ ConnectingConstraintSettings:
       name: rotate150
       description: 'rotate 150[deg] around z-axis'
       rotation: [0, 0, 1, 150]
-##PanelSettings: ## just for choreonoid
+
+PanelSettings: ## just for choreonoid
+  tab_list:
+    - name: main_block
+      parts: [block_2_2, block_2_3, block_2_4, block_2_6, block_2_8, block_2_10,
+              block_1_1, block_1_2, block_1_3, block_1_4, block_1_6, block_1_8, block_1_10 ]
+    - name: main_plate
+      parts: [plate_2_2, plate_2_3, plate_2_4, plate_2_6, plate_2_8, plate_2_10,
+              plate_1_1, plate_1_2, plate_1_3, plate_1_4, plate_1_6, plate_1_8,
+              plate_4_4, plate_4_8, plate_6_12]
+  combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
+
 ##PartsSettings:
 #  type: (required)
 #  class: (optional / used for pannel)
@@ -41330,18 +41341,18 @@ PartsSettings:
         types: [SC4]
         translation: [ 8.0, 8.0, -9.6]
   -
-    type: block_1_3
+    type: block_2_3
     visual:
       -
-        translation: [ 4.0, 12.0, -4.8 ]
-        box: [ 8.0, 24.0, 9.6 ]
+        translation: [ 8.0, 12.0, -4.8 ]
+        box: [ 16.0, 24.0, 9.6 ]
     collision:
       -
-        translation: [ 4.0, 12.0, -4.8 ]
-        box: [ 8.0, 24.0, 9.6 ]
+        translation: [ 8.0, 12.0, -4.8 ]
+        box: [ 16.0, 24.0, 9.6 ]
     mass-param:
       mass: 1.0
-      center-of-mass: [4.0, 12.0, -4.8]
+      center-of-mass: [8.0, 12.0, -4.8]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points:
       -
@@ -41388,19 +41399,103 @@ PartsSettings:
         types: [SC2]
         translation: [ 4.0, 16.0, -9.6]
         rotation: [ 0, 0, 1, 90]
+      -
+        name: PL1_1_0
+        types: [PC1]
+        translation: [ 12.0, 4.0, 0]
+      -
+        name: SK1_1_0
+        types: [SC1]
+        translation: [ 12.0, 4.0, -9.6]
+      -
+        name: PL2Y_1_0
+        types: [PC2]
+        translation: [ 8.0, 4.0, 0]
+      -
+        name: SK2Y_1_0
+        types: [SC2]
+        translation: [ 8.0, 4.0, -9.6]
+      -
+        name: PL1_1_1
+        types: [PC1]
+        translation: [ 12.0, 12.0, 0]
+      -
+        name: SK1_1_1
+        types: [SC1]
+        translation: [ 12.0, 12.0, -9.6]
+      -
+        name: PL2X_1_1
+        types: [PC2]
+        translation: [ 12.0, 8.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_1
+        types: [SC2]
+        translation: [ 12.0, 8.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_1
+        types: [PC2]
+        translation: [ 8.0, 12.0, 0]
+      -
+        name: SK2Y_1_1
+        types: [SC2]
+        translation: [ 8.0, 12.0, -9.6]
+      -
+        name: PL4_1_1
+        types: [PC4]
+        translation: [ 8.0, 8.0, 0]
+      -
+        name: SK4_1_1
+        types: [SC4]
+        translation: [ 8.0, 8.0, -9.6]
+      -
+        name: PL1_1_2
+        types: [PC1]
+        translation: [ 12.0, 20.0, 0]
+      -
+        name: SK1_1_2
+        types: [SC1]
+        translation: [ 12.0, 20.0, -9.6]
+      -
+        name: PL2X_1_2
+        types: [PC2]
+        translation: [ 12.0, 16.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_2
+        types: [SC2]
+        translation: [ 12.0, 16.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_2
+        types: [PC2]
+        translation: [ 8.0, 20.0, 0]
+      -
+        name: SK2Y_1_2
+        types: [SC2]
+        translation: [ 8.0, 20.0, -9.6]
+      -
+        name: PL4_1_2
+        types: [PC4]
+        translation: [ 8.0, 16.0, 0]
+      -
+        name: SK4_1_2
+        types: [SC4]
+        translation: [ 8.0, 16.0, -9.6]
   -
-    type: block_1_4
+    type: block_2_4
     visual:
       -
-        translation: [ 4.0, 16.0, -4.8 ]
-        box: [ 8.0, 32.0, 9.6 ]
+        translation: [ 8.0, 16.0, -4.8 ]
+        box: [ 16.0, 32.0, 9.6 ]
     collision:
       -
-        translation: [ 4.0, 16.0, -4.8 ]
-        box: [ 8.0, 32.0, 9.6 ]
+        translation: [ 8.0, 16.0, -4.8 ]
+        box: [ 16.0, 32.0, 9.6 ]
     mass-param:
       mass: 1.0
-      center-of-mass: [4.0, 16.0, -4.8]
+      center-of-mass: [8.0, 16.0, -4.8]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points:
       -
@@ -41465,19 +41560,137 @@ PartsSettings:
         types: [SC2]
         translation: [ 4.0, 24.0, -9.6]
         rotation: [ 0, 0, 1, 90]
+      -
+        name: PL1_1_0
+        types: [PC1]
+        translation: [ 12.0, 4.0, 0]
+      -
+        name: SK1_1_0
+        types: [SC1]
+        translation: [ 12.0, 4.0, -9.6]
+      -
+        name: PL2Y_1_0
+        types: [PC2]
+        translation: [ 8.0, 4.0, 0]
+      -
+        name: SK2Y_1_0
+        types: [SC2]
+        translation: [ 8.0, 4.0, -9.6]
+      -
+        name: PL1_1_1
+        types: [PC1]
+        translation: [ 12.0, 12.0, 0]
+      -
+        name: SK1_1_1
+        types: [SC1]
+        translation: [ 12.0, 12.0, -9.6]
+      -
+        name: PL2X_1_1
+        types: [PC2]
+        translation: [ 12.0, 8.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_1
+        types: [SC2]
+        translation: [ 12.0, 8.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_1
+        types: [PC2]
+        translation: [ 8.0, 12.0, 0]
+      -
+        name: SK2Y_1_1
+        types: [SC2]
+        translation: [ 8.0, 12.0, -9.6]
+      -
+        name: PL4_1_1
+        types: [PC4]
+        translation: [ 8.0, 8.0, 0]
+      -
+        name: SK4_1_1
+        types: [SC4]
+        translation: [ 8.0, 8.0, -9.6]
+      -
+        name: PL1_1_2
+        types: [PC1]
+        translation: [ 12.0, 20.0, 0]
+      -
+        name: SK1_1_2
+        types: [SC1]
+        translation: [ 12.0, 20.0, -9.6]
+      -
+        name: PL2X_1_2
+        types: [PC2]
+        translation: [ 12.0, 16.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_2
+        types: [SC2]
+        translation: [ 12.0, 16.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_2
+        types: [PC2]
+        translation: [ 8.0, 20.0, 0]
+      -
+        name: SK2Y_1_2
+        types: [SC2]
+        translation: [ 8.0, 20.0, -9.6]
+      -
+        name: PL4_1_2
+        types: [PC4]
+        translation: [ 8.0, 16.0, 0]
+      -
+        name: SK4_1_2
+        types: [SC4]
+        translation: [ 8.0, 16.0, -9.6]
+      -
+        name: PL1_1_3
+        types: [PC1]
+        translation: [ 12.0, 28.0, 0]
+      -
+        name: SK1_1_3
+        types: [SC1]
+        translation: [ 12.0, 28.0, -9.6]
+      -
+        name: PL2X_1_3
+        types: [PC2]
+        translation: [ 12.0, 24.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_3
+        types: [SC2]
+        translation: [ 12.0, 24.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_3
+        types: [PC2]
+        translation: [ 8.0, 28.0, 0]
+      -
+        name: SK2Y_1_3
+        types: [SC2]
+        translation: [ 8.0, 28.0, -9.6]
+      -
+        name: PL4_1_3
+        types: [PC4]
+        translation: [ 8.0, 24.0, 0]
+      -
+        name: SK4_1_3
+        types: [SC4]
+        translation: [ 8.0, 24.0, -9.6]
   -
-    type: block_1_6
+    type: block_2_6
     visual:
       -
-        translation: [ 4.0, 24.0, -4.8 ]
-        box: [ 8.0, 48.0, 9.6 ]
+        translation: [ 8.0, 24.0, -4.8 ]
+        box: [ 16.0, 48.0, 9.6 ]
     collision:
       -
-        translation: [ 4.0, 24.0, -4.8 ]
-        box: [ 8.0, 48.0, 9.6 ]
+        translation: [ 8.0, 24.0, -4.8 ]
+        box: [ 16.0, 48.0, 9.6 ]
     mass-param:
       mass: 1.0
-      center-of-mass: [4.0, 24.0, -4.8]
+      center-of-mass: [8.0, 24.0, -4.8]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points:
       -
@@ -41578,19 +41791,205 @@ PartsSettings:
         types: [SC2]
         translation: [ 4.0, 40.0, -9.6]
         rotation: [ 0, 0, 1, 90]
+      -
+        name: PL1_1_0
+        types: [PC1]
+        translation: [ 12.0, 4.0, 0]
+      -
+        name: SK1_1_0
+        types: [SC1]
+        translation: [ 12.0, 4.0, -9.6]
+      -
+        name: PL2Y_1_0
+        types: [PC2]
+        translation: [ 8.0, 4.0, 0]
+      -
+        name: SK2Y_1_0
+        types: [SC2]
+        translation: [ 8.0, 4.0, -9.6]
+      -
+        name: PL1_1_1
+        types: [PC1]
+        translation: [ 12.0, 12.0, 0]
+      -
+        name: SK1_1_1
+        types: [SC1]
+        translation: [ 12.0, 12.0, -9.6]
+      -
+        name: PL2X_1_1
+        types: [PC2]
+        translation: [ 12.0, 8.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_1
+        types: [SC2]
+        translation: [ 12.0, 8.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_1
+        types: [PC2]
+        translation: [ 8.0, 12.0, 0]
+      -
+        name: SK2Y_1_1
+        types: [SC2]
+        translation: [ 8.0, 12.0, -9.6]
+      -
+        name: PL4_1_1
+        types: [PC4]
+        translation: [ 8.0, 8.0, 0]
+      -
+        name: SK4_1_1
+        types: [SC4]
+        translation: [ 8.0, 8.0, -9.6]
+      -
+        name: PL1_1_2
+        types: [PC1]
+        translation: [ 12.0, 20.0, 0]
+      -
+        name: SK1_1_2
+        types: [SC1]
+        translation: [ 12.0, 20.0, -9.6]
+      -
+        name: PL2X_1_2
+        types: [PC2]
+        translation: [ 12.0, 16.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_2
+        types: [SC2]
+        translation: [ 12.0, 16.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_2
+        types: [PC2]
+        translation: [ 8.0, 20.0, 0]
+      -
+        name: SK2Y_1_2
+        types: [SC2]
+        translation: [ 8.0, 20.0, -9.6]
+      -
+        name: PL4_1_2
+        types: [PC4]
+        translation: [ 8.0, 16.0, 0]
+      -
+        name: SK4_1_2
+        types: [SC4]
+        translation: [ 8.0, 16.0, -9.6]
+      -
+        name: PL1_1_3
+        types: [PC1]
+        translation: [ 12.0, 28.0, 0]
+      -
+        name: SK1_1_3
+        types: [SC1]
+        translation: [ 12.0, 28.0, -9.6]
+      -
+        name: PL2X_1_3
+        types: [PC2]
+        translation: [ 12.0, 24.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_3
+        types: [SC2]
+        translation: [ 12.0, 24.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_3
+        types: [PC2]
+        translation: [ 8.0, 28.0, 0]
+      -
+        name: SK2Y_1_3
+        types: [SC2]
+        translation: [ 8.0, 28.0, -9.6]
+      -
+        name: PL4_1_3
+        types: [PC4]
+        translation: [ 8.0, 24.0, 0]
+      -
+        name: SK4_1_3
+        types: [SC4]
+        translation: [ 8.0, 24.0, -9.6]
+      -
+        name: PL1_1_4
+        types: [PC1]
+        translation: [ 12.0, 36.0, 0]
+      -
+        name: SK1_1_4
+        types: [SC1]
+        translation: [ 12.0, 36.0, -9.6]
+      -
+        name: PL2X_1_4
+        types: [PC2]
+        translation: [ 12.0, 32.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_4
+        types: [SC2]
+        translation: [ 12.0, 32.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_4
+        types: [PC2]
+        translation: [ 8.0, 36.0, 0]
+      -
+        name: SK2Y_1_4
+        types: [SC2]
+        translation: [ 8.0, 36.0, -9.6]
+      -
+        name: PL4_1_4
+        types: [PC4]
+        translation: [ 8.0, 32.0, 0]
+      -
+        name: SK4_1_4
+        types: [SC4]
+        translation: [ 8.0, 32.0, -9.6]
+      -
+        name: PL1_1_5
+        types: [PC1]
+        translation: [ 12.0, 44.0, 0]
+      -
+        name: SK1_1_5
+        types: [SC1]
+        translation: [ 12.0, 44.0, -9.6]
+      -
+        name: PL2X_1_5
+        types: [PC2]
+        translation: [ 12.0, 40.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_5
+        types: [SC2]
+        translation: [ 12.0, 40.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_5
+        types: [PC2]
+        translation: [ 8.0, 44.0, 0]
+      -
+        name: SK2Y_1_5
+        types: [SC2]
+        translation: [ 8.0, 44.0, -9.6]
+      -
+        name: PL4_1_5
+        types: [PC4]
+        translation: [ 8.0, 40.0, 0]
+      -
+        name: SK4_1_5
+        types: [SC4]
+        translation: [ 8.0, 40.0, -9.6]
   -
-    type: block_1_8
+    type: block_2_8
     visual:
       -
-        translation: [ 4.0, 32.0, -4.8 ]
-        box: [ 8.0, 64.0, 9.6 ]
+        translation: [ 8.0, 32.0, -4.8 ]
+        box: [ 16.0, 64.0, 9.6 ]
     collision:
       -
-        translation: [ 4.0, 32.0, -4.8 ]
-        box: [ 8.0, 64.0, 9.6 ]
+        translation: [ 8.0, 32.0, -4.8 ]
+        box: [ 16.0, 64.0, 9.6 ]
     mass-param:
       mass: 1.0
-      center-of-mass: [4.0, 32.0, -4.8]
+      center-of-mass: [8.0, 32.0, -4.8]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points:
       -
@@ -41727,19 +42126,273 @@ PartsSettings:
         types: [SC2]
         translation: [ 4.0, 56.0, -9.6]
         rotation: [ 0, 0, 1, 90]
+      -
+        name: PL1_1_0
+        types: [PC1]
+        translation: [ 12.0, 4.0, 0]
+      -
+        name: SK1_1_0
+        types: [SC1]
+        translation: [ 12.0, 4.0, -9.6]
+      -
+        name: PL2Y_1_0
+        types: [PC2]
+        translation: [ 8.0, 4.0, 0]
+      -
+        name: SK2Y_1_0
+        types: [SC2]
+        translation: [ 8.0, 4.0, -9.6]
+      -
+        name: PL1_1_1
+        types: [PC1]
+        translation: [ 12.0, 12.0, 0]
+      -
+        name: SK1_1_1
+        types: [SC1]
+        translation: [ 12.0, 12.0, -9.6]
+      -
+        name: PL2X_1_1
+        types: [PC2]
+        translation: [ 12.0, 8.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_1
+        types: [SC2]
+        translation: [ 12.0, 8.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_1
+        types: [PC2]
+        translation: [ 8.0, 12.0, 0]
+      -
+        name: SK2Y_1_1
+        types: [SC2]
+        translation: [ 8.0, 12.0, -9.6]
+      -
+        name: PL4_1_1
+        types: [PC4]
+        translation: [ 8.0, 8.0, 0]
+      -
+        name: SK4_1_1
+        types: [SC4]
+        translation: [ 8.0, 8.0, -9.6]
+      -
+        name: PL1_1_2
+        types: [PC1]
+        translation: [ 12.0, 20.0, 0]
+      -
+        name: SK1_1_2
+        types: [SC1]
+        translation: [ 12.0, 20.0, -9.6]
+      -
+        name: PL2X_1_2
+        types: [PC2]
+        translation: [ 12.0, 16.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_2
+        types: [SC2]
+        translation: [ 12.0, 16.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_2
+        types: [PC2]
+        translation: [ 8.0, 20.0, 0]
+      -
+        name: SK2Y_1_2
+        types: [SC2]
+        translation: [ 8.0, 20.0, -9.6]
+      -
+        name: PL4_1_2
+        types: [PC4]
+        translation: [ 8.0, 16.0, 0]
+      -
+        name: SK4_1_2
+        types: [SC4]
+        translation: [ 8.0, 16.0, -9.6]
+      -
+        name: PL1_1_3
+        types: [PC1]
+        translation: [ 12.0, 28.0, 0]
+      -
+        name: SK1_1_3
+        types: [SC1]
+        translation: [ 12.0, 28.0, -9.6]
+      -
+        name: PL2X_1_3
+        types: [PC2]
+        translation: [ 12.0, 24.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_3
+        types: [SC2]
+        translation: [ 12.0, 24.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_3
+        types: [PC2]
+        translation: [ 8.0, 28.0, 0]
+      -
+        name: SK2Y_1_3
+        types: [SC2]
+        translation: [ 8.0, 28.0, -9.6]
+      -
+        name: PL4_1_3
+        types: [PC4]
+        translation: [ 8.0, 24.0, 0]
+      -
+        name: SK4_1_3
+        types: [SC4]
+        translation: [ 8.0, 24.0, -9.6]
+      -
+        name: PL1_1_4
+        types: [PC1]
+        translation: [ 12.0, 36.0, 0]
+      -
+        name: SK1_1_4
+        types: [SC1]
+        translation: [ 12.0, 36.0, -9.6]
+      -
+        name: PL2X_1_4
+        types: [PC2]
+        translation: [ 12.0, 32.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_4
+        types: [SC2]
+        translation: [ 12.0, 32.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_4
+        types: [PC2]
+        translation: [ 8.0, 36.0, 0]
+      -
+        name: SK2Y_1_4
+        types: [SC2]
+        translation: [ 8.0, 36.0, -9.6]
+      -
+        name: PL4_1_4
+        types: [PC4]
+        translation: [ 8.0, 32.0, 0]
+      -
+        name: SK4_1_4
+        types: [SC4]
+        translation: [ 8.0, 32.0, -9.6]
+      -
+        name: PL1_1_5
+        types: [PC1]
+        translation: [ 12.0, 44.0, 0]
+      -
+        name: SK1_1_5
+        types: [SC1]
+        translation: [ 12.0, 44.0, -9.6]
+      -
+        name: PL2X_1_5
+        types: [PC2]
+        translation: [ 12.0, 40.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_5
+        types: [SC2]
+        translation: [ 12.0, 40.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_5
+        types: [PC2]
+        translation: [ 8.0, 44.0, 0]
+      -
+        name: SK2Y_1_5
+        types: [SC2]
+        translation: [ 8.0, 44.0, -9.6]
+      -
+        name: PL4_1_5
+        types: [PC4]
+        translation: [ 8.0, 40.0, 0]
+      -
+        name: SK4_1_5
+        types: [SC4]
+        translation: [ 8.0, 40.0, -9.6]
+      -
+        name: PL1_1_6
+        types: [PC1]
+        translation: [ 12.0, 52.0, 0]
+      -
+        name: SK1_1_6
+        types: [SC1]
+        translation: [ 12.0, 52.0, -9.6]
+      -
+        name: PL2X_1_6
+        types: [PC2]
+        translation: [ 12.0, 48.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_6
+        types: [SC2]
+        translation: [ 12.0, 48.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_6
+        types: [PC2]
+        translation: [ 8.0, 52.0, 0]
+      -
+        name: SK2Y_1_6
+        types: [SC2]
+        translation: [ 8.0, 52.0, -9.6]
+      -
+        name: PL4_1_6
+        types: [PC4]
+        translation: [ 8.0, 48.0, 0]
+      -
+        name: SK4_1_6
+        types: [SC4]
+        translation: [ 8.0, 48.0, -9.6]
+      -
+        name: PL1_1_7
+        types: [PC1]
+        translation: [ 12.0, 60.0, 0]
+      -
+        name: SK1_1_7
+        types: [SC1]
+        translation: [ 12.0, 60.0, -9.6]
+      -
+        name: PL2X_1_7
+        types: [PC2]
+        translation: [ 12.0, 56.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_7
+        types: [SC2]
+        translation: [ 12.0, 56.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_7
+        types: [PC2]
+        translation: [ 8.0, 60.0, 0]
+      -
+        name: SK2Y_1_7
+        types: [SC2]
+        translation: [ 8.0, 60.0, -9.6]
+      -
+        name: PL4_1_7
+        types: [PC4]
+        translation: [ 8.0, 56.0, 0]
+      -
+        name: SK4_1_7
+        types: [SC4]
+        translation: [ 8.0, 56.0, -9.6]
   -
-    type: block_1_10
+    type: block_2_10
     visual:
       -
-        translation: [ 4.0, 40.0, -4.8 ]
-        box: [ 8.0, 80.0, 9.6 ]
+        translation: [ 8.0, 40.0, -4.8 ]
+        box: [ 16.0, 80.0, 9.6 ]
     collision:
       -
-        translation: [ 4.0, 40.0, -4.8 ]
-        box: [ 8.0, 80.0, 9.6 ]
+        translation: [ 8.0, 40.0, -4.8 ]
+        box: [ 16.0, 80.0, 9.6 ]
     mass-param:
       mass: 1.0
-      center-of-mass: [4.0, 40.0, -4.8]
+      center-of-mass: [8.0, 40.0, -4.8]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points:
       -
@@ -41912,6 +42565,328 @@ PartsSettings:
         types: [SC2]
         translation: [ 4.0, 72.0, -9.6]
         rotation: [ 0, 0, 1, 90]
+      -
+        name: PL1_1_0
+        types: [PC1]
+        translation: [ 12.0, 4.0, 0]
+      -
+        name: SK1_1_0
+        types: [SC1]
+        translation: [ 12.0, 4.0, -9.6]
+      -
+        name: PL2Y_1_0
+        types: [PC2]
+        translation: [ 8.0, 4.0, 0]
+      -
+        name: SK2Y_1_0
+        types: [SC2]
+        translation: [ 8.0, 4.0, -9.6]
+      -
+        name: PL1_1_1
+        types: [PC1]
+        translation: [ 12.0, 12.0, 0]
+      -
+        name: SK1_1_1
+        types: [SC1]
+        translation: [ 12.0, 12.0, -9.6]
+      -
+        name: PL2X_1_1
+        types: [PC2]
+        translation: [ 12.0, 8.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_1
+        types: [SC2]
+        translation: [ 12.0, 8.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_1
+        types: [PC2]
+        translation: [ 8.0, 12.0, 0]
+      -
+        name: SK2Y_1_1
+        types: [SC2]
+        translation: [ 8.0, 12.0, -9.6]
+      -
+        name: PL4_1_1
+        types: [PC4]
+        translation: [ 8.0, 8.0, 0]
+      -
+        name: SK4_1_1
+        types: [SC4]
+        translation: [ 8.0, 8.0, -9.6]
+      -
+        name: PL1_1_2
+        types: [PC1]
+        translation: [ 12.0, 20.0, 0]
+      -
+        name: SK1_1_2
+        types: [SC1]
+        translation: [ 12.0, 20.0, -9.6]
+      -
+        name: PL2X_1_2
+        types: [PC2]
+        translation: [ 12.0, 16.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_2
+        types: [SC2]
+        translation: [ 12.0, 16.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_2
+        types: [PC2]
+        translation: [ 8.0, 20.0, 0]
+      -
+        name: SK2Y_1_2
+        types: [SC2]
+        translation: [ 8.0, 20.0, -9.6]
+      -
+        name: PL4_1_2
+        types: [PC4]
+        translation: [ 8.0, 16.0, 0]
+      -
+        name: SK4_1_2
+        types: [SC4]
+        translation: [ 8.0, 16.0, -9.6]
+      -
+        name: PL1_1_3
+        types: [PC1]
+        translation: [ 12.0, 28.0, 0]
+      -
+        name: SK1_1_3
+        types: [SC1]
+        translation: [ 12.0, 28.0, -9.6]
+      -
+        name: PL2X_1_3
+        types: [PC2]
+        translation: [ 12.0, 24.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_3
+        types: [SC2]
+        translation: [ 12.0, 24.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_3
+        types: [PC2]
+        translation: [ 8.0, 28.0, 0]
+      -
+        name: SK2Y_1_3
+        types: [SC2]
+        translation: [ 8.0, 28.0, -9.6]
+      -
+        name: PL4_1_3
+        types: [PC4]
+        translation: [ 8.0, 24.0, 0]
+      -
+        name: SK4_1_3
+        types: [SC4]
+        translation: [ 8.0, 24.0, -9.6]
+      -
+        name: PL1_1_4
+        types: [PC1]
+        translation: [ 12.0, 36.0, 0]
+      -
+        name: SK1_1_4
+        types: [SC1]
+        translation: [ 12.0, 36.0, -9.6]
+      -
+        name: PL2X_1_4
+        types: [PC2]
+        translation: [ 12.0, 32.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_4
+        types: [SC2]
+        translation: [ 12.0, 32.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_4
+        types: [PC2]
+        translation: [ 8.0, 36.0, 0]
+      -
+        name: SK2Y_1_4
+        types: [SC2]
+        translation: [ 8.0, 36.0, -9.6]
+      -
+        name: PL4_1_4
+        types: [PC4]
+        translation: [ 8.0, 32.0, 0]
+      -
+        name: SK4_1_4
+        types: [SC4]
+        translation: [ 8.0, 32.0, -9.6]
+      -
+        name: PL1_1_5
+        types: [PC1]
+        translation: [ 12.0, 44.0, 0]
+      -
+        name: SK1_1_5
+        types: [SC1]
+        translation: [ 12.0, 44.0, -9.6]
+      -
+        name: PL2X_1_5
+        types: [PC2]
+        translation: [ 12.0, 40.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_5
+        types: [SC2]
+        translation: [ 12.0, 40.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_5
+        types: [PC2]
+        translation: [ 8.0, 44.0, 0]
+      -
+        name: SK2Y_1_5
+        types: [SC2]
+        translation: [ 8.0, 44.0, -9.6]
+      -
+        name: PL4_1_5
+        types: [PC4]
+        translation: [ 8.0, 40.0, 0]
+      -
+        name: SK4_1_5
+        types: [SC4]
+        translation: [ 8.0, 40.0, -9.6]
+      -
+        name: PL1_1_6
+        types: [PC1]
+        translation: [ 12.0, 52.0, 0]
+      -
+        name: SK1_1_6
+        types: [SC1]
+        translation: [ 12.0, 52.0, -9.6]
+      -
+        name: PL2X_1_6
+        types: [PC2]
+        translation: [ 12.0, 48.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_6
+        types: [SC2]
+        translation: [ 12.0, 48.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_6
+        types: [PC2]
+        translation: [ 8.0, 52.0, 0]
+      -
+        name: SK2Y_1_6
+        types: [SC2]
+        translation: [ 8.0, 52.0, -9.6]
+      -
+        name: PL4_1_6
+        types: [PC4]
+        translation: [ 8.0, 48.0, 0]
+      -
+        name: SK4_1_6
+        types: [SC4]
+        translation: [ 8.0, 48.0, -9.6]
+      -
+        name: PL1_1_7
+        types: [PC1]
+        translation: [ 12.0, 60.0, 0]
+      -
+        name: SK1_1_7
+        types: [SC1]
+        translation: [ 12.0, 60.0, -9.6]
+      -
+        name: PL2X_1_7
+        types: [PC2]
+        translation: [ 12.0, 56.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_7
+        types: [SC2]
+        translation: [ 12.0, 56.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_7
+        types: [PC2]
+        translation: [ 8.0, 60.0, 0]
+      -
+        name: SK2Y_1_7
+        types: [SC2]
+        translation: [ 8.0, 60.0, -9.6]
+      -
+        name: PL4_1_7
+        types: [PC4]
+        translation: [ 8.0, 56.0, 0]
+      -
+        name: SK4_1_7
+        types: [SC4]
+        translation: [ 8.0, 56.0, -9.6]
+      -
+        name: PL1_1_8
+        types: [PC1]
+        translation: [ 12.0, 68.0, 0]
+      -
+        name: SK1_1_8
+        types: [SC1]
+        translation: [ 12.0, 68.0, -9.6]
+      -
+        name: PL2X_1_8
+        types: [PC2]
+        translation: [ 12.0, 64.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_8
+        types: [SC2]
+        translation: [ 12.0, 64.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_8
+        types: [PC2]
+        translation: [ 8.0, 68.0, 0]
+      -
+        name: SK2Y_1_8
+        types: [SC2]
+        translation: [ 8.0, 68.0, -9.6]
+      -
+        name: PL4_1_8
+        types: [PC4]
+        translation: [ 8.0, 64.0, 0]
+      -
+        name: SK4_1_8
+        types: [SC4]
+        translation: [ 8.0, 64.0, -9.6]
+      -
+        name: PL1_1_9
+        types: [PC1]
+        translation: [ 12.0, 76.0, 0]
+      -
+        name: SK1_1_9
+        types: [SC1]
+        translation: [ 12.0, 76.0, -9.6]
+      -
+        name: PL2X_1_9
+        types: [PC2]
+        translation: [ 12.0, 72.0, 0]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: SK2X_1_9
+        types: [SC2]
+        translation: [ 12.0, 72.0, -9.6]
+        rotation: [ 0, 0, 1, 90]
+      -
+        name: PL2Y_1_9
+        types: [PC2]
+        translation: [ 8.0, 76.0, 0]
+      -
+        name: SK2Y_1_9
+        types: [SC2]
+        translation: [ 8.0, 76.0, -9.6]
+      -
+        name: PL4_1_9
+        types: [PC4]
+        translation: [ 8.0, 72.0, 0]
+      -
+        name: SK4_1_9
+        types: [SC4]
+        translation: [ 8.0, 72.0, -9.6]
   -
     type: block_1_1_3
     visual:
