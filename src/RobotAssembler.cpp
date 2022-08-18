@@ -782,10 +782,18 @@ bool RoboasmRobot::attach(RoboasmCoordsPtr robot_or_parts,
     r_point_w.transform(_conf_coords); // new version | move parent point
 
     DEBUG_SIMPLE( "r_point_w(with_conf): " << r_point_w);
-    coordinates p_base_to_point = *static_cast<coordinates *>(_parts_point.get());
+    coordinates p_base_to_point;
+    if (_parts_point->parent() == robot_or_parts.get()) {
+        // attach parts
+        p_base_to_point = *static_cast<coordinates *>(_parts_point.get());
+        DEBUG_SIMPLE( "p_base_to_point(parts): "  << p_base_to_point);
+    } else {
+        // attach robot
+        robot_or_parts->worldcoords().transformation(p_base_to_point, _parts_point->worldcoords());
+        DEBUG_SIMPLE( "p_base_to_point(robot): "  << p_base_to_point);
+    }
     //p_base_to_point.transform(_conf_coords); // eus version | move parts point
     //p_base_w.transformation(p_base_to_point, p_point_w);
-    DEBUG_SIMPLE( "p_base_to_point: "  << p_base_to_point);
     p_base_to_point.inverse();
     DEBUG_SIMPLE( "(inv)p_base_to_point: "  << p_base_to_point);
     r_point_w.transform(p_base_to_point);
