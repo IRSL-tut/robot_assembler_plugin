@@ -231,6 +231,10 @@ void AssemblerView::Impl::createButtons(PanelSettings &_settings)
         topLayout->addWidget(partsTab);
     }
 
+    if (parts_combo->count() == 1) {
+        parts_combo->removeItem(0);
+        parts_combo->addItem("--- choose parts ---");
+    }
     comboItems.push_back("dummy");
     for(auto it = _settings.combo_list.begin();
         it != _settings.combo_list.end(); it++) {
