@@ -70,8 +70,8 @@ public:
             (*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
         }
     }
-    SignalProxy<void(ra::RoboasmRobotPtr _rb)>  sigRobotSelected() { return robotSelectedFunc; }
-    SignalProxy<void(ra::RoboasmCoordsPtr _pt)> coordsSelected() { return coordsSelectedFunc; }
+    SignalProxy<void(ra::RoboasmRobotPtr _rb, bool on)>  sigRobotSelected() { return robotSelectedFunc; }
+    SignalProxy<void(ra::RoboasmCoordsPtr _pt)> sigCoordsSelected() { return coordsSelectedFunc; }
     SignalProxy<void()> sigUpdateRobots() { return updateRobotsFunc; }
 
     int uniq_id;
@@ -98,7 +98,7 @@ protected:
     //virtual void onFocusChanged(SceneWidgetEvent* event, bool on) override;
     virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
 
-    Signal<void(ra::RoboasmRobotPtr _rb)> robotSelectedFunc;
+    Signal<void(ra::RoboasmRobotPtr _rb, bool on)> robotSelectedFunc;
     Signal<void(ra::RoboasmCoordsPtr _pt)> coordsSelectedFunc;
     Signal<void()> updateRobotsFunc;
 

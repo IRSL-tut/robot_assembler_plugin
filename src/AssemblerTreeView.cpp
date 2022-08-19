@@ -9,7 +9,6 @@
 #include <QStyle>
 #include <QLabel>
 #include <QBoxLayout>
-#include <QGridLayout>
 #include <QAbstractItemModel>
 #include <cnoid/LineEdit>
 
@@ -53,10 +52,12 @@ public:
     ComboBox modeCombo;
     AssemblerManager *manager;
     AssemblerTreeItem *top_item;
+    ra::RoboasmRobotPtr current_selected;
     int mode;
     //AssemblerItem *current_item;
     void setMode(int _mode, bool doUpdate);
-    void robotSelected(ra::RoboasmRobotPtr _rb);
+    void robotSelected(ra::RoboasmRobotPtr _rb, bool on);
+    void updateTree(ra::RoboasmRobotPtr _rb);
     void createTree(ra::RoboasmRobotPtr _rb,
                     std::function<bool(ra::RoboasmCoordsPtr _rb)> test = nullptr);
     void createSubTree(QTreeWidgetItem *_p_itm, ra::RoboasmCoordsPtr _p_coords,
@@ -87,8 +88,8 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
 {
     manager = AssemblerManager::instance();
     if(!!manager) {
-        manager->sigRobotSelected().connect ( [this](ra::RoboasmRobotPtr _rb) {
-                robotSelected(_rb); } );
+        manager->sigRobotSelected().connect(
+            [this](ra::RoboasmRobotPtr _rb, bool on) { robotSelected(_rb, on); } );
     }
     self->setDefaultLayoutArea(BottomLeftArea);
 
@@ -122,6 +123,35 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
 
     modeCombo.sigCurrentIndexChanged().connect(
         [&](int index){ setMode(index, true); });
+
+    tree.sigCurrentItemChanged().connect (
+        [this](QTreeWidgetItem* cur, QTreeWidgetItem* prev) {
+            DEBUG_STREAM(" cur: " << (!!cur ? cur->text(0).toStdString() : "none") << ", prev:" << (!!prev ? prev->text(0).toStdString() : "none"));
+            AssemblerTreeItem *ati = dynamic_cast<AssemblerTreeItem*>(cur);
+            if(!!ati && !!(ati->element)) {
+                DEBUG_STREAM(" coords: " << ati->element->name());
+            }
+        } );
+#if 1
+    tree.sigItemChanged().connect (
+        [this](QTreeWidgetItem* item, int column) {
+            DEBUG_STREAM(" changed item: " << (!!item ? item->text(0).toStdString() : "none"));
+        } );
+    tree.sigItemClicked().connect (
+        [this](QTreeWidgetItem* item, int column) {
+            DEBUG_STREAM(" clicked item: " << (!!item ? item->text(0).toStdString() : "none"));
+        } );
+    tree.sigItemPressed().connect (
+        [this](QTreeWidgetItem* item, int column) {
+            DEBUG_STREAM(" pressed item: " << (!!item ? item->text(0).toStdString() : "none"));
+        } );
+    tree.sigItemCollapsed().connect (
+        [this](QTreeWidgetItem* item) {
+            DEBUG_STREAM(" collapsed item: " << (!!item ? item->text(0).toStdString() : "none"));
+        } );
+    tree.sigItemSelectionChanged().connect (
+        [this]() { DEBUG_STREAM(" selection changed"); } );
+#endif
 }
 AssemblerTreeView::Impl::~Impl()
 {
@@ -131,8 +161,27 @@ void AssemblerTreeView::Impl::setMode(int _mode, bool doUpdate)
     mode = _mode;
     tree.clear();
     DEBUG_STREAM(" mode: " << mode << ", updata: " << doUpdate);
+    if(!!current_selected) {
+        updateTree(current_selected);
+    }
 }
-void AssemblerTreeView::Impl::robotSelected(ra::RoboasmRobotPtr _rb)
+void AssemblerTreeView::Impl::robotSelected(ra::RoboasmRobotPtr _rb, bool on)
+{
+    DEBUG_STREAM(" robot_selected: " << _rb->name() << ", on: "<< on);
+    if(on) {
+        if(current_selected == _rb) return;
+        current_selected = _rb;
+        if(!!current_selected) {
+            updateTree(current_selected);
+        }
+    } else { // not on
+        if(current_selected == _rb) { // current_selected may be deleted
+            tree.clear();
+            current_selected = nullptr;
+        }
+    }
+}
+void AssemblerTreeView::Impl::updateTree(ra::RoboasmRobotPtr _rb)
 {
     tree.clear();
     switch(mode) {
@@ -198,6 +247,7 @@ void AssemblerTreeView::Impl::createTree(ra::RoboasmRobotPtr _rb,
     itm->setText(0, _rb->name().c_str());
     tree.addTopLevelItem(itm);
     top_item = itm;
+    itm->setExpanded(true);
     createSubTree(itm, _rb, test);
 }
 void AssemblerTreeView::Impl::createSubTree(QTreeWidgetItem *_p_itm,
@@ -211,6 +261,7 @@ void AssemblerTreeView::Impl::createSubTree(QTreeWidgetItem *_p_itm,
             AssemblerTreeItem *itm = new AssemblerTreeItem(*it);
             itm->setText(0, (*it)->name().c_str());
             _p_itm->addChild(itm);
+            itm->setExpanded(true);
             createSubTree(itm, (*it), test);
         } else {
             createSubTree(_p_itm, (*it), test);

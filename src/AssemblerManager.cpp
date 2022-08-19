@@ -482,7 +482,7 @@ void AssemblerManager::attachRobots(bool _just_align, int increment)
 void AssemblerManager::itemSelected(AssemblerItemPtr itm, bool on)
 {
     ra::RASceneRobot *rb_ = dynamic_cast<ra::RASceneRobot*>(itm->getScene());
-    robotSelectedFunc(rb_->robot());
+    robotSelectedFunc(rb_->robot(), on);
 }
 void AssemblerManager::loadRoboasm(const std::string &_fname)
 {
