@@ -623,11 +623,15 @@ bool RoboasmRobot::changeRoot(RoboasmConnectingPointPtr _chld)
             return false;
         }
     }
-    DEBUG_STREAM(" assoc:" << std::endl);
+    DEBUG_STREAM(" assoc:");
     size_t len_1 = lst.size() - 1;
     for(size_t i = 0; i < len_1; i++) {
         DEBUG_STREAM(" " << lst[i]->name() << " assoc: " << lst[i+1]->name());
         lst[i]->assoc(lst[i+1]);
+        if(lst[i]->isConnectingPoint() && lst[i+1]->isConnectingPoint()) {
+            DEBUG_STREAM(" swap configuration: " << lst[i]->name() << " <=> " << lst[i+1]->name());
+            lst[i]->toConnectingPoint()->swapConfiguration(lst[i+1]->toConnectingPoint());
+        }
     }
     return true;
 }
@@ -835,13 +839,13 @@ bool RoboasmRobot::attach(RoboasmCoordsPtr robot_or_parts,
     //DEBUG_SIMPLE( "update" );
     updateDescendants();
 
+    // only _robot_point (connection-parent) has configuration
     if(!!_config) {
         _robot_point->current_configuration_id = _config->index;
         _robot_point->configuration_str = _config->name;
     } else {
         _robot_point->current_configuration_id = -1;
-        // dump coords to string
-        // _robot_point->configuration_str =
+        // _robot_point->configuration_str =  // dump coords to string
     }
     _robot_point->configuration_coords = _conf_coords;
     _robot_point->current_type_match = _match;

@@ -161,7 +161,40 @@ public:
     void configurationCoords(coordinates &_coords) {
         _coords = configuration_coords;
     }
-
+    void swapConfiguration(RoboasmConnectingPoint *_pt) {
+        {
+            auto tmp = _pt->current_configuration_id;
+            _pt->current_configuration_id = current_configuration_id;
+            current_configuration_id = tmp;
+        }
+        {
+            auto tmp = _pt->configuration_str;
+            _pt->configuration_str = configuration_str;
+            configuration_str = tmp;
+        }
+        {
+            auto tmp = _pt->configuration_coords;
+            _pt->configuration_coords = configuration_coords;
+            configuration_coords = tmp;
+        }
+        {
+            auto tmp = _pt->current_configuration;
+            _pt->current_configuration = current_configuration;
+            current_configuration = tmp;
+        }
+        {
+            auto tmp = _pt->current_type_match;
+            _pt->current_type_match = current_type_match;
+            current_type_match = tmp;
+        }
+#if 0
+        {
+            bool tmp =  _pt->inverse_connect;
+            _pt->inverse = ! inverse_connect;
+            inverse_connect = ! tmp;
+        }
+#endif
+    }
     bool isActive() { return (descendants.size() < 1); }
     bool isConnected() { return (descendants.size() > 0); }
     ConnectingPoint *info;
@@ -175,7 +208,7 @@ protected:
     coordinates configuration_coords;
     ConnectingConfiguration *current_configuration;
     ConnectingTypeMatch *current_type_match;
-
+    // bool inverse_connect
     friend RoboasmCoords;
     friend RoboasmParts;
     friend RoboasmRobot;
