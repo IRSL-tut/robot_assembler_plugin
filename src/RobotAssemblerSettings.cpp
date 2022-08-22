@@ -1079,10 +1079,17 @@ static bool parse(ValueNode *_vn, AttachHistoryItem& hist)
     Mapping *mp_ = _vn->toMapping();
     mapString(mp_, "parts-name", hist.parts_name, std::cerr, false);
     mapString(mp_, "parts-type", hist.parts_type, std::cerr, false);
-    mapString(mp_, "parts-point", hist.parts_point, std::cerr, false);
-    mapString(mp_, "robot-parts-point", hist.robot_parts_point, std::cerr, false);
-    mapString(mp_, "configuration", hist.configuration, std::cerr, false);
-
+    mapString(mp_, "parts-point-name", hist.parts_point_name, std::cerr, false);
+    mapString(mp_, "parent", hist.parent, std::cerr, false);
+    mapString(mp_, "parent-point-name", hist.parent_point_name, std::cerr, false);
+    //mapString(mp_, "configuration", hist.configuration, std::cerr, false);
+    {
+        ValueNode *vn = mp_->find("configuration");
+        if(vn->isValid() && vn->isMapping()) {
+            Mapping *m_cds_ = vn->toMapping();
+            parse(m_cds_, hist.conf_coords);
+        }
+    }
     ValueNode *vn = mp_->find("initial-parts");
     if(vn->isValid()) hist.initial_parts = true;
     return true;

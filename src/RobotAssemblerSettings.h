@@ -229,15 +229,13 @@ typedef std::shared_ptr<Settings> SettingsPtr;
 class AttachHistoryItem
 {
 public:
-    AttachHistoryItem() : inverse(false), initial_parts(false) {}
-    std::string robot_parts_point;
+    AttachHistoryItem() : initial_parts(false) {}
     std::string parts_name;
     std::string parts_type;
-    std::string parts_point;
-    std::string configuration; // configuration and config_coords are exclusive
-    coordinates config_coords; //
+    std::string parts_point_name;
     std::string parent;
-    bool inverse;
+    std::string parent_point_name;
+    coordinates config_coords; //
     bool initial_parts;
 
     std::ostream &print(std::ostream &ostr)
@@ -252,29 +250,26 @@ public:
         if (parts_type.size() > 0) {
             ostr << "(:parts-type " << parts_type << ")";
         }
-        if (parts_point.size() > 0) {
-            ostr << "(:parts-point " << parts_point << ")";
+        if (parts_point_name.size() > 0) {
+            ostr << "(:parts-point-name " << parts_point_name << ")";
         }
-        if (robot_parts_point.size() > 0) {
-            ostr << "(:robot-parts-point " << robot_parts_point << ")";
+        if (parent.size() > 0) {
+            ostr << "(:parent " << parent << ")";
         }
-        if (configuration.size() > 0) {
-            ostr << "(:configuration " << configuration << ")";
-        } else {
-            ostr << "(:configuration ((";
-            Vector3 rpy; config_coords.getRPY(rpy);
-            ostr << config_coords.pos(0) << " ";
-            ostr << config_coords.pos(1) << " ";
-            ostr << config_coords.pos(2) << ")(";
-            ostr << rpy(2) << " ";
-            ostr << rpy(1) << " ";
-            ostr << rpy(0) << "))";
+        if (parent_point_name.size() > 0) {
+            ostr << "(:parent-point-name " << parent_point_name << ")";
         }
+        ostr << "(:configuration ((";
+        AngleAxis ax_(config_coords.rot);
+        ostr << config_coords.pos(0) << " ";
+        ostr << config_coords.pos(1) << " ";
+        ostr << config_coords.pos(2) << ") (";
+        ostr << ax_.axis()(0) << " ";
+        ostr << ax_.axis()(1) << " ";
+        ostr << ax_.axis()(2) << " ";
+        ostr << ax_.angle() << "))";
         if(initial_parts) {
             ostr << "(:initial-parts t)";
-        }
-        if(inverse) {
-            ostr << "(:inverse t)";
         }
         ostr << ")";
         return ostr;
@@ -283,8 +278,6 @@ public:
 typedef std::vector<AttachHistoryItem> AttachHistory;
 typedef std::map<std::string, AttachHistoryItem*> StringMap;
 typedef std::pair<std::string, AttachHistoryItem*> StringPair;
-
-//void mergeAttachHistory(AttachHistory &_parent, const AttachHistory &_child);
 
 struct AssembleConfig
 {
