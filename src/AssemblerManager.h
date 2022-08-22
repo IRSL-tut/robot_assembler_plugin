@@ -39,7 +39,7 @@ public:
     void save_history(ra::RASceneRobot *_sr);
     int pointClicked(ra::RASceneConnectingPoint *_cp);
     int partsClicked(ra::RASceneParts *_pt);
-
+    void coordsSelected(ra::RoboasmCoordsPtr _coords);
     void updateConnectingPoints();
     void updateMatchedPoints(ra::RASceneConnectingPoint *_pt, bool clearSelf = true,
                              ra::RASceneConnectingPoint::Clicked clearState   = ra::RASceneConnectingPoint::DEFAULT,
@@ -70,7 +70,7 @@ public:
             (*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
         }
     }
-    SignalProxy<void(ra::RoboasmRobotPtr _rb, bool on)>  sigRobotSelected() { return robotSelectedFunc; }
+    SignalProxy<void(ra::RoboasmRobotPtr _rb, bool on)> sigRobotSelected() { return robotSelectedFunc; }
     SignalProxy<void(ra::RoboasmCoordsPtr _pt)> sigCoordsSelected() { return coordsSelectedFunc; }
     SignalProxy<void()> sigUpdateRobots() { return updateRobotsFunc; }
 

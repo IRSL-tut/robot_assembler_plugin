@@ -229,6 +229,38 @@ int AssemblerManager::partsClicked(ra::RASceneParts *_pt)
     DEBUG_STREAM(" " << _pt->name() );
     return 1;
 }
+void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
+{
+    DEBUG_STREAM(" " << _coords->name());
+    {
+        ra::RoboasmRobotPtr ptr = ra::RoboasmUtil::toRobot(_coords);
+        if (!!ptr) {
+            // pointClicked
+            goto endprocess;
+        }
+    }
+    {
+        ra::RoboasmPartsPtr ptr = ra::RoboasmUtil::toParts(_coords);
+        if (!!ptr) {
+            bool is_link = ptr->isLink();
+            // partsClicked
+            goto endprocess;
+        }
+    }
+    {
+        ra::RoboasmConnectingPointPtr ptr = ra::RoboasmUtil::toConnectingPoint(_coords);
+        if (!!ptr) {
+            bool is_actuator = ptr->isActuator();
+            bool is_connected = ptr->isConnected();
+            goto endprocess;
+        }
+    }
+    // never occur / not robot && not parts && not connecting-point
+    ERROR_STREAM(" ");
+    return;
+endprocess:
+    coordsSelectedFunc(_coords);
+}
 void AssemblerManager::updateConnectingPoints()
 {
     //clickedPoint0

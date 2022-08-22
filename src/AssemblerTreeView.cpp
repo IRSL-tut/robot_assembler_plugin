@@ -54,7 +54,8 @@ public:
     AssemblerTreeItem *top_item;
     ra::RoboasmRobotPtr current_selected;
     int mode;
-    //AssemblerItem *current_item;
+    bool emit_selected;
+
     void setMode(int _mode, bool doUpdate);
     void robotSelected(ra::RoboasmRobotPtr _rb, bool on);
     void updateTree(ra::RoboasmRobotPtr _rb);
@@ -62,6 +63,7 @@ public:
                     std::function<bool(ra::RoboasmCoordsPtr _rb)> test = nullptr);
     void createSubTree(QTreeWidgetItem *_p_itm, ra::RoboasmCoordsPtr _p_coords,
                        std::function<bool(ra::RoboasmCoordsPtr _rb)> test = nullptr);
+    void coordsSelected(ra::RoboasmCoordsPtr _coords);
 };
 }
 void AssemblerTreeView::initializeClass(ExtensionManager* ext)
@@ -84,7 +86,7 @@ AssemblerTreeView::~AssemblerTreeView()
 }
 //
 AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
-    self(_self), tree(nullptr), top_item(nullptr)
+    self(_self), emit_selected(false), manager(nullptr), top_item(nullptr)
 {
     manager = AssemblerManager::instance();
     if(!!manager) {
@@ -107,6 +109,8 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
 
     vbox->addWidget(&modeCombo);
 
+    modeCombo.setCurrentIndex(1);
+    mode = 1;
     //tree settings
     //tree.setColumnCount(1);
     tree.setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -122,7 +126,7 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
     self->setLayout(vbox);
 
     modeCombo.sigCurrentIndexChanged().connect(
-        [&](int index){ setMode(index, true); });
+        [this](int index){ setMode(index, true); });
 
     tree.sigCurrentItemChanged().connect (
         [this](QTreeWidgetItem* cur, QTreeWidgetItem* prev) {
@@ -130,9 +134,13 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
             AssemblerTreeItem *ati = dynamic_cast<AssemblerTreeItem*>(cur);
             if(!!ati && !!(ati->element)) {
                 DEBUG_STREAM(" coords: " << ati->element->name());
+                // pointClicked
+                emit_selected = true;
+                manager->coordsSelected(ati->element);
+                emit_selected = false;
             }
         } );
-#if 1
+#if 0
     tree.sigItemChanged().connect (
         [this](QTreeWidgetItem* item, int column) {
             DEBUG_STREAM(" changed item: " << (!!item ? item->text(0).toStdString() : "none"));
@@ -152,6 +160,9 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
     tree.sigItemSelectionChanged().connect (
         [this]() { DEBUG_STREAM(" selection changed"); } );
 #endif
+
+    manager->sigCoordsSelected().connect(
+        [this] (ra::RoboasmCoordsPtr _coords) { coordsSelected(_coords); } );
 }
 AssemblerTreeView::Impl::~Impl()
 {
@@ -160,6 +171,7 @@ void AssemblerTreeView::Impl::setMode(int _mode, bool doUpdate)
 {
     mode = _mode;
     tree.clear();
+    top_item = nullptr;
     DEBUG_STREAM(" mode: " << mode << ", updata: " << doUpdate);
     if(!!current_selected) {
         updateTree(current_selected);
@@ -177,6 +189,7 @@ void AssemblerTreeView::Impl::robotSelected(ra::RoboasmRobotPtr _rb, bool on)
     } else { // not on
         if(current_selected == _rb) { // current_selected may be deleted
             tree.clear();
+            top_item = nullptr;
             current_selected = nullptr;
         }
     }
@@ -184,6 +197,7 @@ void AssemblerTreeView::Impl::robotSelected(ra::RoboasmRobotPtr _rb, bool on)
 void AssemblerTreeView::Impl::updateTree(ra::RoboasmRobotPtr _rb)
 {
     tree.clear();
+    top_item = nullptr;
     switch(mode) {
     case 0: // all
         createTree(_rb);
@@ -215,7 +229,7 @@ void AssemblerTreeView::Impl::updateTree(ra::RoboasmRobotPtr _rb)
     case 5: // connecting
         createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
                 ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
-                if(!!cp_ && cp_->isConnected() && cp_->isActuator()) return true;
+                if(!!cp_ && cp_->isConnected()) return true;
                 return false; } );
         break;
     case 6: // link
@@ -266,5 +280,17 @@ void AssemblerTreeView::Impl::createSubTree(QTreeWidgetItem *_p_itm,
         } else {
             createSubTree(_p_itm, (*it), test);
         }
+    }
+}
+void AssemblerTreeView::Impl::coordsSelected(ra::RoboasmCoordsPtr _coords)
+{
+    DEBUG_STREAM(" emit_selected: " << emit_selected);
+    if(emit_selected) return;
+    // find _coords
+    // find selected -> false;
+    // itm->setSelected(true);
+    if(!!top_item) {
+
+
     }
 }
