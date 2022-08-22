@@ -4,6 +4,7 @@
 #include "AssemblerItem.h"
 #include "AssemblerView.h"
 #include "AssemblerTreeView.h"
+#include "AssemblerPartsView.h"
 #include "AssemblerBar.h"
 #include "AssemblerManager.h"
 
@@ -124,6 +125,7 @@ bool RobotAssemblerPlugin::initialize()
     //View
     AssemblerView::initializeClass(this);
     AssemblerTreeView::initializeClass(this);
+    AssemblerPartsView::initializeClass(this);
 
     //ToolBar
     addToolBar(AssemblerBar::instance());

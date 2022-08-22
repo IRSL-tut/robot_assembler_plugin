@@ -9,6 +9,7 @@ set(sources
   src/AssemblerView.cpp
   src/AssemblerBar.cpp
   src/AssemblerTreeView.cpp
+  src/AssemblerPartsView.cpp
   )
 set(headers
   src/irsl_choreonoid/Coordinates.h
@@ -22,6 +23,7 @@ set(headers
   src/AssemblerView.h
   src/AssemblerBar.h
   src/AssemblerTreeView.h
+  src/AssemblerPartsView.h
   )
 add_definitions(-Wno-deprecated-declarations)
 add_definitions(-DIRSL_DEBUG)

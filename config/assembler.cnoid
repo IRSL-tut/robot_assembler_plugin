@@ -9,7 +9,6 @@ views:
     id: 0
     plugin: Base
     class: ItemPropertyView
-    mounted: true
   - 
     id: 1
     plugin: Base
@@ -49,7 +48,7 @@ views:
           isCurrent: true
           eye: [ 3, 1.5, 1.2 ]
           direction: [ -0.880451, -0.440225, -0.17609 ]
-          up: [ -0.1575, -0.0787498, 0.984374 ]
+          up: [ -0.1575, -0.0787496, 0.984374 ]
         - 
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -122,10 +121,15 @@ views:
   - 
     id: 10
     plugin: RobotAssembler
-    class: AssemblerTreeView
+    class: AssemblerPartsView
     mounted: true
   - 
     id: 11
+    plugin: RobotAssembler
+    class: AssemblerTreeView
+    mounted: true
+  - 
+    id: 12
     plugin: RobotAssembler
     class: AssemblerView
     mounted: true
@@ -175,29 +179,28 @@ viewAreas:
     contents: 
       type: splitter
       orientation: horizontal
-      sizes: [ 1189, 378 ]
+      sizes: [ 1412, 449 ]
       children: 
         - 
           type: splitter
           orientation: horizontal
-          sizes: [ 307, 878 ]
+          sizes: [ 365, 1043 ]
           children: 
             - 
               type: splitter
               orientation: vertical
-              sizes: [ 212, 693 ]
+              sizes: [ 226, 737 ]
               children: 
                 - 
                   type: pane
                   views: [ 1 ]
                 - 
                   type: pane
-                  views: [ 0, 10 ]
-                  current: 10
+                  views: [ 11 ]
             - 
               type: splitter
               orientation: vertical
-              sizes: [ 742, 163 ]
+              sizes: [ 790, 173 ]
               children: 
                 - 
                   type: pane
@@ -207,8 +210,16 @@ viewAreas:
                   views: [ 3, 9 ]
                   current: 3
         - 
-          type: pane
-          views: [ 11 ]
+          type: splitter
+          orientation: vertical
+          sizes: [ 634, 329 ]
+          children: 
+            - 
+              type: pane
+              views: [ 12 ]
+            - 
+              type: pane
+              views: [ 10 ]
 layoutOfToolBars: 
   rows: 
     - 
