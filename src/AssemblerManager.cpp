@@ -481,39 +481,29 @@ void AssemblerManager::attachRobots(bool _just_align, int increment)
         notifyUpdate();
         return;
     }
-    //cp0->point();
-#if 0
-    DEBUG_STREAM(" attached !! " );
-    {
-        coordsPtrList lst;
-        rb0->allDescendants(lst);
-        int cntr = 0;
-        for(auto it = lst.begin(); it != lst.end(); it++) {
-            std::cerr << cntr++ << " : " << *(*it) << std::endl;
-        }
-    }
-#endif
+    coordinates attach_coords;
+    cp0->point()->worldcoords().transformation(attach_coords, cp1->point()->worldcoords());
     std::string &config_ = ra_settings->listConnectingConfiguration[ccid].name;
     if (cp1->scene_robot()->history.size() == 1) {
         cp0->scene_robot()->attachHistory(
             cp1->scene_robot()->history,
             cp0->point()->parent()->name(), //parent,
-            cp0->point()->name(),           //robot_point,
+            cp0->point()->name(),           //parent_point_url,
             attached_parts->name(),         //parts_name,
             attached_parts->info->type,     //parts_type,
-            cp1->point()->name(),           //parts_point,
-            config_);
+            cp1->point()->name(),           //parts_point_url,
+            attach_coords);
     } else {
         ra::AttachHistory hist_;
         attached_parts->dumpConnectionFromParent(hist_); //??
         cp0->scene_robot()->attachHistory(
             hist_,
             cp0->point()->parent()->name(), //parent,
-            cp0->point()->name(),           //robot_point,
+            cp0->point()->name(),           //parent_point_url,
             attached_parts->name(),         //parts_name,
             attached_parts->info->type,     //parts_type,
-            cp1->point()->name(),           //parts_point,
-            config_);
+            cp1->point()->name(),           //parts_point_url,
+            attach_coords);
     }
     // erase(rb1)
     // update position of cp0,cp1 <- worldcoords
@@ -535,7 +525,6 @@ void AssemblerManager::itemSelected(AssemblerItemPtr itm, bool on)
 void AssemblerManager::loadRoboasm(const std::string &_fname)
 {
     ra::RoboasmRobotPtr rb_ = ra_util->makeRobotFromFile(_fname);
-    rb_->updateDescendants();//?
     if(!!rb_) {
         addAssemblerItem(rb_);
     } else {

@@ -1079,15 +1079,17 @@ static bool parse(ValueNode *_vn, AttachHistoryItem& hist)
     Mapping *mp_ = _vn->toMapping();
     mapString(mp_, "parts-name", hist.parts_name, std::cerr, false);
     mapString(mp_, "parts-type", hist.parts_type, std::cerr, false);
-    mapString(mp_, "parts-point-name", hist.parts_point_name, std::cerr, false);
+    mapString(mp_, "parts-point", hist.parts_point, std::cerr, false);
+    mapString(mp_, "parts-point-url", hist.parts_point_url, std::cerr, false);
     mapString(mp_, "parent", hist.parent, std::cerr, false);
-    mapString(mp_, "parent-point-name", hist.parent_point_name, std::cerr, false);
-    //mapString(mp_, "configuration", hist.configuration, std::cerr, false);
+    mapString(mp_, "parent-point", hist.parent_point, std::cerr, false);
+    mapString(mp_, "parent-point-url", hist.parent_point_url, std::cerr, false);
+    mapString(mp_, "config-name", hist.config_name, std::cerr, false);
     {
-        ValueNode *vn = mp_->find("configuration");
+        ValueNode *vn = mp_->find("connecting-offset");
         if(vn->isValid() && vn->isMapping()) {
             Mapping *m_cds_ = vn->toMapping();
-            parse(m_cds_, hist.conf_coords);
+            parse(m_cds_, hist.connecting_offset);
         }
     }
     ValueNode *vn = mp_->find("initial-parts");
@@ -1169,26 +1171,50 @@ bool RoboasmFile::parseRoboasm(const std::string &_filename)
     }
     return true;
 }
-static inline void dumpCoords(YAMLWriter &yaml_writer, const coordinates &cds)
+static inline void dumpCoords(YAMLWriter &yaml_writer, const coordinates &cds, double eps = 1e-12)
 {
     const Vector3 &v = cds.pos;
     yaml_writer.startFlowStyleMapping();
-    if(v.norm() != 0.0) {
+    if(v.norm() > eps) {
         yaml_writer.putKey("translation");
         yaml_writer.startFlowStyleListing();
-        yaml_writer.putScalar(v(0));
-        yaml_writer.putScalar(v(1));
-        yaml_writer.putScalar(v(2));
+        if(std::fabs(v(0)) <= eps) {
+            yaml_writer.putScalar(0);
+        } else {
+            yaml_writer.putScalar(v(0));
+        }
+        if(std::fabs(v(1)) <= eps) {
+            yaml_writer.putScalar(0);
+        } else {
+            yaml_writer.putScalar(v(1));
+        }
+        if(std::fabs(v(2)) <= eps) {
+            yaml_writer.putScalar(0);
+        } else {
+            yaml_writer.putScalar(v(2));
+        }
         yaml_writer.endListing();
     }
     AngleAxis a(cds.rot);
     Vector3 &av = a.axis();
-    if(a.angle() != 0.0) {
+    if(a.angle() > eps) {
         yaml_writer.putKey("rotation");
         yaml_writer.startFlowStyleListing();
-        yaml_writer.putScalar(av(0));
-        yaml_writer.putScalar(av(1));
-        yaml_writer.putScalar(av(2));
+        if(std::fabs(av(0)) <= eps) {
+            yaml_writer.putScalar(0);
+        } else {
+            yaml_writer.putScalar(av(0));
+        }
+        if(std::fabs(av(1)) <= eps) {
+            yaml_writer.putScalar(0);
+        } else {
+            yaml_writer.putScalar(av(1));
+        }
+        if(std::fabs(av(2)) <= eps) {
+            yaml_writer.putScalar(0);
+        } else {
+            yaml_writer.putScalar(av(2));
+        }
         yaml_writer.putScalar(a.angle());
         yaml_writer.endListing();
     }
@@ -1198,6 +1224,7 @@ bool RoboasmFile::dumpRoboasm(const std::string &_filename)
 {
     YAMLWriter yaml_writer;
     yaml_writer.setMessageSink(std::cerr);
+    yaml_writer.setDoubleFormat("%12.12f");
     if(!yaml_writer.openFile(_filename)) {
         return false;
     }
@@ -1211,26 +1238,19 @@ bool RoboasmFile::dumpRoboasm(const std::string &_filename)
         yaml_writer.putKeyValue("parts-name", (*it).parts_name);
         yaml_writer.putKeyValue("parts-type", (*it).parts_type);
         if(!(*it).initial_parts) {
-            if((*it).parts_point.size() > 0)
-                yaml_writer.putKeyValue("parts-point", (*it).parts_point);
-            if((*it).robot_parts_point.size() > 0)
-                yaml_writer.putKeyValue("robot-parts-point",
-                                        (*it).robot_parts_point);
+            if((*it).parts_point_url.size() > 0)
+                yaml_writer.putKeyValue("parts-point-url", (*it).parts_point_url);
             if((*it).parent.size() > 0)
                 yaml_writer.putKeyValue("parent", (*it).parent);
-
-            if((*it).configuration.size() > 0) {
-                yaml_writer.putKeyValue("configuration", (*it).configuration);
-            } else {
-                if((*it).config_coords.isInitial()) {
+            if((*it).parent_point_url.size() > 0)
+                yaml_writer.putKeyValue("parent-point-url", (*it).parent_point_url);
+            if((*it).connecting_offset.isInitial()) {
                     // no config
-                } else {
-                    yaml_writer.putKey("configuration");
-                    dumpCoords(yaml_writer, (*it).config_coords);
+            } else {
+                if(!(*it).connecting_offset.isInitial(1e-12)) {
+                    yaml_writer.putKey("connecting-offset");
+                    dumpCoords(yaml_writer, (*it).connecting_offset);
                 }
-            }
-            if((*it).inverse) {
-                yaml_writer.putKeyValue("inverse", true);
             }
         } else {
             yaml_writer.putKeyValue("initial-parts", true);

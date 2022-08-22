@@ -459,19 +459,13 @@ bool RoboasmParts::dumpConnectionFromParent(AttachHistory &history)
     if(!info) return false;
     //DEBUG_STREAM(" [" << history.size() << "]  0");
     if(!parent_ptr->isRobot()) {
-        itm.parent = parent_ptr->parent()->parent()->name();
         itm.parts_name = name();
         itm.parts_type = info->type;
-        itm.robot_parts_point = parent_ptr->parent()->name();
-        itm.parts_point = parent_ptr->name();
-        RoboasmConnectingPoint *pp = parent_ptr->parent()->toConnectingPoint();
-        if(pp->hasConfiguration()) {
-            if(pp->definedConfiguration()) {
-                itm.configuration = pp->currentConfiguration();
-            } else {
-                pp->configurationCoords(itm.config_coords);
-            }
-        }
+        itm.parts_point_url = parent_ptr->name();
+        itm.parent = parent_ptr->parent()->parent()->name();
+        itm.parent_point_url = parent_ptr->parent()->name();
+        parent_ptr->parent()->worldcoords().transformation(
+            itm.connecting_offset, parent_ptr->worldcoords());
     } else {
         itm.initial_parts = true;
         itm.parts_name = name();
@@ -1027,17 +1021,17 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
                          << "| type: " << _roboasm_file.history[i].parts_type);
             return nullptr;
         }
-        if (! ret->attach(parts_, _roboasm_file.history[i].parts_point,
-                          _roboasm_file.history[i].robot_parts_point,
-                          _roboasm_file.history[i].configuration) ) {
-            DEBUG_STREAM(" attach error, parts-point: " << _roboasm_file.history[i].parts_point
-                         << " | robot-point: " << _roboasm_file.history[i].robot_parts_point
-                         << " | config: " << _roboasm_file.history[i].configuration);
+        if (! ret->attach(parts_, _roboasm_file.history[i].parts_point_url,
+                          _roboasm_file.history[i].parent_point_url,
+                          _roboasm_file.history[i].connecting_offset) ) {
+            DEBUG_STREAM(" attach error, parts-point: " << _roboasm_file.history[i].parts_point_url
+                         << " | robot-point: " << _roboasm_file.history[i].parent_point_url
+                         << " | offset: " << _roboasm_file.history[i].connecting_offset);
             return nullptr;
         }
     }
     // assemble-config
-    if (!_roboasm_file.config.initial_coords.isInitial()) {
+    if (!_roboasm_file.config.initial_coords.isInitial(1e-12)) {
         DEBUG_STREAM(" initial-coords : " << _roboasm_file.config.initial_coords);
         RoboasmPartsPtr root_ = ret->rootParts();
         if(!!root_) {

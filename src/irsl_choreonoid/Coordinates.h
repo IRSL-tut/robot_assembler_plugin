@@ -199,6 +199,12 @@ namespace cnoid {
             if(aa_.angle() != 0.0) return false;
             return true;
         }
+        bool isInitial(double eps) {
+            if(pos.norm() > eps) return false;
+            AngleAxis aa_(rot);
+            if(aa_.angle() > eps) return false;
+            return true;
+        }
         void set(const Vector3 &p) { pos = p; }
         void set(const Matrix3 &r) { rot = r; }
         void set(const Quaternion &q) { rot = q; }

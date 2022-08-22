@@ -232,10 +232,13 @@ public:
     AttachHistoryItem() : initial_parts(false) {}
     std::string parts_name;
     std::string parts_type;
-    std::string parts_point_name;
+    std::string parts_point;
+    std::string parts_point_url; // parts_name/parts_point
     std::string parent;
-    std::string parent_point_name;
-    coordinates config_coords; //
+    std::string parent_point;
+    std::string parent_point_url; // parent_name/parent_point
+    coordinates connecting_offset; //
+    std::string config_name; // config-name // backward-compatibility?
     bool initial_parts;
 
     std::ostream &print(std::ostream &ostr)
@@ -250,20 +253,20 @@ public:
         if (parts_type.size() > 0) {
             ostr << "(:parts-type " << parts_type << ")";
         }
-        if (parts_point_name.size() > 0) {
-            ostr << "(:parts-point-name " << parts_point_name << ")";
+        if (parts_point_url.size() > 0) {
+            ostr << "(:parts-point-url " << parts_point_url << ")";
         }
         if (parent.size() > 0) {
             ostr << "(:parent " << parent << ")";
         }
-        if (parent_point_name.size() > 0) {
-            ostr << "(:parent-point-name " << parent_point_name << ")";
+        if (parent_point_url.size() > 0) {
+            ostr << "(:parent-point-url " << parent_point_url << ")";
         }
-        ostr << "(:configuration ((";
-        AngleAxis ax_(config_coords.rot);
-        ostr << config_coords.pos(0) << " ";
-        ostr << config_coords.pos(1) << " ";
-        ostr << config_coords.pos(2) << ") (";
+        ostr << "(:connecting-offset ((";
+        AngleAxis ax_(connecting_offset.rot);
+        ostr << connecting_offset.pos(0) << " ";
+        ostr << connecting_offset.pos(1) << " ";
+        ostr << connecting_offset.pos(2) << ") (";
         ostr << ax_.axis()(0) << " ";
         ostr << ax_.axis()(1) << " ";
         ostr << ax_.axis()(2) << " ";

@@ -141,6 +141,7 @@ public:
     ~RoboasmConnectingPoint();
     bool checkValidity();
     // inline??
+    const std::string &point_name() { return info->name; };
     bool isActuator() {
         if (info->getType() != ConnectingPoint::Parts) {
             return true;
@@ -200,10 +201,9 @@ public:
     bool isConnected() { return (descendants.size() > 0); }
     ConnectingPoint *info;
 protected:
-    //void createFromInfo(ConnectingPoint *_info);
-    //connecting point info
-    //virtual ClassIDType classID() override;
-
+    //
+    std::string type_name_;
+    // connecting-info
     ConnectingConfigurationID current_configuration_id;
     std::string configuration_str;
     coordinates configuration_coords;
@@ -227,6 +227,7 @@ public:
     bool parentParts(RoboasmPartsPtr &_res_parent,
                      RoboasmConnectingPointPtr &_res_parent_point,
                      RoboasmConnectingPointPtr &_res_self_point);
+    RoboasmConnectingPointPtr searchConnectingPoint(const std::string &_pname) { return nullptr; } // TODO
     bool isLink() {
       if (!!parent_ptr) {
         if(parent_ptr->isRobot()) return true;
@@ -305,6 +306,26 @@ public:
         coordinates tmp;
         return attach(robot_or_parts, _parts_point, _robot_point,
                       tmp, &_config, nullptr, just_align);
+    }
+    bool attach(RoboasmCoordsPtr robot_or_parts,
+                const std::string &name_parts_point,
+                const std::string &name_robot_point,
+                coordinates &_conf_coords, bool just_align = false) {
+        RoboasmConnectingPointPtr _res_parts_point;
+        RoboasmConnectingPointPtr _res_robot_point;
+        ConnectingConfiguration *_res_config;
+        ConnectingTypeMatch * _res_match;
+        if (! checkAttachByName(robot_or_parts,
+                                name_parts_point, name_robot_point,
+                                "default",
+                                _res_parts_point, _res_robot_point,
+                                _res_config, _res_match) )
+        {
+          std::cerr << "checkAttachByName fail" << std::endl;
+            return false;
+        }
+        return attach(robot_or_parts, _res_parts_point, _res_robot_point,
+                      _conf_coords, nullptr, nullptr, just_align);
     }
     bool attach(RoboasmCoordsPtr robot_or_parts,
                 const std::string &name_parts_point,
