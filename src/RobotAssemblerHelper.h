@@ -92,6 +92,8 @@ public:
         Position p; self->toPosition(p);
         this->position() = p;
     }
+    RASceneParts *searchParts(RoboasmPartsPtr _pt);
+    RASceneConnectingPoint *searchConnectingPoint(RoboasmConnectingPointPtr _pt);
     bool mergeRobot(RASceneRobot *_rb);
 #if 0
     void debug() {

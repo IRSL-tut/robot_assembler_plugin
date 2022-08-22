@@ -235,7 +235,6 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
     {
         ra::RoboasmRobotPtr ptr = ra::RoboasmUtil::toRobot(_coords);
         if (!!ptr) {
-            // pointClicked
             goto endprocess;
         }
     }
@@ -244,6 +243,14 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
         if (!!ptr) {
             bool is_link = ptr->isLink();
             // partsClicked
+            ra::RASceneParts *pt_;
+            for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+                pt_ = (*it)->searchParts(ptr);
+                if(!!pt_) break;
+            }
+            if(!!pt_) {
+                partsClicked(pt_);
+            }
             goto endprocess;
         }
     }
@@ -252,6 +259,15 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
         if (!!ptr) {
             bool is_actuator = ptr->isActuator();
             bool is_connected = ptr->isConnected();
+            // pointClicked
+            ra::RASceneConnectingPoint *pt_;
+            for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+                pt_ = (*it)->searchConnectingPoint(ptr);
+                if(!!pt_) break;
+            }
+            if(!!pt_) {
+                pointClicked(pt_);
+            }
             goto endprocess;
         }
     }

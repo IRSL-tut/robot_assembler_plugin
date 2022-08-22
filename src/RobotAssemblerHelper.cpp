@@ -219,6 +219,28 @@ RASceneRobot::~RASceneRobot()
 {
     DEBUG_STREAM(self->name());
 }
+RASceneParts *RASceneRobot::searchParts(RoboasmPartsPtr _pt)
+{
+    RASceneParts *ret = nullptr;
+    for(auto it = sparts_set.begin(); it != sparts_set.end(); it++) {
+        if((*it)->self == _pt) {
+            ret = *it;
+            break;
+        }
+    }
+    return ret;
+}
+RASceneConnectingPoint *RASceneRobot::searchConnectingPoint(RoboasmConnectingPointPtr _pt)
+{
+    RASceneConnectingPoint *ret = nullptr;
+    for(auto it = spoint_set.begin(); it != spoint_set.end(); it++) {
+        if((*it)->self == _pt) {
+            ret = *it;
+            break;
+        }
+    }
+    return ret;
+}
 bool RASceneRobot::mergeRobot(RASceneRobot *_rb) {
     coordinates base_coords = self->worldcoords();
     coordinates trans;
