@@ -174,6 +174,11 @@ RASceneParts::~RASceneParts()
 RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
     : SgPosTransform(), self(_r)
 {
+    // store origignal coords
+    coordinates org_coords_ = *_r;
+    _r->newcoords();
+    _r->updateDescendants();
+    //
     manager = _ma;
     setName("RB:" + self->name());
     partsPtrList lst;
@@ -204,6 +209,11 @@ RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
     } else {
         //
     }
+    // restore original coords
+    _r->newcoords(org_coords_);
+    _r->updateDescendants();
+    Position p; org_coords_.toPosition(p);
+    setPosition(p);
 }
 RASceneRobot::~RASceneRobot()
 {

@@ -38,6 +38,7 @@ public:
     const coordinates &worldcoords() const {  return buf_worldcoords; }
     void copyWorldcoords(coordinates &w) { w = buf_worldcoords; }
     void newcoords(coordinates &c) {  pos = c.pos; rot = c.rot; update(); }
+    void newcoords() { pos = Vector3::Zero(); rot = Matrix3::Identity(); update(); }
     RoboasmCoords *parent() { return parent_ptr; }
     bool hasParent() { return (!!parent_ptr); }
     bool hasDescendants() { return (descendants.size() > 0); }

@@ -905,7 +905,9 @@ bool RoboasmRobot::createRoboasm(RoboasmFile &_roboasm)
 bool RoboasmRobot::writeConfig(AssembleConfig &_config)
 {
     _config.robot_name = name();
-    _config.initial_coords = worldcoords();
+    RoboasmPartsPtr root_ = rootParts();
+    if(!root_) return false;
+    _config.initial_coords = *root_;
     return true;
 }
 void RoboasmRobot::connectedPoints(connectingPointPtrList &lst)
@@ -1037,9 +1039,13 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
     // assemble-config
     if (!_roboasm_file.config.initial_coords.isInitial()) {
         DEBUG_STREAM(" initial-coords : " << _roboasm_file.config.initial_coords);
-        ret->newcoords(_roboasm_file.config.initial_coords);
-        ret->updateDescendants();
+        RoboasmPartsPtr root_ = ret->rootParts();
+        if(!!root_) {
+            DEBUG_STREAM(" set initial to root(" << root_->name() << ")");
+            root_->newcoords(_roboasm_file.config.initial_coords);
+        }
     }
+    ret->updateDescendants();
     return ret;
 }
 std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &cds)
