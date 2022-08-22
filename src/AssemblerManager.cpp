@@ -457,7 +457,7 @@ void AssemblerManager::attachRobots(bool _just_align, int increment)
             config_);
     } else {
         ra::AttachHistory hist_;
-        attached_parts->dumpConnectFromParent(hist_); //??
+        attached_parts->dumpConnectionFromParent(hist_); //??
         cp0->scene_robot()->attachHistory(
             hist_,
             cp0->point()->parent()->name(), //parent,

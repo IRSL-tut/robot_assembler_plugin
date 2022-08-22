@@ -188,11 +188,19 @@ public:
     RoboasmParts(const std::string &_name, Parts *_info);
     ~RoboasmParts();
     bool checkValidity();
-    bool dumpConnectFromParent(AttachHistory &history);
+    bool dumpConnectionFromParent(AttachHistory &history);
     void childParts(partsPtrList &lst);  // parts of just direct child
     bool parentParts(RoboasmPartsPtr &_res_parent,
                      RoboasmConnectingPointPtr &_res_parent_point,
                      RoboasmConnectingPointPtr &_res_self_point);
+    bool isLink() {
+      if (!!parent_ptr) {
+        if(parent_ptr->isRobot()) return true;
+        if(parent_ptr->toConnectingPoint()->isActuator()) return true;
+        if(!!parent_ptr->parent() && parent_ptr->parent()->toConnectingPoint()->isActuator()) return true;
+      }
+      return false;
+    }
     Parts *info;
 protected:
     void createConnectingPoints(const std::string &_namespace);
@@ -218,7 +226,6 @@ public:
     // robot info
     //virtual ClassIDType classID() override;
     bool reverseParentChild(RoboasmPartsPtr _parent, RoboasmConnectingPointPtr _chld); // static method
-    bool changeRoot(RoboasmConnectingPointPtr _chld); // static method
     bool checkCorrectPoint(RoboasmCoordsPtr robot_or_parts,
                            RoboasmConnectingPointPtr _parts_point, RoboasmConnectingPointPtr _robot_point);
     bool checkAttachByName(RoboasmCoordsPtr robot_or_parts,
@@ -291,8 +298,11 @@ public:
                 ConnectingConfiguration *_config = nullptr,
                 ConnectingTypeMatch *_match = nullptr,
                 bool just_align = false);
+    //this method destroy robot structure...
+    bool changeRoot(RoboasmConnectingPointPtr _chld); // static method
 
     // RoboasmRobotPtr detach(RoboasmPartsPtr _parts);
+    // RoboasmRobotPtr detach(RoboasmConnectiongPtr _parts);
     size_t partsNum() {
         partsPtrList lst;
         allParts(lst);
@@ -343,6 +353,16 @@ public:
     }
     static RoboasmRobotPtr toRobot(RoboasmCoordsPtr p) {
         return std::dynamic_pointer_cast<RoboasmRobot>(p);
+    }
+    static const std::string &typeName(RoboasmCoordsPtr p) {
+        static std::string robot_ = "robot";
+        static std::string parts_ = "parts";
+        static std::string connecting_point_ = "connecting_point";
+        static std::string none_;
+        if(p->isRobot()) return robot_;
+        if(p->isParts()) return parts_;
+        if(p->isConnectingPoint()) return connecting_point_;
+        return none_;
     }
     RoboasmPartsPtr makeParts(const std::string &_parts_key);
     RoboasmPartsPtr makeParts(const std::string &_parts_key, const std::string &_parts_name);

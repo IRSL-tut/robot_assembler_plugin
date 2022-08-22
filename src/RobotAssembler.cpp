@@ -448,7 +448,7 @@ bool RoboasmParts::checkValidity()
     }
     return true;
 }
-bool RoboasmParts::dumpConnectFromParent(AttachHistory &history)
+bool RoboasmParts::dumpConnectionFromParent(AttachHistory &history)
 {// rewrite using parentParts()
     //DEBUG_STREAM(" [" << history.size() << "] : " << name());
     AttachHistoryItem itm;
@@ -482,7 +482,7 @@ bool RoboasmParts::dumpConnectFromParent(AttachHistory &history)
     childParts(lst);
     //DEBUG_STREAM(" " << lst.size());
     for(auto it = lst.begin(); it != lst.end(); it++) {
-        if(!(*it)->dumpConnectFromParent(history)) {
+        if(!(*it)->dumpConnectionFromParent(history)) {
             return false;
         }
     }
@@ -610,13 +610,12 @@ bool RoboasmRobot::reverseParentChild(RoboasmPartsPtr _parent, RoboasmConnecting
 bool RoboasmRobot::changeRoot(RoboasmConnectingPointPtr _chld)
 {
     coordsPtrList lst;
-    _chld->toRootList(lst);
+    _chld->toRootList(lst); // it contains coords from self to root-parts
     DEBUG_STREAM(" lst.size() = " << lst.size());
     if(lst.size() < 1) {
         DEBUG_STREAM(" lst.size() = " << lst.size());
         return false;
     }
-
     for(auto it = lst.begin(); it != lst.end(); it++) {
         DEBUG_STREAM(" dissocFromParent " << (*it)->name());
         if ( !(*it)->dissocFromParent() ) {
@@ -896,7 +895,7 @@ bool RoboasmRobot::createRoboasm(RoboasmFile &_roboasm)
 {
     RoboasmPartsPtr init_pt_ = rootParts();
     if(!init_pt_) return false;
-    init_pt_->dumpConnectFromParent(_roboasm.history);
+    init_pt_->dumpConnectionFromParent(_roboasm.history);
     return writeConfig(_roboasm.config);
 }
 bool RoboasmRobot::writeConfig(AssembleConfig &_config)

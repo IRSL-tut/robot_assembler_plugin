@@ -200,7 +200,7 @@ RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
         itm.parts_type = lst[0]->info->type;
         history.push_back(itm);
     } else if (lst.size() > 1) {
-        lst[0]->dumpConnectFromParent(history);
+        lst[0]->dumpConnectionFromParent(history);
     } else {
         //
     }
