@@ -30,13 +30,16 @@ ConnectingConstraintSettings:
       allowed-configuration: [fixed, invert, rotate-90, rotate90]
     -
       pair: [HORN, HORN-F]
-      allowed-configuration: [fixed]
+      allowed-configuration: [fixed, rotate-90, rotate90]
     - 
       pair: [SERVO_SIDE, FRAME_F3_SERVO]
       allowed-configuration: [fixed]
     -
       pair: [FRAME, FRAME]
       allowed-configuration: [invert, invert-rotate90, invert-rotate180, invert-rotate-90]
+    -
+      pair: [FRAME, HORN]
+      allowed-configuration: [rotate-x90, rotate-z90-x90, rotate-z180-x90, rotate-z-90-x90]
     -
       pair: [LEGO-2P, LEGO-2S]
       allowed-configuration: [fixed, invert]
@@ -118,6 +121,23 @@ ConnectingConstraintSettings:
       name: invert-rotate-90
       description: 'rotate 180[deg] around z-axis and rotate -90[deg]'
       rotation: [0.70710678118654752440084436210485, 0, 0.70710678118654752440084436210485, 180]
+    -
+      name: rotate-x90
+      description: 'rotate 90[deg] around x-axis'
+      rotation: [1, 0, 0, 90]
+    -
+      name: rotate-z90-x90
+      description: 'rotate 90[deg] around x-axis'
+      rotation: [0.577, 0.577, 0.577, 120]
+    -
+      name: rotate-z180-x90
+      description: 'rotate 90[deg] around x-axis'
+      rotation: [0, 0.707, 0.707, 180]
+    -
+      name: rotate-z-90-x90
+      description: 'rotate 90[deg] around x-axis'
+      rotation: [0.577, -0.577, -0.577, 120]
+
 
 PanelSettings: ## just for choreonoid
   tab_list:
@@ -200,7 +220,7 @@ PartsSettings:
       -
         name: horn05
         types: [HORN]
-        translation: [0.0, 0.0, 20.0]
+        translation: [0.0, 0.0, 21.0]
         rotation: [1.0, 0.0, 0.0, 0.0]
         actuator-type: rotational
         axis: z
