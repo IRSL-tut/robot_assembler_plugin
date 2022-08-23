@@ -233,25 +233,25 @@ public:
     std::string parts_name;
     std::string parts_type;
     std::string parts_point;
-    std::string parts_point_url; // parts_name/parts_point
+    std::string parts_point_url; // parts_name/parts_point | backward-compatibility
     std::string parent;
     std::string parent_point;
-    std::string parent_point_url; // parent_name/parent_point
+    std::string parent_point_url; // parent_name/parent_point | backward-compatibility
     coordinates connecting_offset; //
-    std::string config_name; // config-name // backward-compatibility?
+    std::string config_name; // config-name | backward-compatibility
     bool initial_parts;
 
     std::ostream &print(std::ostream &ostr)
     {
         ostr << "(";
-        if (parent.size() > 0) {
-            ostr << "(:parent " << parent << ")";
-        }
         if (parts_name.size() > 0) {
             ostr << "(:parts-name " << parts_name << ")";
         }
         if (parts_type.size() > 0) {
             ostr << "(:parts-type " << parts_type << ")";
+        }
+        if (parts_point.size() > 0) {
+            ostr << "(:parts-point " << parts_point << ")";
         }
         if (parts_point_url.size() > 0) {
             ostr << "(:parts-point-url " << parts_point_url << ")";
@@ -259,8 +259,14 @@ public:
         if (parent.size() > 0) {
             ostr << "(:parent " << parent << ")";
         }
+        if (parent_point.size() > 0) {
+            ostr << "(:parent-point " << parent_point << ")";
+        }
         if (parent_point_url.size() > 0) {
             ostr << "(:parent-point-url " << parent_point_url << ")";
+        }
+        if (config_name.size() > 0) {
+            ostr << "(:config-name " << config_name << ")";
         }
         ostr << "(:connecting-offset ((";
         AngleAxis ax_(connecting_offset.rot);

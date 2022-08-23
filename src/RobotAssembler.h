@@ -34,6 +34,7 @@ public:
     RoboasmCoords(const std::string &_name);
     ~RoboasmCoords();
     const std::string &name() const { return name_str; }
+    virtual const std::string &point_name() { return name_str; };
     coordinates &worldcoords() { return buf_worldcoords; }
     const coordinates &worldcoords() const {  return buf_worldcoords; }
     void copyWorldcoords(coordinates &w) { w = buf_worldcoords; }
@@ -141,7 +142,7 @@ public:
     ~RoboasmConnectingPoint();
     bool checkValidity();
     // inline??
-    const std::string &point_name() { return info->name; };
+    virtual const std::string &point_name() override { return info->name; };
     bool isActuator() {
         if (info->getType() != ConnectingPoint::Parts) {
             return true;

@@ -461,9 +461,11 @@ bool RoboasmParts::dumpConnectionFromParent(AttachHistory &history)
     if(!parent_ptr->isRobot()) {
         itm.parts_name = name();
         itm.parts_type = info->type;
-        itm.parts_point_url = parent_ptr->name();
+        itm.parts_point_url = parent_ptr->name(); // backward compatibility
+        itm.parts_point = parent_ptr->point_name();
         itm.parent = parent_ptr->parent()->parent()->name();
-        itm.parent_point_url = parent_ptr->parent()->name();
+        itm.parent_point_url = parent_ptr->parent()->name();  // backward compatibility
+        itm.parent_point = parent_ptr->parent()->point_name();
         parent_ptr->parent()->worldcoords().transformation(
             itm.connecting_offset, parent_ptr->worldcoords());
     } else {
