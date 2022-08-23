@@ -193,8 +193,7 @@ PartsSettings:
         name: horn05
         types: [HORN]
         translation: [0.0, 0.0, 21.0]
-        # rotation: [1.0, 0.0, 0.0, 0.0]
-        rotation: [-0.7071, -0.7071, 0.0, 180.0]
+        rotation: [0.0, 0.0, 1.0, 90.0]
         actuator-type: rotational
         axis: z
         limit: [-1.57, 1.57]
@@ -248,19 +247,19 @@ PartsSettings:
       name: horn-f
       types: [HORN-F]
       translation: [20.9, 26.5, 0.0]
-      rotation: [0.57735, -0.57735, -0.57735, 120.0]
+      rotation: [-0.57735, 0.57735, -0.57735, 120.0]
     - name: f2_frame0
       types: [FRAME]
       translation: [-8.0, 0.0, 0.0]
-      rotation: [1.0, 0.0, 0.0, 90.0]
+      rotation: [1.0, 0.0, 0.0, -90.0]
     - name: f2_frame1
       types: [FRAME]
       translation: [0.0, 0.0, 0.0]
-      rotation: [1.0, 0.0, 0.0, 90.0]
+      rotation: [1.0, 0.0, 0.0, -90.0]
     - name: f2_frame2
       types: [FRAME]
       translation: [8.0, 0.0, 0.0]
-      rotation: [1.0, 0.0, 0.0, 90.0]
+      rotation: [1.0, 0.0, 0.0, -90.0]
 
   -
     type: ax-12a-f3
@@ -289,7 +288,7 @@ PartsSettings:
     - name: f3_frame
       types: [FRAME]
       translation: [0.0, 0.0, 0.0]
-      rotation: [1.0, 0.0, 0.0, 90.0]
+      rotation: [1.0, 0.0, 0.0, -90.0]
 
   -
     type: ax-12a-f3-p
