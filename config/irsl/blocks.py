@@ -48,15 +48,15 @@ def print_one_geom(row, column, height_, color = None, strm = sys.stdout):
         for iy in range(0, column):
             print_connecting_point('PL1_{}_{}'.format(ix,iy), 'PC1', (ix + 0.5) * stud, (iy + 0.5) * stud, 0)
             print_connecting_point('SK1_{}_{}'.format(ix,iy), 'SC1', (ix + 0.5) * stud, (iy + 0.5) * stud, - height_)
-            if iy > 0:
-                print_connecting_point('PL2X_{}_{}'.format(ix,iy), 'PC2', (ix + 0.5) * stud, (iy + 0.0) * stud, 0, rotate = 90)
-                print_connecting_point('SK2X_{}_{}'.format(ix,iy), 'SC2', (ix + 0.5) * stud, (iy + 0.0) * stud, - height_, rotate = 90)
-            if ix > 0:
-                print_connecting_point('PL2Y_{}_{}'.format(ix,iy), 'PC2', (ix + 0.0) * stud, (iy + 0.5) * stud, 0)
-                print_connecting_point('SK2Y_{}_{}'.format(ix,iy), 'SC2', (ix + 0.0) * stud, (iy + 0.5) * stud, - height_)
-            if ix > 0 and iy > 0:
-                print_connecting_point('PL4_{}_{}'.format(ix,iy), 'PC4', ix * stud, iy * stud, 0)
-                print_connecting_point('SK4_{}_{}'.format(ix,iy), 'SC4', ix * stud, iy * stud, - height_)
+#            if iy > 0:
+#                print_connecting_point('PL2X_{}_{}'.format(ix,iy), 'PC2', (ix + 0.5) * stud, (iy + 0.0) * stud, 0, rotate = 90)
+#                print_connecting_point('SK2X_{}_{}'.format(ix,iy), 'SC2', (ix + 0.5) * stud, (iy + 0.0) * stud, - height_, rotate = 90)
+#            if ix > 0:
+#                print_connecting_point('PL2Y_{}_{}'.format(ix,iy), 'PC2', (ix + 0.0) * stud, (iy + 0.5) * stud, 0)
+#                print_connecting_point('SK2Y_{}_{}'.format(ix,iy), 'SC2', (ix + 0.0) * stud, (iy + 0.5) * stud, - height_)
+#            if ix > 0 and iy > 0:
+#                print_connecting_point('PL4_{}_{}'.format(ix,iy), 'PC4', ix * stud, iy * stud, 0)
+#                print_connecting_point('SK4_{}_{}'.format(ix,iy), 'SC4', ix * stud, iy * stud, - height_)
 
 plate_lst = [
 (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 8), (1, 10), (1, 12),
