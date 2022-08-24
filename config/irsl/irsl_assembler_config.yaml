@@ -190,7 +190,7 @@ PartsSettings:
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     actuators:
       -
-        name: horn05
+        name: horn
         types: [HORN]
         translation: [0.0, 0.0, 21.0]
         rotation: [0.0, 0.0, 1.0, 90.0]
@@ -201,28 +201,33 @@ PartsSettings:
     - 
         name: right-side1
         types: [SERVO_SIDE]
-        translation: [19.5, -14.5, 16.0]
-        rotation: [0.0, 0.0, 1.0, 90.0]
+        # translation: [19.5, -14.5, 16.0]
+        translation: [13.5, -22.5, 16.0]
+        rotation: [0.0, 1.0, 0.0, -180.0]
     - 
         name: right-side2
         types: [SERVO_SIDE]
-        translation: [19.5, -22.5, 16.0]
-        rotation: [0.0, 0.0, 1.0, 90.0]
+        # translation: [19.5, -22.5, 16.0]
+        translation: [13.5, -30.5, 16.0]
+        rotation: [0.0, 1.0, 0.0, -180.0]
     - 
         name: left-side1
         types: [SERVO_SIDE]
-        translation: [-19.5, -14.5, 16.0]
-        rotation: [0.0, 0.0, 1.0, -90.0]
+        # translation: [-19.5, -14.5, 16.0]
+        translation: [-13.5, -6.5, 16.0]
+        rotation: [-1.0, 0.0, 0.0, 180.0]
     - 
         name: left-side2
         types: [SERVO_SIDE]
-        translation: [-19.5, -22.5, 16.0]
-        rotation: [0.0, 0.0, 1.0, -90.0]
+        # translation: [-19.5, -22.5, 16.0]
+        translation: [-13.5, -14.5, 16.0]
+        rotation: [-1.0, 0.0, 0.0, 180.0]
     - 
         name: bottom-side
         types: [SERVO_SIDE]
-        translation: [0, -41.5, 16.0]
-        rotation: [0.0, 0.0, 1.0, 0.0]
+        # translation: [0, -41.5, 16.0]
+        translation: [-8, -36, 16.0]
+        rotation: [-0.707, -0.707, 0., 180.0]
         
   -
     type: ax-12a-f2
@@ -283,8 +288,9 @@ PartsSettings:
     - 
       name: f3_servo
       types: [FRAME_F3_SERVO]
-      translation: [16.0, 0.0, 0.0]
-      rotation: [0., 1., 0., 90.0]
+      # translation: [16.0, 0.0, 0.0]
+      translation: [16.0, 5.5, 8.0]
+      rotation: [-0.57735, -0.57735, 0.57735, 120.0]
     - name: f3_frame
       types: [FRAME]
       translation: [0.0, 0.0, 0.0]
@@ -312,8 +318,10 @@ PartsSettings:
     - 
       name: f3_servo
       types: [FRAME_F3_SERVO]
-      translation: [16.0, 0.0, 0.0]
-      rotation: [0., 1., 0., 90.0]
+      # translation: [16.0, 0.0, 0.0]
+      # rotation: [0., 1., 0., 90.0]
+      translation: [16.0, 5.5, 8.0]
+      rotation: [-0.57735, -0.57735, 0.57735, 120.0]
     -
       name: p1_0_0
       types : [PC1]
@@ -511,8 +519,10 @@ PartsSettings:
     - 
       name: f3_servo
       types: [FRAME_F3_SERVO]
-      translation: [16.0, 0.0, 0.0]
-      rotation: [0., 1., 0., 90.0]
+      # translation: [16.0, 0.0, 0.0]
+      # rotation: [0., 1., 0., 90.0]
+      translation: [16.0, 5.5, 8.0]
+      rotation: [-0.57735, -0.57735, 0.57735, 120.0]
     -
       name: s1_0_0
       types : [SC1]
