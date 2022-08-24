@@ -827,7 +827,7 @@ bool AssemblerManager::parseButtonYaml(const std::string &filename, PanelSetting
         }
     }
     if (!ret) {
-        std::cerr << "failed parse settings" << std::endl;
+        std::cerr << "failed parseButtonYaml" << std::endl;
         return false;
     }
     return true;

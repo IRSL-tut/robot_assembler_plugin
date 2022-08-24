@@ -1023,13 +1023,48 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
                          << "| type: " << _roboasm_file.history[i].parts_type);
             return nullptr;
         }
-        if (! ret->attach(parts_, _roboasm_file.history[i].parts_point_url,
-                          _roboasm_file.history[i].parent_point_url,
-                          _roboasm_file.history[i].connecting_offset) ) {
-            DEBUG_STREAM(" attach error, parts-point: " << _roboasm_file.history[i].parts_point_url
-                         << " | robot-point: " << _roboasm_file.history[i].parent_point_url
-                         << " | offset: " << _roboasm_file.history[i].connecting_offset);
+        // parts_point_url, parent_point_url, config_name <=: old version
+        // require (parts_name and parts_point) OR parts_point_url
+        // require (parent and parent_point) OR parent_point_url
+        // require connecting_offset OR config_name
+        std::string parts_point_url_;
+        std::string parent_point_url_;
+        if (_roboasm_file.history[i].parts_point_url.size() > 0) {
+            parts_point_url_ = _roboasm_file.history[i].parts_point_url;
+        } else if (_roboasm_file.history[i].parts_point.size() > 0 &&
+                   _roboasm_file.history[i].parts_name.size() > 0) {
+            parts_point_url_ = _roboasm_file.history[i].parts_name +
+                               "/" + _roboasm_file.history[i].parts_point;
+        } else {
+            ERROR_STREAM(" there is no valid parts_point_url");
             return nullptr;
+        }
+        if (_roboasm_file.history[i].parent_point_url.size() > 0) {
+            parent_point_url_ = _roboasm_file.history[i].parent_point_url;
+        } else if (_roboasm_file.history[i].parent_point.size() > 0 &&
+                   _roboasm_file.history[i].parent.size() > 0) {
+            parent_point_url_ = _roboasm_file.history[i].parent +
+                                "/" + _roboasm_file.history[i].parent_point;
+        } else {
+            ERROR_STREAM(" there is no valid parent_point_url");
+            return nullptr;
+        }
+        if (_roboasm_file.history[i].config_name.size() > 0) {
+            if (! ret->attach(parts_, parts_point_url_, parent_point_url_,
+                              _roboasm_file.history[i].config_name) ) {
+                DEBUG_STREAM(" attach error, parts-point-url: " << parts_point_url_
+                             << " | robot-point-url: " << parent_point_url_
+                             << " | config-name: " << _roboasm_file.history[i].config_name);
+                return nullptr;
+            }
+        } else {
+            if (! ret->attach(parts_, parts_point_url_, parent_point_url_,
+                              _roboasm_file.history[i].connecting_offset) ) {
+                DEBUG_STREAM(" attach error, parts-point-url: " << parts_point_url_
+                             << " | robot-point-url: " << parent_point_url_
+                             << " | offset: " << _roboasm_file.history[i].connecting_offset);
+                return nullptr;
+            }
         }
     }
     // assemble-config

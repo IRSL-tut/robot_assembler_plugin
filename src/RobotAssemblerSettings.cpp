@@ -1238,12 +1238,18 @@ bool RoboasmFile::dumpRoboasm(const std::string &_filename)
         yaml_writer.putKeyValue("parts-name", (*it).parts_name);
         yaml_writer.putKeyValue("parts-type", (*it).parts_type);
         if(!(*it).initial_parts) {
-            if((*it).parts_point_url.size() > 0)
+            if((*it).parts_point.size() > 0)
+                yaml_writer.putKeyValue("parts-point", (*it).parts_point);
+            if((*it).parts_point.size() == 0 && (*it).parts_point_url.size() > 0)
                 yaml_writer.putKeyValue("parts-point-url", (*it).parts_point_url);
             if((*it).parent.size() > 0)
                 yaml_writer.putKeyValue("parent", (*it).parent);
-            if((*it).parent_point_url.size() > 0)
+            if((*it).parent_point.size() > 0)
+                yaml_writer.putKeyValue("parent-point", (*it).parent_point);
+            if( ((*it).parent.size() == 0 || (*it).parent_point.size() == 0) &&
+                (*it).parent_point_url.size() > 0 ) {
                 yaml_writer.putKeyValue("parent-point-url", (*it).parent_point_url);
+            }
             if((*it).connecting_offset.isInitial()) {
                     // no config
             } else {
