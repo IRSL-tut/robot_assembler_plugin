@@ -323,7 +323,7 @@ bool Settings::Impl::parseYaml(const std::string &filename)
 {
     YAMLReader yaml_reader;
     if (! yaml_reader.load(filename)) {
-        std::cerr << "File Loading error : " << filename << std::endl;
+        ERROR_STREAM(" File Loading error : " << filename);
         return false;
     }
     //[TODO] config_path
@@ -334,14 +334,14 @@ bool Settings::Impl::parseYaml(const std::string &filename)
             std::string key = "GeneralSettings";
             ValueNode *target = val->toMapping()->find(key);
             if(target->isValid()) {
-                std::cout << "--- target " << key << " found ---" << std::endl;
+                DEBUG_STREAM("--- target " << key << " found ---");
                 ret = parseGeneralSettings(target);
                 break;
             }
         }
     }
     if (!ret) {
-        std::cerr << "failed parse settings" << std::endl;
+        ERROR_STREAM(" failed parse settings");
         return false;
     }
     //
@@ -352,14 +352,14 @@ bool Settings::Impl::parseYaml(const std::string &filename)
             std::string key = "ConnectingConstraintSettings";
             ValueNode *target = val->toMapping()->find(key);
             if(target->isValid()) {
-                std::cout << "--- target " << key << " found ---" << std::endl;
+                DEBUG_STREAM("--- target " << key << " found ---");
                 ret = parseConnectingConstraintSettings(target);
                 break;
             }
         }
     }
     if (!ret) {
-        std::cerr << "failed parse constraint" << std::endl;
+        ERROR_STREAM(" failed parse constraint");
         return false;
     }
     //
@@ -370,14 +370,14 @@ bool Settings::Impl::parseYaml(const std::string &filename)
             std::string key = "PartsSettings";
             ValueNode *target = val->toMapping()->find(key);
             if(target->isValid()) {
-                std::cout << "--- target " << key << " found ---" << std::endl;
+                DEBUG_STREAM("--- target " << key << " found ---");
                 ret = parsePartsSettings(target);
                 break;
             }
         }
     }
     if (!ret) {
-        std::cerr << "failed parse parts" << std::endl;
+        ERROR_STREAM(" failed parse parts");
         return false;
     }
 
@@ -397,6 +397,7 @@ bool Settings::Impl::parseGeneralSettings(ValueNode *vn)
     ValueNode *target = vn->toMapping()->find("angleUnit");
     if(target->isValid() && target->isString()) {
         std::string str = target->toString();
+        DEBUG_STREAM("[config] angle: " << str);
         if (str == "deg" || str == "degree" || str == "DEG" || str == "DEGREE" ) {
             _a_unit = ::UnitConfig::degree;
         }
@@ -406,6 +407,7 @@ bool Settings::Impl::parseGeneralSettings(ValueNode *vn)
     ValueNode *target = vn->toMapping()->find("lengthUnit");
     if(target->isValid() && target->isString()) {
         std::string str = target->toString();
+        DEBUG_STREAM("[config] length: " << str);
         if (str == "mm" || str == "MM" || str == "millimeter" || str == "Millimeter" ) {
             _l_unit = ::UnitConfig::mm;
         }
@@ -415,6 +417,7 @@ bool Settings::Impl::parseGeneralSettings(ValueNode *vn)
     ValueNode *target = vn->toMapping()->find("massUnit");
     if(target->isValid() && target->isString()) {
         std::string str = target->toString();
+        DEBUG_STREAM("[config] mass: " << str);
         if (str == "g" || str == "gram" ) {
             _m_unit = ::UnitConfig::g;
         }
@@ -458,9 +461,8 @@ bool Settings::Impl::parseConnectingConstraintSettings(ValueNode *vn)
         if(target->isValid() && target->isListing()) {
             Listing *lst = target->toListing();
             bool maplist = true;
-            std::cerr << "conf-list / size: " << lst->size() << std::endl;
+            DEBUG_STREAM(" conf-list / size: " << lst->size());
             for(int i = 0; i < lst->size(); i++) {
-                std::cerr << "c " << i << std::endl;
                 ConnectingConfiguration _conf;
                 if (! parseConnectingConf(lst->at(i), _conf)) {
                     maplist = false;
@@ -471,12 +473,10 @@ bool Settings::Impl::parseConnectingConstraintSettings(ValueNode *vn)
                 reverseConfNames.insert(std::make_pair(_conf.name, i));
             }
             if (!maplist) {
-                // [todo] invalid type
-                std::cerr << "invalid type 0" << std::endl;
+                ERROR_STREAM(" invalid connecting-configuration-list");
             }
         } else {
-            // [todo] error ?
-            std::cerr << "error 0" << std::endl;
+            ERROR_STREAM(" error connecting-configuration-list");
             return false;
         }
     }
@@ -485,9 +485,8 @@ bool Settings::Impl::parseConnectingConstraintSettings(ValueNode *vn)
         if(target->isValid() && target->isListing()) {
             Listing *lst = target->toListing();
             bool maplist = true;
-            std::cerr << "match-list / size: " << lst->size() << std::endl;
+            DEBUG_STREAM("match-list / size: " << lst->size());
             for(int i = 0; i < lst->size(); i++) {
-                std::cerr << "m " << i << std::endl;
                 ConnectingTypeMatch _match;
                 if (! parseConnectingTypeMatch(lst->at(i), _match)) {
                     maplist = false;
@@ -497,12 +496,10 @@ bool Settings::Impl::parseConnectingConstraintSettings(ValueNode *vn)
                 self->listConnectingTypeMatch.push_back(_match);
             }
             if (!maplist) {
-                // [todo] invalid type
-                std::cerr << "invalid type 1" << std::endl;
+                ERROR_STREAM(" invalid connecting-type-match-list");
             }
         } else {
-            // [todo] error ?
-            std::cerr << "error 1" << std::endl;
+            ERROR_STREAM(" error connecting-type-match-list");
         }
     }
     return true;
@@ -520,15 +517,13 @@ bool Settings::Impl::parseCoords(Mapping *map_, coordinates &cds)
                 uc.convRotationAngle(vec, _aa);
                 cds.set(_aa);
             } else {
-                std::cerr << "<<rotation size is required to be more than 4:" << std::endl;
+                ERROR_STREAM(" rotation size is required to be more than 4:");
                 ::printNode(std::cerr, val);
-                std::cerr << ">>" << std::endl;
                 all_res = false;
             }
         } else {
-            std::cerr << "<<rotation is required to be a list:" << std::endl;
+            ERROR_STREAM(" rotation is required to be a list:");
             ::printNode(std::cerr, val);
-            std::cerr << ">>" << std::endl;
             all_res = false;
         }
     } }
@@ -542,15 +537,13 @@ bool Settings::Impl::parseCoords(Mapping *map_, coordinates &cds)
                 uc.convPoint(vec, _a_pos);
                 cds.set(_a_pos);
             } else {
-                std::cerr << "<<translation size is required to be more than 3:" << std::endl;
+                ERROR_STREAM(" translation size is required to be more than 3:");
                 ::printNode(std::cerr, val);
-                std::cerr << ">>" << std::endl;
                 all_res = false;
             }
         } else {
-            std::cerr << "<<translation is required to be a list:" << std::endl;
+            ERROR_STREAM(" translation is required to be a list:");
             ::printNode(std::cerr, val);
-            std::cerr << ">>" << std::endl;
             all_res = false;
         }
     } }
@@ -567,8 +560,7 @@ bool Settings::Impl::parseConnectingConf(ValueNode *vn, ConnectingConfiguration 
     if (ret->isValid() && ret->isScalar()) {
         out.name = ret->toString();
     } else {
-        // [todo] error message
-        std::cerr << "not scalar" << std::endl;
+        ERROR_STREAM(" not scalar");
         return false;
     }
     ret = val->find("description");
@@ -642,9 +634,8 @@ bool Settings::Impl::parsePartsSettings(ValueNode *vn)
         if(parseParts(lst->at(i), pt)) {
             self->mapParts.insert(std::make_pair(pt.type, pt));
         } else {
-            std::cerr << "<<parseParts error: "<< std::endl;
+            ERROR_STREAM(" parseParts error: ");
             ::printNode(std::cerr, lst->at(i));
-            std::cerr << ">>"<< std::endl;
         }
     }
     return true;
@@ -711,7 +702,7 @@ bool Settings::Impl::parseParts(ValueNode *vn, Parts &out)
             if (com.size() >= 3) {
                 uc.convPoint(com, out.COM);
             } else {
-                std::cerr << "size of center-of-mass is required to be more than 3:" << std::endl;
+                ERROR_STREAM(" size of center-of-mass is required to be more than 3:");
                 return false;
             }
         }
@@ -723,13 +714,13 @@ bool Settings::Impl::parseParts(ValueNode *vn, Parts &out)
             if (it.size() >= 9) {
                 uc.convInertiaTensor(it, out.inertia_tensor);
             } else {
-                std::cerr << "size of inertia-tensor is required to be more than 9 (6):" << std::endl;
+                ERROR_STREAM(" size of inertia-tensor is required to be more than 9 (6):");
                 return false;
             }
         }
         out.hasMassParam = true;
     } else if (!!val) {
-        std::cerr << "mass-param required to be dictionary type" << std::endl;
+        ERROR_STREAM(" mass-param required to be dictionary type");
         ::printNode(std::cerr, val);
     } } // mass-param
 
@@ -810,7 +801,7 @@ bool Settings::Impl::parseGeometry(ValueNode *vn, Geometry &geom)
     } else if (tp_ == "ellipsoid") {
         geom.type = Geometry::Ellipsoid;
     } else if (tp_.size() > 0) {
-        std::cerr << "unknown geometry type: " << tp_ << std::endl;
+        ERROR_STREAM(" unknown geometry type: " << tp_);
         return false;
     }
     if (geom.type == Geometry::None) {
@@ -887,21 +878,18 @@ bool Settings::Impl::parseGeometry(ValueNode *vn, Geometry &geom)
         }
         //
         if (geom.type == Geometry::None) {
-            // [todo]
-            std::cerr << "Could not found geometry type!" << std::endl;
+            ERROR_STREAM(" Could not found geometry type!");
             return false;
         }
     } else if (geom.type == Geometry::Mesh) {
         if(! mapString(mp, "url", geom.url, std::cerr, true)) {
-            // [todo]
-            std::cerr << "mesh type geometry requires url:" << std::endl;
+            ERROR_STREAM(" mesh type geometry requires url:");
             return false;
         }
     } else {
         std::vector<double> vec;
         if(! mapVector(mp, "parameter", vec, std::cerr, true)) {
-            // [todo]
-            std::cerr << "non mesh type geometry requires parameter:" << std::endl;
+            ERROR_STREAM(" non mesh type geometry requires parameter:");
             return false;
         }
         std::vector<double> nvec;
@@ -966,7 +954,7 @@ bool Settings::Impl::parseActuator(ValueNode *vn, Actuator &act)
     } else if (act_type ==  "fixed") {
         tp_ =  ConnectingPoint::Fixed;
     } else {
-        std::cerr << "unknown actuator-type:" << act_type << std::endl;
+        ERROR_STREAM(" unknown actuator-type:" << act_type);
         return false;
     }
     act = Actuator(tp_);
@@ -990,7 +978,7 @@ bool Settings::Impl::parseActuator(ValueNode *vn, Actuator &act)
         } else if (ax == "-z") {
             act.axis = Vector3(0, 0, -1);
         } else {
-            std::cerr << "invalid axis[string] : " << ax << std::endl;
+            ERROR_STREAM(" invalid axis[string] : " << ax);
             return false;
         }
     } else if ( val->isListing() ) {
@@ -1004,8 +992,7 @@ bool Settings::Impl::parseActuator(ValueNode *vn, Actuator &act)
             // [todo] size error
         }
     } else {
-        // [todo] invalid (mapping)
-        std::cerr << "invalid axis " << std::endl;
+        ERROR_STREAM(" invalid axis ");
         return false;
     }
     std::vector<double> qlim;
@@ -1135,7 +1122,7 @@ bool RoboasmFile::parseRoboasm(const std::string &_filename)
 {
     YAMLReader yaml_reader;
     if (! yaml_reader.load(_filename)) {
-        std::cerr << "File Loading error : " << _filename << std::endl;
+        ERROR_STREAM(" roboasm file Loading error : " << _filename);
         return false;
     }
     bool ret = false;
@@ -1146,7 +1133,7 @@ bool RoboasmFile::parseRoboasm(const std::string &_filename)
         std::string key = "history";
         ValueNode *target = val->toMapping()->find(key);
         if( ! target->isValid() ) continue;
-        std::cout << "--- target " << key << " found ---" << std::endl;
+        DEBUG_STREAM("--- target " << key << " found ---");
         if( ! target->isListing() ) continue;
         Listing *lst = target->toListing();
         for(int i = 0; i < lst->size(); i++) {
@@ -1158,7 +1145,7 @@ bool RoboasmFile::parseRoboasm(const std::string &_filename)
         }
     }
     if ( history.size() < 1 ) {
-        std::cerr << "failed parse roboasm" << std::endl;
+        ERROR_STREAM("failed to parse roboasm");
         return false;
     }
     for(int i = 0; i < yaml_reader.numDocuments(); i++) {
@@ -1167,7 +1154,7 @@ bool RoboasmFile::parseRoboasm(const std::string &_filename)
         std::string key = "assemble-config";
         ValueNode *target = val->toMapping()->find(key);
         if( ! target->isValid() ) continue;
-        std::cout << "--- target " << key << " found ---" << std::endl;
+        DEBUG_STREAM("--- target " << key << " found ---");
         if( ! target->isMapping() ) continue;
         parse(target, config);
     }
