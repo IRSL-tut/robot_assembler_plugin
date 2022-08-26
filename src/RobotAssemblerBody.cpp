@@ -49,8 +49,9 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
                 trs->setName(name_ + "/geom_postrans");
 #define SCALE_EPS 0.005
                 if ( geom.scale != 0.0 && ((geom.scale < 1.0 - SCALE_EPS) || (geom.scale > 1.0 + SCALE_EPS)) ) {
-                    // add scale [TODO]
-                    trs->addChild(shape);
+                    SgScaleTransformPtr scl_(new SgScaleTransform(geom.scale));
+                    scl_->addChild(shape);
+                    trs->addChild(scl_);
                     sg_main->addChild(trs);
                 } else {
                     trs->addChild(shape);
