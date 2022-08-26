@@ -697,13 +697,15 @@ bool Settings::Impl::parseParts(ValueNode *vn, Parts &out)
     ValueNode *val = mp->find("mass-param");
     if (val->isValid() && val->isMapping()) {
         Mapping *mass_map = val->toMapping();
-        if(!mapDouble(mass_map, "mass", out.mass, std::cerr)) {
-            // [todo]
+        double mass_;
+        if(!mapDouble(mass_map, "mass", mass_, std::cerr)) {
+            ERROR_STREAM("parameter mass can not be read");
             return false;
         }
+        out.mass = uc.convMass(mass_);
         std::vector<double> com;
         if(!mapVector(mass_map, "center-of-mass", com, std::cerr)) {
-            // [todo]
+            ERROR_STREAM("parameter center-of-mass can not be read");
             return false;
         } else {
             if (com.size() >= 3) {
@@ -715,7 +717,7 @@ bool Settings::Impl::parseParts(ValueNode *vn, Parts &out)
         }
         std::vector<double> it;
         if(!mapVector(mass_map, "inertia-tensor", it, std::cerr)) {
-            // [todo]
+            ERROR_STREAM("parameter inertia-ternsor can not be read");
             return false;
         } else {
             if (it.size() >= 9) {
