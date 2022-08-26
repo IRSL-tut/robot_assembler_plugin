@@ -720,7 +720,7 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
         }
         if(fname.size() > 0) {
             // createBody
-            ra::RoboasmBodyCreator bc;
+            ra::RoboasmBodyCreator bc(_sr->robot()->name(), _project_directory);
             BodyPtr bd = bc.createBody(_sr->robot());
             StdBodyWriter writer;
             writer.writeBody(bd, fname);
