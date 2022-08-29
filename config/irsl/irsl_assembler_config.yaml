@@ -124,7 +124,7 @@ PanelSettings: ## just for choreonoid
               plate_1_1, plate_1_2, plate_1_3, plate_1_4, plate_1_6, plate_1_8,
               plate_4_4, plate_4_8, plate_6_12]
     - name: servo_parts
-      parts: [ax-12a, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-P_3x3]
+      parts: [ax-12a, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-P_3x3, P04-F53]
     - name: sensor_parts
       parts: [sensor-mounter, ultrasonic-sensor, tof-sensor]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
@@ -204,31 +204,46 @@ PartsSettings:
     - 
         name: right-side1
         types: [SERVO_SIDE]
-        # translation: [19.5, -14.5, 16.0]
         translation: [13.5, -22.5, 16.0]
         rotation: [0.0, 1.0, 0.0, -180.0]
     - 
         name: right-side2
         types: [SERVO_SIDE]
-        # translation: [19.5, -22.5, 16.0]
         translation: [13.5, -30.5, 16.0]
         rotation: [0.0, 1.0, 0.0, -180.0]
     - 
+        name: right-side3
+        types: [SERVO_SIDE]
+        translation: [13.5, -14.5, -16.0]
+        rotation: [0.0, 0.0, 1.0, 180.0]
+    - 
+        name: right-side4
+        types: [SERVO_SIDE]
+        translation: [13.5, -6.5, -16.0]
+        rotation: [0.0, 0.0, 1.0, 180.0]
+    - 
         name: left-side1
         types: [SERVO_SIDE]
-        # translation: [-19.5, -14.5, 16.0]
         translation: [-13.5, -6.5, 16.0]
         rotation: [-1.0, 0.0, 0.0, 180.0]
     - 
         name: left-side2
         types: [SERVO_SIDE]
-        # translation: [-19.5, -22.5, 16.0]
         translation: [-13.5, -14.5, 16.0]
         rotation: [-1.0, 0.0, 0.0, 180.0]
     - 
+        name: left-side3
+        types: [SERVO_SIDE]
+        translation: [-13.5, -22.5, -16.0]
+        # rotation: [-1.0, 0.0, 0.0, 180.0]
+    - 
+        name: left-side4
+        types: [SERVO_SIDE]
+        translation: [-13.5, -30.5, -16.0]
+        # rotation: [-1.0, 0.0, 0.0, 180.0]
+    - 
         name: bottom-side
         types: [SERVO_SIDE]
-        # translation: [0, -41.5, 16.0]
         translation: [-8, -36, 16.0]
         rotation: [-0.707, -0.707, 0., 180.0]
         
@@ -500,6 +515,30 @@ PartsSettings:
     #   types : [PC4]
     #   translation: [8.0, -3.2, 4.0]
     #   rotation: [1., 0., 0., 90.0]
+  -
+    type: P04-F53
+    visual:
+      -
+        type: mesh
+        url: "meshes/FP04-F53_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [1.0, 1.0, 1.0]
+        type: mesh
+        url: "meshes/FP04-F53_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+      name: servo_side
+      types: [FRAME_F3_SERVO]
+      translation: [-8.0, -7.0, 13.5]
+      rotation: [0.57735, 0.57735, -0.57735, 120.0]
   -
     type: ax-12a-f3-s
     visual:
