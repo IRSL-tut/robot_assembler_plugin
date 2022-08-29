@@ -238,6 +238,8 @@ public:
       return false;
     }
     Parts *info;
+    // local info // should be Mapping? and in Robot
+    Vector3f color;
 protected:
     void createConnectingPoints(const std::string &_namespace);
     void createConnectingPoints(bool use_name_as_namespace = true);
@@ -387,7 +389,9 @@ public:
     void connectedPoints(connectingPointPtrList &lst);
 protected:
     SettingsPtr settings;
-    AssembleConfig asm_config;
+    // TODO -> local_info ?? AssembleConfig
+    AssembleConfig asm_config; // MappingPtr map_config;
+    // merge loca_linfo between robots
     friend RoboasmCoords;
     friend RoboasmParts;
     friend RoboasmConnectingPoint;
@@ -423,8 +427,9 @@ public:
     RoboasmPartsPtr makeParts(const std::string &_parts_key);
     RoboasmPartsPtr makeParts(const std::string &_parts_key, const std::string &_parts_name);
 
-    RoboasmRobotPtr makeRobot(const std::string &_name, const std::string &_parts_key);
-    RoboasmRobotPtr makeRobot(const std::string &_name, const std::string &_parts_key, const std::string &_parts_name);
+    RoboasmRobotPtr makeRobot(const std::string &_name, const std::string &_parts_key,
+                              const std::string &_parts_name = std::string(), const Vector3f &_color = Vector3f::Zero());
+    RoboasmRobotPtr makeRobot(const std::string &_name, const std::string &_parts_key, const Vector3f &_color);
     RoboasmRobotPtr makeRobot(const std::string &_name, RoboasmPartsPtr _parts);
 
     RoboasmRobotPtr makeRobot(RoboasmFile &_roboasm_file);

@@ -18,8 +18,23 @@ namespace robot_assembler {
 
 const Vector3f default_body_color(0.0f, 0.0f, 0.8f);
 
+static inline void addMaterial(SgNode *_nd, const Vector3f &_color, float _intensity = 0.7)
+{
+    SgShape *_shape = dynamic_cast<SgShape *>(_nd);
+    if(!_shape) return;
+    SgMaterialPtr mat_(new SgMaterial());
+    //mat_->setName("material");
+    //Vector3f color(0.1f, 0.1f, 0.7f);
+    mat_->setDiffuseColor(_color);
+    mat_->setAmbientIntensity(_intensity);
+    mat_->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
+    _shape->setMaterial(mat_);
+}
+void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color) {
+    createSceneFromGeometry(sg_main, geom_list, std::string(), _color);
+}
 void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geom_list,
-                             const std::string &_proj_dir)
+                             const std::string &_proj_dir, const Vector3f &_color)
 {
     DEBUG_PRINT();
     if (geom_list.size() <= 0) {
@@ -29,7 +44,6 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
     const std::string &name_ = sg_main->name();
     for(int i = 0; i < geom_list.size(); i++) {
         Geometry &geom = geom_list[i];
-
         if (geom.type == Geometry::Mesh) {
             SceneLoader sceneLoader;
             sceneLoader.setMessageSink(std::cerr);
@@ -42,8 +56,14 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
             DEBUG_STREAM(" mesh load: " << geom_file_path);
             SgNodePtr shape = sceneLoader.load(geom_file_path);
             if (!!shape) {
-                shape->setName(name_ + "/geom");
                 DEBUG_STREAM(" mesh loaded!");
+                traverseSG(shape);// DEBUG
+                shape->setName(name_ + "/geom");
+                if(!_color.isZero()) {
+                    addMaterial(shape, _color);
+                } else if (!geom.color.isZero()) {
+                    addMaterial(shape, geom.color);
+                }
                 Position p; geom.coords.toPosition(p);
                 SgPosTransformPtr trs(new SgPosTransform(p));
                 trs->setName(name_ + "/geom_postrans");
@@ -69,14 +89,19 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
             // material
             if (!!shape) {
                 shape->setName(name_ + "/box");
-                SgMaterialPtr material(new SgMaterial());
-                material->setName(name_ + "material");
-                //Vector3f color(0.1f, 0.1f, 0.7f);
-                material->setDiffuseColor(default_body_color);
-                material->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
-                material->setAmbientIntensity(0.7f);
-                shape->setMaterial(material);
-
+                if(!_color.isZero()) {
+                    addMaterial(shape, _color);
+                } else if (!geom.color.isZero()) {
+                    addMaterial(shape, geom.color);
+                } else {
+                    SgMaterialPtr material(new SgMaterial());
+                    material->setName(name_ + "material");
+                    //Vector3f color(0.1f, 0.1f, 0.7f);
+                    material->setDiffuseColor(default_body_color);
+                    material->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
+                    material->setAmbientIntensity(0.7f);
+                    shape->setMaterial(material);
+                }
                 Position p; geom.coords.toPosition(p);
                 SgPosTransformPtr trs(new SgPosTransform(p));
                 trs->setName(name_ + "/geom_postrans");
@@ -216,12 +241,12 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         if(_pt->info->visual.size() > 0) {
             trs_vis = (new SgPosTransform());
             trs_vis->setName(_pt->name() + "/visual");
-            createSceneFromGeometry(trs_vis, _pt->info->visual, project_directory);
+            createSceneFromGeometry(trs_vis, _pt->info->visual, project_directory, _pt->color);
         }
         if(_pt->info->collision.size() > 0) {
             trs_col = (new SgPosTransform());
             trs_col->setName(_pt->name() + "/collision");
-            createSceneFromGeometry(trs_col, _pt->info->collision, project_directory);
+            createSceneFromGeometry(trs_col, _pt->info->collision, project_directory, _pt->color);
         }
         if(!!trs_vis) {
             Position p; link_origin_to_self_.toPosition(p);
@@ -288,7 +313,7 @@ BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, const std::string &_
 {
     if(_name.size() > 0) name = _name;
     body = new Body();
-
+    currentRobot = _rb;
     _createBody(_rb);
 
     if (merge_fixed_joint) {

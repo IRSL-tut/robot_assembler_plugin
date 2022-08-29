@@ -421,9 +421,8 @@ bool RoboasmConnectingPoint::checkValidity()
 }
 //// [roboasm parts] ////
 RoboasmParts::RoboasmParts(const std::string &_name, Parts *_info)
-    : RoboasmCoords(_name)
+    : RoboasmCoords(_name), info(_info), color(Vector3f::Zero())
 {
-    info = _info;
     createConnectingPoints();
 }
 RoboasmParts::~RoboasmParts()
@@ -965,16 +964,22 @@ RoboasmPartsPtr RoboasmUtil::makeParts
     RoboasmPartsPtr ret = std::make_shared<RoboasmParts> (_parts_name, &(res->second));
     return ret;
 }
-RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, const std::string &_parts_key)
+RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, const std::string &_parts_key,
+                                       const Vector3f &_color)
 {
-    RoboasmPartsPtr pt_ = makeParts(_parts_key);
-    return std::make_shared<RoboasmRobot>(_name, pt_, current_settings);
+    return makeRobot(_name, _parts_key, std::string(), _color);
 }
 RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, const std::string &_parts_key,
-                                          const std::string &_parts_name)
+                                       const std::string &_parts_name, const Vector3f &_color)
 {
-    RoboasmPartsPtr pt_ = makeParts(_parts_key, _parts_name);
-    return std::make_shared<RoboasmRobot>(_name, pt_, current_settings);
+    RoboasmPartsPtr pt_;
+    if (_parts_name.size() > 0) {
+        pt_ = makeParts(_parts_key, _parts_name);
+    } else {
+        pt_ = makeParts(_parts_key);
+    }
+    pt_->color = _color;
+    return makeRobot(_name, pt_);
 }
 RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, RoboasmPartsPtr _parts)
 {

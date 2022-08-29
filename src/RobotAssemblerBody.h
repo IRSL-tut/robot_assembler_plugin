@@ -9,7 +9,9 @@ namespace robot_assembler {
 
 extern const Vector3f default_body_color;
 
-void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geom_list, const std::string &_proj_dir = std::string());
+void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geom_list,
+                             const std::string &_proj_dir = std::string(), const Vector3f &_color = Vector3f::Zero());
+void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color);
 
 class RoboasmBodyCreator
 {
@@ -27,8 +29,9 @@ protected:
     bool merge_fixed_joint;
     std::string project_directory;
     std::map<std::string, std::string> map_link_cnoid_roboasm;  // key: cnoid_name, value: roboasm_name
-    std::map<std::string, std::string> map_joint_cnoid_roboasm; // key: cnoid_name, value: roboasm_name
+    //std::map<std::string, std::string> map_joint_cnoid_roboasm; // key: cnoid_name, value: roboasm_name
     //std::vector<std::string> joint_list; // cnoid_name
+    RoboasmRobotPtr currentRobot; // for accessing local info
 
     BodyPtr _createBody(RoboasmRobotPtr _rb);
     Link *createLink(RoboasmPartsPtr _pt, bool _is_root = false);

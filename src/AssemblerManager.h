@@ -33,7 +33,7 @@ public:
     void setProjectDirectory(const std::string &_proj) { _project_directory = _proj; };
     bool parseButtonYaml(const std::string &filename, PanelSettings &_res);
 
-    void partsButtonClicked(const std::string &_name);
+    void partsButtonClicked(const std::string &_name, const Vector3f &_color = Vector3f::Zero());
     void addAssemblerItem(ra::RoboasmRobotPtr _rb);
     void save_model(ra::RASceneRobot *_sr);
     void save_history(ra::RASceneRobot *_sr);

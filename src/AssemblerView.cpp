@@ -42,6 +42,14 @@ using namespace cnoid;
 namespace ra = cnoid::robot_assembler;
 namespace filesystem = cnoid::stdx::filesystem;
 
+static const Vector3f color_red   (1.0f, 0.0f, 0.0f);
+static const Vector3f color_green (0.0f, 1.0f, 0.0f);
+static const Vector3f color_blue  (0.0f, 0.0f, 1.0f);
+static const Vector3f color_black (0.05f, 0.05f, 0.05f);
+static const Vector3f color_white (0.95f, 0.95f, 0.95f);
+static const Vector3f color_yellow(1.0f, 1.0f, 0.0f);
+static const Vector3f color_cyan  (0.0f, 1.0f, 1.0f);
+static const Vector3f color_purple(1.0f, 0.0f, 1.0f);
 namespace cnoid {
 // view manager
 class AssemblerView::Impl
@@ -62,7 +70,7 @@ public:
     void createButtons(PanelSettings &_settings);
     void createButtonsOrg();
     void partsButtonClicked(int index);
-    void createButtonClicked();
+    void createButtonClicked(const std::string &_name = std::string());
     std::vector<PushButton *> partsButtons;
     std::vector<std::string> comboItems;
     //
@@ -222,7 +230,7 @@ void AssemblerView::Impl::createButtons(PanelSettings &_settings)
                 if(pt_ == manager->ra_settings->mapParts.end()) continue;
                 PushButton *bp = new PushButton(name_.c_str(), partsTab);
                 bp->sigClicked().connect( [this, name_]() {
-                        manager->partsButtonClicked(name_); } );
+                        createButtonClicked(name_); } );
                 qvbox->addWidget(bp);
                 partsButtons.push_back(bp);
             }
@@ -301,12 +309,39 @@ void AssemblerView::Impl::partsButtonClicked(int index)
     //int color_id = color_combo->currentIndex();
     manager->partsButtonClicked(bp->text().toStdString());
 }
-void AssemblerView::Impl::createButtonClicked()
+void AssemblerView::Impl::createButtonClicked(const std::string &_name)
 {
     int color_id = color_combo->currentIndex();
-    int parts_id = parts_combo->currentIndex();
-    DEBUG_STREAM(" color: " << color_id << ", parts: " << parts_id);
-    if(parts_id > 0 && parts_id < comboItems.size()) {
-        manager->partsButtonClicked(comboItems[parts_id]);
+    DEBUG_STREAM(" color: " << color_id);
+    const std::string *nm_ = nullptr;
+    if (_name.size() == 0) {
+        int parts_id = parts_combo->currentIndex();
+        if(parts_id > 0 && parts_id < comboItems.size()) {
+            nm_ = &comboItems[parts_id];
+        }
+    } else {
+        nm_ = &_name;
+    }
+    if(!!nm_ && nm_->size() > 0) {
+        Vector3f col_ = Vector3f::Zero();
+        switch(color_id) {
+        case 1: // Red
+        { col_ = color_red; break; }
+        case 2: // Green
+        { col_ = color_green; break; }
+        case 3: // Blue
+        { col_ = color_blue; break; }
+        case 4: // Black
+        { col_ = color_black; break; }
+        case 5: // White
+        { col_ = color_white; break; }
+        case 6: // Yellow
+        { col_ = color_yellow; break; }
+        case 7: // Cyan
+        { col_ = color_cyan; break; }
+        case 8: // Purple
+        { col_ = color_purple; break; }
+        }
+        manager->partsButtonClicked(*nm_, col_);
     }
 }

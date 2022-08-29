@@ -152,7 +152,7 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
     : SgPosTransform(), self(_p), partsScene(nullptr)
 {
     setName("PT:" + self->name());
-    createSceneFromGeometry(this, self->info->visual, _proj_dir);
+    createSceneFromGeometry(this, self->info->visual, _proj_dir, _p->color);
     //partsScene = node;
     Position p; _p->worldcoords().toPosition(p);
     position() = p;

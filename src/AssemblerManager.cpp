@@ -79,18 +79,16 @@ void AssemblerManager::loadSettings(const std::string _fname)
         }
     }
 }
-void AssemblerManager::partsButtonClicked(const std::string &_name)
+void AssemblerManager::partsButtonClicked(const std::string &_name, const Vector3f &_color)
 {
     DEBUG_STREAM( " parts: " << _name );
-    //PushButton *bp = partsButtons[index];
-    //std::string name = bp->text().toStdString();
     std::string rb_name;
     if (srobot_set.size() == 0) {
         rb_name = "AssembleRobot";
     } else {
         rb_name = _name;
     }
-    ra::RoboasmRobotPtr rb_ = ra_util->makeRobot(rb_name, _name);
+    ra::RoboasmRobotPtr rb_ = ra_util->makeRobot(rb_name, _name, _color);
     if(!!rb_) {
         addAssemblerItem(rb_);
     } else {

@@ -165,12 +165,13 @@ struct Geometry
         Ellipsoid,
         Dummy // can not detect collision
     };
-
+    Geometry() : scale(1.0), color(Vector3f::Zero()) {}
     coordinates coords;
     std::string url;
     double scale;
     Type type;
     std::vector<double> parameter;
+    Vector3f color; // should be material?
     Parts *parent_parts;
 };
 class Parts
