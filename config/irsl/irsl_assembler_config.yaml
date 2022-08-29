@@ -16,7 +16,7 @@ GeneralSettings:
 ##   connecting-type-match-list:
 ##   connecting-configuration-list:
 ConnectingConstraintSettings:
-  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S]
+  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S]
   ## pair: [a, b] ## configuration represents transoform from a to b
   connecting-type-match-list:
     -
@@ -29,8 +29,11 @@ ConnectingConstraintSettings:
       pair: [PC4, SC4]
       allowed-configuration: [fixed, invert, rotate-90, rotate90]
     -
-      pair: [HORN, HORN-F]
+      pair: [HORN, HORN-F2]
       allowed-configuration: [fixed, rotate-90, rotate90]
+    -
+      pair: [HORN, HORN-F4]
+      allowed-configuration: [fixed, invert, rotate-90, rotate90]
     - 
       pair: [SERVO_SIDE, FRAME_F3_SERVO]
       allowed-configuration: [fixed]
@@ -121,7 +124,7 @@ PanelSettings: ## just for choreonoid
               plate_1_1, plate_1_2, plate_1_3, plate_1_4, plate_1_6, plate_1_8,
               plate_4_4, plate_4_8, plate_6_12]
     - name: servo_parts
-      parts: [ax-12a, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s]
+      parts: [ax-12a, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-P_3x3]
     - name: sensor_parts
       parts: [sensor-mounter, ultrasonic-sensor, tof-sensor]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
@@ -176,14 +179,14 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/ax-12a.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         #translation: [-12.5, -29, -20.0]
         #box: [25.0, 50.0, 40.0] # shift -13.5mm at y-axis
         type: mesh
         url: "meshes/ax-12a.stl"
-        scale : 1000 
+        scale : 1 
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
@@ -235,14 +238,14 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/ax-12a-f2.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         # translation: [0.0, 0.0, 0.0]
         # box: [0.001, 0.001, 0.001]
         type: mesh
         url: "meshes/ax-12a-f2.stl"
-        scale : 1000
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
@@ -250,7 +253,7 @@ PartsSettings:
     connecting-points :
     - 
       name: horn-f
-      types: [HORN-F]
+      types: [HORN-F2]
       translation: [20.9, 26.5, 0.0]
       rotation: [-0.57735, 0.57735, -0.57735, 120.0]
     - name: f2_frame0
@@ -272,14 +275,14 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/ax-12a-f3.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         # translation: [0.0, 0.0, 0.0]
         # box: [1.0, 1.0, 1.0]
         type: mesh
         url: "meshes/ax-12a-f3.stl"
-        scale : 1000
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
@@ -302,14 +305,14 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/ax-12a-f3-p.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         # translation: [0.0, 0.0, 0.0]
         # box: [1.0, 1.0, 1.0]
         type: mesh
         url: "meshes/ax-12a-f3-p.stl"
-        scale : 1000
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
@@ -503,14 +506,14 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/ax-12a-f3-s.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         # translation: [0.0, 0.0, 0.0]
         # box: [1.0, 1.0, 1.0]
         type: mesh
         url: "meshes/ax-12a-f3-s.stl"
-        scale : 1000
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
@@ -698,21 +701,289 @@ PartsSettings:
     #   types : [SC4]
     #   translation: [8.0, -4.0, 4.0]
     #   rotation: [1., 0., 0., -90.0]
-
+  -
+    type: ax-12a-f3-s_3x3
+    visual:
+      -
+        type: mesh
+        url: "meshes/ax-12a-f3-s_3x3_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [1.0, 1.0, 1.0]
+        type: mesh
+        url: "meshes/ax-12a-f3-s_3x3_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+      name: f3_servo
+      types: [FRAME_F3_SERVO]
+      translation: [16.0, 5.5, 8.0]
+      rotation: [-0.57735, -0.57735, 0.57735, 120.0]
+    -
+      name: s1_0_0
+      types : [SC1]
+      translation: [-8.0, -4.0, -8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_0_1
+      types : [SC1]
+      translation: [0.0, -4.0, -8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_0_2
+      types : [SC1]
+      translation: [8.0, -4.0, -8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_1_0
+      types : [SC1]
+      translation: [-8.0, -4.0, 0.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_1_1
+      types : [SC1]
+      translation: [0.0, -4.0, 0.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_1_2
+      types : [SC1]
+      translation: [8.0, -4.0, 0.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_2_0
+      types : [SC1]
+      translation: [-8.0, -4.0, 8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_2_1
+      types : [SC1]
+      translation: [0.0, -4.0, 8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: s1_2_2
+      types : [SC1]
+      translation: [8.0, -4.0, 8.0]
+      rotation: [1., 0., 0., -90.0]
+  -
+    type: FP04-F4
+    visual:
+      -
+        type: mesh
+        url: "meshes/FP04-F4_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [1.0, 1.0, 1.0]
+        type: mesh
+        url: "meshes/FP04-F4_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+      name: f3_servo
+      types: [HORN-F4]
+      translation: [21.0, 0.0, 0.0]
+      rotation: [-0.707, 0.0, -0.707, 180.0]
+    - name: f3_frame
+      types: [FRAME]
+      translation: [0.0, 0.0, 52.0]
+      rotation: [1.0, 0.0, 0.0, 180.0]
+  -
+    type: FP04-F4-P
+    visual:
+      -
+        type: mesh
+        url: "meshes/FP04-F4-P_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [1.0, 1.0, 1.0]
+        type: mesh
+        url: "meshes/FP04-F4_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+      name: f3_servo
+      types: [HORN-F4]
+      translation: [21.0, 0.0, 0.0]
+      rotation: [-0.707, 0.0, -0.707, 180.0]
+    - name: p1_0_0
+      types: [PC1]
+      translation: [-12.0, -8.0, 55.2]
+    - name: p1_0_1
+      types: [PC1]
+      translation: [-4.0, -8.0, 55.2]
+    - name: p1_0_2
+      types: [PC1]
+      translation: [4.0, -8.0, 55.2]
+    - name: p1_0_3
+      types: [PC1]
+      translation: [12.0, -8.0, 55.2]
+    - name: p1_1_0
+      types: [PC1]
+      translation: [-12.0, 0.0, 55.2]
+    - name: p1_1_1
+      types: [PC1]
+      translation: [-4.0, 0.0, 55.2]
+    - name: p1_1_2
+      types: [PC1]
+      translation: [4.0, 0.0, 55.2]
+    - name: p1_1_3
+      types: [PC1]
+      translation: [12.0, 0.0, 55.2]
+    - name: p1_2_0
+      types: [PC1]
+      translation: [-12.0, 8.0, 55.2]
+    - name: p1_2_1
+      types: [PC1]
+      translation: [-4.0, 8.0, 55.2]
+    - name: p1_2_2
+      types: [PC1]
+      translation: [4.0, 8.0, 55.2]
+    - name: p1_2_3
+      types: [PC1]
+      translation: [12.0, 8.0, 55.2]
+  -
+    type: FP04-F2-P
+    visual:
+      -
+        type: mesh
+        url: "meshes/FP04-F2-P_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [1.0, 1.0, 1.0]
+        type: mesh
+        url: "meshes/FP04-F2-P_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+      name: f3_servo
+      types: [HORN-F2]
+      translation: [21.0, 0.0, 0.0]
+      rotation: [-0.707, 0.0, -0.707, 180.0]
+    - name: p1_0_0
+      types: [PC1]
+      translation: [-12.0, -8.0, 29.2]
+    - name: p1_0_1
+      types: [PC1]
+      translation: [-4.0, -8.0, 29.2]
+    - name: p1_0_2
+      types: [PC1]
+      translation: [4.0, -8.0, 29.2]
+    - name: p1_0_3
+      types: [PC1]
+      translation: [12.0, -8.0, 29.2]
+    - name: p1_1_0
+      types: [PC1]
+      translation: [-12.0, 0.0, 29.2]
+    - name: p1_1_1
+      types: [PC1]
+      translation: [-4.0, 0.0, 29.2]
+    - name: p1_1_2
+      types: [PC1]
+      translation: [4.0, 0.0, 29.2]
+    - name: p1_1_3
+      types: [PC1]
+      translation: [12.0, 0.0, 29.2]
+    - name: p1_2_0
+      types: [PC1]
+      translation: [-12.0, 8.0, 29.2]
+    - name: p1_2_1
+      types: [PC1]
+      translation: [-4.0, 8.0, 29.2]
+    - name: p1_2_2
+      types: [PC1]
+      translation: [4.0, 8.0, 29.2]
+    - name: p1_2_3
+      types: [PC1]
+      translation: [12.0, 8.0, 29.2]
+  -
+    type: FP04-F2-P_3x3
+    visual:
+      -
+        type: mesh
+        url: "meshes/FP04-F2-P_3x3_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [1.0, 1.0, 1.0]
+        type: mesh
+        url: "meshes/FP04-F2-P_3x3_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+      name: f3_servo
+      types: [HORN-F2]
+      translation: [21.0, 0.0, 0.0]
+      rotation: [-0.707, 0.0, -0.707, 180.0]
+    - name: p1_0_0
+      types: [PC1]
+      translation: [-8.0, -8.0, 29.2]
+    - name: p1_0_1
+      types: [PC1]
+      translation: [0.0, -8.0, 29.2]
+    - name: p1_0_2
+      types: [PC1]
+      translation: [8.0, -8.0, 29.2]
+    - name: p1_1_0
+      types: [PC1]
+      translation: [-8.0, 0.0, 29.2]
+    - name: p1_1_1
+      types: [PC1]
+      translation: [0.0, 0.0, 29.2]
+    - name: p1_1_2
+      types: [PC1]
+      translation: [8.0, 0.0, 29.2]
+    - name: p1_2_0
+      types: [PC1]
+      translation: [-8.0, 8.0, 29.2]
+    - name: p1_2_1
+      types: [PC1]
+      translation: [0.0, 8.0, 29.2]
+    - name: p1_2_2
+      types: [PC1]
+      translation: [8.0, 8.0, 29.2]
+      
   -
     type: ultrasonic-sensor
     visual:
       -
         type: mesh
         url: "meshes/ultrasonic.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         # translation: [0.0, 0.0, 0.0]
         # box: [1.0, 1.0, 1.0]
         type: mesh
         url: "meshes/ultrasonic.stl"
-        scale : 1000
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
@@ -729,14 +1000,14 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/tof-sensor.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         # translation: [0.0, 0.0, 0.0]
         # box: [1.0, 1.0, 1.0]
         type: mesh
         url: "meshes/tof-sensor.stl"
-        scale : 1000
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
@@ -755,12 +1026,12 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/sensor-mounter.stl"
-        scale : 1000
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes/sensor-mounter.stl"
-        scale : 1000
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
