@@ -154,14 +154,20 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         p_pt_->parent()->worldcoords().transformation(cds, s_cp_->worldcoords());
         Position p; cds.toPosition(p);
         lk->setOffsetPosition(p);
-        if( p_cp_->isActuator() ) {
+        RoboasmConnectingPointPtr act_;
+        if (p_cp_->isActuator()) {
+            act_ = p_cp_;
+        } else if (s_cp_->isActuator()) {
+            act_ = s_cp_;
+        }
+        if( !!act_ ) {
             std::ostringstream ss_;
             ss_ << "LINK_" << joint_counter;
             lk->setName(ss_.str());
             lk->setJointId(joint_counter++);
             //lk->setJointName();
             map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(ss_.str(), _pt->name()));
-            Actuator *ainfo_ = dynamic_cast<Actuator*>(p_cp_->info);
+            Actuator *ainfo_ = dynamic_cast<Actuator*>(act_->info);
             if(!!ainfo_) {
                 lk->setJointAxis(ainfo_->axis);
                 switch (ainfo_->getType()) {
