@@ -113,7 +113,7 @@ void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb)
         DEBUG_STREAM(" rb_cent: " << rb_cent(0) << ", " << rb_cent(1) << ", " << rb_cent(2) );
         DEBUG_STREAM(" rb_size: " << rb_size(0) << ", " << rb_size(1) << ", " << rb_size(2) );
         // move robot
-        coordinates cds(Vector3(0, cent(1) + size(1)/2 +  1.2 * rb_size(1)/2, 0));
+        coordinates cds(Vector3(0, cent(1) - rb_cent(1) + size(1)/2 +  1.2 * rb_size(1)/2, 0));
         rb_scene->setCoords(cds);
         //
         current_align_configuration = -1;

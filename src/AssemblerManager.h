@@ -67,7 +67,13 @@ public:
 
     void notifyUpdate() {
         for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
-            (*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
+            //(*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
+            //for(auto pit = (*it)->sparts_set.begin(); pit != (*it)->sparts_set.end(); pit++) {
+            //    (*pit)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
+            //}
+            for(auto pit = (*it)->spoint_set.begin(); pit != (*it)->spoint_set.end(); pit++) {
+                (*pit)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
+            }
         }
     }
     SignalProxy<void(ra::RoboasmRobotPtr _rb, bool on)> sigRobotSelected() { return robotSelectedFunc; }
