@@ -139,14 +139,14 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         RoboasmConnectingPointPtr p_cp_;
         RoboasmConnectingPointPtr s_cp_;
         if(!_pt->parentParts(p_pt_, p_cp_, s_cp_)) {
-            std::cerr << "miss fetch" << std::endl;
+            ERROR_STREAM(" miss fetch : " << _pt->name());
             delete lk;
             return nullptr;
         }
         s_cp_->worldcoords().transformation(link_origin_to_self_,
                                             _pt->worldcoords());
         if(!p_pt_->parent()) {
-            // invalid
+            ERROR_STREAM(" invalid parts : " << p_pt_->name());
             delete lk;
             return nullptr;
         }
@@ -185,15 +185,10 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
                     lk->setJointType(Link::FreeJoint);
                     break;
                 }
-                if(ainfo_->limit[0] != 0.0 || ainfo_->limit[1] != 0.0) {
-                    lk->setJointRange(ainfo_->limit[0], ainfo_->limit[1]);
-                }
-                if(ainfo_->vlimit[0] != 0.0 || ainfo_->vlimit[1] != 0.0) {
-                    lk->setJointVelocityRange(ainfo_->vlimit[0], ainfo_->vlimit[1]);
-                }
-                if(ainfo_->tqlimit[0] != 0.0 || ainfo_->tqlimit[1] != 0.0) {
-                    lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
-                }
+                DEBUG_STREAM(" limit : " << ainfo_->limit[0] << " / " << ainfo_->limit[1]);
+                lk->setJointRange(ainfo_->limit[0], ainfo_->limit[1]);
+                lk->setJointVelocityRange(ainfo_->vlimit[0], ainfo_->vlimit[1]);
+                lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
             } else {
                 // no ainfo
             }
@@ -209,6 +204,7 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         lk->setMass(_pt->info->mass);
         lk->setInertia(_pt->info->inertia_tensor);
     }
+#if 0
     // shape
     MeshGenerator mg;
     // com / next point
@@ -241,6 +237,7 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         trs->addChild(shape);
         lk->addShapeNode(trs); //
     }
+#endif
     if(!!_pt->info) {
         SgPosTransformPtr trs_vis;
         SgPosTransformPtr trs_col;

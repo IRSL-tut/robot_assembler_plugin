@@ -997,11 +997,22 @@ bool Settings::Impl::parseActuator(ValueNode *vn, Actuator &act)
     }
     std::vector<double> qlim;
     mapVector(mp, "limit", qlim, std::cerr, false);
+    if (qlim.size() >= 2) {
+        act.limit[0] = qlim[0];
+        act.limit[1] = qlim[1];
+    }
     std::vector<double> vlim;
     mapVector(mp, "vlimit", vlim, std::cerr, false);
+    if (vlim.size() >= 2) {
+        act.vlimit[0] = vlim[0];
+        act.vlimit[1] = vlim[1];
+    }
     std::vector<double> tlim;
     mapVector(mp, "tqlimit", tlim, std::cerr, false);
-
+    if (tlim.size() >= 2) {
+        act.tqlimit[0] = tlim[0];
+        act.tqlimit[1] = tlim[1];
+    }
     bool ret;
     ret = parseConnectingPoint(vn, *static_cast<ConnectingPoint *>(&act) );
     if (!ret) {

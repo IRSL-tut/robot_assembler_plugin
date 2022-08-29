@@ -8,6 +8,7 @@
 #include <memory>
 #include <map>
 //#include <set>
+#include <limits>
 
 namespace cnoid {
 namespace robot_assembler {
@@ -124,12 +125,12 @@ class Actuator : public ConnectingPoint
 public:
     Actuator() {
         axis.Zero();
-        limit[0] = 0.0;
-        limit[1] = 0.0;
-        vlimit[0] = 0.0;
-        vlimit[1] = 0.0;
-        tqlimit[0] = 0.0;
-        tqlimit[1] = 0.0;
+        limit[0] = std::numeric_limits<double>::infinity();
+        limit[1] = - std::numeric_limits<double>::infinity();
+        vlimit[0] = std::numeric_limits<double>::infinity();
+        vlimit[1] = - std::numeric_limits<double>::infinity();
+        tqlimit[0] = std::numeric_limits<double>::infinity();
+        tqlimit[1] = - std::numeric_limits<double>::infinity();
         type = UNDEFINED;
     }
     Actuator(PartsType _tp) : Actuator() { type = _tp; }
