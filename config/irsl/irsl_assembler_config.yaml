@@ -199,7 +199,7 @@ PartsSettings:
         rotation: [0.0, 0.0, 1.0, 90.0]
         actuator-type: rotational
         axis: z
-        limit: [-1.57, 1.57]
+        limit: [-90, 90]
     connecting-points :
     - 
         name: right-side1
