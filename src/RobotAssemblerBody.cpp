@@ -57,7 +57,6 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
             SgNodePtr shape = sceneLoader.load(geom_file_path);
             if (!!shape) {
                 DEBUG_STREAM(" mesh loaded!");
-                traverseSG(shape);// DEBUG
                 shape->setName(name_ + "/geom");
                 if(!_color.isZero()) {
                     addMaterial(shape, _color);
