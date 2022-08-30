@@ -188,7 +188,7 @@ PartsSettings:
         url: "meshes/ax-12a.stl"
         scale : 1 
     mass-param:
-      mass: 1.0
+      mass: 54.6
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     actuators:
@@ -199,7 +199,7 @@ PartsSettings:
         rotation: [0.0, 0.0, 1.0, 90.0]
         actuator-type: rotational
         axis: z
-        limit: [-90, 90]
+        limit: [-150, 150]
     connecting-points :
     - 
         name: right-side1
@@ -262,9 +262,9 @@ PartsSettings:
         url: "meshes/ax-12a-f2.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 11.368
+      center-of-mass: [2.656E-09 , 9.353 , -7.362E-05 ]
+      inertia-tensor: [2578.20, -1.041E-07, -3.287E-08, -1.041E-07, 3934.759, 0.016, -3.287E-08, 0.016, 5347.076]
     connecting-points :
     - 
       name: horn-f
@@ -299,9 +299,9 @@ PartsSettings:
         url: "meshes/ax-12a-f3.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 3.764
+      center-of-mass: [0.00 , 2.689 , -3.474E-09]
+      inertia-tensor: [251.511, -0.002, 2.301E-08, -0.002, 812.621, 3.026E-08, 2.301E-08, 3.026E-08, 651.099]
     connecting-points :
     - 
       name: f3_servo
@@ -329,9 +329,9 @@ PartsSettings:
         url: "meshes/ax-12a-f3-p.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 7.033
+      center-of-mass: [6.053E-05, 0.677, -3.633E-09 ]
+      inertia-tensor: [413.261, -0.002, 0.00, -0.002, 1214.927, -1.245E-08, 0.00, -1.245E-08, 925.277]
     connecting-points :
     - 
       name: f3_servo
@@ -530,9 +530,9 @@ PartsSettings:
         url: "meshes/FP04-F53_m.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 1.918
+      center-of-mass: [0.00, -3.075, 0.00]
+      inertia-tensor: [210.828, 0.00, 0.00, 0.00, 273.332, -4.453E-10, 0.00, -4.453E-10, 117.223]
     connecting-points :
     - 
       name: servo_side
@@ -554,9 +554,9 @@ PartsSettings:
         url: "meshes/ax-12a-f3-s.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 6.01
+      center-of-mass: [7.083E-05, 1.294, -2.686E-09]
+      inertia-tensor: [364.128, -0.002, 0.00, -0.002, 1100.673, 1.974E-08, 0.00, 1.974E-08, 840.659]
     connecting-points :
     - 
       name: f3_servo
@@ -755,9 +755,9 @@ PartsSettings:
         url: "meshes/ax-12a-f3-s_3x3_m.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 4.776
+      center-of-mass: [8.914E-05, 1.902, -1.162E-08]
+      inertia-tensor: [295.66, -0.002, 2.301E-08, -0.002, 895.103, -3.763E-08, 2.301E-08, -3.763E-08, 696.183]
     connecting-points :
     - 
       name: f3_servo
@@ -824,9 +824,9 @@ PartsSettings:
         url: "meshes/FP04-F4_m.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 13.945
+      center-of-mass: [0.00, 0.59, 31.70]
+      inertia-tensor: [19565.507, 0.00, -5.682E-09, 0.00, 23787.757, -345.293, -5.682E-09, -345.293, 6372.974]
     connecting-points :
     - 
       name: f3_servo
@@ -852,9 +852,10 @@ PartsSettings:
         url: "meshes/FP04-F4_m.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 16.629
+      center-of-mass: [0.0, 0.495, 35.309]
+      inertia-tensor: [27509.038, 0.00, -1.730E-08,  0.00, 31841.10, -345.321,  -1.730E-08, -345.321, 6673.472]
+      
     connecting-points :
     - 
       name: f3_servo
@@ -912,9 +913,9 @@ PartsSettings:
         url: "meshes/FP04-F2-P_m.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 10.644
+      center-of-mass: [0.0, 0.0, 18.606]
+      inertia-tensor: [5477.21, 0.00, -1.236E-08, 0.00, 7703.75, -0.031, -1.236E-08, -0.031, 3421.342]
     connecting-points :
     - 
       name: f3_servo
@@ -972,9 +973,9 @@ PartsSettings:
         url: "meshes/FP04-F2-P_3x3_m.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 10.54
+      center-of-mass: [0.0, 0.0, 18.493]
+      inertia-tensor: [5378.77, 0.0, -8.704E-09,  0.0, 7589.842, -0.031,  -8.704E-09, -0.031, 3396.737]
     connecting-points :
     - 
       name: f3_servo
@@ -1072,9 +1073,9 @@ PartsSettings:
         url: "meshes/sensor-mounter.stl"
         scale : 1
     mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+      mass: 2.945
+      center-of-mass: [11.901, 11.901, 5.658 ]
+      inertia-tensor: [680.49, -417.049, -198.27, -417.049, 688.702, -198.273, -198.27, -198.273, 1115.736]
     connecting-points :
     - 
       name: lego-2p
