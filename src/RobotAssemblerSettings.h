@@ -320,12 +320,11 @@ public:
     AttachHistory  history;
     AssembleConfig  config;
 
-    bool parseRoboasm(const std::string &_filename);
-    bool dumpRoboasm(const std::string &_filename);
-private:
+    virtual bool parseRoboasm(const std::string &_filename, bool parse_config = true);
+    virtual bool dumpRoboasm(const std::string &_filename);
+protected:
     bool valid_;
 };
 
 } }
-
 #endif

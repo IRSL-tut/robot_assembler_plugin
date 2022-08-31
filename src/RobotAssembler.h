@@ -389,9 +389,6 @@ public:
     void connectedPoints(connectingPointPtrList &lst);
 protected:
     SettingsPtr settings;
-    // TODO -> local_info ?? AssembleConfig
-    AssembleConfig asm_config; // MappingPtr map_config;
-    // merge loca_linfo between robots
     friend RoboasmCoords;
     friend RoboasmParts;
     friend RoboasmConnectingPoint;
@@ -431,15 +428,15 @@ public:
                               const std::string &_parts_name = std::string(), const Vector3f &_color = Vector3f::Zero());
     RoboasmRobotPtr makeRobot(const std::string &_name, const std::string &_parts_key, const Vector3f &_color);
     RoboasmRobotPtr makeRobot(const std::string &_name, RoboasmPartsPtr _parts);
-
+    RoboasmRobotPtr makeRobot(const std::string &_name, AttachHistory &_history);
     RoboasmRobotPtr makeRobot(RoboasmFile &_roboasm_file);
     RoboasmRobotPtr makeRobotFromFile(const std::string &_filename) {
         RoboasmFile roboasm(_filename);
         if(roboasm.isValid()) return makeRobot(roboasm);
         return nullptr;
     }
-
     bool canMatch(RoboasmConnectingPointPtr _a, RoboasmConnectingPointPtr _b);
+
 private:
     //class Impl;
     //static Impl *impl;
@@ -480,8 +477,8 @@ inline RoboasmParts *RoboasmCoords::toParts() {
 inline RoboasmRobot *RoboasmCoords::toRobot() {
     return dynamic_cast<RoboasmRobot*>(this);
 }
-std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &output);
 std::ostream& operator<< (std::ostream& ostr, const cnoid::robot_assembler::RoboasmCoords &output);
-} }
-
+}
+std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &output);
+}
 #endif
