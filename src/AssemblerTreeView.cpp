@@ -162,7 +162,7 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
 #endif
 
     manager->sigCoordsSelected().connect(
-        [this] (ra::RoboasmCoordsPtr _coords) { coordsSelected(_coords); } );
+        [this] (ra::RoboasmCoordsPtr _coords, MappingPtr _info) { coordsSelected(_coords); } );
 }
 AssemblerTreeView::Impl::~Impl()
 {
@@ -290,7 +290,6 @@ void AssemblerTreeView::Impl::coordsSelected(ra::RoboasmCoordsPtr _coords)
     // find selected -> false;
     // itm->setSelected(true);
     if(!!top_item) {
-
 
     }
 }

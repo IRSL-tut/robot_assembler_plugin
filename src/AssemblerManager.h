@@ -77,7 +77,7 @@ public:
         }
     }
     SignalProxy<void(ra::RoboasmRobotPtr _rb, bool on)> sigRobotSelected() { return robotSelectedFunc; }
-    SignalProxy<void(ra::RoboasmCoordsPtr _pt)> sigCoordsSelected() { return coordsSelectedFunc; }
+    SignalProxy<void(ra::RoboasmCoordsPtr _pt, MappingPtr _info)> sigCoordsSelected() { return coordsSelectedFunc; }
     SignalProxy<void()> sigUpdateRobots() { return updateRobotsFunc; }
 
     int uniq_id;
@@ -105,7 +105,7 @@ protected:
     virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
 
     Signal<void(ra::RoboasmRobotPtr _rb, bool on)> robotSelectedFunc;
-    Signal<void(ra::RoboasmCoordsPtr _pt)> coordsSelectedFunc;
+    Signal<void(ra::RoboasmCoordsPtr _pt, MappingPtr _info)> coordsSelectedFunc;
     Signal<void()> updateRobotsFunc;
 
 

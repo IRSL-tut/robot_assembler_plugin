@@ -238,9 +238,22 @@ int AssemblerManager::partsClicked(ra::RASceneParts *_pt)
 void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
 {
     DEBUG_STREAM(" " << _coords->name());
+    bool in_scene = false;
+    MappingPtr info_;
     {
         ra::RoboasmRobotPtr ptr = ra::RoboasmUtil::toRobot(_coords);
         if (!!ptr) {
+            ra::RASceneRobot *pt_;
+            for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+                if( (*it)->robot() == ptr ) {
+                    pt_ = (*it);
+                    break;
+                }
+            }
+            if(!!pt_) {
+                in_scene = true;
+                info_ = pt_->info;
+            }
             goto endprocess;
         }
     }
@@ -252,9 +265,13 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
             ra::RASceneParts *pt_;
             for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
                 pt_ = (*it)->searchParts(ptr);
-                if(!!pt_) break;
+                if(!!pt_) {
+                    info_ = (*it)->info;
+                    break;
+                }
             }
             if(!!pt_) {
+                in_scene = true;
                 partsClicked(pt_);
             }
             goto endprocess;
@@ -269,9 +286,13 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
             ra::RASceneConnectingPoint *pt_;
             for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
                 pt_ = (*it)->searchConnectingPoint(ptr);
-                if(!!pt_) break;
+                if(!!pt_) {
+                    info_ = (*it)->info;
+                    break;
+                }
             }
             if(!!pt_) {
+                in_scene = true;
                 pointClicked(pt_);
             }
             goto endprocess;
@@ -281,7 +302,7 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
     ERROR_STREAM(" ");
     return;
 endprocess:
-    coordsSelectedFunc(_coords);
+    coordsSelectedFunc(_coords, info_);
 }
 void AssemblerManager::updateConnectingPoints()
 {
@@ -529,6 +550,9 @@ void AssemblerManager::itemSelected(AssemblerItemPtr itm, bool on)
 {
     ra::RASceneRobot *rb_ = dynamic_cast<ra::RASceneRobot*>(itm->getScene());
     robotSelectedFunc(rb_->robot(), on);
+    if(!on) {
+        coordsSelectedFunc(nullptr, nullptr);
+    }
 }
 void AssemblerManager::loadRoboasm(const std::string &_fname)
 {

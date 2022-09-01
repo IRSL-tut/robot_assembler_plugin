@@ -6,7 +6,7 @@
 
 namespace cnoid {
 
-inline bool parseVectorFromString(Vector3f &_vec, const std::string &_input)
+inline bool parseFromString(Vector3f &_vec, const std::string &_input)
 {
     YAMLReader yrdr;
     if (!yrdr.parse(_input)) return false;
@@ -20,7 +20,7 @@ inline bool parseVectorFromString(Vector3f &_vec, const std::string &_input)
     _vec(2) = lst->at(2)->toDouble();
     return true;
 }
-inline bool parseVectorFromString(Vector3  &_vec, const std::string &_input)
+inline bool parseFromString(Vector3  &_vec, const std::string &_input)
 {
     YAMLReader yrdr;
     if (!yrdr.parse(_input)) return false;
@@ -34,7 +34,7 @@ inline bool parseVectorFromString(Vector3  &_vec, const std::string &_input)
     _vec(2) = lst->at(2)->toDouble();
     return true;
 }
-inline bool parseVectorFromString(Vector3  &_vec, double &a, const std::string &_input)
+inline bool parseFromString(Vector3  &_vec, double &a, const std::string &_input)
 {
     YAMLReader yrdr;
     if (!yrdr.parse(_input)) return false;
@@ -49,17 +49,30 @@ inline bool parseVectorFromString(Vector3  &_vec, double &a, const std::string &
     a       = lst->at(3)->toDouble();
     return true;
 }
-inline bool parseCoordinatesFromString(coordinates &_cds, const std::string &_input_trans,
-                                const std::string &_input_rot)
+inline bool parseFromString(double &a, double &b, const std::string &_input)
+{
+    YAMLReader yrdr;
+    if (!yrdr.parse(_input)) return false;
+    if(yrdr.numDocuments() < 1) return false;
+    ValueNode *nd = yrdr.document(0);
+    if(!nd->isValid() || !nd->isListing()) return false;
+    Listing *lst = nd->toListing();
+    if(lst->size() < 2) return false;
+    a = lst->at(0)->toDouble();
+    b = lst->at(1)->toDouble();
+    return true;
+}
+inline bool parseFromString(coordinates &_cds, const std::string &_input_trans,
+                            const std::string &_input_rot)
 {
     bool c_pos = false;
     bool c_rot = false;
     Vector3 pos;
-    if((c_pos = parseVectorFromString(pos, _input_trans))) {
+    if((c_pos = parseFromString(pos, _input_trans))) {
         _cds.set(pos);
     }
     Vector3 ax_; double ag_;
-    if((c_rot = parseVectorFromString(ax_, ag_, _input_rot))) {
+    if((c_rot = parseFromString(ax_, ag_, _input_rot))) {
         AngleAxis aa(ag_, ax_);
         _cds.set(aa);
     }
@@ -67,9 +80,14 @@ inline bool parseCoordinatesFromString(coordinates &_cds, const std::string &_in
     return true;
 }
 
-//ListingPtr parseListingFromString(const std::string &_input);
-//MappingPtr parseMappingFromString(const std::string &_input);
-
+inline void addToMapping(Mapping *_mp, const std::string &_key, ValueNode *_tgt)
+{
+    ValueNode *vn = _mp->find(_key);
+    if(vn->isValid()) {
+        _mp->remove(_key);
+    }
+    _mp->insert(_key, _tgt);
+}
 inline void addToMapping(Mapping *_mp, const std::string &_key, double a, Vector3 &_vec, double eps = 1e-12)
 {
     ValueNode *vn = _mp->find(_key);
@@ -197,14 +215,15 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, const coordinate
     if(vn->isValid()) {
         _mp->remove(_key);
     }
-    MappingPtr _mm = new Mapping();
+    MappingPtr mm_ = new Mapping();
     if(!_cds.pos.isZero()) {
-        addToMapping(_mm, "translation", _cds.pos);
+        addToMapping(mm_, "translation", _cds.pos);
     }
     AngleAxis aa_(_cds.rot);
     if(aa_.angle() != 0) {
-        addToMapping(_mm, "rotation", aa_.angle(), aa_.axis());
+        addToMapping(mm_, "rotation", aa_.angle(), aa_.axis());
     }
+    addToMapping(_mp, _key, mm_);
 }
 inline bool readFromMapping(Mapping *_mp, const std::string &_key, Vector3 &_vec, double &a)
 {
@@ -253,7 +272,7 @@ inline bool readFromMapping(Mapping *_mp, const std::string &_key, double &a, do
         return false;
     }
     Listing *lst = vn->toListing();
-    if(lst->size() < 3) return false;
+    if(lst->size() < 2) return false;
     a = lst->at(0)->toDouble();
     b = lst->at(1)->toDouble();
     return true;
@@ -289,17 +308,5 @@ inline bool readFromMapping(Mapping *_mp, const std::string &_key, coordinates &
     if(!trs && !rot) return false;
     return true;
 }
-#if 0
-bool insert = false;
-pmp = root->findMapping(partsname);
-if(!pmp->isValid()) {
-    insert = true;
-    pmp = new Mapping();
-}
-addToMapping(pmp, "key", ...)
-if(insert) {
-    root->insert(partsname, pmp);
-}
-#endif
 };
 #endif
