@@ -1139,7 +1139,7 @@ static bool parse(ValueNode *_vn, AssembleConfig& config)
     }
     return true;
 }
-bool RoboasmFile::parseRoboasm(const std::string &_filename)
+bool RoboasmFile::parseRoboasm(const std::string &_filename, bool parse_config)
 {
     YAMLReader yaml_reader;
     if (! yaml_reader.load(_filename)) {
@@ -1169,6 +1169,7 @@ bool RoboasmFile::parseRoboasm(const std::string &_filename)
         ERROR_STREAM("failed to parse roboasm");
         return false;
     }
+    if(!parse_config) return true;
     for(int i = 0; i < yaml_reader.numDocuments(); i++) {
         ValueNode *val = yaml_reader.document(i);
         if ( !val->isMapping() ) continue;

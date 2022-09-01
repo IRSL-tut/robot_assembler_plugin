@@ -198,13 +198,13 @@ RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
             spoint_set.insert(pt->spoint_list[i]);
         }
     }
-    if(lst.size() == 1) {
+    if(lst.size() == 1) { // make robot with single parts
         AttachHistoryItem itm;
         itm.initial_parts = true;
         itm.parts_name = lst[0]->name();
         itm.parts_type = lst[0]->info->type;
         history.push_back(itm);
-    } else if (lst.size() > 1) {
+    } else if (lst.size() > 1) { // assembled robot
         lst[0]->dumpConnectionFromParent(history);
     } else {
         //

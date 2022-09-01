@@ -5,6 +5,7 @@
 #include <cnoid/SceneGraph>
 #include <cnoid/SceneWidgetEventHandler>
 #include <cnoid/Body>
+#include <cnoid/ValueTree>
 #include <set>
 
 namespace cnoid {
@@ -155,13 +156,13 @@ public:
     virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
     void attachHistory(AttachHistory &_hist,
                        const std::string &_parent,
-                       const std::string &_robot_point,
+                       const std::string &_parent_point,
                        const std::string &_parts_name,
                        const std::string &_parts_type,
                        const std::string &_parts_point,
                        coordinates &_coords)
     {
-        _attachHistory(_hist, _parent, _robot_point, _parts_name, _parts_type, _parts_point);
+        _attachHistory(_hist, _parent, _parent_point, _parts_name, _parts_type, _parts_point);
         _hist[0].connecting_offset = _coords;
         for(auto it = _hist.begin(); it != _hist.end(); it++) {
             history.push_back(*it);
@@ -170,21 +171,22 @@ public:
     std::set<RASceneParts*> sparts_set;
     std::set<RASceneConnectingPoint*> spoint_set;
     AttachHistory history;
-
+    MappingPtr info;
+    // AssembleConfig -> info
 protected:
     bool _attachHistory(AttachHistory &_hist,
                         const std::string &_parent,
-                        const std::string &_robot_point,
+                        const std::string &_parent_point,
                         const std::string &_parts_name,
                         const std::string &_parts_type,
                         const std::string &_parts_point)
     {
         if(_hist.size() < 1) return false;
-        _hist[0].parts_name = _parts_name;
-        _hist[0].parts_type = _parts_type;
-        _hist[0].parts_point_url = _parts_point;
-        _hist[0].parent = _parent;
-        _hist[0].parent_point_url = _robot_point;
+        _hist[0].parts_name  = _parts_name;
+        _hist[0].parts_type  = _parts_type;
+        _hist[0].parts_point = _parts_point;
+        _hist[0].parent      = _parent;
+        _hist[0].parent_point = _parent_point;
         _hist[0].initial_parts = false;
         return true;
     }
