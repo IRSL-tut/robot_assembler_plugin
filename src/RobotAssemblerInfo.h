@@ -12,6 +12,30 @@ MappingPtr parseInfo(const std::string &_fname);
 MappingPtr createInfo(RoboasmRobotPtr _rb);
 bool mergeInfo(Mapping *_dst, Mapping *_src);
 
+inline void addMapping(Mapping *_main, const std::string &_k1, Mapping *_tgt)
+{
+    if(!_main) return;
+    Mapping *tmp_ = _main->findMapping(_k1);
+    if(!tmp_->isValid()) {
+        _main->insert(_k1, _tgt);
+    } else {
+        for(auto it = _tgt->begin(); it != _tgt->end(); it++) {
+            tmp_->insert(it->first, it->second);
+        }
+    }
+}
+inline void addMapping(Mapping *_main, const std::string &_k1, const std::string &_k2, Mapping *_tgt)
+{
+    if(!_main) return;
+    Mapping *tmp_ = _main->findMapping(_k1);
+    if(!tmp_->isValid()) {
+        Mapping *m1_ = new Mapping();
+        m1_->insert(_k2, _tgt);
+        _main->insert(_k1, m1_);
+        return;
+    }
+    addMapping(tmp_, _k2, _tgt);
+}
 inline Mapping *getMapping(Mapping *_mp, const std::string &_k1)
 {
     if(!_mp) return nullptr;
@@ -28,7 +52,18 @@ inline Mapping *getMapping(Mapping *_mp, const std::string &_k1, const std::stri
     if(!ret->isValid()) return nullptr;
     return ret;
 }
-
+inline Mapping *getRobotInfo(Mapping *info)
+{
+    return getMapping(info, "robot-info");
+}
+inline Mapping *getPartsInfo(Mapping *info, const std::string &_ptname)
+{
+    return getMapping(info, "parts-info", _ptname);
+}
+inline Mapping *getActuatorInfo(Mapping *info, const std::string &_actname)
+{
+    return getMapping(info, "actuator-info", _actname);
+}
 class cnoidRAFile : public RoboasmFile
 {
 public:
@@ -53,15 +88,15 @@ public:
 
     Mapping *getRobotInfo()
     {
-        return getMapping(info, "robot-info");
+        return cnoid::robot_assembler::getRobotInfo(info);
     }
     Mapping *getPartsInfo(const std::string &_ptname)
     {
-        return getMapping(info, "parts-info", _ptname);
+        return cnoid::robot_assembler::getPartsInfo(info, _ptname);
     }
     Mapping *getActuatorInfo(const std::string &_actname)
     {
-        return getMapping(info, "actuator-info", _actname);
+        return cnoid::robot_assembler::getActuatorInfo(info, _actname);
     }
     bool getRobotName(std::string &_res)
     {

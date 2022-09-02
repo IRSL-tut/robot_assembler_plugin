@@ -1,6 +1,7 @@
 #include "AssemblerPartsView.h"
 #include "RobotAssembler.h"
 #include "AssemblerManager.h"
+#include "RobotAssemblerInfo.h"
 #include <cnoid/ViewManager>
 #include <cnoid/Widget>
 #include <cnoid/LineEdit>
@@ -55,68 +56,12 @@ public:
     AssemblerPartsView *self;
     AssemblerManager *manager;
     QGridLayout *grid_layout;
-    void createPanel(ra::RoboasmCoordsPtr _coords);
-    void panelRobot(ra::RoboasmCoordsPtr _coords)
-    {
-        int row = 0;
-        addEditorToPanel("name", _coords->name(), row++);
-        addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
-        addCoordsToPanel("initial", _coords->worldcoords(), row++);
-    }
-    void panelParts(ra::RoboasmCoordsPtr _coords)
-    {
-        int row = 0;
-        addEditorToPanel("name", _coords->name(), row++);
-        addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
-        if(!!_coords->parent()) addDescriptionToPanel("parent", _coords->parent()->name(), row++);
-        // color??
-        ra::Parts *info = _coords->toParts()->info;
-        if(!!info) {
-            //type
-            addDescriptionToPanel("type", info->type, row++);
-            //mass
-            //com
-            //inertia tensor
-        }
-    }
-    void panelConnectingPoint(ra::RoboasmCoordsPtr _coords)
-    {
-        int row = 0;
-        addEditorToPanel("name", _coords->name(), row++);
-        addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
-        if(!!_coords->parent()) addDescriptionToPanel("parent", _coords->parent()->name(), row++);
-        ra::ConnectingPoint *info = _coords->toConnectingPoint()->info;
-        if(!!info) {
-            //
-            if(info->getType() == ra::ConnectingPoint::Parts) {
-                addDescriptionToPanel("type", "connecting-point", row++);
-            } else { // actuator
-                std::string str_ = "actuator/";
-                if(info->getType() == ra::ConnectingPoint::Rotational) {
-                    str_ += "rotational";
-                } else if (info->getType() == ra::ConnectingPoint::Linear) {
-                    str_ += "linear";
-                } else if (info->getType() == ra::ConnectingPoint::Fixed) {
-                    str_ += "fixed";
-                } else if (info->getType() == ra::ConnectingPoint::Free) {
-                    str_ += "free";
-                } else {
-                    str_ += "others";
-                }
-                addDescriptionToPanel("type", str_, row++);
-            }
-            addCoordsToPanel("coords", info->coords, row++);
-            // connecting?(parent? / child?)
-            // connecting conf
-            if(info->getType() != ra::ConnectingPoint::Parts) {
-                ra::Actuator *ainfo = dynamic_cast<ra::Actuator*>(info);
-                if(!!ainfo) {
-                    addVectorToPanel("axis", ainfo->axis, row++);
-                    // limit
-                }
-            }
-        }
-    }
+    MappingPtr current_info;
+    void createPanel(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
+    void panelRobot(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
+    void panelParts(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
+    void panelConnectingPoint(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
+
     void addDescriptionToPanel(const std::string &_label, const std::string &_desc, int row)
     {
         auto lb1_ = new QLabel(_label.c_str());
@@ -124,7 +69,44 @@ public:
         auto lb2_ = new QLabel(_desc.c_str());
         grid_layout->addWidget(lb2_, row, 1, 1, -1, Qt::AlignLeft);
     }
-    void addCoordsToPanel(const std::string &_label, coordinates &_cds, int row)
+    void addDescriptionToPanel(const std::string &_label, Vector3 &_vec, int row)
+    {
+        std::string str_;
+        listString(str_, _vec(0), _vec(1), _vec(2));
+        addDescriptionToPanel(_label, str_, row);
+    }
+    void addDescriptionToPanel(const std::string &_label, Vector3f &_vec, int row)
+    {
+        std::string str_;
+        listString(str_, _vec(0), _vec(1), _vec(2));
+        addDescriptionToPanel(_label, str_, row);
+    }
+    void addDescriptionToPanel(const std::string &_label, double a, double b, int row)
+    {
+        std::string str_;
+        listString(str_, a, b);
+        addDescriptionToPanel(_label, str_, row);
+    }
+    void addDescriptionToPanel(const std::string &_label, double a, int row)
+    {
+        std::ostringstream oss;
+        oss << std::setprecision(5);
+        oss << a;
+        addDescriptionToPanel(_label, oss.str(), row);
+    }
+    void addDescriptionToPanel(const std::string &_label, coordinates &_cds, int row)
+    {
+        std::string pstr_;
+        listString(pstr_, _cds.pos(0), _cds.pos(1), _cds.pos(2));
+        std::string rstr_;
+        AngleAxis ax_(_cds.rot);
+        listString(rstr_, ax_.axis()(0), ax_.axis()(1), ax_.axis()(2), ax_.angle());
+        std::string str_ = pstr_ + " / " + rstr_;
+        addDescriptionToPanel(_label, str_, row);
+    }
+    void addCoordsToPanel(const std::string &_label, coordinates &_cds, int row,
+                          std::function<void(const std::string &_txt)> funcTrans = nullptr,
+                          std::function<void(const std::string &_txt)> funcRot = nullptr)
     {
         int sz_ = (self->frameSize().width() * 2)/5 - 1;
         auto lb1_ = new QLabel(_label.c_str());
@@ -135,6 +117,10 @@ public:
         le1_->setMinimumWidth(sz_);
         le1_->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Preferred);
         grid_layout->addWidget(le1_, row, 1, Qt::AlignLeft);
+        if(!!funcTrans) {
+            le1_->sigEditingFinished().connect(
+                [le1_, funcTrans]() { funcTrans(le1_->string()); } );
+        }
         std::string rstr_;
         AngleAxis ax_(_cds.rot);
         listString(rstr_, ax_.axis()(0), ax_.axis()(1), ax_.axis()(2), ax_.angle());
@@ -142,19 +128,13 @@ public:
         le2_->setMinimumWidth(sz_);
         le2_->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Preferred);
         grid_layout->addWidget(le2_, row, 2, 1, -1, Qt::AlignLeft);
+        if(!!funcRot) {
+            le2_->sigEditingFinished().connect(
+                [le2_, funcRot]() { funcRot(le2_->string()); } );
+        }
     }
-    void addVectorToPanel(const std::string &_label, const Vector3 &_vec, int row)
-    {
-        auto lb_ = new QLabel(_label.c_str());
-        grid_layout->addWidget(lb_, row, 0, Qt::AlignRight);
-        std::string str_;
-        listString(str_, _vec(0), _vec(1), _vec(2));
-        auto le_ = new LineEdit(str_.c_str());
-        le_->setMinimumWidth((self->frameSize().width() * 4)/5 - 1);
-        le_->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Preferred);
-        grid_layout->addWidget(le_, row, 1, 1, -1, Qt::AlignLeft); //Qt::AlignJustify);
-    }
-    void addEditorToPanel(const std::string &_label, const std::string &_init, int row)
+    void addEditorToPanel(const std::string &_label, const std::string &_init, int row,
+                          std::function<void(const std::string &_txt)> func = nullptr)
     {
         auto lb_ = new QLabel(_label.c_str());
         grid_layout->addWidget(lb_, row, 0, Qt::AlignRight);
@@ -162,6 +142,136 @@ public:
         le_->setMinimumWidth((self->frameSize().width() * 4)/5 - 1);
         le_->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Preferred);
         grid_layout->addWidget(le_, row, 1, 1, -1, Qt::AlignLeft); //Qt::AlignJustify);
+        if(!!func) {
+            le_->sigEditingFinished().connect(
+                [le_, func]() { func(le_->string()); } );
+        }
+    }
+    void addVectorToPanel(const std::string &_label, const Vector3 &_vec, double a, int row,
+                          std::function<void(const std::string &_txt)> func = nullptr)
+    {
+        std::string str_;
+        listString(str_, _vec(0), _vec(1), _vec(2), a);
+        addEditorToPanel(_label, str_, row, func);
+    }
+    void addVectorToPanel(const std::string &_label, const Vector3 &_vec, int row,
+                          std::function<void(const std::string &_txt)> func = nullptr)
+    {
+        std::string str_;
+        listString(str_, _vec(0), _vec(1), _vec(2));
+        addEditorToPanel(_label, str_, row, func);
+    }
+    void addVectorToPanel(const std::string &_label, const Vector3f &_vec, int row,
+                          std::function<void(const std::string &_txt)> func = nullptr)
+    {
+        std::string str_;
+        listString(str_, _vec(0), _vec(1), _vec(2));
+        addEditorToPanel(_label, str_, row, func);
+    }
+    void addVectorToPanel(const std::string &_label, double a, double b, int row,
+                          std::function<void(const std::string &_txt)> func = nullptr)
+    {
+        std::string str_;
+        listString(str_, a, b);
+        addEditorToPanel(_label, str_, row, func);
+    }
+    void infoRobot(const std::string &_key, const std::string &_str)
+    {
+        if(!!current_info) {
+            Mapping *mp_ = ra::getRobotInfo(current_info);
+            if(!mp_) {
+                MappingPtr pt_ = new Mapping();
+                addToMapping(pt_, _key, _str);
+                ra::addMapping(current_info, "robot-info", pt_);
+            } else {
+                addToMapping(mp_, _key, _str);
+            }
+        }
+        // update??
+    }
+    void infoLink(const std::string &_parts, const std::string &_key, const std::string &_str)
+    {
+        info_("parts-info", _parts, _key, _str);
+    }
+    void infoActuator(const std::string &_act, const std::string &_key, const std::string &_str)
+    {
+        info_("actuator-info", _act, _key, _str);
+    }
+    void infoLinkVec3(const std::string &_parts, const std::string &_key, const std::string &_txt)
+    {
+        info_vec3_("parts-info", _parts, _key, _txt);
+    }
+    void infoActuatorVec2(const std::string &_act, const std::string &_key, const std::string &_txt)
+    {
+        info_vec2_("actuator-info", _act, _key, _txt);
+    }
+    void info_(const std::string &_type, const std::string &_name,
+               const std::string &_key, const std::string &_str)
+    {
+        if(!!current_info) {
+            Mapping *mp_ = ra::getMapping(current_info, _type, _name);
+            if(!mp_) {
+                MappingPtr tgt_ = new Mapping();
+                addToMapping(tgt_, _key, _str);
+                ra::addMapping(current_info, _type, _name, tgt_);
+            } else {
+                addToMapping(mp_, _key, _str);
+            }
+        }
+    }
+    void info_vec2_(const std::string &_type, const std::string &_name,
+                   const std::string &_key, const std::string &_txt)
+    {
+        double a, b;
+        DEBUG_SIMPLE("vec2");
+        if(parseFromString(a, b, _txt)) {
+            DEBUG_SIMPLE("vec2 parsed");
+            if(!!current_info) {
+                DEBUG_SIMPLE("cur_info");
+                Mapping *mp_ = ra::getMapping(current_info, _type, _name);
+                if(!mp_) {
+                    MappingPtr tgt_ = new Mapping();
+                    addToMapping(tgt_, _key, a, b);
+                    ra::addMapping(current_info, _type, _name, tgt_);
+                } else {
+                    addToMapping(mp_, _key, a, b);
+                }
+            }
+        }
+    }
+    void info_vec3_(const std::string &_type, const std::string &_name,
+                   const std::string &_key, const std::string &_txt)
+    {
+        Vector3 vec_;
+        if(parseFromString(vec_, _txt)) {
+            if(!!current_info) {
+                Mapping *mp_ = ra::getMapping(current_info, _type, _name);
+                if(!mp_) {
+                    MappingPtr tgt_ = new Mapping();
+                    addToMapping(tgt_, _key, vec_);
+                    ra::addMapping(current_info, _type, _name, tgt_);
+                } else {
+                    addToMapping(mp_, _key, vec_);
+                }
+            }
+        }
+    }
+    void info_vec4_(const std::string &_type, const std::string &_name,
+                   const std::string &_key, const std::string &_txt)
+    {
+        Vector3 vec_; double a;
+        if(parseFromString(vec_, a, _txt)) {
+            if(!!current_info) {
+                Mapping *mp_ = ra::getMapping(current_info, _type, _name);
+                if(!mp_) {
+                    MappingPtr tgt_ = new Mapping();
+                    addToMapping(tgt_, _key, a, vec_);
+                    ra::addMapping(current_info, _type, _name, tgt_);
+                } else {
+                    addToMapping(mp_, _key, a, vec_);
+                }
+            }
+        }
     }
 };
 
@@ -189,18 +299,22 @@ AssemblerPartsView::Impl::Impl(AssemblerPartsView *_self)
     //
     manager = AssemblerManager::instance();
     if(!!manager) {
-        manager->sigCoordsSelected().connect( [this](ra::RoboasmCoordsPtr _pt) {
-                createPanel(_pt);
-            } );
+        manager->sigCoordsSelected().connect(
+            [this](ra::RoboasmCoordsPtr _pt, MappingPtr _info) { createPanel(_pt, _info); } );
     }
 }
 AssemblerPartsView::Impl::~Impl()
 {
     delete grid_layout;
 }
-void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords)
+void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords, MappingPtr _info)
 {
-    DEBUG_STREAM(" in:" << _coords->name());
+    if(!!_coords) {
+        DEBUG_STREAM(" in:" << _coords->name());
+    } else {
+        DEBUG_STREAM(" delete panel");
+    }
+    current_info = _info;
     QLayout *layout_ = self->layout();
     if(!!layout_) {
         QLayoutItem *item_;
@@ -224,22 +338,154 @@ void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords)
     grid_layout->setColumnStretch(1, 2);
     grid_layout->setColumnStretch(2, 2);
     //grid_layout->setColumnStretch(2, 2);
-    if(_coords->isRobot()) {
-        panelRobot(_coords);
+    if(!_coords) {
+        // do nothing
+    } else if(_coords->isRobot()) {
+        panelRobot(_coords, _info);
     } else if (_coords->isParts()) {
-        panelParts(_coords);
+        panelParts(_coords, _info);
     } else if (_coords->isConnectingPoint()) {
-        panelConnectingPoint(_coords);
+        panelConnectingPoint(_coords, _info);
     }
     self->setLayout(grid_layout);
 }
-
-#if 0
-YAMLReader yrdr;
-if (yrdr.parse("")) {
-    yrdr.numDocuments();
-    ValueNode *nd = yrdr.document;
+void AssemblerPartsView::Impl::panelRobot(ra::RoboasmCoordsPtr _coords, MappingPtr _info)
+{
+    int row = 0;
+    std::string nm_ = _coords->name();
+    if (!!current_info) {
+        Mapping *mp_ = ra::getRobotInfo(current_info);
+        if(!!mp_) {
+            readFromMapping(mp_, "name", nm_);
+        }
+    }
+    addEditorToPanel("name", nm_, row++,
+                     [this] (const std::string &_s) { infoRobot("name", _s); } );
+    addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
+    addCoordsToPanel("cuurent", _coords->worldcoords(), row++);
+    addCoordsToPanel("initial", _coords->worldcoords(), row++);//??
 }
-read_vector3(nd);
-read_vector3_d(nd);
-#endif
+void AssemblerPartsView::Impl::panelParts(ra::RoboasmCoordsPtr _coords, MappingPtr _info)
+{
+    int row = 0;
+    std::string nm_ = _coords->name();
+    addDescriptionToPanel("name", nm_, row++);
+    addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
+    if(!!_coords->parent()) addDescriptionToPanel("parent", _coords->parent()->name(), row++);
+    // link-name
+    std::string lnm_ = nm_;
+    if(!!current_info) {
+        Mapping *mp_ = ra::getPartsInfo(current_info, _coords->name());
+        if(!!mp_) {
+            readFromMapping(mp_, "name", lnm_);
+        }
+    }
+    addEditorToPanel("link-name", lnm_, row++,
+                     [this,nm_] (const std::string &_s) { infoLink(nm_, "name", _s); } );
+    // color
+    Vector3f v_ = _coords->toParts()->color;
+    if(!!current_info) {
+        Mapping *mp_ = ra::getPartsInfo(current_info, _coords->name());
+        if(!!mp_) {
+            readFromMapping(mp_, "color", v_);
+        }
+    }
+    addVectorToPanel("color", v_, row++,
+                     [this,nm_] (const std::string &_s) { infoLinkVec3(nm_, "color", _s); } );
+    //
+    ra::Parts *info = _coords->toParts()->info;
+    if(!!info) {
+        addDescriptionToPanel("type", info->type, row++);
+        addDescriptionToPanel("mass", info->mass, row++);
+        addDescriptionToPanel("COM", info->COM, row++);
+        //addDescriptionToPanel("inertia", info->inertia_tensor, row++);
+    }
+}
+void AssemblerPartsView::Impl::panelConnectingPoint(ra::RoboasmCoordsPtr _coords, MappingPtr _info)
+{
+    int row = 0;
+    std::string nm_ = _coords->name();
+    ra::ConnectingPoint *info = _coords->toConnectingPoint()->info;
+    addDescriptionToPanel("name", nm_, row++);
+    addDescriptionToPanel("point-name", _coords->point_name(), row++);
+    addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
+    if(!!_coords->parent()) addDescriptionToPanel("parent", _coords->parent()->name(), row++);
+    if(!!info && info->getType() != ra::ConnectingPoint::Parts) {
+        // actuator-name
+        std::string lnm_ = nm_;
+        if(!!current_info) {
+            Mapping *mp_ = ra::getActuatorInfo(current_info, nm_);
+            if(!!mp_) {
+                readFromMapping(mp_, "name", lnm_);
+            }
+        }
+        addEditorToPanel("joint-name", lnm_, row++,
+                         [this,nm_] (const std::string &_s) { infoActuator(nm_, "name", _s); } );
+    }
+    if(!!info) {
+        //
+        if(info->getType() == ra::ConnectingPoint::Parts) {
+            addDescriptionToPanel("type", "connecting-point", row++);
+        } else { // actuator
+            std::string str_ = "actuator/";
+            if(info->getType() == ra::ConnectingPoint::Rotational) {
+                str_ += "rotational";
+            } else if (info->getType() == ra::ConnectingPoint::Linear) {
+                str_ += "linear";
+            } else if (info->getType() == ra::ConnectingPoint::Fixed) {
+                str_ += "fixed";
+            } else if (info->getType() == ra::ConnectingPoint::Free) {
+                str_ += "free";
+            } else {
+                str_ += "others";
+            }
+            addDescriptionToPanel("type", str_, row++);
+        }
+        addDescriptionToPanel("coords", info->coords, row++);
+        // connecting offset
+        // connecting?(parent? / child?)
+        if(info->getType() != ra::ConnectingPoint::Parts) {
+            ra::Actuator *ainfo = dynamic_cast<ra::Actuator*>(info);
+            if(!!ainfo) {
+                addDescriptionToPanel("axis", ainfo->axis, row++);
+                {
+                double a = ainfo->limit[0];
+                double b = ainfo->limit[1];
+                if(!!current_info) {
+                    Mapping *mp_ = ra::getActuatorInfo(current_info, nm_);
+                    if(!!mp_) {
+                        readFromMapping(mp_, "limit", a, b);
+                        DEBUG_SIMPLE("lim: " << a << ", " << b);
+                    }
+                }
+                addVectorToPanel("limit", a, b, row++,
+                                 [this,nm_] (const std::string &_s) { infoActuatorVec2(nm_, "limit", _s); } );
+                }
+                {
+                double a = ainfo->vlimit[0];
+                double b = ainfo->vlimit[1];
+                if(!!current_info) {
+                    Mapping *mp_ = ra::getActuatorInfo(current_info, nm_);
+                    if(!!mp_) {
+                        readFromMapping(mp_, "vlimit", a, b);
+                    }
+                }
+                addVectorToPanel("vlimit", a, b, row++,
+                                 [this,nm_] (const std::string &_s) { infoActuatorVec2(nm_, "vlimit", _s); } );
+                }
+                {
+                double a = ainfo->tqlimit[0];
+                double b = ainfo->tqlimit[1];
+                if(!!current_info) {
+                    Mapping *mp_ = ra::getActuatorInfo(current_info, nm_);
+                    if(!!mp_) {
+                        readFromMapping(mp_, "tqlimit", a, b);
+                    }
+                }
+                addVectorToPanel("tqlimit", a, b, row++,
+                                 [this,nm_] (const std::string &_s) { infoActuatorVec2(nm_, "tqlimit", _s); } );
+                }
+            }
+        }
+    }
+}
