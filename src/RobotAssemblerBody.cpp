@@ -93,13 +93,7 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
                 } else if (!geom.color.isZero()) {
                     addMaterial(shape, geom.color);
                 } else {
-                    SgMaterialPtr material(new SgMaterial());
-                    material->setName(name_ + "material");
-                    //Vector3f color(0.1f, 0.1f, 0.7f);
-                    material->setDiffuseColor(default_body_color);
-                    material->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
-                    material->setAmbientIntensity(0.7f);
-                    shape->setMaterial(material);
+                    addMaterial(shape, default_body_color);
                 }
                 Position p; geom.coords.toPosition(p);
                 SgPosTransformPtr trs(new SgPosTransform(p));
