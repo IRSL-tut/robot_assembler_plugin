@@ -118,6 +118,19 @@ ConnectingConstraintSettings:
       description: 'rotate 150[deg] around z-axis'
       rotation: [0, 0, 1, 150]
 
+PanelSettings: ## just for choreonoid
+  tab_list:
+    - name: servo_and_arm
+      parts: [s3301, dummy-servo, dummy-half-servo, upper-arm20, upper-arm26, upper-arm38, bottom-arm20, bottom-arm26, bottom-arm38, finger]
+    - name: frames
+      parts: [joint-base, joint-frame-a, joint-frame-b-a, joint-frame-b-b, bottom-spacer, cross-servo-frame-b, cross-servo-frame-a, cross-upper-arm28, cross-bottom-arm28, angle-bracket, arm-supporter-a, arm-supporter-b, flat-frame]
+    - name: body_parts
+      parts: [body-plate, battery-leg-plate, battery-box, back-pack, sole, wheel]
+    - name: others
+      parts: [sensor-joint-base, m5-camera]
+  combo_list: [ body-cut-plate, bottom-spacer2, euclid-head, lock-ring-cap, lock-ring, body-plate-spacer]
+## , auv backpack, auv backpack mount, buoyancybody-t35, M5-Camera-Head
+
 ##PartsSettings:
 #  type: (required)
 #  class: (optional / used for pannel)
@@ -168,7 +181,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_SERVO-S3301.dae"
-        scale: 1000
+        scale: 1
     collision:
       -
         translation: [ 0.0500 ,  0.0000 ,  15.7500 ]
@@ -197,7 +210,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
       -
         name: horn-finger-r
         types: [horn]
@@ -205,7 +218,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
       -
         name: horn-finger-l
         types: [horn]
@@ -213,7 +226,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
     connecting-points:
       -
         name: left-side-front-tap
@@ -250,7 +263,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_DUMMY-SERVO.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_DUMMY-SERVO.dae"
     collision:
       -
@@ -280,7 +293,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
         tqlimit: [0, 0]
       -
         name: horn-finger-r
@@ -289,7 +302,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
         tqlimit: [0, 0]
       -
         name: horn-finger-l
@@ -298,7 +311,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
         tqlimit: [0, 0]
     connecting-points:
       -
@@ -336,7 +349,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_DUMMY-HALF-SERVO.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_DUMMY-HALF-SERVO.dae"
     collision:
       -
@@ -366,7 +379,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
         tqlimit: [0, 0]
       -
         name: horn-finger-r
@@ -375,7 +388,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
         tqlimit: [0, 0]
       -
         name: horn-finger-l
@@ -384,7 +397,7 @@ PartsSettings:
         rotation: [0, 0, 1, 180]
         actuator-type: rotational
         axis: z
-        limit: [-4.71239, 4.71239]
+        limit: [-270, 270]
         tqlimit: [0, 0]
     connecting-points:
       -
@@ -422,7 +435,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_JOINT-BASE.dae"
-        scale: 1000
+        scale: 1
     collision:
       -
         translation: [ 0.0000 ,  0.0000 ,  0.0000 ]
@@ -471,7 +484,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_UPPER-ARM20.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_UPPER-ARM20.dae"
     collision:
       -
@@ -507,7 +520,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_UPPER-ARM26.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_UPPER-ARM26.dae"
     collision:
       -
@@ -543,7 +556,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_UPPER-ARM28.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_UPPER-ARM28.dae"
     collision:
       -
@@ -579,7 +592,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_UPPER-ARM38.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_UPPER-ARM38.dae"
     collision:
       -
@@ -615,7 +628,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BOTTOM-ARM20.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BOTTOM-ARM20.dae"
     collision:
       -
@@ -646,7 +659,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BOTTOM-ARM26.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BOTTOM-ARM26.dae"
     collision:
       -
@@ -677,7 +690,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BOTTOM-ARM28.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BOTTOM-ARM28.dae"
     collision:
       -
@@ -708,7 +721,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BOTTOM-ARM38.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BOTTOM-ARM38.dae"
     collision:
       -
@@ -739,7 +752,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_JOINT-FRAME-A.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_JOINT-FRAME-A.dae"
     collision:
       -
@@ -775,7 +788,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_JOINT-FRAME-B-A.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_JOINT-FRAME-B-A.dae"
     collision:
       -
@@ -814,7 +827,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_JOINT-FRAME-B-B.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_JOINT-FRAME-B-B.dae"
     collision:
       -
@@ -853,7 +866,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BOTTOM-SPACER.dae"
-        scale: 1000
+        scale: 1
     collision:
       -
         translation: [ 1.4500 ,  0.0000 ,  15.7500 ]
@@ -912,7 +925,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_CROSS-SERVO-FRAME-B.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_CROSS-SERVO-FRAME-B.dae"
     collision:
       -
@@ -954,7 +967,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_CROSS-SERVO-FRAME-A.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_CROSS-SERVO-FRAME-A.dae"
     collision:
       -
@@ -1007,7 +1020,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_ANGLE-BRACKET.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_ANGLE-BRACKET.dae"
     collision:
       -
@@ -1056,7 +1069,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BODY-PLATE.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BODY-PLATE.dae"
     collision:
       -
@@ -1361,7 +1374,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BATTERY-LEG-PLATE.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BATTERY-LEG-PLATE.dae"
     collision:
       -
@@ -1413,7 +1426,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BATTERY-BOX.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BATTERY-BOX.dae"
     collision:
       -
@@ -1498,7 +1511,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BACK-PACK.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_BACK-PACK.dae"
     collision:
       -
@@ -1557,7 +1570,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_SOLE.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_SOLE.dae"
     collision:
       -
@@ -1579,7 +1592,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_WHEEL.dae"
-        scale: 1000
+        scale: 1
     collision:
       -
         cylinder: [30.5, 13] ## radius, length
@@ -1598,7 +1611,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_FINGER.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_FINGER.dae"
     collision:
       -
@@ -1645,7 +1658,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_ARM-SUPPORTER-A.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_ARM-SUPPORTER-A.dae"
     collision:
       -
@@ -1683,7 +1696,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_ARM-SUPPORTER-B.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_ARM-SUPPORTER-B.dae"
     collision:
       -
@@ -1720,7 +1733,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_FLAT-FRAME.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_FLAT-FRAME.dae"
     collision:
       -
@@ -1770,7 +1783,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_JOINT-BASE.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_JOINT-BASE.dae"
     collision:
       -
@@ -1828,7 +1841,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_M5head.dae"
-        scale: 1000
+        scale: 1
     # boxes for "meshes/mesh_JOINT-BASE.dae"
     collision:
       -
@@ -1857,7 +1870,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BODY-PLATE-SPACER.dae"
-        scale: 1000
+        scale: 1
     collision: ## collision -> nil
       -
         dummy: 0
@@ -1875,7 +1888,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_LOCK-RING.dae"
-        scale: 1000
+        scale: 1
     collision: ## collision -> nil
       -
         dummy: 0
@@ -1898,7 +1911,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_LOCK-RING-CAP.dae"
-        scale: 1000
+        scale: 1
     collision: ## collision -> nil
       -
         dummy: 0
@@ -1917,7 +1930,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_EUCLID-HEAD.dae"
-        scale: 1000
+        scale: 1
     collision:
       -
         translation: [ 6.0 ,  0.0 , 16.5 ]
@@ -1938,7 +1951,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BOTTOM-SPACER2.dae"
-        scale: 1000
+        scale: 1
     collision:
       -
         translation: [ 1.4500 ,  0.0000 ,  -5.300 ]
@@ -1997,7 +2010,7 @@ PartsSettings:
       -
         type: mesh
         url: "meshes/mesh_BODY_CUT_PLATE.dae"
-        scale: 1000
+        scale: 1
     collision:
       -
         translation: [0,  0,  1.5 ]
