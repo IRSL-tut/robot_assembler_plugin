@@ -162,7 +162,11 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
             map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(ss_.str(), _pt->name()));
             Actuator *ainfo_ = dynamic_cast<Actuator*>(act_->info);
             if(!!ainfo_) {
-                lk->setJointAxis(ainfo_->axis);
+                if (act_ == s_cp_) {
+                    lk->setJointAxis(- ainfo_->axis); // [todo] update direction by info
+                } else {
+                    lk->setJointAxis(ainfo_->axis); // [todo] update direction by info
+                }
                 switch (ainfo_->getType()) {
                 case ConnectingPoint::Rotational:
                     lk->setJointType(Link::RevoluteJoint);

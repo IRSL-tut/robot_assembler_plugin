@@ -125,12 +125,12 @@ class Actuator : public ConnectingPoint
 public:
     Actuator() {
         axis.Zero();
-        limit[0] = std::numeric_limits<double>::infinity();
-        limit[1] = - std::numeric_limits<double>::infinity();
-        vlimit[0] = std::numeric_limits<double>::infinity();
-        vlimit[1] = - std::numeric_limits<double>::infinity();
-        tqlimit[0] = std::numeric_limits<double>::infinity();
-        tqlimit[1] = - std::numeric_limits<double>::infinity();
+        limit[0] = - std::numeric_limits<double>::infinity();
+        limit[1] = std::numeric_limits<double>::infinity();
+        vlimit[0] = - std::numeric_limits<double>::infinity();
+        vlimit[1] =  std::numeric_limits<double>::infinity();
+        tqlimit[0] = - std::numeric_limits<double>::infinity();
+        tqlimit[1] =  std::numeric_limits<double>::infinity();
         type = UNDEFINED;
     }
     Actuator(PartsType _tp) : Actuator() { type = _tp; }
