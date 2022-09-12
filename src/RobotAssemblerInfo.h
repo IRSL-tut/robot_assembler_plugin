@@ -64,27 +64,11 @@ inline Mapping *getActuatorInfo(Mapping *info, const std::string &_actname)
 {
     return getMapping(info, "actuator-info", _actname);
 }
-class cnoidRAFile : public RoboasmFile
+class cnoidRAInfo
 {
 public:
-    cnoidRAFile() {};
-    cnoidRAFile(const std::string &_filename) : RoboasmFile()
-    {
-        valid_ = this->parseRoboasm(_filename);
-    }
+    cnoidRAInfo(MappingPtr _info = nullptr) : info(_info) {}
     MappingPtr info;
-    //ignore config
-    virtual bool parseRoboasm(const std::string &_filename, bool parse_config = true) override
-    {
-        RoboasmFile::parseRoboasm(_filename, false);
-        info = parseInfo(_filename);
-        DEBUG_STREAM(" info: " << !!info);
-        if(history.size() < 0 && !info) return false;
-        return true;
-    }
-    virtual bool dumpRoboasm(const std::string &_filename) override;
-    MappingPtr historyToMap(MappingPtr _main = nullptr);
-    bool updateRobotByInfo(RoboasmRobotPtr _rb);
 
     Mapping *getRobotInfo()
     {
@@ -110,21 +94,72 @@ public:
         if(!mp_) return false;
         return readFromMapping(mp_, "initial-coords", _res);
     }
+    bool getPartsName(const std::string &_pt, std::string &_res)
+    {
+        Mapping *mp_ = getPartsInfo(_pt);
+        if(!mp_) return false;
+        return readFromMapping(mp_, "name", _res);
+    }
+    bool getPartsColor(const std::string &_pt, Vector3f &_res)
+    {
+        Mapping *mp_ = getPartsInfo(_pt);
+        if(!mp_) return false;
+        return readFromMapping(mp_, "color", _res);
+    }
+    bool getActuatorName(const std::string &_ac, std::string &_res)
+    {
+        Mapping *mp_ = getActuatorInfo(_ac);
+        if(!mp_) return false;
+        return readFromMapping(mp_, "name", _res);
+    }
+    bool getActuatorLimit(const std::string &_ac, const std::string &_ky, double &a, double &b)
+    {
+        Mapping *mp_ = getActuatorInfo(_ac);
+        if(!mp_) return false;
+        return readFromMapping(mp_, _ky, a, b);
+    }
+};
+
+class cnoidRAFile : public RoboasmFile, public cnoidRAInfo
+{
+public:
+    cnoidRAFile() {};
+    cnoidRAFile(const std::string &_filename) : RoboasmFile(), cnoidRAInfo()
+    {
+        valid_ = this->parseRoboasm(_filename);
+    }
+    //ignore config
+    virtual bool parseRoboasm(const std::string &_filename, bool parse_config = true) override
+    {
+        RoboasmFile::parseRoboasm(_filename, false);
+        info = parseInfo(_filename);
+        DEBUG_STREAM(" info: " << !!info);
+        if(history.size() < 0 && !info) return false;
+        return true;
+    }
+    virtual bool dumpRoboasm(const std::string &_filename) override;
+    MappingPtr historyToMap(MappingPtr _main = nullptr);
+    bool updateRobotByInfo(RoboasmRobotPtr _rb);
 };
 } }
 #endif
 
 #if 0
 robot-info:
-  
+  name:
+  initial-coords:
 parts-info:
   partsname0: // name of parts
     name:
     color:
 actuator-info:
-  actuatorname0:
+  actuatorname0: // name of actuator
     name:
     axis:
+    id:
+    direction:
+    offset:
+    initial:
     limit:
     vlimit:
     tqlimit:

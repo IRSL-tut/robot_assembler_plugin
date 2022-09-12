@@ -762,8 +762,9 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
         }
         if(fname.size() > 0) {
             // createBody
-            ra::RoboasmBodyCreator bc(_sr->robot()->name(), _project_directory);
-            BodyPtr bd = bc.createBody(_sr->robot());
+            ra::RoboasmBodyCreator bc(_project_directory);
+            //bc.setMergeFixedJoint(true);
+            BodyPtr bd = bc.createBody(_sr->robot(), _sr->info);
             StdBodyWriter writer;
             writer.writeBody(bd, fname);
             // [TODO] if urdf
