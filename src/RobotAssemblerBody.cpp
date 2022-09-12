@@ -1,5 +1,5 @@
 #include "RobotAssemblerBody.h"
-
+#include "RobotAssemblerInfo.h"
 // shape
 #include <cnoid/SceneLoader>
 #include <cnoid/MeshGenerator>
@@ -105,19 +105,20 @@ void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geo
     }
 }
 
-RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_name, const std::string &_proj_dir) : RoboasmBodyCreator ()
+RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(nullptr), joint_counter(0), merge_fixed_joint(false)
 {
-    name = _name;
     project_directory = _proj_dir;
-    joint_counter = 0;
 }
 Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
 {
     Link *lk = new Link();
     coordinates link_origin_to_self_;
+    cnoidRAInfo cinfo(info);
 
     if (_is_root) { // for root link
-        lk->setName("Root");
+        std::string nm_("Root");
+        cinfo.getPartsName(_pt->name(), nm_);
+        lk->setName(nm_);
         //lk->setJointName();
         lk->setJointType(Link::FreeJoint);
         lk->setJointId(-1);
@@ -126,7 +127,7 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         _pt->worldcoords().toPosition(p);
         lk->setOffsetPosition(p);
         //
-        map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>("Root", _pt->name()));
+        map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(nm_, _pt->name()));
     } else { // usual (has parent) link
         RoboasmPartsPtr p_pt_;
         RoboasmConnectingPointPtr p_cp_;
@@ -154,12 +155,20 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
             act_ = s_cp_;
         }
         if( !!act_ ) {
+            // link-name
             std::ostringstream ss_;
             ss_ << "LINK_" << joint_counter;
-            lk->setName(ss_.str());
-            lk->setJointId(joint_counter++);
-            //lk->setJointName();
-            map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(ss_.str(), _pt->name()));
+            std::string lnm_ = ss_.str();
+            cinfo.getPartsName(_pt->name(), lnm_);
+            lk->setName(lnm_);
+            // joint-name
+            std::string jnm_ = lnm_;
+            if(cinfo.getActuatorName(_pt->name(), jnm_)) {
+                lk->setJointName(jnm_);
+            }
+            lk->setJointId(joint_counter++); // [todo] overwrite id by info
+            map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(lnm_, _pt->name()));
+            //map_joint_cnoid_roboasm.insert(std::pair<std::string, std::string>(jnm_, _pt->name()));
             Actuator *ainfo_ = dynamic_cast<Actuator*>(act_->info);
             if(!!ainfo_) {
                 if (act_ == s_cp_) {
@@ -183,6 +192,7 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
                     break;
                 }
                 DEBUG_STREAM(" limit : " << ainfo_->limit[0] << " / " << ainfo_->limit[1]);
+                // [TODO] overwrite limit by info
                 lk->setJointRange(ainfo_->limit[0], ainfo_->limit[1]);
                 lk->setJointVelocityRange(ainfo_->vlimit[0], ainfo_->vlimit[1]);
                 lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
@@ -190,10 +200,12 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
                 // no ainfo
             }
         } else { // not actuator(fixed connect)
-            lk->setName(_pt->name());
+            std::string nm_ = _pt->name();
+            cinfo.getPartsName(_pt->name(), nm_);
+            lk->setName(nm_);
             lk->setJointType(Link::FixedJoint);
             lk->setJointId(-1);
-            map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(_pt->name(), _pt->name()));
+            map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(nm_, _pt->name()));
         }
     } // root or not root
     if (!!_pt->info && _pt->info->hasMassParam) {
@@ -238,6 +250,8 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
     if(!!_pt->info) {
         SgPosTransformPtr trs_vis;
         SgPosTransformPtr trs_col;
+        // [TODO] update color by info
+        Vector3f col_;
         if(_pt->info->visual.size() > 0) {
             trs_vis = (new SgPosTransform());
             trs_vis->setName(_pt->name() + "/visual");
@@ -283,7 +297,7 @@ bool RoboasmBodyCreator::appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr
     }
     return true;
 }
-BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb)
+BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb, const std::string &_name)
 {
     _rb->updateDescendants();
     RoboasmPartsPtr root_ = _rb->rootParts();
@@ -293,8 +307,8 @@ BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb)
     }
 
     body = new Body();
-    if(name.size() > 0) {
-        body->setName(name);
+    if(_name.size() > 0) {
+        body->setName(_name);
         body->setModelName(_rb->name());
     } else {
         body->setName(_rb->name());
@@ -311,10 +325,21 @@ BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb)
 }
 BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, const std::string &_name)
 {
-    if(_name.size() > 0) name = _name;
     body = new Body();
     currentRobot = _rb;
-    _createBody(_rb);
+
+    std::string local_name;
+    if(_name.size() > 0) {
+        local_name = _name;
+    } else if (name.size() > 0) {
+        local_name = name;
+    } else if (!!info) {
+        
+    } else {
+        local_name = _rb->name();
+    }
+
+    _createBody(_rb, local_name);
 
     if (merge_fixed_joint) {
         mergeFixedJoint(body);

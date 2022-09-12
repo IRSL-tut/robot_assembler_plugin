@@ -83,19 +83,31 @@ public:
     ~RASceneRobot();
 
     RoboasmRobotPtr robot() { return self; }
-    void setCoords(coordinates &_coords) {
-        self->newcoords(_coords);
-        self->updateDescendants();
-        Position p; _coords.toPosition(p);
-        this->position() = p;
-    }
-    void updateFromSelf() {
+    void updateFromSelf()
+    {   // [TODO] concern initial
         Position p; self->toPosition(p);
         this->position() = p;
+    }
+    void setCoords(coordinates &_coords)
+    {
+        self->newcoords(_coords);
+        self->updateDescendants();
+        updateFromSelf();
+    }
+    void setInitialCoords(coordinates &_coords)
+    {
+        // [TODO]
+    }
+    void updateByInfo()
+    {
+        // coords update
+        // color update
     }
     RASceneParts *searchParts(RoboasmPartsPtr _pt);
     RASceneConnectingPoint *searchConnectingPoint(RoboasmConnectingPointPtr _pt);
     bool mergeRobot(RASceneRobot *_rb);
+    // removeParts [TODO]
+
 #if 0
     void debug() {
         partsPtrList plst;
@@ -138,7 +150,6 @@ public:
         }
     }
 #endif
-    // removeParts [TODO]
 
     //// overrides : SceneWidgetEventHandler
     virtual void onSceneModeChanged(SceneWidgetEvent* event) override;
