@@ -106,8 +106,6 @@ public:
     RASceneParts *searchParts(RoboasmPartsPtr _pt);
     RASceneConnectingPoint *searchConnectingPoint(RoboasmConnectingPointPtr _pt);
     bool mergeRobot(RASceneRobot *_rb);
-    // removeParts [TODO]
-
 #if 0
     void debug() {
         partsPtrList plst;
