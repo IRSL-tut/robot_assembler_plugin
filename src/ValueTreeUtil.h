@@ -88,7 +88,7 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, ValueNode *_tgt)
     }
     _mp->insert(_key, _tgt);
 }
-inline void addToMapping(Mapping *_mp, const std::string &_key, double a, Vector3 &_vec, double eps = 1e-12)
+inline void addToMapping(Mapping *_mp, const std::string &_key, double a, const Vector3 &_vec, double eps = 1e-12)
 {
     ValueNode *vn = _mp->find(_key);
     if(vn->isValid()) {
@@ -119,7 +119,7 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, double a, Vector
     }
     _mp->insert(_key, lst);
 }
-inline void addToMapping(Mapping *_mp, const std::string &_key, Vector3 &_vec, double eps = 1e-12)
+inline void addToMapping(Mapping *_mp, const std::string &_key, const Vector3 &_vec, double eps = 1e-12)
 {
     ValueNode *vn = _mp->find(_key);
     if(vn->isValid()) {
@@ -145,7 +145,7 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, Vector3 &_vec, d
     }
     _mp->insert(_key, lst);
 }
-inline void addToMapping(Mapping *_mp, const std::string &_key, Vector3f &_vec, double eps = 1e-12)
+inline void addToMapping(Mapping *_mp, const std::string &_key, const Vector3f &_vec, double eps = 1e-12)
 {
     ValueNode *vn = _mp->find(_key);
     if(vn->isValid()) {
@@ -208,7 +208,7 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, bool _bl)
     }
     _mp->write(_key, _bl);
 }
-inline void addToMapping(Mapping *_mp, const std::string &_key, const coordinates &_cds)
+inline void addCoordsToMapping(Mapping *_mp, const std::string &_key, const coordinates &_cds)
 {
     if(_cds.isInitial()) return;
     ValueNode *vn = _mp->find(_key);

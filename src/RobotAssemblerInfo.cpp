@@ -35,9 +35,8 @@ MappingPtr ra::createInfo(ra::RoboasmRobotPtr _rb)
     MappingPtr rb_info = new Mapping();
     addToMapping(rb_info, "name", _rb->name());
     coordinates cds_ = *root_;
-    addToMapping(rb_info, "initial-coords", cds_);
+    addCoordsToMapping(rb_info, "initial-coords", cds_);
     ret->insert("robot-info", rb_info);
-
     MappingPtr pt_info = new Mapping();
     bool added = false;
     ra::partsPtrList lst;
@@ -140,7 +139,7 @@ MappingPtr ra::cnoidRAFile::historyToMap(MappingPtr _main)
                     // no config
             } else {
                 if(!(*it).connecting_offset.isInitial(1e-12)) {
-                    addToMapping(hitm, "connecting-offset", (*it).connecting_offset);
+                    addCoordsToMapping(hitm, "connecting-offset", (*it).connecting_offset);
                 }
             }
         } else {
