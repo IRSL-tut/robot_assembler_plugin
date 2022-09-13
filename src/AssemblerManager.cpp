@@ -428,7 +428,7 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
     notifyUpdate();
     SceneView::instance()->sceneWidget()->viewAll();
 }
-void AssemblerManager::attachRobots(bool _just_align, int increment)
+void AssemblerManager::attachRobots(bool _swap_order, bool _just_align, int increment)
 {
     DEBUG_PRINT();
     if(!clickedPoint0 || !clickedPoint1) {
@@ -438,8 +438,8 @@ void AssemblerManager::attachRobots(bool _just_align, int increment)
 
     ra::RASceneConnectingPoint *cp0 = clickedPoint0;
     ra::RASceneConnectingPoint *cp1 = clickedPoint1;
-    if(cp1->scene_robot()->robot()->partsNum() >
-       cp0->scene_robot()->robot()->partsNum() ) { // swap 0 and 1
+    if(_swap_order && (cp1->scene_robot()->robot()->partsNum() >
+                       cp0->scene_robot()->robot()->partsNum() ) ) { // swap 0 and 1
         ra::RASceneConnectingPoint *tmp = cp0;
         cp0 = cp1; cp1 = tmp;
     }
@@ -618,6 +618,8 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     menu->addSeparator();
     menu->addItem("Attach")->sigTriggered().connect(
         [this](){ com_attach(); } );
+    menu->addItem("Attach Order")->sigTriggered().connect(
+        [this](){ com_attach_o(); } );
     menu->addItem("Undo")->sigTriggered().connect(
         [this](){ com_undo(); } );
     menu->addSeparator();
