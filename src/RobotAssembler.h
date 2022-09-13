@@ -358,9 +358,6 @@ public:
                 bool just_align = false);
     //this method destroy robot structure...
     bool changeRoot(RoboasmConnectingPointPtr _chld); // static method
-
-    // RoboasmRobotPtr detach(RoboasmPartsPtr _parts);
-    // RoboasmRobotPtr detach(RoboasmConnectiongPtr _parts);
     size_t partsNum() {
         partsPtrList lst;
         allParts(lst);
@@ -387,6 +384,9 @@ public:
     bool createRoboasm(RoboasmFile &_roboasm);
     bool writeConfig(AssembleConfig &_config);
     void connectedPoints(connectingPointPtrList &lst);
+    // RoboasmRobotPtr detach(RoboasmConnectiongPointPtr _cp);
+    RoboasmRobotPtr detach(RoboasmPartsPtr _pt);
+
 protected:
     SettingsPtr settings;
     friend RoboasmCoords;

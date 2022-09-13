@@ -652,6 +652,31 @@ bool RoboasmRobot::checkCorrectPoint(RoboasmCoordsPtr robot_or_parts,
     }
     return true;
 }
+RoboasmRobotPtr RoboasmRobot::detach(RoboasmPartsPtr _pt)
+{
+    partsPtrList lst;
+    allParts(lst);
+    auto it = std::find(lst.begin(), lst.end(), _pt);
+    if(it == lst.end()) return nullptr;
+    if(_pt->parent() == this) return nullptr;
+
+    // pt->parent (parts-point)
+    // pt->parent->parent (parent-point)
+    if( !(_pt->parent()) || !(_pt->parent()->parent()) ) return nullptr;
+
+    RoboasmCoordsPtr pt_p = _pt->parent()->parent()->isDirectDescendant(_pt->parent());
+    bool res = _pt->parent()->dissocFromParent();
+    if(!res) return nullptr;
+
+    res = _pt->dissocFromParent();
+    if(!res) return nullptr;
+    if(pt_p->hasDescendants()) return nullptr;
+
+    _pt->assoc(pt_p);
+
+    RoboasmRobotPtr ret = std::make_shared<RoboasmRobot>("divided_robot", _pt, settings);
+    return ret;
+}
 bool RoboasmRobot::checkAttachByName(RoboasmCoordsPtr robot_or_parts,
                                      const std::string &name_parts_point,
                                      const std::string &name_robot_point,

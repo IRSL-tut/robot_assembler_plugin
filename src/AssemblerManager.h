@@ -51,6 +51,7 @@ public:
         return (it != srobot_set.end());
     }
     void deleteRobot(ra::RASceneRobot *_rb);
+    void detachSceneRobot(ra::RASceneParts *_scpt);
     void deleteAllRobots();
     void attachRobots(bool _swap_order = true, bool _just_align = false, int _increment = 1);
     void itemSelected(AssemblerItemPtr itm, bool on);

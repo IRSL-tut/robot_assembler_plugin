@@ -97,6 +97,24 @@ void AssemblerManager::partsButtonClicked(const std::string &_name, const Vector
         ERROR_STREAM(" robot create error from parts : " << _name);
     }
 }
+void AssemblerManager::detachSceneRobot(ra::RASceneParts *_scpt)
+{
+    DEBUG_STREAM(" detach parts : " << _scpt->name());
+    ra::RASceneRobot *scrb_ = _scpt->scene_robot();
+    ra::RoboasmRobotPtr rb_ = scrb_->robot();
+
+    ra::RoboasmPartsPtr pt_ = _scpt->parts();
+
+    ra::RoboasmRobotPtr newrb_ = rb_->detach(pt_);
+    if(!!newrb_) {
+        DEBUG_STREAM(" newrb");
+        // clone-info [TODO]
+        deleteRobot(scrb_);
+        addAssemblerItem(rb_);
+        DEBUG_STREAM(" add newrb");
+        addAssemblerItem(newrb_);
+    }
+}
 void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _info)
 {
     AssemblerItemPtr itm = AssemblerItem::createItem(_rb, this);
