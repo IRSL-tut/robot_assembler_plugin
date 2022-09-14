@@ -62,12 +62,12 @@ public:
     //~RASceneParts();
     RoboasmPartsPtr parts() { return self; }
     RASceneRobot *scene_robot() { return robot_ptr; }
-
+    void drawBoundingBox(bool _on = true);
 protected:
     RASceneRobot *robot_ptr;
     RoboasmPartsPtr self;
-    SgNodePtr partsScene;
-
+    SgGroupPtr partsScene;
+    SgBoundingBoxPtr bbEffect;
     std::vector<RASceneConnectingPoint*> spoint_list;
 
     friend RASceneConnectingPoint;

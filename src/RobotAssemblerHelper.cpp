@@ -6,7 +6,8 @@
 #include <cnoid/MeshGenerator>
 // context menu
 #include <cnoid/MenuManager>
-
+// SgBoundingBox
+#include <cnoid/SceneEffects>
 #include <iostream>
 
 //#define IRSL_DEBUG
@@ -152,7 +153,15 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
     : SgPosTransform(), self(_p), partsScene(nullptr)
 {
     setName("PT:" + self->name());
-    createSceneFromGeometry(this, self->info->visual, _proj_dir, _p->color);
+    //  ON: this -> effect-> parts
+    // OFF: tihs -> parts
+    partsScene = new SgGroup();
+    createSceneFromGeometry(partsScene, self->info->visual, _proj_dir, _p->color);
+    bbEffect = new SgBoundingBox();
+    bbEffect->setColor(Vector3f(1.0f, 1.0f, 0.0f));
+    bbEffect->setLineWidth(-1.0f);
+    this->addChild(partsScene);
+
     //partsScene = node;
     Position p; _p->worldcoords().toPosition(p);
     position() = p;
@@ -162,7 +171,8 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
         RoboasmConnectingPointPtr ptr = dynamic_pointer_cast<RoboasmConnectingPoint>(*it);
         if(!!ptr) {
             RASceneConnectingPoint *cp = new RASceneConnectingPoint(ptr);
-            this->addChild(cp);
+            //this->addChild(cp);
+            partsScene->addChild(cp);
             spoint_list.push_back(cp);
         }
     }
@@ -170,6 +180,21 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
 RASceneParts::~RASceneParts()
 {
     DEBUG_STREAM(self->name());
+}
+void RASceneParts::drawBoundingBox(bool _on)
+{
+    if(_on) {
+        DEBUG_STREAM(" on " << this->name());
+        this->clearChildren();
+        bbEffect->clearChildren();
+        bbEffect->addChild(partsScene);
+        this->addChild(bbEffect);
+    } else { // off
+        DEBUG_STREAM(" off " << this->name());
+        this->clearChildren();
+        bbEffect->clearChildren();
+        this->addChild(partsScene);
+    }
 }
 RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
     : SgPosTransform(), self(_r)

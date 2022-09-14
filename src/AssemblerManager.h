@@ -86,6 +86,7 @@ public:
     ra::RASceneConnectingPoint *clickedPoint0;
     ra::RASceneConnectingPoint *clickedPoint1;
     std::set<ra::RASceneConnectingPoint *> selectable_spoint_set;
+    ra::RASceneParts *clickedParts;
 
     int current_align_configuration;
     ra::SettingsPtr ra_settings; // from option

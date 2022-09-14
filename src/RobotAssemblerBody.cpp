@@ -30,10 +30,10 @@ static inline void addMaterial(SgNode *_nd, const Vector3f &_color, float _inten
     mat_->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
     _shape->setMaterial(mat_);
 }
-void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color) {
+void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color) {
     createSceneFromGeometry(sg_main, geom_list, std::string(), _color);
 }
-void createSceneFromGeometry(SgPosTransform *sg_main, std::vector<Geometry> &geom_list,
+void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                              const std::string &_proj_dir, const Vector3f &_color)
 {
     DEBUG_PRINT();
