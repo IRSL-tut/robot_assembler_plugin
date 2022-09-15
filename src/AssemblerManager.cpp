@@ -145,6 +145,7 @@ void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _inf
         current_align_configuration = -1;
         clickedPoint0 = nullptr;
         clickedPoint1 = nullptr;
+        clickedParts = nullptr;
         selectable_spoint_set.clear();
         itm->setChecked(true);
         RootItem::instance()->addChildItem(itm);
@@ -251,6 +252,14 @@ int AssemblerManager::pointClicked(ra::RASceneConnectingPoint *_cp)
 int AssemblerManager::partsClicked(ra::RASceneParts *_pt)
 {
     DEBUG_STREAM(" " << _pt->name() );
+    _pt->drawBoundingBox();
+    if (!!clickedParts) {
+        clickedParts->drawBoundingBox(false);
+    }
+    clickedParts = _pt;
+    for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+        (*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
+    }
     return 1;
 }
 void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
@@ -414,6 +423,7 @@ void AssemblerManager::deleteAllRobots()
     RootItem::instance()->notifyUpdate();//??
     clickedPoint0 = nullptr;
     clickedPoint1 = nullptr;
+    clickedParts = nullptr;
     selectable_spoint_set.clear();
     clearAllPoints();
     notifyUpdate();
@@ -441,6 +451,7 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
     RootItem::instance()->notifyUpdate();//??
     clickedPoint0 = nullptr;
     clickedPoint1 = nullptr;
+    clickedParts = nullptr;
     selectable_spoint_set.clear();
     clearAllPoints();
     notifyUpdate();
