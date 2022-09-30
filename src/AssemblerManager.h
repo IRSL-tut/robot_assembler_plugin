@@ -5,8 +5,6 @@
 #include "RobotAssemblerHelper.h"
 #include "AssemblerItem.h"
 
-#include "exportdecl.h"
-
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
@@ -19,7 +17,7 @@ struct PanelSettings {
   std::vector<std::string> combo_list;
 };
 
-class CNOID_EXPORT AssemblerManager : public SceneWidgetEventHandler
+class AssemblerManager : public SceneWidgetEventHandler
 {
 public:
     //static void initializeClass(ExtensionManager* ext);

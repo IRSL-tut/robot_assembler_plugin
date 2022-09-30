@@ -7,8 +7,6 @@
 #include "RobotAssembler.h"
 #include "RobotAssemblerHelper.h"
 
-#include "exportdecl.h"
-
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
@@ -19,7 +17,7 @@ class AssemblerManager;
 typedef ref_ptr<AssemblerItem> AssemblerItemPtr;
 
 //public LocatableItem
-class CNOID_EXPORT AssemblerItem : public Item, public RenderableItem
+class AssemblerItem : public Item, public RenderableItem
 {
 public:
     static void initializeClass(ExtensionManager* ext);
