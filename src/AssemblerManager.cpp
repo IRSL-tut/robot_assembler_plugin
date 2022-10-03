@@ -160,6 +160,18 @@ void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _inf
 }
 int AssemblerManager::pointClicked(ra::RASceneConnectingPoint *_cp)
 {
+    ra::RoboasmCoordsPtr ptr_ = _cp->point();
+    coordsSelectedFunc(ptr_, nullptr);
+    return pointClickedProcess(_cp);
+}
+int AssemblerManager::partsClicked(ra::RASceneParts *_pt)
+{
+    ra::RoboasmCoordsPtr ptr_ = _pt->parts();
+    coordsSelectedFunc(ptr_, nullptr);
+    return partsClickedProcess(_pt);
+}
+int AssemblerManager::pointClickedProcess(ra::RASceneConnectingPoint *_cp)
+{
     DEBUG_STREAM(" " << _cp->name() );
     //_cp->switchOn(false);
     //_cp->notifyUpdate(SgUpdate::REMOVED | SgUpdate::ADDED | SgUpdate::MODIFIED);// on scene graph
@@ -249,7 +261,7 @@ int AssemblerManager::pointClicked(ra::RASceneConnectingPoint *_cp)
     }
     return 1;
 }
-int AssemblerManager::partsClicked(ra::RASceneParts *_pt)
+int AssemblerManager::partsClickedProcess(ra::RASceneParts *_pt)
 {
     DEBUG_STREAM(" " << _pt->name() );
     _pt->drawBoundingBox();
@@ -299,7 +311,7 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
             }
             if(!!pt_) {
                 in_scene = true;
-                partsClicked(pt_);
+                partsClickedProcess(pt_);
             }
             goto endprocess;
         }
@@ -320,7 +332,7 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
             }
             if(!!pt_) {
                 in_scene = true;
-                pointClicked(pt_);
+                pointClickedProcess(pt_);
             }
             goto endprocess;
         }
