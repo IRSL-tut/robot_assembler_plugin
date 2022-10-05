@@ -3,13 +3,12 @@
 
 #include <cnoid/View>
 #include "RobotAssembler.h"
-#include "exportdecl.h"
 
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
 
-class CNOID_EXPORT AssemblerTreeView : public View
+class AssemblerTreeView : public View
 {
 public:
     static void initializeClass(ExtensionManager* ext);

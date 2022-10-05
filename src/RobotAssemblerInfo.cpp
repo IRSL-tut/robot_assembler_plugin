@@ -1,5 +1,6 @@
 #include "RobotAssemblerInfo.h"
 #include <cnoid/YAMLWriter>
+#include "irsl_debug.h"
 
 using namespace cnoid;
 namespace ra = cnoid::robot_assembler;

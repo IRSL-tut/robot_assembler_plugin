@@ -4,7 +4,6 @@
 #include "RobotAssembler.h"
 #include "ValueTreeUtil.h"
 #include <cnoid/ValueTree>
-#include "irsl_debug.h"
 
 namespace cnoid {
 namespace robot_assembler {
@@ -133,7 +132,6 @@ public:
     {
         RoboasmFile::parseRoboasm(_filename, false);
         info = parseInfo(_filename);
-        DEBUG_STREAM(" info: " << !!info);
         if(history.size() < 0 && !info) return false;
         return true;
     }
