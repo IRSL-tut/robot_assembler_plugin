@@ -107,10 +107,12 @@ protected:
     //virtual void onFocusChanged(SceneWidgetEvent* event, bool on) override;
     virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
 
+    int pointClickedProcess(ra::RASceneConnectingPoint *_cp);
+    int partsClickedProcess(ra::RASceneParts *_pt);
+
     Signal<void(ra::RoboasmRobotPtr _rb, bool on)> robotSelectedFunc;
     Signal<void(ra::RoboasmCoordsPtr _pt, MappingPtr _info)> coordsSelectedFunc;
     Signal<void()> updateRobotsFunc;
-
 
 private:
     class Impl;

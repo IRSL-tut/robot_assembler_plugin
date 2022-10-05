@@ -41,6 +41,22 @@ public:
         //DEBUG_STREAM(" col: " << column << ", role: " << role);
         return QTreeWidgetItem::setData(column, role, value);
     }
+    QTreeWidgetItem *searchChildItem(ra::RoboasmCoordsPtr _in)
+    {
+        int num = childCount();
+        QTreeWidgetItem *itm = nullptr;
+        for(int i = 0; i < num; i++) {
+            AssemblerTreeItem *p = dynamic_cast<AssemblerTreeItem *>(child(i));
+            if (!!p && p->element == _in) {
+                itm = p;
+                break;
+            } else {
+                itm = p->searchChildItem(_in);
+                if(!!itm) break;
+            }
+        }
+        return itm;
+    }
 };
 class AssemblerTreeView::Impl
 {
@@ -286,10 +302,9 @@ void AssemblerTreeView::Impl::coordsSelected(ra::RoboasmCoordsPtr _coords)
 {
     DEBUG_STREAM(" emit_selected: " << emit_selected);
     if(emit_selected) return;
-    // find _coords
-    // find selected -> false;
-    // itm->setSelected(true);
     if(!!top_item) {
-
+        AssemblerTreeItem* itm = dynamic_cast<AssemblerTreeItem*>(top_item->searchChildItem(_coords));
+        if(!!itm) itm->setSelected(true);
+        // find selected -> false; [todo]
     }
 }
