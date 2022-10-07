@@ -1,0 +1,43 @@
+name: BuildTestDeploy
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+#
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    strategy:
+      matrix:
+        ubuntu: [22.04, 20.04]
+    runs-on: self-hosted
+    env:
+      IMAGE_NAME: choreonoid_robot_assembler_plugin
+      LOCAL_NAME: actions/robot_assembler_plugin
+#      DOCKER_LOCAL: ghcr.io/
+      DOCKER_LOCAL: repo.irsl.eiiris.tut.ac.jp/
+      DOCKER_DEPLOY: repo.irsl.eiiris.tut.ac.jp/
+      DOCKER_TAG: ${{ matrix.ubuntu }}
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: build by Docker
+        run: >
+          docker build -f .github/workflows/Dockerfile.testbuild
+          --build-arg BUILD_IMAGE=${{ env.DOCKER_LOCAL }}xeus:${{ env.DOCKER_TAG }}
+          --build-arg BASE_IMAGE=${{ env.DOCKER_LOCAL }}choreonoid_src:${{ env.DOCKER_TAG }}
+          -t ${{ env.LOCAL_NAME }}:${{ github.sha }} ..
+#      - name: Test
+      - name: Deploy
+        if: github.event_name == 'push'
+        run: |
+          docker tag ${{ env.LOCAL_NAME }}:${{ github.sha }} ${{ env.DOCKER_DEPLOY }}${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }}
+          docker push ${{ env.DOCKER_DEPLOY }}${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."

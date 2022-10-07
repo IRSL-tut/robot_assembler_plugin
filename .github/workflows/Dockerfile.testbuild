@@ -1,0 +1,15 @@
+ARG BASE_IMAGE=choreonoid_src:20.04
+
+FROM ${BASE_IMAGE}
+
+LABEL maintainer "IRSL-tut (https://github.com/IRSL-tut) <faculty@irsl.eiiris.tut.ac.jp>"
+
+SHELL ["/bin/bash", "-c"]
+ENV DEBIAN_FRONTEND=noninteractive
+
+#RUN (cd /choreonoid_src/choreonoid/ext; git clone https://github.com/IRSL-tut/robot_assembler_plugin.git)
+COPY robot_assembler_plugin /choreonoid_src/choreonoid/ext/robot_assembler_plugin
+
+RUN (cd /choreonoid_src/build; cmake -DCMAKE_INSTALL_PREFIX=/opt/choreonoid /choreonoid_src/choreonoid && \
+    make -j$(nproc) && \
+    make install )
