@@ -16,7 +16,7 @@ GeneralSettings:
 ##   connecting-type-match-list:
 ##   connecting-configuration-list:
 ConnectingConstraintSettings:
-  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S]
+  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S, WHEEL_SHAFT, OMNI_WHEEL]
   ## pair: [a, b] ## configuration represents transoform from a to b
   connecting-type-match-list:
     -
@@ -46,6 +46,9 @@ ConnectingConstraintSettings:
     -
       pair: [LEGO-2P, LEGO-2S]
       allowed-configuration: [fixed, invert]
+    -
+      pair: [WHEEL_SHAFT, OMNI_WHEEL]
+      allowed-configuration: [fixed]
   ##
   connecting-configuration-list:
     -
@@ -124,9 +127,11 @@ PanelSettings: ## just for choreonoid
               plate_1_1, plate_1_2, plate_1_3, plate_1_4, plate_1_6, plate_1_8,
               plate_4_4, plate_4_8, plate_6_12]
     - name: servo_parts
-      parts: [ax-12a, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-P_3x3, P04-F53]
+      parts: [ax-12a, mx-12w, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-P_3x3, P04-F53]
     - name: sensor_parts
       parts: [sensor-mounter, ultrasonic-sensor, tof-sensor]
+    - name : vehicle
+      parts: [vehicle-base,  omni-shaft, omni-wheel]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
 
 ##PartsSettings:
@@ -200,6 +205,80 @@ PartsSettings:
         actuator-type: rotational
         axis: z
         limit: [-150, 150]
+    connecting-points :
+    - 
+        name: right-side1
+        types: [SERVO_SIDE]
+        translation: [13.5, -22.5, 16.0]
+        rotation: [0.0, 1.0, 0.0, -180.0]
+    - 
+        name: right-side2
+        types: [SERVO_SIDE]
+        translation: [13.5, -30.5, 16.0]
+        rotation: [0.0, 1.0, 0.0, -180.0]
+    - 
+        name: right-side3
+        types: [SERVO_SIDE]
+        translation: [13.5, -14.5, -16.0]
+        rotation: [0.0, 0.0, 1.0, 180.0]
+    - 
+        name: right-side4
+        types: [SERVO_SIDE]
+        translation: [13.5, -6.5, -16.0]
+        rotation: [0.0, 0.0, 1.0, 180.0]
+    - 
+        name: left-side1
+        types: [SERVO_SIDE]
+        translation: [-13.5, -6.5, 16.0]
+        rotation: [-1.0, 0.0, 0.0, 180.0]
+    - 
+        name: left-side2
+        types: [SERVO_SIDE]
+        translation: [-13.5, -14.5, 16.0]
+        rotation: [-1.0, 0.0, 0.0, 180.0]
+    - 
+        name: left-side3
+        types: [SERVO_SIDE]
+        translation: [-13.5, -22.5, -16.0]
+        # rotation: [-1.0, 0.0, 0.0, 180.0]
+    - 
+        name: left-side4
+        types: [SERVO_SIDE]
+        translation: [-13.5, -30.5, -16.0]
+        # rotation: [-1.0, 0.0, 0.0, 180.0]
+    - 
+        name: bottom-side
+        types: [SERVO_SIDE]
+        translation: [-8, -36, 16.0]
+        rotation: [-0.707, -0.707, 0., 180.0]
+        
+  -
+    type: mx-12w
+    visual:
+      -
+        type: mesh
+        url: "meshes/ax-12a.stl"
+        scale : 1
+    collision:
+      -
+        #translation: [-12.5, -29, -20.0]
+        #box: [25.0, 50.0, 40.0] # shift -13.5mm at y-axis
+        type: mesh
+        url: "meshes/ax-12a.stl"
+        scale : 1 
+    mass-param:
+      mass: 54.6
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    actuators:
+      -
+        name: horn
+        types: [HORN]
+        translation: [0.0, 0.0, 21.0]
+        rotation: [0.0, 0.0, 1.0, 90.0]
+        actuator-type: rotational
+        axis: z
+        limit: [-180, 180]
     connecting-points :
     - 
         name: right-side1
@@ -1207,6 +1286,322 @@ PartsSettings:
     #   types : [SC4]
     #   translation: [15.9, 15.9, 0]
     #   rotation: [1., 0., 0., 0.0]
+  -
+    type: vehicle-base
+    visual:
+      -
+        type: mesh
+        url: "meshes/vehicle_base_m.stl"
+        scale : 1
+    collision:
+      -
+        type: mesh
+        url: "meshes/vehicle_base_m.stl"
+        scale : 1
+    mass-param:
+      mass: 22.675
+      center-of-mass: [0, 0, 1.784]
+      inertia-tensor: [15425.152, 0.00, 1.006e-09, 0.00, 15425.152, 0.00, 1.006e-09, 0.00, 30794.825]
+    connecting-points :
+    -
+      name: p1_0_0
+      types : [PC1]
+      translation: [-48.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_1
+      types : [PC1]
+      translation: [-48.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_2
+      types : [PC1]
+      translation: [-48.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_3
+      types : [PC1]
+      translation: [-40.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_4
+      types : [PC1]
+      translation: [-40.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_5
+      types : [PC1]
+      translation: [-40.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_6
+      types : [PC1]
+      translation: [-32.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_7
+      types : [PC1]
+      translation: [-32.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_8
+      types : [PC1]
+      translation: [-32.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_9
+      types : [PC1]
+      translation: [-24.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_10
+      types : [PC1]
+      translation: [-24.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_11
+      types : [PC1]
+      translation: [-24.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+
+
+    -
+      name: p1_1_0
+      types : [PC1]
+      translation: [48.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_1
+      types : [PC1]
+      translation: [48.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_2
+      types : [PC1]
+      translation: [48.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_3
+      types : [PC1]
+      translation: [40.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_4
+      types : [PC1]
+      translation: [40.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_5
+      types : [PC1]
+      translation: [40.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_6
+      types : [PC1]
+      translation: [32.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_7
+      types : [PC1]
+      translation: [32.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_8
+      types : [PC1]
+      translation: [32.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_9
+      types : [PC1]
+      translation: [24.0, -8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_10
+      types : [PC1]
+      translation: [24.0, 0.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_11
+      types : [PC1]
+      translation: [24.0, 8.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_0
+      types : [PC1]
+      translation: [-8.0, 48.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_1
+      types : [PC1]
+      translation: [0.0, 48.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_2
+      types : [PC1]
+      translation: [8.0, 48.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_3
+      types : [PC1]
+      translation: [-8.0, 40.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_4
+      types : [PC1]
+      translation: [0.0, 40.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_5
+      types : [PC1]
+      translation: [8.0, 40.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_6
+      types : [PC1]
+      translation: [-8.0, 32.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_7
+      types : [PC1]
+      translation: [0.0, 32.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_8
+      types : [PC1]
+      translation: [8.0, 32.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_9
+      types : [PC1]
+      translation: [-8.0, 24.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_10
+      types : [PC1]
+      translation: [0.0, 24.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_11
+      types : [PC1]
+      translation: [8.0, 24.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_0
+      types : [PC1]
+      translation: [-8.0, -48.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_1
+      types : [PC1]
+      translation: [0.0, -48.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_2
+      types : [PC1]
+      translation: [8.0, -48.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_3
+      types : [PC1]
+      translation: [-8.0, -40.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_4
+      types : [PC1]
+      translation: [0.0, -40.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_5
+      types : [PC1]
+      translation: [8.0, -40.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_6
+      types : [PC1]
+      translation: [-8.0, -32.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_7
+      types : [PC1]
+      translation: [0.0, -32.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_8
+      types : [PC1]
+      translation: [8.0, -32.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_9
+      types : [PC1]
+      translation: [-8.0, -24.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_10
+      types : [PC1]
+      translation: [0.0, -24.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_3_11
+      types : [PC1]
+      translation: [8.0, -24.0, 3.2]
+      rotation: [1., 0., 0., 0.0]
+
+
+  -
+    type: omni-shaft
+    visual:
+      -
+        type: mesh
+        url: "meshes/omni_shaft_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [0.001, 0.001, 0.001]
+        type: mesh
+        url: "meshes/omni_shaft_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0 , 0 , 0 ]
+      inertia-tensor: [1,0,0,0,1,0,0,0,1]
+    connecting-points :
+    - 
+      name: horn-f
+      types: [HORN-F2]
+      translation: [0.0, 0.0, 0.0]
+      rotation: [1.0, 0.0, 0.0, 0.0]
+    - 
+      name: wheel-shaft
+      types: [WHEEL_SHAFT]
+      translation: [0.0, 0.0, 30.0]
+      rotation: [1.0, 0.0, 0.0, 0.0]
+
+
+  -
+    type: omni-wheel
+    visual:
+      -
+        type: mesh
+        url: "meshes/omni_wheel_m.stl"
+        scale : 1
+    collision:
+      -
+        # translation: [0.0, 0.0, 0.0]
+        # box: [0.001, 0.001, 0.001]
+        type: mesh
+        url: "meshes/omni_wheel_m.stl"
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0 , 0 , 0 ]
+      inertia-tensor: [1,0,0,0,1,0,0,0,1]
+    connecting-points :
+    - 
+      name: omni_wheel
+      types: [OMNI_WHEEL]
+      translation: [0.0, 0.0, 25.1]
+      rotation: [1.0, 0.0, 0.0, 0.0]
 ###### Auto generated by blocks.py
   -
     type: plate_1_1
