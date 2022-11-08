@@ -1,0 +1,109 @@
+history: 
+  - 
+    initial-parts: true
+    parts-name: vehicle-base_151_0
+    parts-type: vehicle-base
+  - 
+    parent: vehicle-base_151_0
+    parent-point: p1_1_11
+    parts-name: ax-12a-f3-s_151_1
+    parts-point: s1_0_0
+    parts-type: ax-12a-f3-s
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: vehicle-base_151_0
+    parent-point: p1_2_11
+    parts-name: ax-12a-f3-s_151_2
+    parts-point: s1_2_0
+    parts-type: ax-12a-f3-s
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 3.141592653590 ]
+    parent: vehicle-base_151_0
+    parent-point: p1_0_2
+    parts-name: ax-12a-f3-s_151_3
+    parts-point: s1_2_3
+    parts-type: ax-12a-f3-s
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: vehicle-base_151_0
+    parent-point: p1_3_0
+    parts-name: ax-12a-f3-s_151_4
+    parts-point: s1_2_3
+    parts-type: ax-12a-f3-s
+  - 
+    parent: ax-12a-f3-s_151_3
+    parent-point: f3_servo
+    parts-name: mx-12w_151_5
+    parts-point: bottom-side
+    parts-type: mx-12w
+  - 
+    parent: ax-12a-f3-s_151_4
+    parent-point: f3_servo
+    parts-name: mx-12w_151_6
+    parts-point: bottom-side
+    parts-type: mx-12w
+  - 
+    parent: ax-12a-f3-s_151_1
+    parent-point: f3_servo
+    parts-name: mx-12w_151_7
+    parts-point: bottom-side
+    parts-type: mx-12w
+  - 
+    parent: ax-12a-f3-s_151_2
+    parent-point: f3_servo
+    parts-name: mx-12w_151_8
+    parts-point: bottom-side
+    parts-type: mx-12w
+  - 
+    parent: mx-12w_151_8
+    parent-point: horn
+    parts-name: omni-shaft_151_9
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: mx-12w_151_5
+    parent-point: horn
+    parts-name: omni-shaft_151_10
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: mx-12w_151_6
+    parent-point: horn
+    parts-name: omni-shaft_151_11
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: mx-12w_151_7
+    parent-point: horn
+    parts-name: omni-shaft_151_12
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: omni-shaft_151_12
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_151_13
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: omni-shaft_151_9
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_151_14
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: omni-shaft_151_10
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_151_15
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: omni-shaft_151_11
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_151_16
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+robot-info: 
+  name: AssembleRobot
