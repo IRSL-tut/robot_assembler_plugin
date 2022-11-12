@@ -57,6 +57,7 @@ public:
     AssemblerManager *manager;
     QGridLayout *grid_layout;
     MappingPtr current_info;
+    ra::RoboasmCoordsPtr current_coords;
     void createPanel(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
     void panelRobot(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
     void panelParts(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
@@ -189,6 +190,79 @@ public:
         }
         // update??
     }
+    void transInfo(const std::string &_str)
+    {
+        if(!current_info) return;
+        Vector3 trs;
+        bool ret = parseFromString(trs, _str);
+        if (ret) {
+            Mapping *mp_ = ra::getRobotInfo(current_info);
+            if(!mp_) {
+                MappingPtr cds_ = new Mapping();
+                addToMapping(cds_, "translation", trs);
+                MappingPtr pt_ = new Mapping();
+                addToMapping(pt_, "initial-coords", cds_);
+                ra::addMapping(current_info, "robot-info", pt_);
+            } else {
+                Mapping *cds_ = ra::getMapping(mp_, "initial-coords");
+                if(!cds_) {
+                    cds_ = new Mapping();
+                    addToMapping(mp_, "initial-coords", cds_);
+                }
+                addToMapping(cds_, "translation", trs);
+            }
+        }
+    }
+    void aaxisInfo(const std::string &_str)
+    {
+        if(!current_info) return;
+        Vector3 ax; double ang;
+        bool ret = parseFromString(ax, ang, _str);
+        if (ret) {
+            Mapping *mp_ = ra::getRobotInfo(current_info);
+            if(!mp_) {
+                MappingPtr cds_ = new Mapping();
+                addToMapping(cds_, "rotation", ax, ang);
+                MappingPtr pt_ = new Mapping();
+                addToMapping(pt_, "initial-coords", cds_);
+                ra::addMapping(current_info, "robot-info", pt_);
+            } else {
+                Mapping *cds_ = ra::getMapping(mp_, "initial-coords");
+                if(!cds_) {
+                    cds_ = new Mapping();
+                    addToMapping(mp_, "initial-coords", cds_);
+                }
+                addToMapping(cds_, "rotation", ang, ax);
+            }
+        }
+    }
+    void transCoords(const std::string &_str)
+    {
+        if(!current_coords) return;
+        Vector3 trs;
+        bool ret = parseFromString(trs, _str);
+        if (ret) {
+            current_coords->set(trs);
+            current_coords->update();
+            if(!!manager) {
+                manager->updateRobotsCoords();
+            }
+        }
+    }
+    void aaxisCoords(const std::string &_str)
+    {
+        if(!current_coords) return;
+        Vector3 ax; double ang;
+        bool ret = parseFromString(ax, ang, _str);
+        if (ret) {
+            AngleAxis aa_(ang, ax);
+            current_coords->set(aa_);
+            current_coords->update();
+            if(!!manager) {
+                manager->updateRobotsCoords();
+            }
+        }
+    }
     void infoLink(const std::string &_parts, const std::string &_key, const std::string &_str)
     {
         info_("parts-info", _parts, _key, _str);
@@ -315,6 +389,7 @@ void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords, Mapping
         DEBUG_STREAM(" delete panel");
     }
     current_info = _info;
+    current_coords = _coords;
     QLayout *layout_ = self->layout();
     if(!!layout_) {
         QLayoutItem *item_;
@@ -362,8 +437,16 @@ void AssemblerPartsView::Impl::panelRobot(ra::RoboasmCoordsPtr _coords, MappingP
     addEditorToPanel("name", nm_, row++,
                      [this] (const std::string &_s) { infoRobot("name", _s); } );
     addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
-    addCoordsToPanel("cuurent", _coords->worldcoords(), row++);
-    addCoordsToPanel("initial", _coords->worldcoords(), row++);//??
+    addCoordsToPanel("cuurent", _coords->worldcoords(), row++,
+                     [this] (const std::string &_s) { transCoords(_s); },
+                     [this] (const std::string &_s) { aaxisCoords(_s); } );
+    coordinates cds_;
+    if (!!current_info) {
+        ra::getRobotCoords(current_info, cds_);
+    }
+    addCoordsToPanel("initial", cds_, row++,
+                     [this] (const std::string &_s) { transInfo(_s); },
+                     [this] (const std::string &_s) { aaxisInfo(_s); } );
 }
 void AssemblerPartsView::Impl::panelParts(ra::RoboasmCoordsPtr _coords, MappingPtr _info)
 {
