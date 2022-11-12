@@ -44,6 +44,11 @@ public:
                              ra::RASceneConnectingPoint::Clicked matchedState = ra::RASceneConnectingPoint::CAN_CONNECT1);
     void clearAllPoints();
     void updateRobots();
+    void updateRobotsCoords() {
+        for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+            (*it)->updateFromSelf();
+        }
+    }
     bool robotExist(ra::RASceneRobot *_rb) {
         auto it = srobot_set.find(_rb);
         return (it != srobot_set.end());

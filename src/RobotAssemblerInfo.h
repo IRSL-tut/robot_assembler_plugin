@@ -63,6 +63,43 @@ inline Mapping *getActuatorInfo(Mapping *info, const std::string &_actname)
 {
     return getMapping(info, "actuator-info", _actname);
 }
+inline bool getRobotName(Mapping *info, std::string &_res)
+{
+    Mapping *mp_ = getRobotInfo(info);
+    if(!mp_) return false;
+    return readFromMapping(mp_, "name", _res);
+}
+inline bool getRobotCoords(Mapping *info, coordinates &_res)
+{
+    Mapping *mp_ = getRobotInfo(info);
+    if(!mp_) return false;
+    return readFromMapping(mp_, "initial-coords", _res);
+}
+
+inline bool getPartsName(Mapping *info, const std::string &_pt, std::string &_res)
+{
+    Mapping *mp_ = getPartsInfo(info, _pt);
+    if(!mp_) return false;
+    return readFromMapping(mp_, "name", _res);
+}
+inline bool getPartsColor(Mapping *info, const std::string &_pt, Vector3f &_res)
+{
+    Mapping *mp_ = getPartsInfo(info, _pt);
+    if(!mp_) return false;
+    return readFromMapping(mp_, "color", _res);
+}
+inline bool getActuatorName(Mapping *info, const std::string &_ac, std::string &_res)
+{
+    Mapping *mp_ = getActuatorInfo(info, _ac);
+    if(!mp_) return false;
+    return readFromMapping(mp_, "name", _res);
+}
+inline bool getActuatorLimit(Mapping *info, const std::string &_ac, const std::string &_ky, double &a, double &b)
+{
+    Mapping *mp_ = getActuatorInfo(info, _ac);
+    if(!mp_) return false;
+    return readFromMapping(mp_, _ky, a, b);
+}
 class cnoidRAInfo
 {
 public:
@@ -83,39 +120,27 @@ public:
     }
     bool getRobotName(std::string &_res)
     {
-        Mapping *mp_ = getRobotInfo();
-        if(!mp_) return false;
-        return readFromMapping(mp_, "name", _res);
+        return cnoid::robot_assembler::getRobotName(info, _res);
     }
     bool getRobotCoords(coordinates &_res)
     {
-        Mapping *mp_ = getRobotInfo();
-        if(!mp_) return false;
-        return readFromMapping(mp_, "initial-coords", _res);
+        return cnoid::robot_assembler::getRobotCoords(info, _res);
     }
     bool getPartsName(const std::string &_pt, std::string &_res)
     {
-        Mapping *mp_ = getPartsInfo(_pt);
-        if(!mp_) return false;
-        return readFromMapping(mp_, "name", _res);
+        return cnoid::robot_assembler::getPartsName(info, _pt, _res);
     }
     bool getPartsColor(const std::string &_pt, Vector3f &_res)
     {
-        Mapping *mp_ = getPartsInfo(_pt);
-        if(!mp_) return false;
-        return readFromMapping(mp_, "color", _res);
+        return cnoid::robot_assembler::getPartsColor(info, _pt, _res);
     }
     bool getActuatorName(const std::string &_ac, std::string &_res)
     {
-        Mapping *mp_ = getActuatorInfo(_ac);
-        if(!mp_) return false;
-        return readFromMapping(mp_, "name", _res);
+        return cnoid::robot_assembler::getActuatorName(info, _ac, _res);
     }
     bool getActuatorLimit(const std::string &_ac, const std::string &_ky, double &a, double &b)
     {
-        Mapping *mp_ = getActuatorInfo(_ac);
-        if(!mp_) return false;
-        return readFromMapping(mp_, _ky, a, b);
+        return cnoid::robot_assembler::getActuatorLimit(info, _ac, _ky, a, b);
     }
 };
 
