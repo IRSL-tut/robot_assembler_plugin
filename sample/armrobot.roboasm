@@ -1,0 +1,200 @@
+history: 
+  - 
+    initial-parts: true
+    parts-name: vehicle-base-pp_193_0
+    parts-type: vehicle-base-pp
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 3.141592653590 ]
+    parent: vehicle-base-pp_193_0
+    parent-point: p1_0_2
+    parts-name: ax-12a-f3-s_193_1
+    parts-point: s1_2_3
+    parts-type: ax-12a-f3-s
+  - 
+    parent: ax-12a-f3-s_193_1
+    parent-point: f3_servo
+    parts-name: ax-12a_193_8
+    parts-point: bottom-side
+    parts-type: ax-12a
+  - 
+    parent: ax-12a_193_8
+    parent-point: horn
+    parts-name: omni-shaft_193_9
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: omni-shaft_193_9
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_193_15
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: vehicle-base-pp_193_0
+    parent-point: p1_2_2_b
+    parts-name: P04-F53-s_193_17
+    parts-point: s1_1_1
+    parts-type: P04-F53-s
+  - 
+    parent: P04-F53-s_193_17
+    parent-point: servo_side
+    parts-name: ax-12a_193_18
+    parts-point: right-side3
+    parts-type: ax-12a
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: ax-12a_193_18
+    parent-point: horn
+    parts-name: ax-12a-f3_193_21
+    parts-point: f3_frame
+    parts-type: ax-12a-f3
+  - 
+    parent: ax-12a-f3_193_21
+    parent-point: f3_servo
+    parts-name: ax-12a_193_22
+    parts-point: left-side2
+    parts-type: ax-12a
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: ax-12a_193_22
+    parent-point: horn
+    parts-name: FP04-F2-S_193_23
+    parts-point: f3_servo
+    parts-type: FP04-F2-S
+  - 
+    parent: FP04-F2-S_193_23
+    parent-point: p1_0_0
+    parts-name: FP04-F4-P_193_25
+    parts-point: p1_2_0
+    parts-type: FP04-F4-P
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: FP04-F4-P_193_25
+    parent-point: f3_servo
+    parts-name: ax-12a_193_26
+    parts-point: horn
+    parts-type: ax-12a
+  - 
+    parent: ax-12a_193_26
+    parent-point: bottom-side
+    parts-name: ax-12a-f3-s_193_28
+    parts-point: f3_servo
+    parts-type: ax-12a-f3-s
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: ax-12a-f3-s_193_28
+    parent-point: s1_2_0
+    parts-name: ax-12a-f3-p_193_29
+    parts-point: p1_0_3
+    parts-type: ax-12a-f3-p
+  - 
+    parent: ax-12a-f3-p_193_29
+    parent-point: f3_servo
+    parts-name: ax-12a_193_30
+    parts-point: bottom-side
+    parts-type: ax-12a
+  - 
+    parent: ax-12a_193_30
+    parent-point: right-side1
+    parts-name: ax-12a-f3-p_193_32
+    parts-point: f3_servo
+    parts-type: ax-12a-f3-p
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 3.141592653590 ]
+    parent: ax-12a-f3-p_193_32
+    parent-point: p1_1_3
+    parts-name: plate_2_10_193_33
+    parts-point: SK1_0_0
+    parts-type: plate_2_10
+  - 
+    parent: ax-12a_193_30
+    parent-point: horn
+    parts-name: FP04-F4_193_31
+    parts-point: f3_servo
+    parts-type: FP04-F4
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-pp_193_0
+    parent-point: p1_2_2
+    parts-name: ax-12a-f3-s_193_4
+    parts-point: s1_2_3
+    parts-type: ax-12a-f3-s
+  - 
+    parent: ax-12a-f3-s_193_4
+    parent-point: f3_servo
+    parts-name: ax-12a_193_5
+    parts-point: bottom-side
+    parts-type: ax-12a
+  - 
+    parent: ax-12a_193_5
+    parent-point: horn
+    parts-name: omni-shaft_193_10
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: omni-shaft_193_10
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_193_14
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-pp_193_0
+    parent-point: p1_3_0
+    parts-name: ax-12a-f3-s_193_2
+    parts-point: s1_2_3
+    parts-type: ax-12a-f3-s
+  - 
+    parent: ax-12a-f3-s_193_2
+    parent-point: f3_servo
+    parts-name: ax-12a_193_7
+    parts-point: bottom-side
+    parts-type: ax-12a
+  - 
+    parent: ax-12a_193_7
+    parent-point: horn
+    parts-name: omni-shaft_193_12
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: omni-shaft_193_12
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_193_16
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: vehicle-base-pp_193_0
+    parent-point: p1_1_0
+    parts-name: ax-12a-f3-s_193_3
+    parts-point: s1_2_3
+    parts-type: ax-12a-f3-s
+  - 
+    parent: ax-12a-f3-s_193_3
+    parent-point: f3_servo
+    parts-name: ax-12a_193_6
+    parts-point: bottom-side
+    parts-type: ax-12a
+  - 
+    parent: ax-12a_193_6
+    parent-point: horn
+    parts-name: omni-shaft_193_11
+    parts-point: horn-f
+    parts-type: omni-shaft
+  - 
+    parent: omni-shaft_193_11
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_193_13
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+robot-info: 
+  initial-coords: 
+    rotation: [ -1.000000000000, 0.000000000000, 0.000000000000, 3.141592000000 ]
+    translation: [ 0.000000000000, 0.000000000000, 0.069000000000 ]
+  name: AssembleRobot
