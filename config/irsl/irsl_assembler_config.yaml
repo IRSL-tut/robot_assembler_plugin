@@ -16,7 +16,7 @@ GeneralSettings:
 ##   connecting-type-match-list:
 ##   connecting-configuration-list:
 ConnectingConstraintSettings:
-  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S, WHEEL_SHAFT, OMNI_WHEEL]
+  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S, WHEEL_SHAFT, OMNI_WHEEL, HORN_X, HORN_X_SHORT, SERVO_SIDE_X, FRAME_SIDE_X]
   ## pair: [a, b] ## configuration represents transoform from a to b
   connecting-type-match-list:
     -
@@ -49,6 +49,15 @@ ConnectingConstraintSettings:
     -
       pair: [WHEEL_SHAFT, OMNI_WHEEL]
       allowed-configuration: [fixed]
+    - 
+      pair: [FRAME_SIDE_X, SERVO_SIDE_X]
+      allowed-configuration: [fixed]
+    - 
+      pair: [HORN_X, HORN_X]
+      allowed-configuration: [fixed, invert, rotate-90, rotate90]
+    - 
+      pair: [HORN_X, HORN_X_SHORT]
+      allowed-configuration: [fixed, rotate-90, rotate90]
   ##
   connecting-configuration-list:
     -
@@ -130,6 +139,8 @@ PanelSettings: ## just for choreonoid
       parts: [angle_2_2, plate_2_2_pp]
     - name: servo_parts
       parts: [ax-12a, mx-12w, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-S, FP04-F2-P_3x3, P04-F53, P04-F53-s]
+    - name: servo_parts2
+      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_S101]
     - name: sensor_parts
       parts: [sensor-mounter, ultrasonic-sensor, tof-sensor]
     - name : vehicle
@@ -180,6 +191,426 @@ PanelSettings: ## just for choreonoid
 #      rotation: (optional)
 #      parameters: {}
 PartsSettings:
+  -
+    type: XL-430
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/XL-430_m.stl"
+        scale : 1
+    collision:
+      -
+        #translation: [-12.5, -29, -20.0]
+        #box: [25.0, 50.0, 40.0] # shift -13.5mm at y-axis
+        type: mesh
+        url: "mesmeshes_xserieshes/XL-430_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    actuators:
+      -
+        name: horn
+        types: [HORN_X]
+        translation: [0.0, 0.0, 19.0]
+        rotation: [1.0, 0.0, 0.0, 0.0]
+        actuator-type: rotational
+        axis: z
+        limit: [-180, 180]
+    connecting-points :
+    - 
+        name: right-side
+        types: [SERVO_SIDE_X]
+        translation: [11.0, -32.0, 17.0]
+        rotation: [0.0, 0.0, 1.0, 180.0]
+    - 
+        name: left-side
+        types: [SERVO_SIDE_X]
+        translation: [-11.0, 8.0, 17.0]
+        rotation: [1.0, 0.0, 0.0, 0.0]
+    - 
+        name: bottom-side
+        types: [SERVO_SIDE_X]
+        translation: [-11.0, -32.0, 17.0]
+        rotation: [0.0, 0.0, 1.0, 90.0]
+  -
+    type: FR12_S102
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s102_m.stl"
+        scale : 1 
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s102_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+        name: side_connetct_point
+        types: [FRAME_SIDE_X]
+        translation: [17.0, 11.0, 11.0]
+        rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+      name: horn
+      types : [HORN_X]
+      translation: [0.0, 0.0, 21.0]
+      rotation: [1., 0., 0., 180.0]
+  -
+    type: FR12_S102_P
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s102_p_m.stl"
+        scale : 1 
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s102_p_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+        name: side_connetct_point
+        types: [FRAME_SIDE_X]
+        translation: [17.0, 11.0, 11.0]
+        rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+      name: p1_0_0
+      types : [PC1]
+      translation: [-12.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_1
+      types : [PC1]
+      translation: [-4.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_2
+      types : [PC1]
+      translation: [4.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_0_3
+      types : [PC1]
+      translation: [12.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_0
+      types : [PC1]
+      translation: [-12.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_1
+      types : [PC1]
+      translation: [-4.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_2
+      types : [PC1]
+      translation: [4.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_1_3
+      types : [PC1]
+      translation: [12.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_0
+      types : [PC1]
+      translation: [-12.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_1
+      types : [PC1]
+      translation: [-4.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_2
+      types : [PC1]
+      translation: [4.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: p1_2_3
+      types : [PC1]
+      translation: [12.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 0.0]
+  -
+    type: FR12_S102_S
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s102_s_m.stl"
+        scale : 1 
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s102_s_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+        name: side_connetct_point
+        types: [FRAME_SIDE_X]
+        translation: [17.0, 11.0, 11.0]
+        rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+      name: s1_0_0
+      types : [SC1]
+      translation: [-12.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_0_1
+      types : [SC1]
+      translation: [-4.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_0_2
+      types : [SC1]
+      translation: [4.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_0_3
+      types : [SC1]
+      translation: [12.0, -8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_1_0
+      types : [SC1]
+      translation: [-12.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_1_1
+      types : [SC1]
+      translation: [-4.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_1_2
+      types : [SC1]
+      translation: [4.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_1_3
+      types : [SC1]
+      translation: [12.0, 0.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_2_0
+      types : [SC1]
+      translation: [-12.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_2_1
+      types : [SC1]
+      translation: [-4.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_2_2
+      types : [SC1]
+      translation: [4.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+    -
+      name: s1_2_3
+      types : [SC1]
+      translation: [12.0, 8.0, 24.0]
+      rotation: [1., 0., 0., 180.0]
+  -
+    type: FR12_H101_P
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_h101_plug_m.stl"
+        scale : 1 
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_h101_plug_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+        name: side_connetct_point
+        types: [HORN_X_SHORT]
+        translation: [19.0, 0.0, 0.0]
+        rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+      name: p1_0_0
+      types : [PC1]
+      translation: [-12.0, 32.7, -8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_0_1
+      types : [PC1]
+      translation: [-4.0, 32.7, -8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_0_2
+      types : [PC1]
+      translation: [4.0, 32.7, -8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_0_3
+      types : [PC1]
+      translation: [12.0, 32.7, -8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_1_0
+      types : [PC1]
+      translation: [-12.0, 32.7, 0.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_1_1
+      types : [PC1]
+      translation: [-4.0, 32.7, 0.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_1_2
+      types : [PC1]
+      translation: [4.0, 32.7, 0.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_1_3
+      types : [PC1]
+      translation: [12.0, 32.7, 0.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_2_0
+      types : [PC1]
+      translation: [-12.0, 32.7, 8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_2_1
+      types : [PC1]
+      translation: [-4.0, 32.7, 8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_2_2
+      types : [PC1]
+      translation: [4.0, 32.7, 8.0]
+      rotation: [1., 0., 0., -90.0]
+    -
+      name: p1_2_3
+      types : [PC1]
+      translation: [12.0, 32.7, 8.0]
+      rotation: [1., 0., 0., -90.0]
+  -
+    type: FR12_H101_S
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_h101_socket_m.stl"
+        scale : 1 
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_h101_socket_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+        name: side_connetct_point
+        types: [HORN_X_SHORT]
+        translation: [19.0, 0.0, 0.0]
+        rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+      name: s1_0_0
+      types : [SC1]
+      translation: [-12.0, 32.7, -8.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_0_1
+      types : [SC1]
+      translation: [-4.0, 32.7, -8.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_0_2
+      types : [SC1]
+      translation: [4.0, 32.7, -8.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_0_3
+      types : [SC1]
+      translation: [12.0, 32.7, -8.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_1_0
+      types : [SC1]
+      translation: [-12.0, 32.7, 0.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_1_1
+      types : [SC1]
+      translation: [-4.0, 32.7, 0.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_1_2
+      types : [SC1]
+      translation: [4.0, 32.7, 0.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_1_3
+      types : [SC1]
+      translation: [12.0, 32.7, 0.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_2_0
+      types : [SC1]
+      translation: [-12.0, 32.7, 8.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_2_1
+      types : [SC1]
+      translation: [-4.0, 32.7, 8.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_2_2
+      types : [SC1]
+      translation: [4.0, 32.7, 8.0]
+      rotation: [1., 0., 0., 90.0]
+    -
+      name: s1_2_3
+      types : [SC1]
+      translation: [12.0, 32.7, 8.0]
+      rotation: [1., 0., 0., 90.0]
+  -
+    type: FR12_S101
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s101_m.stl"
+        scale : 1 
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/fr12_s101_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+        name: connetct_point
+        types: [FRAME_SIDE_X]
+        translation: [17.0, 8.0, 11.0]
+        rotation: [0.0, 1.0, 0.0, 90.0]
   -
     type: ax-12a
     visual:
