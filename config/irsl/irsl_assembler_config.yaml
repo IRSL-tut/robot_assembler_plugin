@@ -138,13 +138,13 @@ PanelSettings: ## just for choreonoid
     - name: sub_block
       parts: [angle_2_2, plate_2_2_pp]
     - name: servo_parts
-      parts: [ax-12a, mx-12w, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-S, FP04-F2-P_3x3, P04-F53, P04-F53-s]
+      parts: [ax-12a, mx-12w, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-S, FP04-F2-P_3x3, P04-F53, P04-F53-s, omni-shaft]
     - name: servo_parts2
-      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_S101]
+      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_S101, omni-shaft-x]
     - name: sensor_parts
       parts: [sensor-mounter, ultrasonic-sensor, tof-sensor]
     - name : vehicle
-      parts: [vehicle-base, vehicle-base-pp, omni-shaft, omni-wheel]
+      parts: [vehicle-base, vehicle-base-pp, omni-wheel]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
 
 ##PartsSettings:
@@ -611,6 +611,33 @@ PartsSettings:
         types: [FRAME_SIDE_X]
         translation: [17.0, 8.0, 11.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
+  -
+    type: omni-shaft-x
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/omni_wheel_shaft_m.stl"
+        scale : 1
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/omni_wheel_shaft_m.stl"
+        scale : 1 
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    - 
+        name: connetct_point
+        types: [HORN_X]
+        translation: [0.0, 0.0, 0.0]
+        rotation: [0.0, 1.0, 0.0, 0.0]
+    - 
+      name: wheel-shaft
+      types: [WHEEL_SHAFT]
+      translation: [0.0, 0.0, 30.0]
+      rotation: [1.0, 0.0, 0.0, 0.0]
   -
     type: ax-12a
     visual:
