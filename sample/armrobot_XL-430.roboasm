@@ -1,0 +1,193 @@
+history: 
+  - 
+    initial-parts: true
+    parts-name: Bottom_mounter_739_0
+    parts-type: Bottom_mounter
+  - 
+    parent: Bottom_mounter_739_0
+    parent-point: connetct_point
+    parts-name: XL-430_739_1
+    parts-point: bottom-side
+    parts-type: XL-430
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 3.141592653590 ]
+    parent: XL-430_739_1
+    parent-point: horn
+    parts-name: FR12_S102_739_20
+    parts-point: horn
+    parts-type: FR12_S102
+  - 
+    parent: FR12_S102_739_20
+    parent-point: side_connetct_point
+    parts-name: XL-430_739_21
+    parts-point: bottom-side
+    parts-type: XL-430
+  - 
+    parent: XL-430_739_21
+    parent-point: horn
+    parts-name: FR12_H101_P_739_22
+    parts-point: side_connetct_point
+    parts-type: FR12_H101_P
+  - 
+    parent: FR12_H101_P_739_22
+    parent-point: p1_0_3
+    parts-name: FR12_H103_S_739_23
+    parts-point: s1_2_3
+    parts-type: FR12_H103_S
+  - 
+    parent: FR12_H103_S_739_23
+    parent-point: side_connetct_point
+    parts-name: XL-430_739_24
+    parts-point: horn
+    parts-type: XL-430
+  - 
+    parent: XL-430_739_24
+    parent-point: bottom-side
+    parts-name: FR12_S102_P_739_25
+    parts-point: side_connetct_point
+    parts-type: FR12_S102_P
+  - 
+    parent: Bottom_mounter_739_0
+    parent-point: s1_0_2
+    parts-name: vehicle-base-pp_739_3
+    parts-point: p1_3_1_b
+    parts-type: vehicle-base-pp
+  - 
+    parent: vehicle-base-pp_739_3
+    parent-point: p1_1_2
+    parts-name: FR12_S102_S_739_4
+    parts-point: s1_0_3
+    parts-type: FR12_S102_S
+  - 
+    parent: FR12_S102_S_739_4
+    parent-point: side_connetct_point
+    parts-name: XL-430_739_11
+    parts-point: bottom-side
+    parts-type: XL-430
+  - 
+    parent: XL-430_739_11
+    parent-point: horn
+    parts-name: omni-shaft-x_739_13
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_739_13
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_739_17
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-pp_739_3
+    parent-point: p1_2_0
+    parts-name: FR12_S102_S_739_5
+    parts-point: s1_0_3
+    parts-type: FR12_S102_S
+  - 
+    parent: FR12_S102_S_739_5
+    parent-point: side_connetct_point
+    parts-name: XL-430_739_10
+    parts-point: bottom-side
+    parts-type: XL-430
+  - 
+    parent: XL-430_739_10
+    parent-point: horn
+    parts-name: omni-shaft-x_739_15
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_739_15
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_739_16
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 3.141592653590 ]
+    parent: vehicle-base-pp_739_3
+    parent-point: p1_0_0
+    parts-name: FR12_S102_S_739_6
+    parts-point: s1_0_3
+    parts-type: FR12_S102_S
+  - 
+    parent: FR12_S102_S_739_6
+    parent-point: side_connetct_point
+    parts-name: XL-430_739_9
+    parts-point: bottom-side
+    parts-type: XL-430
+  - 
+    parent: XL-430_739_9
+    parent-point: horn
+    parts-name: omni-shaft-x_739_14
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_739_14
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_739_18
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-pp_739_3
+    parent-point: p1_3_2
+    parts-name: FR12_S102_S_739_7
+    parts-point: s1_0_3
+    parts-type: FR12_S102_S
+  - 
+    parent: FR12_S102_S_739_7
+    parent-point: side_connetct_point
+    parts-name: XL-430_739_8
+    parts-point: bottom-side
+    parts-type: XL-430
+  - 
+    parent: XL-430_739_8
+    parent-point: horn
+    parts-name: omni-shaft-x_739_12
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_739_12
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_739_2
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: FR12_S102_P_739_25
+    parent-point: p1_2_3
+    parts-name: FR12_S102_S_739_26
+    parts-point: s1_2_3
+    parts-type: FR12_S102_S
+  - 
+    parent: FR12_S102_S_739_26
+    parent-point: side_connetct_point
+    parts-name: XL-430_739_27
+    parts-point: bottom-side
+    parts-type: XL-430
+  - 
+    parent: XL-430_739_27
+    parent-point: horn
+    parts-name: FR12_H103_P_739_28
+    parts-point: side_connetct_point
+    parts-type: FR12_H103_P
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: FR12_S102_P_739_25
+    parent-point: p1_0_0
+    parts-name: angle_2_2_739_29
+    parts-point: s_1_1
+    parts-type: angle_2_2
+  - 
+    parent: angle_2_2_739_29
+    parent-point: p_1_0
+    parts-name: plate_2_10_739_30
+    parts-point: SK1_0_0
+    parts-type: plate_2_10
+robot-info: 
+  name: AssembleRobot
