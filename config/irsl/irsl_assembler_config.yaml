@@ -816,7 +816,11 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/bottom_mounter_m.stl"
-        scale : 1 
+        scale : 1
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
     - 
         name: connetct_point
