@@ -7,7 +7,7 @@ history:
     parent: Bottom_mounter_739_0
     parent-point: connetct_point
     parts-name: XL-430_739_1
-    parts-point: bottom-side
+    parts-point: bottom-side2
     parts-type: XL-430
   - 
     connecting-offset: 
@@ -21,7 +21,7 @@ history:
     parent: FR12_S102_739_20
     parent-point: side_connetct_point
     parts-name: XL-430_739_21
-    parts-point: bottom-side
+    parts-point: bottom-side1
     parts-type: XL-430
   - 
     parent: XL-430_739_21
@@ -43,7 +43,7 @@ history:
     parts-type: XL-430
   - 
     parent: XL-430_739_24
-    parent-point: bottom-side
+    parent-point: bottom-side1
     parts-name: FR12_S102_P_739_25
     parts-point: side_connetct_point
     parts-type: FR12_S102_P
@@ -63,7 +63,7 @@ history:
     parent: FR12_S102_S_739_4
     parent-point: side_connetct_point
     parts-name: XL-430_739_11
-    parts-point: bottom-side
+    parts-point: bottom-side1
     parts-type: XL-430
   - 
     parent: XL-430_739_11
@@ -89,7 +89,7 @@ history:
     parent: FR12_S102_S_739_5
     parent-point: side_connetct_point
     parts-name: XL-430_739_10
-    parts-point: bottom-side
+    parts-point: bottom-side1
     parts-type: XL-430
   - 
     parent: XL-430_739_10
@@ -115,7 +115,7 @@ history:
     parent: FR12_S102_S_739_6
     parent-point: side_connetct_point
     parts-name: XL-430_739_9
-    parts-point: bottom-side
+    parts-point: bottom-side1
     parts-type: XL-430
   - 
     parent: XL-430_739_9
@@ -141,7 +141,7 @@ history:
     parent: FR12_S102_S_739_7
     parent-point: side_connetct_point
     parts-name: XL-430_739_8
-    parts-point: bottom-side
+    parts-point: bottom-side1
     parts-type: XL-430
   - 
     parent: XL-430_739_8
@@ -167,7 +167,7 @@ history:
     parent: FR12_S102_S_739_26
     parent-point: side_connetct_point
     parts-name: XL-430_739_27
-    parts-point: bottom-side
+    parts-point: bottom-side1
     parts-type: XL-430
   - 
     parent: XL-430_739_27

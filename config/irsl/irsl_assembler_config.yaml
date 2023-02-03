@@ -228,12 +228,12 @@ PartsSettings:
         translation: [-11.0, 8.0, 17.0]
         rotation: [1.0, 0.0, 0.0, 0.0]
     - 
-        name: bottom-side
+        name: bottom-side1
         types: [SERVO_SIDE_X]
         translation: [-11.0, -32.0, 17.0]
         rotation: [0.0, 0.0, 1.0, 90.0]
     - 
-        name: bottom-side
+        name: bottom-side2
         types: [SERVO_SIDE_X]
         translation: [11.0, 8.0, -17.0]
         rotation: [0.0, 0.0, 1.0, 0.0]
