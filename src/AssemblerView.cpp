@@ -69,7 +69,6 @@ public:
 
     void createButtons(PanelSettings &_settings);
     void createButtonsOrg();
-    void partsButtonClicked(int index);
     void createButtonClicked(const std::string &_name = std::string());
     std::vector<PushButton *> partsButtons;
     std::vector<std::string> comboItems;
@@ -206,6 +205,7 @@ void AssemblerView::Impl::initialize(bool config)
 void AssemblerView::Impl::createButtons(PanelSettings &_settings)
 {
     if(_settings.tab_list.size() == 0 && _settings.combo_list.size() == 0) {
+        // No Tab
         createButtonsOrg();
         return;
     }
@@ -226,9 +226,15 @@ void AssemblerView::Impl::createButtons(PanelSettings &_settings)
             for(auto nameit = (*it).parts.begin();
                 nameit != (*it).parts.end(); nameit++) {
                 std::string name_ = (*nameit);
-                auto pt_ = manager->ra_settings->mapParts.find(name_);
+                auto pt_ = manager->ra_settings->mapParts.find(name_); // check exist parts
                 if(pt_ == manager->ra_settings->mapParts.end()) continue;
-                PushButton *bp = new PushButton(name_.c_str(), partsTab);
+                std::string label_;
+                if( pt_->second.class_name.size() > 0 ) {
+                    label_ = pt_->second.class_name;
+                } else {
+                    label_ = name_;
+                }
+                PushButton *bp = new PushButton(label_.c_str(), partsTab);
                 bp->sigClicked().connect( [this, name_]() {
                         createButtonClicked(name_); } );
                 qvbox->addWidget(bp);
@@ -246,6 +252,7 @@ void AssemblerView::Impl::createButtons(PanelSettings &_settings)
     comboItems.push_back("dummy");
     for(auto it = _settings.combo_list.begin();
         it != _settings.combo_list.end(); it++) {
+        ////
         parts_combo->addItem((*it).c_str());
         comboItems.push_back(*it);
     }
@@ -283,10 +290,18 @@ void AssemblerView::Impl::createButtonsOrg()
         //
         for(int j = 0; j < 10; j++) {
             if (parts != pt_lst.end()) {
-                std::string name = (*parts);
-                PushButton *bp = new PushButton(name.c_str(), partsTab);
-                bp->sigClicked().connect( [this, parts_index]() {
-                        partsButtonClicked(parts_index); } );
+                std::string name_ = (*parts);
+                auto pt_ = manager->ra_settings->mapParts.find(name_); // check exist parts
+                if(pt_ == manager->ra_settings->mapParts.end()) continue;
+                std::string label_;
+                if( pt_->second.class_name.size() > 0 ) {
+                    label_ = pt_->second.class_name;
+                } else {
+                    label_ = name_;
+                }
+                PushButton *bp = new PushButton(label_.c_str(), partsTab);
+                bp->sigClicked().connect( [this, name_]() {
+                        createButtonClicked(name_); } );
                 qvbox->addWidget(bp);
                 partsButtons.push_back(bp);
                 parts_index++;
@@ -302,12 +317,6 @@ void AssemblerView::Impl::createButtonsOrg()
 
     //
     topLayout->addWidget(partsTab);
-}
-void AssemblerView::Impl::partsButtonClicked(int index)
-{
-    PushButton *bp = partsButtons[index];
-    //int color_id = color_combo->currentIndex();
-    manager->partsButtonClicked(bp->text().toStdString());
 }
 void AssemblerView::Impl::createButtonClicked(const std::string &_name)
 {
