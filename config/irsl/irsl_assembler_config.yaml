@@ -1977,12 +1977,12 @@ PartsSettings:
     visual:
       -
         type: mesh
-        url: "meshes/sensor-mounter.stl"
+        url: "meshes/sensor-mounter_m.stl"
         scale : 1
     collision:
       -
         type: mesh
-        url: "meshes/sensor-mounter.stl"
+        url: "meshes/sensor-mounter_m.stl"
         scale : 1
     mass-param:
       mass: 2.945
