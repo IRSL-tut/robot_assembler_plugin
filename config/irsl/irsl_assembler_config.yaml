@@ -142,7 +142,7 @@ PanelSettings: ## just for choreonoid
     - name: servo_parts_x_series
       parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, FR12_S101, Bottom_mounter, omni-shaft-x]
     - name: sensor_parts
-      parts: [sensor-mounter, ultrasonic-sensor, tof-sensor]
+      parts: [sensor-mounter, grove-sensor-mounter, ultrasonic-sensor, tof-sensor]
     - name : vehicle
       parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, omni-wheel]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
@@ -2119,6 +2119,68 @@ PartsSettings:
     #   types : [SC4]
     #   translation: [15.9, 15.9, 0]
     #   rotation: [1., 0., 0., 0.0]
+  -
+    type: grove-sensor-mounter
+    visual:
+      -
+        type: mesh
+        url: "meshes/grove_sensor_mounter_m.stl"
+        scale : 1
+    collision:
+      -
+        type: mesh
+        url: "meshes/grove_sensor_mounter_m.stl"
+        scale : 1
+    mass-param:
+      mass: 2.945
+      center-of-mass: [11.901, 11.901, 5.658 ]
+      inertia-tensor: [680.49, -417.049, -198.27, -417.049, 688.702, -198.273, -198.27, -198.273, 1115.736]
+    connecting-points :
+    -
+      name: s1_0_0
+      types : [SC1]
+      translation: [-8.0, -8.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_0_1
+      types : [SC1]
+      translation: [0.0, -8.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_0_2
+      types : [SC1]
+      translation: [8.0, -8.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_0
+      types : [SC1]
+      translation: [-8.0, 0.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_1
+      types : [SC1]
+      translation: [0.0, 0.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_2
+      types : [SC1]
+      translation: [8.0, 0.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_0
+      types : [SC1]
+      translation: [-8.0, 8.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_1
+      types : [SC1]
+      translation: [0.0, 8.0, 0]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_2
+      types : [SC1]
+      translation: [8.0, 8.0, 0]
+      rotation: [1., 0., 0., 0.0]    
   -
     type: vehicle-base
     visual:
