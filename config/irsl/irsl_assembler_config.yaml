@@ -16,7 +16,7 @@ GeneralSettings:
 ##   connecting-type-match-list:
 ##   connecting-configuration-list:
 ConnectingConstraintSettings:
-  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S, WHEEL_SHAFT, OMNI_WHEEL, HORN_X, HORN_X_SHORT, SERVO_SIDE_X, FRAME_SIDE_X]
+  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S, WHEEL_SHAFT, OMNI_WHEEL, HORN_X, HORN_X_SHORT, SERVO_SIDE_X, FRAME_SIDE_X, GROVE_SENSOR, GROVE_MOUNTER]
   ## pair: [a, b] ## configuration represents transoform from a to b
   connecting-type-match-list:
     -
@@ -58,6 +58,9 @@ ConnectingConstraintSettings:
     - 
       pair: [HORN_X, HORN_X_SHORT]
       allowed-configuration: [fixed, rotate-90, rotate90]
+    - 
+      pair: [GROVE_SENSOR, GROVE_MOUNTER]
+      allowed-configuration: [fixed, invert]
   ##
   connecting-configuration-list:
     -
@@ -142,7 +145,7 @@ PanelSettings: ## just for choreonoid
     - name: servo_parts_x_series
       parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, FR12_S101, Bottom_mounter, omni-shaft-x]
     - name: sensor_parts
-      parts: [sensor-mounter, grove-sensor-mounter, ultrasonic-sensor, tof-sensor]
+      parts: [sensor-mounter, grove-sensor-mounter, ultrasonic-sensor, tof-sensor, grove-color-sensor]
     - name : vehicle
       parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, omni-wheel]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
@@ -2120,6 +2123,28 @@ PartsSettings:
     #   translation: [15.9, 15.9, 0]
     #   rotation: [1., 0., 0., 0.0]
   -
+    type: grove-color-sensor
+    visual:
+      -
+        type: mesh
+        url: "meshes/grove_color_sensor_m.stl"
+        scale : 1
+    collision:
+      -
+        type: mesh
+        url: "meshes/grove_color_sensor_m.stl"
+        scale : 1
+    mass-param:
+      mass: 2.945
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1,0,0,0,1,0,0,0,1]
+    connecting-points :
+    -
+      name: mount_pos
+      types : [GROVE_SENSOR]
+      translation: [-10.0, 0, -1.5]
+      rotation: [1., 0., 0., 0.0]
+  -
     type: grove-sensor-mounter
     visual:
       -
@@ -2181,6 +2206,11 @@ PartsSettings:
       types : [SC1]
       translation: [8.0, 8.0, 0]
       rotation: [1., 0., 0., 0.0]    
+    -
+      name: sensor_pos
+      types : [GROVE_MOUNTER]
+      translation: [0., 0., 17.1]
+      rotation: [0., 0., 1., 90.0]    
   -
     type: vehicle-base
     visual:
