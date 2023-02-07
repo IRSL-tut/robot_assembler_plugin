@@ -34,7 +34,7 @@ ConnectingConstraintSettings:
     -
       pair: [HORN, HORN-F4]
       allowed-configuration: [fixed, invert, rotate-90, rotate90]
-    - 
+    -
       pair: [SERVO_SIDE, FRAME_F3_SERVO]
       allowed-configuration: [fixed]
     -
@@ -49,16 +49,16 @@ ConnectingConstraintSettings:
     -
       pair: [WHEEL_SHAFT, OMNI_WHEEL]
       allowed-configuration: [fixed]
-    - 
+    -
       pair: [FRAME_SIDE_X, SERVO_SIDE_X]
       allowed-configuration: [fixed]
-    - 
+    -
       pair: [HORN_X, HORN_X]
       allowed-configuration: [fixed, invert, rotate-90, rotate90]
-    - 
+    -
       pair: [HORN_X, HORN_X_SHORT]
       allowed-configuration: [fixed, rotate-90, rotate90]
-    - 
+    -
       pair: [GROVE_SENSOR, GROVE_MOUNTER]
       allowed-configuration: [fixed, invert]
   ##
@@ -205,7 +205,7 @@ PartsSettings:
       -
         type: mesh
         url: "mesmeshes_xserieshes/XL-430_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1
       center-of-mass: [0.0, 0.0, 0.0]
@@ -220,22 +220,22 @@ PartsSettings:
         axis: z
         limit: [-180, 180]
     connecting-points :
-    - 
+    -
         name: right-side
         types: [SERVO_SIDE_X]
         translation: [11.0, -32.0, 17.0]
         rotation: [0.0, 0.0, 1.0, 180.0]
-    - 
+    -
         name: left-side
         types: [SERVO_SIDE_X]
         translation: [-11.0, 8.0, 17.0]
         rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
         name: bottom-side1
         types: [SERVO_SIDE_X]
         translation: [-11.0, -32.0, 17.0]
         rotation: [0.0, 0.0, 1.0, 90.0]
-    - 
+    -
         name: bottom-side2
         types: [SERVO_SIDE_X]
         translation: [11.0, 8.0, -17.0]
@@ -246,18 +246,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_s102_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_s102_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: side_connetct_point
         types: [FRAME_SIDE_X]
         translation: [17.0, 11.0, 11.0]
@@ -273,18 +273,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_s102_p_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_s102_p_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: side_connetct_point
         types: [FRAME_SIDE_X]
         translation: [17.0, 11.0, 11.0]
@@ -355,18 +355,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_s102_s_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_s102_s_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: side_connetct_point
         types: [FRAME_SIDE_X]
         translation: [17.0, 11.0, 11.0]
@@ -437,18 +437,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_h101_plug_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_h101_plug_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: side_connetct_point
         types: [HORN_X_SHORT]
         translation: [19.0, 0.0, 0.0]
@@ -519,18 +519,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_h101_socket_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_h101_socket_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: side_connetct_point
         types: [HORN_X_SHORT]
         translation: [19.0, 0.0, 0.0]
@@ -601,18 +601,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_s101_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_s101_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: connetct_point
         types: [FRAME_SIDE_X]
         translation: [17.0, 8.0, 11.0]
@@ -628,18 +628,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/omni_wheel_shaft_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: connetct_point
         types: [HORN_X]
         translation: [0.0, 0.0, 0.0]
         rotation: [0.0, 1.0, 0.0, 0.0]
-    - 
+    -
       name: wheel-shaft
       types: [WHEEL_SHAFT]
       translation: [0.0, 0.0, 30.0]
@@ -650,18 +650,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_h103_plug_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_h103_plug_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: side_connetct_point
         types: [HORN_X_SHORT]
         translation: [19.0, 0.0, 0.0]
@@ -732,18 +732,18 @@ PartsSettings:
       -
         type: mesh
         url: "meshes_xseries/fr12_h103_socket_m.stl"
-        scale : 1 
+        scale : 1
     collision:
       -
         type: mesh
         url: "meshes_xseries/fr12_h103_socket_m.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 1.0
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: side_connetct_point
         types: [HORN_X_SHORT]
         translation: [19.0, 0.0, 0.0]
@@ -825,7 +825,7 @@ PartsSettings:
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
         name: connetct_point
         types: [FRAME_SIDE_X]
         translation: [11.0, 8.0, 9.0]
@@ -889,7 +889,7 @@ PartsSettings:
         #box: [25.0, 50.0, 40.0] # shift -13.5mm at y-axis
         type: mesh
         url: "meshes/ax-12a.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 54.6
       center-of-mass: [0.0, 0.0, 0.0]
@@ -904,52 +904,51 @@ PartsSettings:
         axis: z
         limit: [-150, 150]
     connecting-points :
-    - 
+    -
         name: right-side1
         types: [SERVO_SIDE]
         translation: [13.5, -22.5, 16.0]
         rotation: [0.0, 1.0, 0.0, -180.0]
-    - 
+    -
         name: right-side2
         types: [SERVO_SIDE]
         translation: [13.5, -30.5, 16.0]
         rotation: [0.0, 1.0, 0.0, -180.0]
-    - 
+    -
         name: right-side3
         types: [SERVO_SIDE]
         translation: [13.5, -14.5, -16.0]
         rotation: [0.0, 0.0, 1.0, 180.0]
-    - 
+    -
         name: right-side4
         types: [SERVO_SIDE]
         translation: [13.5, -6.5, -16.0]
         rotation: [0.0, 0.0, 1.0, 180.0]
-    - 
+    -
         name: left-side1
         types: [SERVO_SIDE]
         translation: [-13.5, -6.5, 16.0]
         rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: left-side2
         types: [SERVO_SIDE]
         translation: [-13.5, -14.5, 16.0]
         rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: left-side3
         types: [SERVO_SIDE]
         translation: [-13.5, -22.5, -16.0]
         # rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: left-side4
         types: [SERVO_SIDE]
         translation: [-13.5, -30.5, -16.0]
         # rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: bottom-side
         types: [SERVO_SIDE]
         translation: [-8, -36, 16.0]
         rotation: [-0.707, -0.707, 0., 180.0]
-        
   -
     type: mx-12w
     visual:
@@ -963,7 +962,7 @@ PartsSettings:
         #box: [25.0, 50.0, 40.0] # shift -13.5mm at y-axis
         type: mesh
         url: "meshes/ax-12a.stl"
-        scale : 1 
+        scale : 1
     mass-param:
       mass: 54.6
       center-of-mass: [0.0, 0.0, 0.0]
@@ -978,52 +977,51 @@ PartsSettings:
         axis: z
         limit: [-180, 180]
     connecting-points :
-    - 
+    -
         name: right-side1
         types: [SERVO_SIDE]
         translation: [13.5, -22.5, 16.0]
         rotation: [0.0, 1.0, 0.0, -180.0]
-    - 
+    -
         name: right-side2
         types: [SERVO_SIDE]
         translation: [13.5, -30.5, 16.0]
         rotation: [0.0, 1.0, 0.0, -180.0]
-    - 
+    -
         name: right-side3
         types: [SERVO_SIDE]
         translation: [13.5, -14.5, -16.0]
         rotation: [0.0, 0.0, 1.0, 180.0]
-    - 
+    -
         name: right-side4
         types: [SERVO_SIDE]
         translation: [13.5, -6.5, -16.0]
         rotation: [0.0, 0.0, 1.0, 180.0]
-    - 
+    -
         name: left-side1
         types: [SERVO_SIDE]
         translation: [-13.5, -6.5, 16.0]
         rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: left-side2
         types: [SERVO_SIDE]
         translation: [-13.5, -14.5, 16.0]
         rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: left-side3
         types: [SERVO_SIDE]
         translation: [-13.5, -22.5, -16.0]
         # rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: left-side4
         types: [SERVO_SIDE]
         translation: [-13.5, -30.5, -16.0]
         # rotation: [-1.0, 0.0, 0.0, 180.0]
-    - 
+    -
         name: bottom-side
         types: [SERVO_SIDE]
         translation: [-8, -36, 16.0]
         rotation: [-0.707, -0.707, 0., 180.0]
-        
   -
     type: ax-12a-f2
     visual:
@@ -1043,7 +1041,7 @@ PartsSettings:
       center-of-mass: [2.656E-09 , 9.353 , -7.362E-05 ]
       inertia-tensor: [2578.20, -1.041E-07, -3.287E-08, -1.041E-07, 3934.759, 0.016, -3.287E-08, 0.016, 5347.076]
     connecting-points :
-    - 
+    -
       name: horn-f
       types: [HORN-F2]
       translation: [20.9, 26.5, 0.0]
@@ -1080,7 +1078,7 @@ PartsSettings:
       center-of-mass: [0.00 , 2.689 , -3.474E-09]
       inertia-tensor: [251.511, -0.002, 2.301E-08, -0.002, 812.621, 3.026E-08, 2.301E-08, 3.026E-08, 651.099]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [FRAME_F3_SERVO]
       # translation: [16.0, 0.0, 0.0]
@@ -1110,7 +1108,7 @@ PartsSettings:
       center-of-mass: [6.053E-05, 0.677, -3.633E-09 ]
       inertia-tensor: [413.261, -0.002, 0.00, -0.002, 1214.927, -1.245E-08, 0.00, -1.245E-08, 925.277]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [FRAME_F3_SERVO]
       # translation: [16.0, 0.0, 0.0]
@@ -1311,7 +1309,7 @@ PartsSettings:
       center-of-mass: [0.00, -3.075, 0.00]
       inertia-tensor: [210.828, 0.00, 0.00, 0.00, 273.332, -4.453E-10, 0.00, -4.453E-10, 117.223]
     connecting-points :
-    - 
+    -
       name: servo_side
       types: [FRAME_F3_SERVO]
       translation: [-8.0, -7.0, 13.5]
@@ -1333,7 +1331,7 @@ PartsSettings:
       center-of-mass: [0.00, -3.075, 0.00]
       inertia-tensor: [210.828, 0.00, 0.00, 0.00, 273.332, -4.453E-10, 0.00, -4.453E-10, 117.223]
     connecting-points :
-    - 
+    -
       name: servo_side
       types: [FRAME_F3_SERVO]
       translation: [-8.0, -7.0, 13.5]
@@ -1403,7 +1401,7 @@ PartsSettings:
       center-of-mass: [7.083E-05, 1.294, -2.686E-09]
       inertia-tensor: [364.128, -0.002, 0.00, -0.002, 1100.673, 1.974E-08, 0.00, 1.974E-08, 840.659]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [FRAME_F3_SERVO]
       # translation: [16.0, 0.0, 0.0]
@@ -1604,7 +1602,7 @@ PartsSettings:
       center-of-mass: [8.914E-05, 1.902, -1.162E-08]
       inertia-tensor: [295.66, -0.002, 2.301E-08, -0.002, 895.103, -3.763E-08, 2.301E-08, -3.763E-08, 696.183]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [FRAME_F3_SERVO]
       translation: [16.0, 5.5, 8.0]
@@ -1673,7 +1671,7 @@ PartsSettings:
       center-of-mass: [0.00, 0.59, 31.70]
       inertia-tensor: [19565.507, 0.00, -5.682E-09, 0.00, 23787.757, -345.293, -5.682E-09, -345.293, 6372.974]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [HORN-F4]
       translation: [21.0, 0.0, 0.0]
@@ -1700,9 +1698,8 @@ PartsSettings:
       mass: 16.629
       center-of-mass: [0.0, 0.495, 35.309]
       inertia-tensor: [27509.038, 0.00, -1.730E-08,  0.00, 31841.10, -345.321,  -1.730E-08, -345.321, 6673.472]
-      
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [HORN-F4]
       translation: [21.0, 0.0, 0.0]
@@ -1762,7 +1759,7 @@ PartsSettings:
       center-of-mass: [0.0, 0.0, 18.606]
       inertia-tensor: [5477.21, 0.00, -1.236E-08, 0.00, 7703.75, -0.031, -1.236E-08, -0.031, 3421.342]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [HORN-F2]
       translation: [21.0, 0.0, 0.0]
@@ -1820,7 +1817,7 @@ PartsSettings:
       center-of-mass: [0.0, 0.0, 18.606]
       inertia-tensor: [5477.21, 0.00, -1.236E-08, 0.00, 7703.75, -0.031, -1.236E-08, -0.031, 3421.342]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [HORN-F2]
       translation: [21.0, 0.0, 0.0]
@@ -1892,7 +1889,7 @@ PartsSettings:
       center-of-mass: [0.0, 0.0, 18.493]
       inertia-tensor: [5378.77, 0.0, -8.704E-09,  0.0, 7589.842, -0.031,  -8.704E-09, -0.031, 3396.737]
     connecting-points :
-    - 
+    -
       name: f3_servo
       types: [HORN-F2]
       translation: [21.0, 0.0, 0.0]
@@ -1924,7 +1921,6 @@ PartsSettings:
     - name: p1_2_2
       types: [PC1]
       translation: [8.0, 8.0, 29.2]
-      
   -
     type: ultrasonic-sensor
     visual:
@@ -1944,7 +1940,7 @@ PartsSettings:
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
       name: lego-2s
       types: [LEGO-2S]
       translation: [11.9, 11.9, 0.0]
@@ -1968,13 +1964,11 @@ PartsSettings:
       center-of-mass: [0.0, 0.0, 0.0]
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
-    - 
+    -
       name: lego-2s
       types: [LEGO-2S]
       translation: [11.9, 11.9, 0.0]
       rotation: [1., 0., 0., 0.0]
-
-
   -
     type: sensor-mounter
     visual:
@@ -1992,7 +1986,7 @@ PartsSettings:
       center-of-mass: [11.901, 11.901, 5.658 ]
       inertia-tensor: [680.49, -417.049, -198.27, -417.049, 688.702, -198.273, -198.27, -198.273, 1115.736]
     connecting-points :
-    - 
+    -
       name: lego-2p
       types: [LEGO-2P]
       translation: [11.9, 11.9, 9.6]
@@ -2205,12 +2199,12 @@ PartsSettings:
       name: s1_2_2
       types : [SC1]
       translation: [8.0, 8.0, 0]
-      rotation: [1., 0., 0., 0.0]    
+      rotation: [1., 0., 0., 0.0]
     -
       name: sensor_pos
       types : [GROVE_MOUNTER]
       translation: [0., 0., 17.1]
-      rotation: [0., 0., 1., 90.0]    
+      rotation: [0., 0., 1., 90.0]
   -
     type: vehicle-base
     visual:
@@ -2288,8 +2282,6 @@ PartsSettings:
       types : [PC1]
       translation: [-24.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
-
-
     -
       name: p1_1_0
       types : [PC1]
@@ -2470,8 +2462,6 @@ PartsSettings:
       types : [PC1]
       translation: [8.0, -24.0, 3.2]
       rotation: [1., 0., 0., 0.0]
-
-
   -
     type: vehicle-base-pp
     visual:
@@ -2771,7 +2761,6 @@ PartsSettings:
       types : [PC1]
       translation: [16.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
-      
     -
       name: p1_0_2_b
       types : [PC1]
@@ -3566,12 +3555,12 @@ PartsSettings:
       center-of-mass: [0 , 0 , 0 ]
       inertia-tensor: [1,0,0,0,1,0,0,0,1]
     connecting-points :
-    - 
+    -
       name: horn-f
       types: [HORN-F2]
       translation: [0.0, 0.0, 0.0]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: wheel-shaft
       types: [WHEEL_SHAFT]
       translation: [0.0, 0.0, 30.0]
@@ -3597,13 +3586,11 @@ PartsSettings:
       center-of-mass: [0 , 0 , 0 ]
       inertia-tensor: [1,0,0,0,1,0,0,0,1]
     connecting-points :
-    - 
+    -
       name: omni_wheel
       types: [OMNI_WHEEL]
       translation: [0.0, 0.0, 25.1]
       rotation: [1.0, 0.0, 0.0, 0.0]
-  
-
   -
     type: angle_2_2
     visual:
@@ -3621,42 +3608,42 @@ PartsSettings:
       center-of-mass: [0 , 0 , 0 ]
       inertia-tensor: [1,0,0,0,1,0,0,0,1]
     connecting-points :
-    - 
+    -
       name: s_0_0
       types: [SC1]
       translation: [-4.0, -4.0, 0.0]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: s_0_1
       types: [SC1]
       translation: [-4.0, 4.0, 0.0]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: s_1_0
       types: [SC1]
       translation: [4.0, -4.0, 0.0]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: s_1_1
       types: [SC1]
       translation: [4.0, 4.0, 0.0]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: p_0_0
       types: [PC1]
       translation: [-4.0, -11.1, 7.2]
       rotation: [1.0, 0.0, 0.0, 90.0]
-    - 
+    -
       name: p_0_1
       types: [PC1]
       translation: [4.0, -11.1, 7.2]
       rotation: [1.0, 0.0, 0.0, 90.0]
-    - 
+    -
       name: p_1_0
       types: [PC1]
       translation: [-4.0, -11.1, 15.2]
       rotation: [1.0, 0.0, 0.0, 90.0]
-    - 
+    -
       name: p_1_1
       types: [PC1]
       translation: [4.0, -11.1, 15.2]
@@ -3679,42 +3666,42 @@ PartsSettings:
       center-of-mass: [0 , 0 , 0 ]
       inertia-tensor: [1,0,0,0,1,0,0,0,1]
     connecting-points :
-    - 
+    -
       name: p_0_0
       types: [PC1]
       translation: [-4.0, -4.0, 1.6]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: p_0_1
       types: [PC1]
       translation: [-4.0, 4.0, 1.6]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: p_1_0
       types: [PC1]
       translation: [4.0, -4.0, 1.6]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: p_1_1
       types: [PC1]
       translation: [4.0, 4.0, 1.6]
       rotation: [1.0, 0.0, 0.0, 0.0]
-    - 
+    -
       name: p_2_0
       types: [PC1]
       translation: [-4.0, -4.0, -1.6]
       rotation: [1.0, 0.0, 0.0, 180.0]
-    - 
+    -
       name: p_2_1
       types: [PC1]
       translation: [-4.0, 4.0, -1.6]
       rotation: [1.0, 0.0, 0.0, 180.0]
-    - 
+    -
       name: p_3_0
       types: [PC1]
       translation: [4.0, -4.0, -1.6]
       rotation: [1.0, 0.0, 0.0, 180.0]
-    - 
+    -
       name: p_3_1
       types: [PC1]
       translation: [4.0, 4.0, -1.6]
