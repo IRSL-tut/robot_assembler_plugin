@@ -235,6 +235,10 @@ void AssemblerView::Impl::createButtons(PanelSettings &_settings)
                     label_ = name_;
                 }
                 PushButton *bp = new PushButton(label_.c_str(), partsTab);
+                if( pt_->second.description.size() > 0 ) {
+                    QString _tip_text(pt_->second.description.c_str());
+                    bp->setToolTip(_tip_text);
+                }
                 bp->sigClicked().connect( [this, name_]() {
                         createButtonClicked(name_); } );
                 qvbox->addWidget(bp);

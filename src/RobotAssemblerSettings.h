@@ -97,6 +97,7 @@ class CNOID_EXPORT PointBase
 public:
     std::string name;
     coordinates coords;
+    std::string description;
 };
 class CNOID_EXPORT ConnectingPoint : public PointBase
 {
@@ -154,6 +155,7 @@ struct CNOID_EXPORT ExtraInfo
     Type type;
     coordinates coords;
     // parameters Mapping
+    std::string description;
 };
 struct CNOID_EXPORT Geometry
 {
@@ -176,6 +178,7 @@ struct CNOID_EXPORT Geometry
     std::vector<double> parameter;
     Vector3f color; // should be material?
     Parts *parent_parts;
+    //std::string description;
 };
 class CNOID_EXPORT Parts
 {
@@ -188,7 +191,7 @@ public:
 
     std::string type;
     std::string class_name;
-
+    std::string description;
     std::vector<Geometry> visual;
     std::vector<Geometry> collision;
 
