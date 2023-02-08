@@ -279,7 +279,6 @@ PartsSettings:
   - type: XL-430
     class: Dynamixel XL-430
     description: Servomotor
-    print-file: ""
     visual:
       - type: mesh
         url: "meshes_xseries/XL-430_m.stl"
