@@ -2858,692 +2858,692 @@ PartsSettings:
       inertia-tensor: [15425.152, 0.00, 1.006e-09, 0.00, 15425.152, 0.00, 1.006e-09, 0.00, 30794.825]
     connecting-points :
     -
-      name: p1_0_5
+      name: p1_0_5_1
       types : [PC1]
       translation: [-48.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_0_6
+      name: p1_0_6_1
       types : [PC1]
       translation: [-48.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_0_7
+      name: p1_0_7_1
       types : [PC1]
       translation: [-48.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_1_5
+      name: p1_1_5_1
       types : [PC1]
       translation: [-40.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_1_6
+      name: p1_1_6_1
       types : [PC1]
       translation: [-40.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_1_7
+      name: p1_1_7_1
       types : [PC1]
       translation: [-40.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_2_5
+      name: p1_2_5_1
       types : [PC1]
       translation: [-32.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_2_6
+      name: p1_2_6_1
       types : [PC1]
       translation: [-32.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_2_7
+      name: p1_2_7_1
       types : [PC1]
       translation: [-32.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_3_5
+      name: p1_3_5_1
       types : [PC1]
       translation: [-24.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_3_6
+      name: p1_3_6_1
       types : [PC1]
       translation: [-24.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_3_7
+      name: p1_3_7_1
       types : [PC1]
       translation: [-24.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_4_5
+      name: p1_4_5_1
       types : [PC1]
       translation: [-16.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_4_6
+      name: p1_4_6_1
       types : [PC1]
       translation: [-16.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_4_7
+      name: p1_4_7_1
       types : [PC1]
       translation: [-16.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_0
+      name: p1_5_0_1
       types : [PC1]
       translation: [-8.0, -48.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_1
+      name: p1_5_1_1
       types : [PC1]
       translation: [-8.0, -40.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_2
+      name: p1_5_2_1
       types : [PC1]
       translation: [-8.0, -32.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_3
+      name: p1_5_3_1
       types : [PC1]
       translation: [-8.0, -24.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_4
+      name: p1_5_4_1
       types : [PC1]
       translation: [-8.0, -16.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_5
+      name: p1_5_5_1
       types : [PC1]
       translation: [-8.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_6
+      name: p1_5_6_1
       types : [PC1]
       translation: [-8.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_7
+      name: p1_5_7_1
       types : [PC1]
       translation: [-8.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_8
+      name: p1_5_8_1
       types : [PC1]
       translation: [-8.0, 16.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_9
+      name: p1_5_9_1
       types : [PC1]
       translation: [-8.0, 24.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_10
+      name: p1_5_10_1
       types : [PC1]
       translation: [-8.0, 32.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_11
+      name: p1_5_11_1
       types : [PC1]
       translation: [-8.0, 40.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_5_12
+      name: p1_5_12_1
       types : [PC1]
       translation: [-8.0, 48.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_0
+      name: p1_6_0_1
       types : [PC1]
       translation: [0.0, -48.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_1
+      name: p1_6_1_1
       types : [PC1]
       translation: [0.0, -40.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_2
+      name: p1_6_2_1
       types : [PC1]
       translation: [0.0, -32.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_3
+      name: p1_6_3_1
       types : [PC1]
       translation: [0.0, -24.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_4
+      name: p1_6_4_1
       types : [PC1]
       translation: [0.0, -16.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_5
+      name: p1_6_5_1
       types : [PC1]
       translation: [0.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_6
+      name: p1_6_6_1
       types : [PC1]
       translation: [0.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_7
+      name: p1_6_7_1
       types : [PC1]
       translation: [0.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_8
+      name: p1_6_8_1
       types : [PC1]
       translation: [0.0, 16.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_9
+      name: p1_6_9_1
       types : [PC1]
       translation: [0.0, 24.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_10
+      name: p1_6_10_1
       types : [PC1]
       translation: [0.0, 32.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_11
+      name: p1_6_11_1
       types : [PC1]
       translation: [0.0, 40.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_6_12
+      name: p1_6_12_1
       types : [PC1]
       translation: [0.0, 48.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_0
+      name: p1_7_0_1
       types : [PC1]
       translation: [8.0, -48.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_1
+      name: p1_7_1_1
       types : [PC1]
       translation: [8.0, -40.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_2
+      name: p1_7_2_1
       types : [PC1]
       translation: [8.0, -32.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_3
+      name: p1_7_3_1
       types : [PC1]
       translation: [8.0, -24.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_4
+      name: p1_7_4_1
       types : [PC1]
       translation: [8.0, -16.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_5
+      name: p1_7_5_1
       types : [PC1]
       translation: [8.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_6
+      name: p1_7_6_1
       types : [PC1]
       translation: [8.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_7
+      name: p1_7_7_1
       types : [PC1]
       translation: [8.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_8
+      name: p1_7_8_1
       types : [PC1]
       translation: [8.0, 16.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_9
+      name: p1_7_9_1
       types : [PC1]
       translation: [8.0, 24.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_10
+      name: p1_7_10_1
       types : [PC1]
       translation: [8.0, 32.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_11
+      name: p1_7_11_1
       types : [PC1]
       translation: [8.0, 40.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_7_12
+      name: p1_7_12_1
       types : [PC1]
       translation: [8.0, 48.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_8_5
+      name: p1_8_5_1
       types : [PC1]
       translation: [16.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_8_6
+      name: p1_8_6_1
       types : [PC1]
       translation: [16.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_8_7
+      name: p1_8_7_1
       types : [PC1]
       translation: [16.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_9_5
+      name: p1_9_5_1
       types : [PC1]
       translation: [24.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_9_6
+      name: p1_9_6_1
       types : [PC1]
       translation: [24.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_9_7
+      name: p1_9_7_1
       types : [PC1]
       translation: [24.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_10_5
+      name: p1_10_5_1
       types : [PC1]
       translation: [32.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_10_6
+      name: p1_10_6_1
       types : [PC1]
       translation: [32.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_10_7
+      name: p1_10_7_1
       types : [PC1]
       translation: [32.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_11_5
+      name: p1_11_5_1
       types : [PC1]
       translation: [40.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_11_6
+      name: p1_11_6_1
       types : [PC1]
       translation: [40.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_11_7
+      name: p1_11_7_1
       types : [PC1]
       translation: [40.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_12_5
+      name: p1_12_5_1
       types : [PC1]
       translation: [48.0, -8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_12_6
+      name: p1_12_6_1
       types : [PC1]
       translation: [48.0, 0.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_12_7
+      name: p1_12_7_1
       types : [PC1]
       translation: [48.0, 8.0, 3.2]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_0_5
+      name: p1_0_5_2
       types : [PC1]
       translation: [-48.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_0_6
+      name: p1_0_6_2
       types : [PC1]
       translation: [-48.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_0_7
+      name: p1_0_7_2
       types : [PC1]
       translation: [-48.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_1_5
+      name: p1_1_5_2
       types : [PC1]
       translation: [-40.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_1_6
+      name: p1_1_6_2
       types : [PC1]
       translation: [-40.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_1_7
+      name: p1_1_7_2
       types : [PC1]
       translation: [-40.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_2_5
+      name: p1_2_5_2
       types : [PC1]
       translation: [-32.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_2_6
+      name: p1_2_6_2
       types : [PC1]
       translation: [-32.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_2_7
+      name: p1_2_7_2
       types : [PC1]
       translation: [-32.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_3_5
+      name: p1_3_5_2
       types : [PC1]
       translation: [-24.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_3_6
+      name: p1_3_6_2
       types : [PC1]
       translation: [-24.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_3_7
+      name: p1_3_7_2
       types : [PC1]
       translation: [-24.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_4_5
+      name: p1_4_5_2
       types : [PC1]
       translation: [-16.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_4_6
+      name: p1_4_6_2
       types : [PC1]
       translation: [-16.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_4_7
+      name: p1_4_7_2
       types : [PC1]
       translation: [-16.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_0
+      name: p1_5_0_2
       types : [PC1]
       translation: [-8.0, -48.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_1
+      name: p1_5_1_2
       types : [PC1]
       translation: [-8.0, -40.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_2
+      name: p1_5_2_2
       types : [PC1]
       translation: [-8.0, -32.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_3
+      name: p1_5_3_2
       types : [PC1]
       translation: [-8.0, -24.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_4
+      name: p1_5_4_2
       types : [PC1]
       translation: [-8.0, -16.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_5
+      name: p1_5_5_2
       types : [PC1]
       translation: [-8.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_6
+      name: p1_5_6_2
       types : [PC1]
       translation: [-8.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_7
+      name: p1_5_7_2
       types : [PC1]
       translation: [-8.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_8
+      name: p1_5_8_2
       types : [PC1]
       translation: [-8.0, 16.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_9
+      name: p1_5_9_2
       types : [PC1]
       translation: [-8.0, 24.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_10
+      name: p1_5_10_2
       types : [PC1]
       translation: [-8.0, 32.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_11
+      name: p1_5_11_2
       types : [PC1]
       translation: [-8.0, 40.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_5_12
+      name: p1_5_12_2
       types : [PC1]
       translation: [-8.0, 48.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_0
+      name: p1_6_0_2
       types : [PC1]
       translation: [0.0, -48.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_1
+      name: p1_6_1_2
       types : [PC1]
       translation: [0.0, -40.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_2
+      name: p1_6_2_2
       types : [PC1]
       translation: [0.0, -32.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_3
+      name: p1_6_3_2
       types : [PC1]
       translation: [0.0, -24.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_4
+      name: p1_6_4_2
       types : [PC1]
       translation: [0.0, -16.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_5
+      name: p1_6_5_2
       types : [PC1]
       translation: [0.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_6
+      name: p1_6_6_2
       types : [PC1]
       translation: [0.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_7
+      name: p1_6_7_2
       types : [PC1]
       translation: [0.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_8
+      name: p1_6_8_2
       types : [PC1]
       translation: [0.0, 16.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_9
+      name: p1_6_9_2
       types : [PC1]
       translation: [0.0, 24.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_10
+      name: p1_6_10_2
       types : [PC1]
       translation: [0.0, 32.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_11
+      name: p1_6_11_2
       types : [PC1]
       translation: [0.0, 40.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_6_12
+      name: p1_6_12_2
       types : [PC1]
       translation: [0.0, 48.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_0
+      name: p1_7_0_2
       types : [PC1]
       translation: [8.0, -48.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_1
+      name: p1_7_1_2
       types : [PC1]
       translation: [8.0, -40.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_2
+      name: p1_7_2_2
       types : [PC1]
       translation: [8.0, -32.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_3
+      name: p1_7_3_2
       types : [PC1]
       translation: [8.0, -24.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_4
+      name: p1_7_4_2
       types : [PC1]
       translation: [8.0, -16.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_5
+      name: p1_7_5_2
       types : [PC1]
       translation: [8.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_6
+      name: p1_7_6_2
       types : [PC1]
       translation: [8.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_7
+      name: p1_7_7_2
       types : [PC1]
       translation: [8.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_8
+      name: p1_7_8_2
       types : [PC1]
       translation: [8.0, 16.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_9
+      name: p1_7_9_2
       types : [PC1]
       translation: [8.0, 24.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_10
+      name: p1_7_10_2
       types : [PC1]
       translation: [8.0, 32.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_11
+      name: p1_7_11_2
       types : [PC1]
       translation: [8.0, 40.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_7_12
+      name: p1_7_12_2
       types : [PC1]
       translation: [8.0, 48.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_8_5
+      name: p1_8_5_2
       types : [PC1]
       translation: [16.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_8_6
+      name: p1_8_6_2
       types : [PC1]
       translation: [16.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_8_7
+      name: p1_8_7_2
       types : [PC1]
       translation: [16.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_9_5
+      name: p1_9_5_2
       types : [PC1]
       translation: [24.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_9_6
+      name: p1_9_6_2
       types : [PC1]
       translation: [24.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_9_7
+      name: p1_9_7_2
       types : [PC1]
       translation: [24.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_10_5
+      name: p1_10_5_2
       types : [PC1]
       translation: [32.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_10_6
+      name: p1_10_6_2
       types : [PC1]
       translation: [32.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_10_7
+      name: p1_10_7_2
       types : [PC1]
       translation: [32.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_11_5
+      name: p1_11_5_2
       types : [PC1]
       translation: [40.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_11_6
+      name: p1_11_6_2
       types : [PC1]
       translation: [40.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_11_7
+      name: p1_11_7_2
       types : [PC1]
       translation: [40.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_12_5
+      name: p1_12_5_2
       types : [PC1]
       translation: [48.0, -8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_12_6
+      name: p1_12_6_2
       types : [PC1]
       translation: [48.0, 0.0, 0.0]
       rotation: [1., 0., 0., 180.0]
     -
-      name: p1_12_7
+      name: p1_12_7_2
       types : [PC1]
       translation: [48.0, 8.0, 0.0]
       rotation: [1., 0., 0., 180.0]
