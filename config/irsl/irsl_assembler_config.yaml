@@ -150,49 +150,54 @@ PanelSettings: ## just for choreonoid
       parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, omni-wheel]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
 
-##PartsSettings:
-#  type: (required)
-#  class: (optional / used for pannel)
-#  visual:
-#    - type:
-#      parameter: []
-#      url:
-#      translation:
-#      rotation:
-#      scale:
-#      color: or material: [TODO]
-#  collision:
-#    - type:
-#      parameter: []
-#      url:
-#      translation:
-#      rotation:
-#      scale:
-#  mass-param: (optional)
-#    mass:
-#    center-of-mass:
-#    inertia-tensor:
-#  connecting-points:
-#    -
-#      name: (required)
-#      types: [] (required)
-#      translation: optional
-#      rotation: optional
-#  actuators:
-#    -
-#      (same as connecting-point)
-#      actuator-type: fixed/linear/rotational/(sphere)
-#      axis: x,y,z,-x,-y,-z, or [0,0,1]
-#      limit: [,]
-#      vlimit: [,]
-#      tqlimit: [,] [0,0]-->free joint
-#  extra-data:
-#    -
-#      name: (required)
-#      type: sensor
-#      translation: (optional)
-#      rotation: (optional)
-#      parameters: {}
+#PartsSettings:
+#  -
+#    type: (required)
+#    class: (optional / used for pannel)
+#    description: tool-tip description of this parts
+#    visual:
+#      - type: mesh: box: sphere: cylinder:
+#        parameter: [] ???
+#        url: string
+#        translation: [float, float, float] # xyz(3)
+#        rotation: [float, float, float, float] # axis(3), angle(1)
+#        scale: float
+#        color: or material: [TODO]
+#    collision:
+#      - type:
+#        parameter: []
+#        url:
+#        translation:
+#        rotation:
+#        scale:
+#    mass-param: (optional)
+#      mass: float
+#      center-of-mass: [float, float, float] # xyz(3)
+#      inertia-tensor: [float, float, float,  float, float, float,  float, float, float]
+#    connecting-points:
+#      -
+#        name: (required)
+#        types: [] (required)
+#        translation: optional
+#        rotation: optional
+#        description: optional
+#    actuators:
+#      -
+#        (same as connecting-point)
+#        actuator-type: fixed/linear/rotational/(sphere)
+#        axis: x,y,z,-x,-y,-z, or [0,0,1]
+#        limit: [,] # lower, upper
+#        vlimit: [,] # lower, upper
+#        tqlimit: [,] # lower, upper / [0,0]-->free joint
+#        description: optional
+#    extra-data:
+#      -
+#        name: (required)
+#        type: sensor-type # '', '', ''
+#        translation: (optional)
+#        rotation: (optional)
+#        parameters: {} depend on sensor-type
+#        description: optional
 PartsSettings:
   -
     type: XL-430
@@ -878,6 +883,7 @@ PartsSettings:
   -
     type: ax-12a
     class: Dynamixel AX-12A
+    description: 'tooltip text of Dynamixel AX-12A'
     visual:
       -
         type: mesh
