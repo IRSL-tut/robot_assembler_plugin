@@ -10,11 +10,11 @@ namespace robot_assembler {
 
 extern const Vector3f default_body_color;
 
-void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
+void CNOID_EXPORT createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                              const std::string &_proj_dir = std::string(), const Vector3f &_color = Vector3f::Zero());
-void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color);
+void CNOID_EXPORT createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color);
 
-class RoboasmBodyCreator
+class CNOID_EXPORT RoboasmBodyCreator
 {
 public:
     RoboasmBodyCreator(const std::string &_proj_dir = std::string());

@@ -7,9 +7,9 @@
 
 namespace cnoid {
 namespace robot_assembler {
-MappingPtr parseInfo(const std::string &_fname);
-MappingPtr createInfo(RoboasmRobotPtr _rb);
-bool mergeInfo(Mapping *_dst, Mapping *_src);
+MappingPtr CNOID_EXPORT parseInfo(const std::string &_fname);
+MappingPtr CNOID_EXPORT createInfo(RoboasmRobotPtr _rb);
+bool CNOID_EXPORT mergeInfo(Mapping *_dst, Mapping *_src);
 
 inline void addMapping(Mapping *_main, const std::string &_k1, Mapping *_tgt)
 {
@@ -100,7 +100,7 @@ inline bool getActuatorLimit(Mapping *info, const std::string &_ac, const std::s
     if(!mp_) return false;
     return readFromMapping(mp_, _ky, a, b);
 }
-class cnoidRAInfo
+class CNOID_EXPORT cnoidRAInfo
 {
 public:
     cnoidRAInfo(MappingPtr _info = nullptr) : info(_info) {}
@@ -144,7 +144,7 @@ public:
     }
 };
 
-class cnoidRAFile : public RoboasmFile, public cnoidRAInfo
+class CNOID_EXPORT cnoidRAFile : public RoboasmFile, public cnoidRAInfo
 {
 public:
     cnoidRAFile() {};

@@ -10,6 +10,8 @@
 //#include <set>
 #include <limits>
 
+#include "exportdecl.h"
+
 namespace cnoid {
 namespace robot_assembler {
 
@@ -69,13 +71,13 @@ struct ConstraintConfiguration
     std::vector<double> parameter;
 };
 #endif
-struct ConnectingType
+struct CNOID_EXPORT ConnectingType
 {
     std::string name;
     //
     ConnectingTypeID index;
 };
-struct ConnectingConfiguration
+struct CNOID_EXPORT ConnectingConfiguration
 {
     std::string name;
     std::string description;
@@ -83,20 +85,20 @@ struct ConnectingConfiguration
     //
     ConnectingConfigurationID index;
 };
-struct ConnectingTypeMatch
+struct CNOID_EXPORT ConnectingTypeMatch
 {
     ConnectingTypeID pair[2];
     std::vector<ConnectingConfigurationID> allowed_configuration;
     //
     long index;
 };
-class PointBase
+class CNOID_EXPORT PointBase
 {
 public:
     std::string name;
     coordinates coords;
 };
-class ConnectingPoint : public PointBase
+class CNOID_EXPORT ConnectingPoint : public PointBase
 {
 public:
     enum PartsType {
@@ -120,7 +122,7 @@ public:
 protected:
     PartsType type;
 };
-class Actuator : public ConnectingPoint
+class CNOID_EXPORT Actuator : public ConnectingPoint
 {
 public:
     Actuator() {
@@ -140,7 +142,7 @@ public:
     double vlimit[2];
     double tqlimit[2];
 };
-struct ExtraInfo
+struct CNOID_EXPORT ExtraInfo
 {
     enum Type {
         None,
@@ -153,7 +155,7 @@ struct ExtraInfo
     coordinates coords;
     // parameters Mapping
 };
-struct Geometry
+struct CNOID_EXPORT Geometry
 {
     enum Type {
         None,
@@ -175,7 +177,7 @@ struct Geometry
     Vector3f color; // should be material?
     Parts *parent_parts;
 };
-class Parts
+class CNOID_EXPORT Parts
 {
 public:
     Parts() : hasMassParam(false), mass(0.0)
@@ -200,7 +202,7 @@ public:
     std::vector<ExtraInfo> extra_data;
 };
 ////
-class Settings
+class CNOID_EXPORT Settings
 {
 public:
     Settings();
@@ -228,7 +230,7 @@ private:
 };
 typedef std::shared_ptr<Settings> SettingsPtr;
 
-class AttachHistoryItem
+class CNOID_EXPORT AttachHistoryItem
 {
 public:
     AttachHistoryItem() : initial_parts(false) {}
@@ -290,7 +292,7 @@ typedef std::vector<AttachHistoryItem> AttachHistory;
 typedef std::map<std::string, AttachHistoryItem*> StringMap;
 typedef std::pair<std::string, AttachHistoryItem*> StringPair;
 
-struct AssembleConfig
+struct CNOID_EXPORT AssembleConfig
 {
     std::string robot_name;
     coordinates initial_coords;
@@ -307,7 +309,7 @@ struct AssembleConfig
         return false;
     }
 };
-class RoboasmFile
+class CNOID_EXPORT RoboasmFile
 {
 public:
     RoboasmFile() {}

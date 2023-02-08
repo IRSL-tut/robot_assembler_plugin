@@ -27,7 +27,7 @@ typedef std::vector<RoboasmCoordsPtr> coordsPtrList;
 typedef std::vector<RoboasmConnectingPointPtr> connectingPointPtrList;
 typedef std::vector<RoboasmPartsPtr> partsPtrList;
 
-class RoboasmCoords : public coordinates
+class CNOID_EXPORT RoboasmCoords : public coordinates
 {
 
 public:
@@ -135,7 +135,7 @@ protected:
     friend RoboasmRobot;
 };
 
-class RoboasmConnectingPoint : public RoboasmCoords
+class CNOID_EXPORT RoboasmConnectingPoint : public RoboasmCoords
 {
 public:
     RoboasmConnectingPoint(const std::string &_name, ConnectingPoint *_info);
@@ -216,7 +216,7 @@ protected:
     friend RoboasmRobot;
 };
 
-class RoboasmParts : public RoboasmCoords
+class CNOID_EXPORT RoboasmParts : public RoboasmCoords
 {
 public:
     //RoboasmParts(const std::string &_name);
@@ -252,7 +252,7 @@ protected:
     friend RoboasmRobot;
 };
 
-class RoboasmRobot : public RoboasmCoords
+class CNOID_EXPORT RoboasmRobot : public RoboasmCoords
 {
 public:
     //RoboasmRobot(const std::string &_name);
@@ -394,7 +394,7 @@ protected:
     friend RoboasmConnectingPoint;
 };
 
-class RoboasmUtil
+class CNOID_EXPORT RoboasmUtil
 {
 public:
     RoboasmUtil() = delete;
