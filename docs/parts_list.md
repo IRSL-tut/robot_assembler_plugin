@@ -54,25 +54,25 @@
 ## Vehicle Parts
 | Name | Description | 3D print file |
 | --- | --- | --- |
-| **-** [vehicle-base] | - | - |
-| **-** [vehicle-base-pp] | - | - |
-| **-** [vehicle-base-pp-r1] | - | - |
-| **-** [omni-wheel] | - | - |
+| **Base plate (deprecated)** [vehicle-base] | This part is deprecated. Use "Base plate" instead. | - |
+| **Base plate pp (deprecated)** [vehicle-base-pp] | This part is deprecated. Use "Base plate" instead. | - |
+| **Base plate** [vehicle-base-pp-r1] | Base plate for vehicles with LEGO plugs on both sides | - |
+| **Omni wheel** [omni-wheel] | Omni-directional wheel | - |
 
 ## Sensor Parts
 | Name | Description | 3D print file |
 | --- | --- | --- |
-| **-** [sensor-mounter] | - | - |
-| **-** [grove-sensor-mounter] | - | - |
-| **-** [ultrasonic-sensor] | - | - |
-| **-** [tof-sensor] | - | - |
-| **-** [grove-color-sensor] | - | - |
+| **M5Stack sensor mount (Socket)** [sensor-mounter] | Sensor mount with LEGO sockets for M5Stack sensors | - |
+| **Grove sensor mount (Socket)** [grove-sensor-mounter] | Sensor mount with LEGO sockets for Grove sensors | - |
+| **Ultrasonic sensor** [ultrasonic-sensor] | M5Stack ultrasonic sensor (RCWL-9620) | - |
+| **TOF sensor** [tof-sensor] | M5Stack time-of-flight sensor (VL53L0X) | - |
+| **Color sensor** [grove-color-sensor] | Grove I2C color sensor (101020341) | - |
 
 ## Special Parts
 | Name | Description | 3D print file |
 | --- | --- | --- |
-| **-** [angle_2_2] | - | - |
-| **-** [plate_2_2_pp] | - | - |
+| **Corner bracket (2 x 2)** [angle_2_2] | LEGO corner bracket (2 x 2) | - |
+| **Double-sided socket plate (2 x 2)** [plate_2_2_pp] | Plate with LEGO sockets on both sides (2 x 2) | - |
 
 ## Servo Parts (AX-series)
 | Name | Description | 3D print file |

@@ -1961,6 +1961,8 @@ PartsSettings:
       translation: [8.0, 8.0, 29.2]
   -
     type: ultrasonic-sensor
+    class: Ultrasonic sensor
+    description: M5Stack ultrasonic sensor (RCWL-9620)
     visual:
       -
         type: mesh
@@ -1985,6 +1987,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: tof-sensor
+    class: TOF sensor
+    description: M5Stack time-of-flight sensor (VL53L0X)
     visual:
       -
         type: mesh
@@ -2009,6 +2013,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: sensor-mounter
+    class: M5Stack sensor mount (Socket)
+    description: Sensor mount with LEGO sockets for M5Stack sensors
     visual:
       -
         type: mesh
@@ -2156,6 +2162,8 @@ PartsSettings:
     #   rotation: [1., 0., 0., 0.0]
   -
     type: grove-color-sensor
+    class: Color sensor
+    description: Grove I2C color sensor (101020341)
     visual:
       -
         type: mesh
@@ -2178,6 +2186,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: grove-sensor-mounter
+    class: Grove sensor mount (Socket)
+    description: Sensor mount with LEGO sockets for Grove sensors
     visual:
       -
         type: mesh
@@ -2245,6 +2255,8 @@ PartsSettings:
       rotation: [0., 0., 1., 90.0]
   -
     type: vehicle-base
+    class: Base plate (deprecated)
+    description: This part is deprecated. Use "Base plate" instead.
     visual:
       -
         type: mesh
@@ -2502,6 +2514,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: vehicle-base-pp
+    class: Base plate pp (deprecated)
+    description: This part is deprecated. Use "Base plate" instead.
     visual:
       -
         type: mesh
@@ -2869,6 +2883,8 @@ PartsSettings:
       rotation: [1., 0., 0., 180.0]
   -
     type: vehicle-base-pp-r1
+    class: Base plate
+    description: Base plate for vehicles with LEGO plugs on both sides
     visual:
       -
         type: mesh
@@ -3607,6 +3623,8 @@ PartsSettings:
 
   -
     type: omni-wheel
+    class: Omni wheel
+    description: Omni-directional wheel
     visual:
       -
         type: mesh
@@ -3631,6 +3649,8 @@ PartsSettings:
       rotation: [1.0, 0.0, 0.0, 0.0]
   -
     type: angle_2_2
+    class: Corner bracket (2 x 2)
+    description: LEGO corner bracket (2 x 2)
     visual:
       -
         type: mesh
@@ -3689,6 +3709,8 @@ PartsSettings:
 
   -
     type: plate_2_2_pp
+    class: Double-sided socket plate (2 x 2)
+    description: Plate with LEGO sockets on both sides (2 x 2)
     visual:
       -
         type: mesh
