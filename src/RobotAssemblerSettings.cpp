@@ -653,6 +653,9 @@ bool Settings::Impl::parseParts(ValueNode *vn, Parts &out)
     if(! ::mapString(mp, "class", out.class_name, std::cerr, false) ) {
         return false;
     }
+    if(! ::mapString(mp, "description", out.description, std::cerr, false) ) {
+        return false;
+    }
     {   // <<visual
     ValueNode *val = mp->find("visual");
     if ( ! val->isValid() ) {
