@@ -19,7 +19,7 @@ jobs:
     env:
       IMAGE_NAME: choreonoid_robot_assembler_plugin
       LOCAL_NAME: actions/robot_assembler_plugin
-      #      DOCKER_LOCAL: ghcr.io/
+#      DOCKER_LOCAL: ghcr.io/
       DOCKER_LOCAL: repo.irsl.eiiris.tut.ac.jp/
       DOCKER_DEPLOY: repo.irsl.eiiris.tut.ac.jp/
       DOCKER_TAG: ${{ matrix.ubuntu }}
@@ -35,7 +35,7 @@ jobs:
           --build-arg BUILD_IMAGE=${{ env.DOCKER_LOCAL }}xeus:${{ env.DOCKER_TAG }}
           --build-arg BASE_IMAGE=${{ env.DOCKER_LOCAL }}choreonoid_src:${{ env.DOCKER_TAG }}
           -t ${{ env.LOCAL_NAME }}:${{ github.sha }} ..
-      #      - name: Test
+#      - name: Test
       - name: Deploy
         if: github.event_name == 'push'
         run: |
