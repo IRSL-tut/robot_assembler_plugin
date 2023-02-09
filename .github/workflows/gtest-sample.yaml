@@ -1,0 +1,40 @@
+name: GTest Sample
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  gtest:
+    strategy:
+      matrix:
+        ubuntu: [22.04, 20.04]
+    runs-on: self-hosted
+    env:
+      IMAGE_NAME: choreonoid_robot_assembler_plugin
+      LOCAL_NAME: actions/robot_assembler_plugin
+      DOCKER_LOCAL: repo.irsl.eiiris.tut.ac.jp/
+      DOCKER_DEPLOY: repo.irsl.eiiris.tut.ac.jp/
+      DOCKER_TAG: ${{ matrix.ubuntu }}
+
+    steps:
+      - run: echo "🚩 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Build a Docker image
+        run: >
+          docker build -f .github/workflows/Dockerfile.testbuild
+          --build-arg BUILD_IMAGE=${{ env.DOCKER_LOCAL }}xeus:${{ env.DOCKER_TAG }}
+          --build-arg BASE_IMAGE=${{ env.DOCKER_LOCAL }}choreonoid_src:${{ env.DOCKER_TAG }}
+          -t ${{ env.LOCAL_NAME }}:${{ github.sha }} ..
+      - run: echo "🎉 Successfully built a Docker image."
+      - run: echo "💪 Running Google Test in the Docker image."
+      - name: Google Test
+        run: docker run --rm ${{ env.LOCAL_NAME }}:${{ github.sha }} /bin/bash -c "apt update && apt install -y libgtest-dev && cd /choreonoid_src/choreonoid/ext/robot_assembler_plugin && mkdir build && cd build && cmake .. -DBUILD_TEST=ON && make -j && test/test-sample"
+      - run: echo "✅ Congratulations! All tests passed."
+      - run: echo "🍏 This job's status is ${{ job.status }}."
