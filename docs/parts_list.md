@@ -4,16 +4,16 @@
 | Name | Description | 3D print file |
 | --- | --- | --- |
 | **Dynamixel XL-430** [XL-430] | Servomotor | - |
-| **Back side frame (Socket)** [Bottom_mounter] | Back side frame with LEGO sockets for X-series servomotor | servo_parts_x_series/bottom_mounter_mm.stl |
-| **Vertical side frame** [FR12_S101] | Vertical side frame for X-series servomotor | servo_parts_x_series/fr12_s101_mm.stl |
-| **Horizontal side frame** [FR12_S102] | Horizontal side frame for X-series servomotor | servo_parts_x_series/fr12_s102_mm.stl |
-| **Horizontal side frame (Plug)** [FR12_S102_P] | Horizontal side frame with LEGO plugs for X-series servomotor | servo_parts_x_series/fr12_s102_p_mm.stl |
-| **Horizontal side frame (Socket)** [FR12_S102_S] | Horizontal side frame with LEGO sockets for X-series servomotor | servo_parts_x_series/fr12_s102_s_mm.stl |
-| **Short hinge frame (Plug)** [FR12_H101_P] | Short hinge frame with LEGO plugs for X-series servomotor | servo_parts_x_series/fr12_h101_plug_mm.stl |
-| **Short hinge frame (Socket)** [FR12_H101_S] | Short hinge frame with LEGO sockets for X-series servomotor | servo_parts_x_series/fr12_h101_socket_mm.stl |
-| **Long hinge frame (Plug)** [FR12_H103_P] | Long hinge frame with LEGO plugs for X-series servomotor | servo_parts_x_series/fr12_h103_plug_mm.stl |
-| **Long hinge frame (Socket)** [FR12_H103_S] | Long hinge frame with LEGO sockets for X-series servomotor | servo_parts_x_series/fr12_h103_socket_mm.stl |
-| **Wheel shaft** [omni-shaft-x] | Omni wheel shaft for X-series servomotor | servo_parts_x_series/omni_wheel_shaft_x_mm.stl |
+| **Back side frame (Socket)** [Bottom_mounter] | Back side frame with LEGO sockets for X-series servomotor | - |
+| **Vertical side frame** [FR12_S101] | Vertical side frame for X-series servomotor | - |
+| **Horizontal side frame** [FR12_S102] | Horizontal side frame for X-series servomotor | - |
+| **Horizontal side frame (Plug)** [FR12_S102_P] | Horizontal side frame with LEGO plugs for X-series servomotor | - |
+| **Horizontal side frame (Socket)** [FR12_S102_S] | Horizontal side frame with LEGO sockets for X-series servomotor | - |
+| **Short hinge frame (Plug)** [FR12_H101_P] | Short hinge frame with LEGO plugs for X-series servomotor | - |
+| **Short hinge frame (Socket)** [FR12_H101_S] | Short hinge frame with LEGO sockets for X-series servomotor | - |
+| **Long hinge frame (Plug)** [FR12_H103_P] | Long hinge frame with LEGO plugs for X-series servomotor | - |
+| **Long hinge frame (Socket)** [FR12_H103_S] | Long hinge frame with LEGO sockets for X-series servomotor | - |
+| **Wheel shaft** [omni-shaft-x] | Omni wheel shaft for X-series servomotor | - |
 
 ## Main Blocks
 | Name | Description | 3D print file |
@@ -77,7 +77,7 @@
 ## Servo Parts (AX-series)
 | Name | Description | 3D print file |
 | --- | --- | --- |
-| **Dynamixel AX-12A** [ax-12a] | - | - |
+| **Dynamixel AX-12A** [ax-12a] | tooltip text of Dynamixel AX-12A | - |
 | **-** [mx-12w] | - | - |
 | **-** [ax-12a-f2] | - | - |
 | **-** [ax-12a-f3] | - | - |
