@@ -317,9 +317,9 @@ PartsSettings:
         translation: [11.0, 8.0, -17.0]
         rotation: [0.0, 0.0, 1.0, 0.0]
   - type: FR12_S102
+    # print-file: "servo_parts_x_series/fr12_s102_mm.stl"
     class: Horizontal side frame
     description: Horizontal side frame for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_s102_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_s102_m.stl"
@@ -342,9 +342,9 @@ PartsSettings:
         translation: [0.0, 0.0, 21.0]
         rotation: [1., 0., 0., 180.0]
   - type: FR12_S102_P
+    # print-file: "servo_parts_x_series/fr12_s102_p_mm.stl"
     class: Horizontal side frame (Plug)
     description: Horizontal side frame with LEGO plugs for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_s102_p_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_s102_p_m.stl"
@@ -411,9 +411,9 @@ PartsSettings:
         translation: [12.0, 8.0, 24.0]
         rotation: [1., 0., 0., 0.0]
   - type: FR12_S102_S
+    # print-file: "servo_parts_x_series/fr12_s102_s_mm.stl"
     class: Horizontal side frame (Socket)
     description: Horizontal side frame with LEGO sockets for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_s102_s_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_s102_s_m.stl"
@@ -480,9 +480,9 @@ PartsSettings:
         translation: [12.0, 8.0, 24.0]
         rotation: [1., 0., 0., 180.0]
   - type: FR12_H101_P
+    # print-file: "servo_parts_x_series/fr12_h101_plug_mm.stl"
     class: Short hinge frame (Plug)
     description: Short hinge frame with LEGO plugs for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_h101_plug_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_h101_plug_m.stl"
@@ -549,9 +549,9 @@ PartsSettings:
         translation: [12.0, 32.7, 8.0]
         rotation: [1., 0., 0., -90.0]
   - type: FR12_H101_S
+    # print-file: "servo_parts_x_series/fr12_h101_socket_mm.stl"
     class: Short hinge frame (Socket)
     description: Short hinge frame with LEGO sockets for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_h101_socket_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_h101_socket_m.stl"
@@ -618,9 +618,9 @@ PartsSettings:
         translation: [12.0, 32.7, 8.0]
         rotation: [1., 0., 0., 90.0]
   - type: FR12_S101
+    # print-file: "servo_parts_x_series/fr12_s101_mm.stl"
     class: Vertical side frame
     description: Vertical side frame for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_s101_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_s101_m.stl"
@@ -639,9 +639,9 @@ PartsSettings:
         translation: [17.0, 8.0, 11.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
   - type: omni-shaft-x
+    # print-file: "servo_parts_x_series/omni_wheel_shaft_x_mm.stl"
     class: Wheel shaft
     description: Omni wheel shaft for X-series servomotor
-    print-file: "servo_parts_x_series/omni_wheel_shaft_x_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/omni_wheel_shaft_m.stl"
@@ -664,9 +664,9 @@ PartsSettings:
         translation: [0.0, 0.0, 30.0]
         rotation: [1.0, 0.0, 0.0, 0.0]
   - type: FR12_H103_P
+    # print-file: "servo_parts_x_series/fr12_h103_plug_mm.stl"
     class: Long hinge frame (Plug)
     description: Long hinge frame with LEGO plugs for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_h103_plug_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_h103_plug_m.stl"
@@ -733,9 +733,9 @@ PartsSettings:
         translation: [12.0, 59.2, 8.0]
         rotation: [1., 0., 0., -90.0]
   - type: FR12_H103_S
+    # print-file: "servo_parts_x_series/fr12_h103_socket_mm.stl"
     class: Long hinge frame (Socket)
     description: Long hinge frame with LEGO sockets for X-series servomotor
-    print-file: "servo_parts_x_series/fr12_h103_socket_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/fr12_h103_socket_m.stl"
@@ -802,9 +802,9 @@ PartsSettings:
         translation: [12.0, 59.2, 8.0]
         rotation: [1., 0., 0., 90.0]
   - type: Bottom_mounter
+    # print-file: "servo_parts_x_series/bottom_mounter_mm.stl"
     class: Back side frame (Socket)
     description: Back side frame with LEGO sockets for X-series servomotor
-    print-file: "servo_parts_x_series/bottom_mounter_mm.stl"
     visual:
       - type: mesh
         url: "meshes_xseries/bottom_mounter_m.stl"
