@@ -34,7 +34,7 @@ jobs:
           -t ${{ env.LOCAL_NAME }}:${{ github.sha }} ..
       - run: echo "🎉 Successfully built a Docker image."
       - run: echo "💪 Running Google Test in the Docker image."
-      - name: Run a unit test
-        run: docker run --rm ${{ env.LOCAL_NAME }}:${{ github.sha }} /bin/bash -c "cd /choreonoid_src/choreonoid/ext/robot_assembler_plugin && bash test/failure.sh"
+      - name: Google Test
+        run: docker run --rm ${{ env.LOCAL_NAME }}:${{ github.sha }} /bin/bash -c "cd /choreonoid_src/choreonoid/ext/robot_assembler_plugin && mkdir build && cd build && cmake .. -DBUILD_TEST=ON && make -j && test/test-sample"
       - run: echo "✅ Congratulations! All tests passed."
       - run: echo "🍏 This job's status is ${{ job.status }}."
