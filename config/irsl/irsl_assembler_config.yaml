@@ -131,23 +131,23 @@ ConnectingConstraintSettings:
 
 PanelSettings: ## just for choreonoid
   tab_list:
-    - name: main_block
+    - name: Servo Parts (X-series)
+      parts: [XL-430, Bottom_mounter, FR12_S101, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, omni-shaft-x]
+    - name: Main Blocks
       parts: [block_2_2, block_2_3, block_2_4, block_2_6, block_2_8, block_2_10,
               block_1_1, block_1_2, block_1_3, block_1_4, block_1_6, block_1_8, block_1_10 ]
-    - name: main_plate
+    - name: Main Plates
       parts: [plate_2_2, plate_2_3, plate_2_4, plate_2_6, plate_2_8, plate_2_10,
               plate_1_1, plate_1_2, plate_1_3, plate_1_4, plate_1_6, plate_1_8,
               plate_4_4, plate_4_8, plate_6_12]
-    - name: sub_block
-      parts: [angle_2_2, plate_2_2_pp]
-    - name: servo_part_ax_series
-      parts: [ax-12a, mx-12w, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-S, FP04-F2-P_3x3, P04-F53, P04-F53-s, omni-shaft]
-    - name: servo_parts_x_series
-      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, FR12_S101, Bottom_mounter, omni-shaft-x]
-    - name: sensor_parts
-      parts: [sensor-mounter, grove-sensor-mounter, ultrasonic-sensor, tof-sensor, grove-color-sensor]
-    - name : vehicle
+    - name : Vehicle Parts
       parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, omni-wheel]
+    - name: Sensor Parts
+      parts: [sensor-mounter, grove-sensor-mounter, ultrasonic-sensor, tof-sensor, grove-color-sensor]
+    - name: Special Parts
+      parts: [angle_2_2, plate_2_2_pp]
+    - name: Servo Parts (AX-series)
+      parts: [ax-12a, mx-12w, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-S, FP04-F2-P_3x3, P04-F53, P04-F53-s, omni-shaft]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
 
 #PartsSettings:
@@ -201,6 +201,8 @@ PanelSettings: ## just for choreonoid
 PartsSettings:
   -
     type: XL-430
+    class: Dynamixel XL-430
+    description: Servomotor
     visual:
       -
         type: mesh
@@ -247,6 +249,9 @@ PartsSettings:
         rotation: [0.0, 0.0, 1.0, 0.0]
   -
     type: FR12_S102
+    # print-file: "servo_parts_x_series/fr12_s102_mm.stl"
+    class: Horizontal side frame
+    description: Horizontal side frame for X-series servomotor
     visual:
       -
         type: mesh
@@ -274,6 +279,9 @@ PartsSettings:
       rotation: [1., 0., 0., 180.0]
   -
     type: FR12_S102_P
+    # print-file: "servo_parts_x_series/fr12_s102_p_mm.stl"
+    class: Horizontal side frame (Plug)
+    description: Horizontal side frame with LEGO plugs for X-series servomotor
     visual:
       -
         type: mesh
@@ -356,6 +364,9 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: FR12_S102_S
+    # print-file: "servo_parts_x_series/fr12_s102_s_mm.stl"
+    class: Horizontal side frame (Socket)
+    description: Horizontal side frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
@@ -438,6 +449,9 @@ PartsSettings:
       rotation: [1., 0., 0., 180.0]
   -
     type: FR12_H101_P
+    # print-file: "servo_parts_x_series/fr12_h101_plug_mm.stl"
+    class: Short hinge frame (Plug)
+    description: Short hinge frame with LEGO plugs for X-series servomotor
     visual:
       -
         type: mesh
@@ -520,6 +534,9 @@ PartsSettings:
       rotation: [1., 0., 0., -90.0]
   -
     type: FR12_H101_S
+    # print-file: "servo_parts_x_series/fr12_h101_socket_mm.stl"
+    class: Short hinge frame (Socket)
+    description: Short hinge frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
@@ -602,6 +619,9 @@ PartsSettings:
       rotation: [1., 0., 0., 90.0]
   -
     type: FR12_S101
+    # print-file: "servo_parts_x_series/fr12_s101_mm.stl"
+    class: Vertical side frame
+    description: Vertical side frame for X-series servomotor
     visual:
       -
         type: mesh
@@ -624,6 +644,9 @@ PartsSettings:
         rotation: [0.0, 1.0, 0.0, 90.0]
   -
     type: omni-shaft-x
+    # print-file: "servo_parts_x_series/omni_wheel_shaft_x_mm.stl"
+    class: Wheel shaft
+    description: Omni wheel shaft for X-series servomotor
     visual:
       -
         type: mesh
@@ -651,6 +674,9 @@ PartsSettings:
       rotation: [1.0, 0.0, 0.0, 0.0]
   -
     type: FR12_H103_P
+    # print-file: "servo_parts_x_series/fr12_h103_plug_mm.stl"
+    class: Long hinge frame (Plug)
+    description: Long hinge frame with LEGO plugs for X-series servomotor
     visual:
       -
         type: mesh
@@ -733,6 +759,9 @@ PartsSettings:
       rotation: [1., 0., 0., -90.0]
   -
     type: FR12_H103_S
+    # print-file: "servo_parts_x_series/fr12_h103_socket_mm.stl"
+    class: Long hinge frame (Socket)
+    description: Long hinge frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
@@ -815,6 +844,9 @@ PartsSettings:
       rotation: [1., 0., 0., 90.0]
   -
     type: Bottom_mounter
+    # print-file: "servo_parts_x_series/bottom_mounter_mm.stl"
+    class: Back side frame (Socket)
+    description: Back side frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
@@ -1929,6 +1961,8 @@ PartsSettings:
       translation: [8.0, 8.0, 29.2]
   -
     type: ultrasonic-sensor
+    class: Ultrasonic sensor
+    description: M5Stack ultrasonic sensor (RCWL-9620)
     visual:
       -
         type: mesh
@@ -1953,6 +1987,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: tof-sensor
+    class: TOF sensor
+    description: M5Stack time-of-flight sensor (VL53L0X)
     visual:
       -
         type: mesh
@@ -1977,6 +2013,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: sensor-mounter
+    class: M5Stack sensor mount (Socket)
+    description: Sensor mount with LEGO sockets for M5Stack sensors
     visual:
       -
         type: mesh
@@ -2124,6 +2162,8 @@ PartsSettings:
     #   rotation: [1., 0., 0., 0.0]
   -
     type: grove-color-sensor
+    class: Color sensor
+    description: Grove I2C color sensor (101020341)
     visual:
       -
         type: mesh
@@ -2146,6 +2186,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: grove-sensor-mounter
+    class: Grove sensor mount (Socket)
+    description: Sensor mount with LEGO sockets for Grove sensors
     visual:
       -
         type: mesh
@@ -2213,6 +2255,8 @@ PartsSettings:
       rotation: [0., 0., 1., 90.0]
   -
     type: vehicle-base
+    class: Base plate (deprecated)
+    description: This part is deprecated. Use "Base plate" instead.
     visual:
       -
         type: mesh
@@ -2470,6 +2514,8 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: vehicle-base-pp
+    class: Base plate pp (deprecated)
+    description: This part is deprecated. Use "Base plate" instead.
     visual:
       -
         type: mesh
@@ -2837,6 +2883,8 @@ PartsSettings:
       rotation: [1., 0., 0., 180.0]
   -
     type: vehicle-base-pp-r1
+    class: Base plate
+    description: Base plate for vehicles with LEGO plugs on both sides
     visual:
       -
         type: mesh
@@ -3575,6 +3623,8 @@ PartsSettings:
 
   -
     type: omni-wheel
+    class: Omni wheel
+    description: Omni-directional wheel
     visual:
       -
         type: mesh
@@ -3599,6 +3649,8 @@ PartsSettings:
       rotation: [1.0, 0.0, 0.0, 0.0]
   -
     type: angle_2_2
+    class: Corner bracket (2 x 2)
+    description: LEGO corner bracket (2 x 2)
     visual:
       -
         type: mesh
@@ -3657,6 +3709,8 @@ PartsSettings:
 
   -
     type: plate_2_2_pp
+    class: Double-sided socket plate (2 x 2)
+    description: Plate with LEGO sockets on both sides (2 x 2)
     visual:
       -
         type: mesh
