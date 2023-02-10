@@ -7,9 +7,14 @@ LABEL maintainer "IRSL-tut (https://github.com/IRSL-tut) <faculty@irsl.eiiris.tu
 SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 
-#RUN (cd /choreonoid_src/choreonoid/ext; git clone https://github.com/IRSL-tut/robot_assembler_plugin.git)
+RUN apt update -q -qq && \
+    apt install -q -qq -y libgtest-dev && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/
+
+# RUN (cd /choreonoid_src/choreonoid/ext; git clone https://github.com/IRSL-tut/robot_assembler_plugin.git)
 COPY robot_assembler_plugin /choreonoid_src/choreonoid/ext/robot_assembler_plugin
 
-RUN (cd /choreonoid_src/build; cmake -DCMAKE_INSTALL_PREFIX=/opt/choreonoid /choreonoid_src/choreonoid && \
+RUN (cd /choreonoid_src/build; cmake -DCMAKE_INSTALL_PREFIX=/opt/choreonoid -DBUILD_TEST=ON /choreonoid_src/choreonoid && \
     make -j$(nproc) && \
     make install )
