@@ -605,11 +605,11 @@ void AssemblerManager::loadRoboasm(const std::string &_fname)
     std::string name_;
     if(!raf.getRobotName(name_)) name_ = "AssembleRobot";
     ra::RoboasmRobotPtr rb_ = ra_util->makeRobot(name_, raf.history);
-    raf.updateRobotByInfo(rb_);
     if(!!rb_) {
+        raf.updateRobotByInfo(rb_);
         addAssemblerItem(rb_, raf.info);
     } else {
-        DEBUG_STREAM(" robot build failed");
+        ERROR_STREAM(" robot build failed");
     }
 }
 //// protected
