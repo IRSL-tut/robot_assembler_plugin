@@ -632,10 +632,39 @@ bool Settings::Impl::parsePartsSettings(ValueNode *vn)
     for(int i = 0; i < lst->size(); i++) {
         Parts pt;
         if(parseParts(lst->at(i), pt)) {
+            // check : There are types with the same name.
+            auto pt_ = self->mapParts.find(pt.type);
+            if (pt_ != self->mapParts.end()) {
+                ERROR_STREAM(" parseParts error: same type: " << pt.type);
+                return false;
+            }
+            // check : There are connecting points or actuators with the same name
+            {
+                std::vector<std::string *> vec;
+                for(auto it = pt.connecting_points.begin();
+                    it != pt.connecting_points.end(); it++) {
+                    vec.push_back(&(it->name));
+                }
+                for(auto it = pt.actuators.begin();
+                    it != pt.actuators.end(); it++) {
+                    vec.push_back(&(it->name));
+                }
+                //
+                int len = vec.size();
+                for(int i = 0; i < len - 1; i++) {
+                    for(int j = i + 1; j < len; j++) {
+                        if ( *(vec[i]) == *(vec[j]) ) {
+                            ERROR_STREAM(" parseParts error: in type: " << pt.type << " / there are connecting-points with the same name [" << *(vec[i]) << "]");
+                            return false;
+                        }
+                    }
+                }
+            }
             self->mapParts.insert(std::make_pair(pt.type, pt));
         } else {
             ERROR_STREAM(" parseParts error: ");
             ::printNode(std::cerr, lst->at(i));
+            return false;
         }
     }
     return true;
