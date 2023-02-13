@@ -699,13 +699,19 @@ bool RoboasmRobot::checkAttachByName(RoboasmCoordsPtr robot_or_parts,
     _res_config = cc_;
     _res_parts_point = std::dynamic_pointer_cast<RoboasmConnectingPoint> (
         robot_or_parts->find<RoboasmConnectingPoint>(name_parts_point));
-    if(!!_res_parts_point && _res_parts_point->hasDescendants()) {
+    if(!_res_parts_point) {
+        ERROR_STREAM(" can not find parts point : " << name_parts_point);
+        return false;
+    } else if(_res_parts_point->hasDescendants()) {
         ERROR_STREAM(" invalid parts point : " << name_parts_point);
         return false;
     }
     _res_robot_point = std::dynamic_pointer_cast<RoboasmConnectingPoint> (
         find<RoboasmConnectingPoint>(name_robot_point));
-    if(!!_res_robot_point && _res_robot_point->hasDescendants()) {
+    if(!_res_robot_point) {
+        ERROR_STREAM(" can not find robot point : " << name_robot_point);
+        return false;
+    } else if(_res_robot_point->hasDescendants()) {
         ERROR_STREAM(" invalid robot point : " << name_robot_point);
         return false;
     }
