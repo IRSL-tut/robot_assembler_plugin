@@ -250,8 +250,8 @@ PartsSettings:
   -
     type: FR12_S102
     # print-file: "servo_parts_x_series/fr12_s102_mm.stl"
-    class: Horizontal side frame
-    description: Horizontal side frame for X-series servomotor
+    class: Side frame A
+    description: A side frame for X-series servomotor
     visual:
       -
         type: mesh
@@ -280,8 +280,8 @@ PartsSettings:
   -
     type: FR12_S102_P
     # print-file: "servo_parts_x_series/fr12_s102_p_mm.stl"
-    class: Horizontal side frame (Plug)
-    description: Horizontal side frame with LEGO plugs for X-series servomotor
+    class: Side frame A (Plug)
+    description: A side frame with LEGO plugs for X-series servomotor
     visual:
       -
         type: mesh
@@ -365,8 +365,8 @@ PartsSettings:
   -
     type: FR12_S102_S
     # print-file: "servo_parts_x_series/fr12_s102_s_mm.stl"
-    class: Horizontal side frame (Socket)
-    description: Horizontal side frame with LEGO sockets for X-series servomotor
+    class: Side frame A (Socket)
+    description: A side frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
@@ -620,8 +620,8 @@ PartsSettings:
   -
     type: FR12_S101
     # print-file: "servo_parts_x_series/fr12_s101_mm.stl"
-    class: Vertical side frame
-    description: Vertical side frame for X-series servomotor
+    class: Side frame B
+    description: B side frame for X-series servomotor
     visual:
       -
         type: mesh
@@ -845,8 +845,8 @@ PartsSettings:
   -
     type: Bottom_mounter
     # print-file: "servo_parts_x_series/bottom_mounter_mm.stl"
-    class: Back side frame (Socket)
-    description: Back side frame with LEGO sockets for X-series servomotor
+    class: Side frame C (Socket)
+    description: C side frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
