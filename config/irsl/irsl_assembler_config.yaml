@@ -16,7 +16,7 @@ GeneralSettings:
 ##   connecting-type-match-list:
 ##   connecting-configuration-list:
 ConnectingConstraintSettings:
-  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S, WHEEL_SHAFT, OMNI_WHEEL, HORN_X, HORN_X_SHORT, SERVO_SIDE_X, FRAME_SIDE_X, GROVE_SENSOR, GROVE_MOUNTER]
+  connecting-type-list: [PC1, PC2, PC4, SC1, SC2, SC4, HORN, HORN-F2, HORN-F4, SERVO_SIDE, FRAME_F3_SERVO, FRAME, LEGO-2P, LEGO-2S, WHEEL_SHAFT, OMNI_WHEEL, HORN_X, ROTOR_X, SERVO_ASIDE_X, FRAME_ASIDE_X, SERVO_BSIDE_X, FRAME_BSIDE_X, SERVO_CSIDE_X, FRAME_CSIDE_X, GROVE_SENSOR, GROVE_MOUNTER]
   ## pair: [a, b] ## configuration represents transoform from a to b
   connecting-type-match-list:
     -
@@ -50,14 +50,17 @@ ConnectingConstraintSettings:
       pair: [WHEEL_SHAFT, OMNI_WHEEL]
       allowed-configuration: [fixed]
     -
-      pair: [FRAME_SIDE_X, SERVO_SIDE_X]
+      pair: [FRAME_ASIDE_X, SERVO_ASIDE_X]
       allowed-configuration: [fixed]
     -
-      pair: [HORN_X, HORN_X]
-      allowed-configuration: [fixed, invert, rotate-90, rotate90]
+      pair: [FRAME_BSIDE_X, SERVO_BSIDE_X]
+      allowed-configuration: [fixed]
     -
-      pair: [HORN_X, HORN_X_SHORT]
-      allowed-configuration: [fixed, rotate-90, rotate90]
+      pair: [FRAME_CSIDE_X, SERVO_CSIDE_X]
+      allowed-configuration: [fixed]
+    -
+      pair: [ROTOR_X, HORN_X]
+      allowed-configuration: [fixed, invert, rotate-90, rotate90]
     -
       pair: [GROVE_SENSOR, GROVE_MOUNTER]
       allowed-configuration: [fixed, invert]
@@ -220,7 +223,7 @@ PartsSettings:
     actuators:
       -
         name: horn
-        types: [HORN_X]
+        types: [ROTOR_X]
         translation: [0.0, 0.0, 19.0]
         rotation: [1.0, 0.0, 0.0, 0.0]
         actuator-type: rotational
@@ -229,24 +232,34 @@ PartsSettings:
     connecting-points :
     -
         name: right-side
-        types: [SERVO_SIDE_X]
+        types: [SERVO_BSIDE_X]
         translation: [11.0, -32.0, 17.0]
         rotation: [0.0, 0.0, 1.0, 180.0]
     -
         name: left-side
-        types: [SERVO_SIDE_X]
+        types: [SERVO_BSIDE_X]
         translation: [-11.0, 8.0, 17.0]
         rotation: [1.0, 0.0, 0.0, 0.0]
     -
         name: bottom-side1
-        types: [SERVO_SIDE_X]
+        types: [SERVO_ASIDE_X]
         translation: [-11.0, -32.0, 17.0]
         rotation: [0.0, 0.0, 1.0, 90.0]
     -
         name: bottom-side2
-        types: [SERVO_SIDE_X]
+        types: [SERVO_BSIDE_X, SERVO_CSIDE_X]
         translation: [11.0, 8.0, -17.0]
-        rotation: [0.0, 0.0, 1.0, 0.0]
+        rotation: [0.0, 1.0, 0.0, 180.0]
+    -
+        name: bottom-side3
+        types: [SERVO_ASIDE_X]
+        translation: [11.0, -32.0, -17.0]
+        rotation: [0.707, 0.707, 0.0, 180.0]
+    -
+        name: left-side2
+        types: [SERVO_BSIDE_X, SERVO_CSIDE_X]
+        translation: [-11.0, -32.0, -17.0]
+        rotation: [1.0, 0.0, 0.0, 180.0]
   -
     type: FR12_S102
     # print-file: "servo_parts_x_series/fr12_s102_mm.stl"
@@ -269,9 +282,14 @@ PartsSettings:
     connecting-points :
     -
         name: side_connetct_point
-        types: [FRAME_SIDE_X]
+        types: [FRAME_ASIDE_X]
         translation: [17.0, 11.0, 11.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+        name: side_connetct_point2
+        types: [FRAME_ASIDE_X]
+        translation: [-17.0, -11.0, 11.0]
+        rotation: [0.7071, 0.0,  -0.7071, 180.0]
     -
       name: horn
       types : [HORN_X]
@@ -299,9 +317,14 @@ PartsSettings:
     connecting-points :
     -
         name: side_connetct_point
-        types: [FRAME_SIDE_X]
+        types: [FRAME_ASIDE_X]
         translation: [17.0, 11.0, 11.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+        name: side_connetct_point2
+        types: [FRAME_ASIDE_X]
+        translation: [-17.0, -11.0, 11.0]
+        rotation: [0.7071, 0.0,  -0.7071, 180.0]
     -
       name: p1_0_0
       types : [PC1]
@@ -384,9 +407,14 @@ PartsSettings:
     connecting-points :
     -
         name: side_connetct_point
-        types: [FRAME_SIDE_X]
+        types: [FRAME_ASIDE_X]
         translation: [17.0, 11.0, 11.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+        name: side_connetct_point2
+        types: [FRAME_ASIDE_X]
+        translation: [-17.0, -11.0, 11.0]
+        rotation: [0.7071, 0.0,  -0.7071, 180.0]
     -
       name: s1_0_0
       types : [SC1]
@@ -469,7 +497,7 @@ PartsSettings:
     connecting-points :
     -
         name: side_connetct_point
-        types: [HORN_X_SHORT]
+        types: [HORN_X]
         translation: [19.0, 0.0, 0.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
     -
@@ -554,7 +582,7 @@ PartsSettings:
     connecting-points :
     -
         name: side_connetct_point
-        types: [HORN_X_SHORT]
+        types: [HORN_X]
         translation: [19.0, 0.0, 0.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
     -
@@ -639,9 +667,14 @@ PartsSettings:
     connecting-points :
     -
         name: connetct_point
-        types: [FRAME_SIDE_X]
+        types: [FRAME_BSIDE_X]
         translation: [17.0, 8.0, 11.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
+    -
+        name: connetct_point2
+        types: [FRAME_BSIDE_X]
+        translation: [-17.0, -32.0, 11.0]
+        rotation: [0.7071, 0.0,  -0.7071, 180.0]
   -
     type: omni-shaft-x
     # print-file: "servo_parts_x_series/omni_wheel_shaft_x_mm.stl"
@@ -694,7 +727,7 @@ PartsSettings:
     connecting-points :
     -
         name: side_connetct_point
-        types: [HORN_X_SHORT]
+        types: [HORN_X]
         translation: [19.0, 0.0, 0.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
     -
@@ -779,7 +812,7 @@ PartsSettings:
     connecting-points :
     -
         name: side_connetct_point
-        types: [HORN_X_SHORT]
+        types: [HORN_X]
         translation: [19.0, 0.0, 0.0]
         rotation: [0.0, 1.0, 0.0, 90.0]
     -
@@ -864,9 +897,9 @@ PartsSettings:
     connecting-points :
     -
         name: connetct_point
-        types: [FRAME_SIDE_X]
+        types: [FRAME_CSIDE_X]
         translation: [11.0, 8.0, 9.0]
-        rotation: [1.0, 0.0, 0.0, 0.0]
+        rotation: [0.0, 1.0, 0.0, 180.0]
     -
       name: s1_0_0
       types : [SC1]
