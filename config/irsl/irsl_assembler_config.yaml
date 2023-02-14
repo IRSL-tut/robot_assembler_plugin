@@ -947,7 +947,7 @@ PartsSettings:
       rotation: [1., 0., 0., 0.0]
   -
     type: Bottom_mounter_short
-    # print-file: "servo_parts_x_series/bottom_mounter_mm.stl"
+    # print-file: "servo_parts_x_series/bottom_mounter_short_mm.stl""
     class: Side frame C (Socket, Short)
     description: C side frame with LEGO sockets for X-series servomotor
     visual:
