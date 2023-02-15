@@ -877,88 +877,18 @@ PartsSettings:
       rotation: [1., 0., 0., 90.0]
   -
     type: Bottom_mounter
-    # print-file: "servo_parts_x_series/bottom_mounter_mm.stl"
-    class: Side frame C (Socket, Long)
+    # print-file: "servo_parts_x_series/bottom_mounter_mm.stl""
+    class: Side frame C (Socket)
     description: C side frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
-        url: "meshes_xseries/bottom_mounter_m.stl"
-        scale : 1
-    collision:
-      -
-        type: mesh
-        url: "meshes_xseries/bottom_mounter_m.stl"
-        scale : 1
-    mass-param:
-      mass: 1.0
-      center-of-mass: [0.0, 0.0, 0.0]
-      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
-    connecting-points :
-    -
-        name: connetct_point
-        types: [FRAME_CSIDE_X]
-        translation: [11.0, 8.0, 9.0]
-        rotation: [0.0, 1.0, 0.0, 180.0]
-    -
-      name: s1_0_0
-      types : [SC1]
-      translation: [-8.0, -4.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_0_1
-      types : [SC1]
-      translation: [0.0, -4.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_0_2
-      types : [SC1]
-      translation: [8.0, -4.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_1_0
-      types : [SC1]
-      translation: [-8.0, -12.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_1_1
-      types : [SC1]
-      translation: [0.0, -12.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_1_2
-      types : [SC1]
-      translation: [8.0, -12.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_2_0
-      types : [SC1]
-      translation: [-8.0, -20.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_2_1
-      types : [SC1]
-      translation: [0.0, -20.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-    -
-      name: s1_2_2
-      types : [SC1]
-      translation: [8.0, -20.0, -3.2]
-      rotation: [1., 0., 0., 0.0]
-  -
-    type: Bottom_mounter_short
-    # print-file: "servo_parts_x_series/bottom_mounter_short_mm.stl""
-    class: Side frame C (Socket, Short)
-    description: C side frame with LEGO sockets for X-series servomotor
-    visual:
-      -
-        type: mesh
-        url: "meshes_xseries/bottom_mounter_short_mm.stl"
+        url: "meshes_xseries/bottom_mounter_mm.stl"
         scale : 0.001
     collision:
       -
         type: mesh
-        url: "meshes_xseries/bottom_mounter_short_mm.stl"
+        url: "meshes_xseries/bottom_mounter_mm.stl"
         scale : 0.001
     mass-param:
       mass: 1.0
