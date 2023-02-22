@@ -2916,7 +2916,7 @@ PartsSettings:
       rotation: [1., 0., 0., 180.0]
   -
     type: vehicle-base-pp-r1
-    class: Base plate (Double plag)
+    class: Base plate (Double plug)
     description: Base plate for vehicles with LEGO plugs on both sides
     visual:
       -
@@ -3626,7 +3626,7 @@ PartsSettings:
   -
     type: vehicle-base-ps
     class: Base plate (Plag and socket)
-    description: Base plate for vehicles with LEGO plugs on both sides
+    description: Base plate for vehicles with LEGO plugs and sockets on each side.
     visual:
       -
         type: mesh
