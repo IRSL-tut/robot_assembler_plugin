@@ -263,6 +263,25 @@ public:
             }
         }
     }
+    void colorInfo(const std::string &_parts_name, ra::RoboasmCoordsPtr _coords, const std::string &_txt)
+    {
+        infoLinkVec3(_parts_name, "color", _txt);
+        // TODO : parse twice
+        Vector3f vec_;
+        if(parseFromString(vec_, _txt)){
+            _coords->toParts()->color = vec_;
+            if(!!manager) {
+                ra::RASceneBase *res = manager->coordsToScene(_coords);
+                if (!!res) {
+                    ra::RASceneParts *pt = dynamic_cast<ra::RASceneParts *>(res);
+                    if (!!pt) {
+                        pt->updateColor(vec_);
+                        pt->notifyUpdate(SgUpdate::MODIFIED);
+                    }
+                }
+            }
+        }
+    }
     void infoLink(const std::string &_parts, const std::string &_key, const std::string &_str)
     {
         info_("parts-info", _parts, _key, _str);
@@ -474,7 +493,7 @@ void AssemblerPartsView::Impl::panelParts(ra::RoboasmCoordsPtr _coords, MappingP
         }
     }
     addVectorToPanel("color", v_, row++,
-                     [this,nm_] (const std::string &_s) { infoLinkVec3(nm_, "color", _s); } );
+                     [this,nm_,_coords] (const std::string &_s) { colorInfo(nm_, _coords, _s); } );
     //
     ra::Parts *info = _coords->toParts()->info;
     if(!!info) {

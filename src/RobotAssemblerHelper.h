@@ -16,7 +16,9 @@ class RASceneConnectingPoint;
 class RASceneParts;
 class RASceneRobot;
 
-class RASceneConnectingPoint : public SgPosTransform
+typedef SgPosTransform RASceneBase;
+
+class RASceneConnectingPoint : public RASceneBase
 {
 public:
     enum Clicked {
@@ -53,7 +55,7 @@ protected:
 };
 typedef ref_ptr<RASceneConnectingPoint> RASceneConnectingPointPtr;
 
-class RASceneParts : public SgPosTransform
+class RASceneParts : public RASceneBase
 {
 public:
     RASceneParts() = delete;
@@ -63,19 +65,20 @@ public:
     RoboasmPartsPtr parts() { return self; }
     RASceneRobot *scene_robot() { return robot_ptr; }
     void drawBoundingBox(bool _on = true);
+    bool updateColor(Vector3f &_color);
 protected:
     RASceneRobot *robot_ptr;
     RoboasmPartsPtr self;
     SgGroupPtr partsScene;
     SgBoundingBoxPtr bbEffect;
     std::vector<RASceneConnectingPoint*> spoint_list;
-
+    SgMaterial *material;
     friend RASceneConnectingPoint;
     friend RASceneRobot;
 };
 typedef ref_ptr<RASceneParts> RAScenePartsPtr;
 
-class RASceneRobot : public SgPosTransform, public SceneWidgetEventHandler
+class RASceneRobot : public RASceneBase, public SceneWidgetEventHandler
 {
 public:
     RASceneRobot() = delete;
