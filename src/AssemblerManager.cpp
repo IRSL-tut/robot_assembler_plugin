@@ -161,13 +161,19 @@ void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _inf
 int AssemblerManager::pointClicked(ra::RASceneConnectingPoint *_cp)
 {
     ra::RoboasmCoordsPtr ptr_ = _cp->point();
-    coordsSelectedFunc(ptr_, nullptr);
+    ra::RASceneRobot *rb_ =_cp->scene_robot();
+    MappingPtr info_;
+    if (!!rb_) info_ = rb_->info;
+    coordsSelectedFunc(ptr_, info_);
     return pointClickedProcess(_cp);
 }
 int AssemblerManager::partsClicked(ra::RASceneParts *_pt)
 {
     ra::RoboasmCoordsPtr ptr_ = _pt->parts();
-    coordsSelectedFunc(ptr_, nullptr);
+    ra::RASceneRobot *rb_ =_pt->scene_robot();
+    MappingPtr info_;
+    if (!!rb_) info_ = rb_->info;
+    coordsSelectedFunc(ptr_, info_);
     return partsClickedProcess(_pt);
 }
 int AssemblerManager::pointClickedProcess(ra::RASceneConnectingPoint *_cp)

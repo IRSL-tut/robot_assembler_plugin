@@ -304,6 +304,7 @@ public:
         if(!!current_info) {
             Mapping *mp_ = ra::getMapping(current_info, _type, _name);
             if(!mp_) {
+                DEBUG_STREAM("new: " << _type << ", " << _name << ", " << _key << ", " << _str);
                 MappingPtr tgt_ = new Mapping();
                 addToMapping(tgt_, _key, _str);
                 ra::addMapping(current_info, _type, _name, tgt_);
@@ -403,7 +404,7 @@ AssemblerPartsView::Impl::~Impl()
 void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords, MappingPtr _info)
 {
     if(!!_coords) {
-        DEBUG_STREAM(" in:" << _coords->name());
+        DEBUG_STREAM(" in:" << _coords->name() << ", info: " << !!_info);
     } else {
         DEBUG_STREAM(" delete panel");
     }
