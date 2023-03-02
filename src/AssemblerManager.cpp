@@ -279,7 +279,7 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
     DEBUG_STREAM(" " << _coords->name());
     bool in_scene = false;
     MappingPtr info_;
-    {
+    {// _coords is robot
         ra::RoboasmRobotPtr ptr = ra::RoboasmUtil::toRobot(_coords);
         if (!!ptr) {
             ra::RASceneRobot *pt_;
@@ -296,7 +296,7 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
             goto endprocess;
         }
     }
-    {
+    {// _coords is parts
         ra::RoboasmPartsPtr ptr = ra::RoboasmUtil::toParts(_coords);
         if (!!ptr) {
             bool is_link = ptr->isLink();
@@ -316,7 +316,7 @@ void AssemblerManager::coordsSelected(ra::RoboasmCoordsPtr _coords)
             goto endprocess;
         }
     }
-    {
+    {// _coords is connecting-point
         ra::RoboasmConnectingPointPtr ptr = ra::RoboasmUtil::toConnectingPoint(_coords);
         if (!!ptr) {
             bool is_actuator = ptr->isActuator();
@@ -611,6 +611,19 @@ void AssemblerManager::loadRoboasm(const std::string &_fname)
     } else {
         ERROR_STREAM(" robot build failed");
     }
+}
+ra::RASceneBase *AssemblerManager::coordsToScene(ra::RoboasmCoordsPtr _coords)
+{
+    // _coords is robot
+    ra::RoboasmRobotPtr rptr = ra::RoboasmUtil::toRobot(_coords);
+    if (!!rptr) return coordsToScene(rptr);
+    // _coords is parts
+    ra::RoboasmPartsPtr pptr = ra::RoboasmUtil::toParts(_coords);
+    if (!!pptr) return coordsToScene(pptr);
+    // _coords is connecting-point
+    ra::RoboasmConnectingPointPtr cptr = ra::RoboasmUtil::toConnectingPoint(_coords);
+    if (!!cptr) return coordsToScene(cptr);
+    return nullptr;
 }
 //// protected
 void AssemblerManager::onSceneModeChanged(SceneWidgetEvent* event)

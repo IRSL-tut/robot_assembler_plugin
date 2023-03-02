@@ -84,7 +84,27 @@ static void createShapeConnectingPoint(SgPosTransform *_root, SgMaterialPtr &_re
     _res_material = material;
     _res_switch = sw_g;
 }
-
+static SgMaterial *searchMaterial(SgNode *_node)
+{
+    if (!_node) return nullptr;
+    int id_ = SgNode::findClassId<SgShape>();
+    for(int i = 0; i < _node->numChildObjects(); i++) {
+        SgObject *obj = _node->childObject(i);
+        if(obj->isNode()) {
+            SgNode *nd_ = obj->toNode();
+            if(!nd_) continue;
+            if (id_ == nd_->classId()) {
+                SgShape *sp_ = dynamic_cast<SgShape *>(nd_);
+                return sp_->material();
+            }
+            SgMaterial *res = searchMaterial(nd_);
+            if (!!res) {
+                return res;
+            }
+        }
+    }
+    return nullptr;
+}
 RASceneConnectingPoint::RASceneConnectingPoint(RoboasmConnectingPointPtr _c)
     : SgPosTransform(), self(_c), current_state(DEFAULT)
 {
@@ -157,6 +177,7 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
     // OFF: tihs -> parts
     partsScene = new SgGroup();
     createSceneFromGeometry(partsScene, self->info->visual, _proj_dir, _p->color);
+    this->material = searchMaterial(partsScene);
     bbEffect = new SgBoundingBox();
     bbEffect->setColor(Vector3f(1.0f, 1.0f, 0.0f));
     bbEffect->setLineWidth(-1.0f);
@@ -195,6 +216,15 @@ void RASceneParts::drawBoundingBox(bool _on)
         bbEffect->clearChildren();
         this->addChild(partsScene);
     }
+}
+bool RASceneParts::updateColor(Vector3f &_color)
+{
+    if(!!material) {
+        DEBUG_STREAM("update col1 " << this->name() << " / [" << _color[0] << " " << _color[1] << " " << _color[2] << "]");
+        material->setDiffuseColor(_color);
+        return true;
+    }
+    return false;
 }
 RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
     : SgPosTransform(), self(_r)

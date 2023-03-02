@@ -59,6 +59,44 @@ public:
     void attachRobots(bool _swap_order = true, bool _just_align = false, int _increment = 1);
     void itemSelected(AssemblerItemPtr itm, bool on);
     void loadRoboasm(const std::string &_fname);
+    ra::RASceneBase *coordsToScene(ra::RoboasmCoordsPtr _coords);
+    ra::RASceneRobot *coordsToScene(ra::RoboasmRobotPtr _coords)
+    {
+        if (!!_coords) {
+            ra::RASceneRobot *pt_;
+            for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+                if( (*it)->robot() == _coords ) {
+                    pt_ = (*it);
+                    if(!!pt_) return pt_;
+                }
+            }
+        }
+        return nullptr;
+    }
+    ra::RASceneParts *coordsToScene(ra::RoboasmPartsPtr _coords)
+    {
+        if (!!_coords) {
+            ra::RASceneParts *pt_;
+            for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+                pt_ = (*it)->searchParts(_coords);
+                if(!!pt_) return pt_;
+            }
+        }
+        return nullptr;
+    }
+    ra::RASceneConnectingPoint *coordsToScene(ra::RoboasmConnectingPointPtr _coords)
+    {
+        if (!!_coords) {
+            ra::RASceneConnectingPoint *pt_;
+            for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+                pt_ = (*it)->searchConnectingPoint(_coords);
+                if(!!pt_) return pt_;
+            }
+        }
+        return nullptr;
+    }
+
+    //// simple command without arguments for toolbar, etc.
     void com_attach()  { attachRobots(); }
     void com_attach_o(){ attachRobots(false); }
     void com_align()   { attachRobots(true, true); }

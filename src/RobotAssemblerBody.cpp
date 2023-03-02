@@ -17,6 +17,7 @@ namespace cnoid {
 namespace robot_assembler {
 
 const Vector3f default_body_color(0.0f, 0.0f, 0.8f);
+const Vector3f default_mesh_color(0.95f, 0.95f, 0.95f);
 
 static inline void addMaterial(SgNode *_nd, const Vector3f &_color, float _intensity = 0.7)
 {
@@ -62,6 +63,8 @@ void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                     addMaterial(shape, _color);
                 } else if (!geom.color.isZero()) {
                     addMaterial(shape, geom.color);
+                } else { // default color
+                    addMaterial(shape, default_mesh_color);
                 }
                 Position p; geom.coords.toPosition(p);
                 SgPosTransformPtr trs(new SgPosTransform(p));
