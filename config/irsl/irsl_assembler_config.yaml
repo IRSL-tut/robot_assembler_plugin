@@ -3625,7 +3625,7 @@ PartsSettings:
       rotation: [1., 0., 0., 180.0]
   -
     type: vehicle-base-ps
-    class: Base plate (Plag and socket)
+    class: Base plate (Plug and socket)
     description: Base plate for vehicles with LEGO plugs and sockets on each side.
     visual:
       -
