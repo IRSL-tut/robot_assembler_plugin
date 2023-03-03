@@ -135,7 +135,13 @@ ConnectingConstraintSettings:
 PanelSettings: ## just for choreonoid
   tab_list:
     - name: Servo Parts (X-series)
-      parts: [XL-430, Bottom_mounter, FR12_S101, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, omni-shaft-x]
+      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_S101, Bottom_mounter, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, omni-shaft-x]
+    - name : Vehicle Parts
+      parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, vehicle-base-ps, omni-wheel]
+    - name: Sensor Parts
+      parts: [sensor-mounter, grove-sensor-mounter, ultrasonic-sensor, tof-sensor, grove-color-sensor]
+    - name: Special Parts
+      parts: [angle_2_2, plate_2_2_pp]
     - name: Main Blocks
       parts: [block_2_2, block_2_3, block_2_4, block_2_6, block_2_8, block_2_10,
               block_1_1, block_1_2, block_1_3, block_1_4, block_1_6, block_1_8, block_1_10 ]
@@ -143,12 +149,6 @@ PanelSettings: ## just for choreonoid
       parts: [plate_2_2, plate_2_3, plate_2_4, plate_2_6, plate_2_8, plate_2_10,
               plate_1_1, plate_1_2, plate_1_3, plate_1_4, plate_1_6, plate_1_8,
               plate_4_4, plate_4_8, plate_6_12]
-    - name : Vehicle Parts
-      parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, vehicle-base-ps, omni-wheel]
-    - name: Sensor Parts
-      parts: [sensor-mounter, grove-sensor-mounter, ultrasonic-sensor, tof-sensor, grove-color-sensor]
-    - name: Special Parts
-      parts: [angle_2_2, plate_2_2_pp]
     - name: Servo Parts (AX-series)
       parts: [ax-12a, mx-12w, ax-12a-f2, ax-12a-f3, ax-12a-f3-p, ax-12a-f3-s, ax-12a-f3-s_3x3, FP04-F4, FP04-F4-P, FP04-F2-P, FP04-F2-S, FP04-F2-P_3x3, P04-F53, P04-F53-s, omni-shaft]
   combo_list: [ block_1_12, block_1_16, block_1_1_3, block_1_2_2, block_1_2_5, block_1_3_5, plate_2_12, plate_2_14, plate_2_16, plate_1_5, plate_1_10, plate_1_12, plate_3_3, plate_4_6, plate_4_10, plate_4_12, plate_6_6, plate_6_16, plate_8_8, plate_8_16, plate_16_16 ]
