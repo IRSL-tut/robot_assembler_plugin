@@ -1122,6 +1122,30 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
     ret->updateDescendants();
     return ret;
 }
+static inline void _rename(std::string &_in, StringMap _rmap)
+{
+    auto it = _rmap.find(_in);
+    if (it != _rmap.end()) {
+        _in = it->second;
+    }
+}
+bool RoboasmUtil::renamePartsHistory(AttachHistory &_hist, StringMap &_rmap)
+{
+    bool res_ = true;
+    for(auto it = _hist.begin(); it != _hist.end(); it++) {
+        // make new name
+        std::ostringstream os;
+        os << it->parts_type << "_" << pid << "_" << parts_counter;
+        parts_counter++;
+        _rmap.insert(std::make_pair(it->parts_name, os.str()));
+        it->parts_name = os.str();
+        // rename parent
+        if(it->parent.size() > 0) {
+            _rename(it->parent, _rmap);
+        }
+    }
+    return res_;
+}
 std::ostream& operator<< (std::ostream& ostr, const cnoid::robot_assembler::RoboasmCoords &output)
 {
     ostr << "[" << &output << "] " << output.name() << " : ";

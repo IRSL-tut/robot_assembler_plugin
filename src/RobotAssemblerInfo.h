@@ -142,6 +142,7 @@ public:
     {
         return cnoid::robot_assembler::getActuatorLimit(info, _ac, _ky, a, b);
     }
+    bool renameInfo(StringMap &_rmap);
 };
 
 class CNOID_EXPORT cnoidRAFile : public RoboasmFile, public cnoidRAInfo

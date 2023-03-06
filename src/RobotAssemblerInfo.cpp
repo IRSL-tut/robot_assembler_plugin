@@ -84,6 +84,65 @@ bool ra::mergeInfo(Mapping *_dst, Mapping *_src)
     return true;
 }
 //
+static inline void _rename(std::string &_in, ra::StringMap _rmap)
+{
+    auto it = _rmap.find(_in);
+    if (it != _rmap.end()) {
+        _in = it->second;
+    }
+}
+static inline void _rename_connecting_point(std::string &_in, ra::StringMap _rmap)
+{
+    // position of "/"
+    size_t len = _in.size();
+    size_t p_ = _in.rfind("/");
+    if (p_ >= len) return;
+
+    std::string str_pt_ = _in.substr(0, p_);
+    std::string str_cp_ = _in.substr(p_+1);
+    _rename(str_pt_, _rmap);
+    _in = str_pt_ + "/" + str_cp_;
+}
+bool ra::cnoidRAInfo::renameInfo(ra::StringMap &_rmap)
+{
+    bool res_ = true;
+    {   // rename parts-info
+        Mapping *tmp = info->findMapping("parts-info");
+        if(tmp->isValid()) {
+            std::vector<std::string> keys;
+            // store keys
+            for(auto it = tmp->begin(); it != tmp->end(); it++) {
+                keys.push_back(it->first);
+            }
+            // rename keys
+            for(auto it = keys.begin(); it != keys.end(); it++) {
+                ValueNodePtr v = tmp->extract(*it);
+                std::string new_name(*it);
+                _rename(new_name, _rmap);
+                tmp->insert(new_name, v);
+            }
+        }
+    }
+    {   // rename actuator-info
+        Mapping *tmp = info->findMapping("actuator-info");
+        if(tmp->isValid()) {
+            std::vector<std::string> keys;
+            // store keys
+            for(auto it = tmp->begin(); it != tmp->end(); it++) {
+                keys.push_back(it->first);
+            }
+            // rename keys
+            for(auto it = keys.begin(); it != keys.end(); it++) {
+                ValueNodePtr v = tmp->extract(*it);
+                std::string new_name(*it);
+                _rename_connecting_point(new_name, _rmap);
+                tmp->insert(new_name, v);
+            }
+        }
+    }
+    return res_;
+}
+//
 bool ra::cnoidRAFile::dumpRoboasm(const std::string &_filename)
 {
     MappingPtr mp_ = historyToMap();

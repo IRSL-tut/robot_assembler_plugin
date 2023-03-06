@@ -58,7 +58,7 @@ public:
     void deleteAllRobots();
     void attachRobots(bool _swap_order = true, bool _just_align = false, int _increment = 1);
     void itemSelected(AssemblerItemPtr itm, bool on);
-    void loadRoboasm(const std::string &_fname);
+    void loadRoboasm(const std::string &_fname, bool _rename=false);
     ra::RASceneBase *coordsToScene(ra::RoboasmCoordsPtr _coords);
     ra::RASceneRobot *coordsToScene(ra::RoboasmRobotPtr _coords)
     {
