@@ -214,7 +214,7 @@ PartsSettings:
     collision:
       -
         type: mesh
-        url: "mesmeshes_xserieshes/XL-430_m.stl"
+        url: "meshes_xseries/XL-430_m.stl"
         scale : 1
     mass-param:
       mass: 1
