@@ -20,6 +20,7 @@ public:
     std::vector<ToolButton *> buttons;
 
     void addButton(const char *icon, const char *tooltip, std::function<void()> func);
+    void addToggleButton(const char *icon, const char *tooltip, std::function<void(bool)> func);
     void addButton(QIcon &icon, const char *tooltip, std::function<void()> func);
 };
 
@@ -58,6 +59,8 @@ AssemblerBar::Impl::Impl(AssemblerBar* _self)
               [this](){ manager->com_save_model(); } );
     addButton("<<", "Align decrement", // >
               [this](){ manager->com_align_back(); } );
+    addToggleButton("o", "Attach Ordered (the first clicked part is a root)", // o
+                    [this](bool _in){ manager->com_ordered_attach(_in); } );
     addButton(">>", "Align increment", // <
               [this](){ manager->com_align(); } );
     addButton("UnAlign", "Undo Align", // ^
@@ -81,6 +84,16 @@ void AssemblerBar::Impl::addButton(const char *icon, const char *tooltip, std::f
     button = self->addButton(icon);
     button->setToolTip(tooltip);
     button->sigClicked().connect(func);
+
+    buttons.push_back(button);
+}
+void AssemblerBar::Impl::addToggleButton(const char *icon, const char *tooltip, std::function<void(bool)> func)
+{
+    ToolButton *button;
+    button = self->addToggleButton(icon);
+    button->setToolTip(tooltip);
+    //button->sigClicked().connect(func);
+    button->sigToggled().connect(func);
 
     buttons.push_back(button);
 }

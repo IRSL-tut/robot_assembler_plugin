@@ -97,10 +97,11 @@ public:
     }
 
     //// simple command without arguments for toolbar, etc.
-    void com_attach()  { attachRobots(); }
+    void com_attach()  { attachRobots(swap_order); }
     void com_attach_o(){ attachRobots(false); }
-    void com_align()   { attachRobots(true, true); }
-    void com_align_back() { attachRobots(true, true, -1); }
+    void com_align()   { attachRobots(swap_order, true); }
+    void com_align_back() { attachRobots(swap_order, true, -1); }
+    void com_ordered_attach(bool _in) { swap_order = !_in; }
     void com_unalign() { }
     void com_undo()    { }
     void com_save_model();
@@ -155,6 +156,7 @@ protected:
     Signal<void(ra::RoboasmCoordsPtr _pt, MappingPtr _info)> coordsSelectedFunc;
     Signal<void()> updateRobotsFunc;
 
+    bool swap_order;
 private:
     class Impl;
     Impl* impl;
