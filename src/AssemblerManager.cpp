@@ -45,6 +45,7 @@ AssemblerManager::AssemblerManager()
     DEBUG_PRINT();
     impl = new Impl(this);
 
+    swap_order = true;
     uniq_id = SceneWidget::issueUniqueCustomModeId();
     SceneView::instance()->sceneWidget()->activateCustomMode(this, uniq_id);
 }
@@ -477,7 +478,7 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
 }
 void AssemblerManager::attachRobots(bool _swap_order, bool _just_align, int increment)
 {
-    DEBUG_PRINT();
+    DEBUG_STREAM(" swap: " << _swap_order);
     if(!clickedPoint0 || !clickedPoint1) {
         DEBUG_STREAM( " require 2 clicked point" );
         return;
