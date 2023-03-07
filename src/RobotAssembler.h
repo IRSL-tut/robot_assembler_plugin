@@ -437,6 +437,7 @@ public:
     }
     bool canMatch(RoboasmConnectingPointPtr _a, RoboasmConnectingPointPtr _b);
 
+    bool renamePartsHistory(AttachHistory &_hist, StringMap &_rmap);
 private:
     //class Impl;
     //static Impl *impl;

@@ -26,6 +26,7 @@ struct ExtraInfo;
 struct Geometry;
 class Parts;
 typedef std::shared_ptr<Parts> PartsPtr;
+typedef std::map<std::string, std::string> StringMap;
 
 #if 0
 struct ConnectingConstraint
@@ -292,15 +293,15 @@ public:
     }
 };
 typedef std::vector<AttachHistoryItem> AttachHistory;
-typedef std::map<std::string, AttachHistoryItem*> StringMap;
-typedef std::pair<std::string, AttachHistoryItem*> StringPair;
+//typedef std::map<std::string, AttachHistoryItem*> historyItemMap;
+//typedef std::pair<std::string, AttachHistoryItem*> historyItemPair;
 
 struct CNOID_EXPORT AssembleConfig
 {
     std::string robot_name;
     coordinates initial_coords;
-    std::map<std::string, std::string> actuator_name;
-    std::map<std::string, std::string> actuator_axis_name;
+    StringMap actuator_name;
+    StringMap actuator_axis_name;
     std::map<std::string, Vector3> actuator_axis_vector;
 
     bool isValid() {
