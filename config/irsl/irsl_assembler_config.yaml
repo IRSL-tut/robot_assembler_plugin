@@ -328,62 +328,62 @@ PartsSettings:
     -
       name: p1_0_0
       types : [PC1]
-      translation: [-12.0, -8.0, 24.0]
+      translation: [-12.0, -8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_0_1
       types : [PC1]
-      translation: [-4.0, -8.0, 24.0]
+      translation: [-4.0, -8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_0_2
       types : [PC1]
-      translation: [4.0, -8.0, 24.0]
+      translation: [4.0, -8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_0_3
       types : [PC1]
-      translation: [12.0, -8.0, 24.0]
+      translation: [12.0, -8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_1_0
       types : [PC1]
-      translation: [-12.0, 0.0, 24.0]
+      translation: [-12.0, 0.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_1_1
       types : [PC1]
-      translation: [-4.0, 0.0, 24.0]
+      translation: [-4.0, 0.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_1_2
       types : [PC1]
-      translation: [4.0, 0.0, 24.0]
+      translation: [4.0, 0.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_1_3
       types : [PC1]
-      translation: [12.0, 0.0, 24.0]
+      translation: [12.0, 0.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_2_0
       types : [PC1]
-      translation: [-12.0, 8.0, 24.0]
+      translation: [-12.0, 8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_2_1
       types : [PC1]
-      translation: [-4.0, 8.0, 24.0]
+      translation: [-4.0, 8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_2_2
       types : [PC1]
-      translation: [4.0, 8.0, 24.0]
+      translation: [4.0, 8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
     -
       name: p1_2_3
       types : [PC1]
-      translation: [12.0, 8.0, 24.0]
+      translation: [12.0, 8.0, 24.2]
       rotation: [1., 0., 0., 0.0]
   -
     type: FR12_S102_S
@@ -418,62 +418,62 @@ PartsSettings:
     -
       name: s1_0_0
       types : [SC1]
-      translation: [-12.0, -8.0, 24.0]
+      translation: [-12.0, -8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_0_1
       types : [SC1]
-      translation: [-4.0, -8.0, 24.0]
+      translation: [-4.0, -8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_0_2
       types : [SC1]
-      translation: [4.0, -8.0, 24.0]
+      translation: [4.0, -8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_0_3
       types : [SC1]
-      translation: [12.0, -8.0, 24.0]
+      translation: [12.0, -8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_1_0
       types : [SC1]
-      translation: [-12.0, 0.0, 24.0]
+      translation: [-12.0, 0.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_1_1
       types : [SC1]
-      translation: [-4.0, 0.0, 24.0]
+      translation: [-4.0, 0.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_1_2
       types : [SC1]
-      translation: [4.0, 0.0, 24.0]
+      translation: [4.0, 0.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_1_3
       types : [SC1]
-      translation: [12.0, 0.0, 24.0]
+      translation: [12.0, 0.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_2_0
       types : [SC1]
-      translation: [-12.0, 8.0, 24.0]
+      translation: [-12.0, 8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_2_1
       types : [SC1]
-      translation: [-4.0, 8.0, 24.0]
+      translation: [-4.0, 8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_2_2
       types : [SC1]
-      translation: [4.0, 8.0, 24.0]
+      translation: [4.0, 8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
     -
       name: s1_2_3
       types : [SC1]
-      translation: [12.0, 8.0, 24.0]
+      translation: [12.0, 8.0, 24.2]
       rotation: [1., 0., 0., 180.0]
   -
     type: FR12_H101_P
