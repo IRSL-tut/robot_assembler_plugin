@@ -21,9 +21,20 @@ else()
   message("FAILED: EXIST GTEST")
 endif()
 
+### test-sample
 link_directories(${GTEST_LIBRARY_DIR} ${CHOREONOID_LIBRARY_DIRS})
 add_executable(test-sample test-sample.cpp)
 target_include_directories(test-sample PUBLIC ${GTEST_INCLUDE_DIR} ${CHOREONOID_INCLUDE_DIRS})
 target_link_libraries(test-sample ${targetlib} gtest gtest_main pthread)
 
-### install ??
+###
+set(ldsettings robotassembler_load_settings)
+choreonoid_add_executable(${ldsettings} load_settings.cpp)
+target_include_directories(${ldsettings} PUBLIC ${CHOREONOID_INCLUDE_DIRS})
+target_link_libraries(${ldsettings} ${targetlib} pthread)
+
+###
+set(body2urdf choreonoid_body2urdf)
+choreonoid_add_executable(${body2urdf} body2urdf.cpp)
+target_include_directories(${body2urdf} PUBLIC ${CHOREONOID_INCLUDE_DIRS})
+target_link_libraries(${body2urdf} ${targetlib} ${ASSIMP_LIBRARIES} pthread)
