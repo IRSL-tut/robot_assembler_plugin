@@ -135,7 +135,7 @@ ConnectingConstraintSettings:
 PanelSettings: ## just for choreonoid
   tab_list:
     - name: Servo Parts (X-series)
-      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_S101, Bottom_mounter, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, omni-shaft-x]
+      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_S101_P, FR12_S101_S, Bottom_mounter, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, omni-shaft-x]
     - name : Vehicle Parts
       parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, vehicle-base-ps, omni-wheel]
     - name: Sensor Parts
@@ -646,7 +646,7 @@ PartsSettings:
       translation: [12.0, 32.7, 8.0]
       rotation: [1., 0., 0., 90.0]
   -
-    type: FR12_S101_Socket
+    type: FR12_S101_S
     # print-file: "servo_parts_x_series/fr12_s101_socket_mm.stl"
     class: Side frame B (Socket)
     description: B side frame for X-series servomotor (Socket)
@@ -801,7 +801,7 @@ PartsSettings:
         translation: [16.0, -28.0, 23.2]
         rotation: [1, 0.0, 0.0, 180]
   -
-    type: FR12_S101_Plug
+    type: FR12_S101_P
     # print-file: "servo_parts_x_series/fr12_s101_plug_mm.stl"
     class: Side frame B (Plug)
     description: B side frame for X-series servomotor (Plug)
