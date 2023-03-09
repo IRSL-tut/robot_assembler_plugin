@@ -263,8 +263,8 @@ PartsSettings:
   -
     type: FR12_S102
     # print-file: "servo_parts_x_series/fr12_s102_mm.stl"
-    class: Side frame A
-    description: A side frame for X-series servomotor
+    class: Short side frame (Horn)
+    description: Short side frame for X-series servomotor
     visual:
       -
         type: mesh
@@ -298,8 +298,8 @@ PartsSettings:
   -
     type: FR12_S102_P
     # print-file: "servo_parts_x_series/fr12_s102_p_mm.stl"
-    class: Side frame A (Plug)
-    description: A side frame with LEGO plugs for X-series servomotor
+    class: Short side frame (Plug)
+    description: Short side frame with LEGO plugs for X-series servomotor
     visual:
       -
         type: mesh
@@ -381,15 +381,15 @@ PartsSettings:
       translation: [4.0, 8.0, 24.0]
       rotation: [1., 0., 0., 0.0]
     -
-      name: p1_2_3
+      name: p1_2_3mesh
       types : [PC1]
       translation: [12.0, 8.0, 24.0]
       rotation: [1., 0., 0., 0.0]
   -
     type: FR12_S102_S
     # print-file: "servo_parts_x_series/fr12_s102_s_mm.stl"
-    class: Side frame A (Socket)
-    description: A side frame with LEGO sockets for X-series servomotor
+    class: Short side frame (Socket)
+    description: Short side frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
@@ -648,8 +648,8 @@ PartsSettings:
   -
     type: FR12_S101_S
     # print-file: "servo_parts_x_series/fr12_s101_socket_mm.stl"
-    class: Side frame B (Socket)
-    description: B side frame for X-series servomotor (Socket)
+    class: Long side frame (Socket)
+    description: Long side frame for X-series servomotor (Socket)
     visual:
       -
         type: mesh
@@ -666,145 +666,145 @@ PartsSettings:
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
     -
-        name: connetct_point
-        types: [FRAME_BSIDE_X]
-        translation: [17.0, 8.0, 11.0]
-        rotation: [0.0, 1.0, 0.0, 90.0]
+      name: connetct_point
+      types: [FRAME_BSIDE_X]
+      translation: [17.0, 8.0, 11.0]
+      rotation: [0.0, 1.0, 0.0, 90.0]
     -
-        name: connetct_point2
-        types: [FRAME_BSIDE_X]
-        translation: [-17.0, -32.0, 11.0]
-        rotation: [0.7071, 0.0,  -0.7071, 180.0]
+      name: connetct_point2
+      types: [FRAME_BSIDE_X]
+      translation: [-17.0, -32.0, 11.0]
+      rotation: [0.7071, 0.0,  -0.7071, 180.0]
     -
-        name: s_0_0
-        types: [SC1]
-        translation: [-16.0, 4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_0_0
+      types: [SC1]
+      translation: [-16.0, 4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_0_1
-        types: [SC1]
-        translation: [-8.0, 4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_0_1
+      types: [SC1]
+      translation: [-8.0, 4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_0_2
-        types: [SC1]
-        translation: [0.0, 4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_0_2
+      types: [SC1]
+      translation: [0.0, 4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_0_3
-        types: [SC1]
-        translation: [8.0, 4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_0_3
+      types: [SC1]
+      translation: [8.0, 4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_0_4
-        types: [SC1]
-        translation: [16.0, 4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_0_4
+      types: [SC1]
+      translation: [16.0, 4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_1_0
-        types: [SC1]
-        translation: [-16.0, -4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_1_0
+      types: [SC1]
+      translation: [-16.0, -4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_1_1
-        types: [SC1]
-        translation: [-8.0, -4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_1_1
+      types: [SC1]
+      translation: [-8.0, -4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_1_2
-        types: [SC1]
-        translation: [0.0, -4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_1_2
+      types: [SC1]
+      translation: [0.0, -4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_1_3
-        types: [SC1]
-        translation: [8.0, -4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_1_3
+      types: [SC1]
+      translation: [8.0, -4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_1_4
-        types: [SC1]
-        translation: [16.0, -4.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_1_4
+      types: [SC1]
+      translation: [16.0, -4.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_2_0
-        types: [SC1]
-        translation: [-16.0, -12.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_2_0
+      types: [SC1]
+      translation: [-16.0, -12.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_2_1
-        types: [SC1]
-        translation: [-8.0, -12.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_2_1
+      types: [SC1]
+      translation: [-8.0, -12.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_2_2
-        types: [SC1]
-        translation: [0.0, -12.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_2_2
+      types: [SC1]
+      translation: [0.0, -12.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_2_3
-        types: [SC1]
-        translation: [8.0, -12.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_2_3
+      types: [SC1]
+      translation: [8.0, -12.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_2_4
-        types: [SC1]
-        translation: [16.0, -12.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_2_4
+      types: [SC1]
+      translation: [16.0, -12.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_3_0
-        types: [SC1]
-        translation: [-16.0, -20.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_3_0
+      types: [SC1]
+      translation: [-16.0, -20.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_3_1
-        types: [SC1]
-        translation: [-8.0, -20.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_3_1
+      types: [SC1]
+      translation: [-8.0, -20.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_3_2
-        types: [SC1]
-        translation: [0.0, -20.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_3_2
+      types: [SC1]
+      translation: [0.0, -20.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_3_3
-        types: [SC1]
-        translation: [8.0, -20.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_3_3
+      types: [SC1]
+      translation: [8.0, -20.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_3_4
-        types: [SC1]
-        translation: [16.0, -20.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_3_4
+      types: [SC1]
+      translation: [16.0, -20.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_4_0
-        types: [SC1]
-        translation: [-16.0, -28.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_4_0
+      types: [SC1]
+      translation: [-16.0, -28.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_4_1
-        types: [SC1]
-        translation: [-8.0, -28.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_4_1
+      types: [SC1]
+      translation: [-8.0, -28.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_4_2
-        types: [SC1]
-        translation: [0.0, -28.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_4_2
+      types: [SC1]
+      translation: [0.0, -28.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_4_3
-        types: [SC1]
-        translation: [8.0, -28.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_4_3
+      types: [SC1]
+      translation: [8.0, -28.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
     -
-        name: s_4_4
-        types: [SC1]
-        translation: [16.0, -28.0, 23.2]
-        rotation: [1, 0.0, 0.0, 180]
+      name: s_4_4
+      types: [SC1]
+      translation: [16.0, -28.0, 23.2]
+      rotation: [1, 0.0, 0.0, 180]
   -
     type: FR12_S101_P
     # print-file: "servo_parts_x_series/fr12_s101_plug_mm.stl"
-    class: Side frame B (Plug)
-    description: B side frame for X-series servomotor (Plug)
+    class: Long side frame (Plug)
+    description: Long side frame for X-series servomotor (Plug)
     visual:
       -
         type: mesh
@@ -821,140 +821,140 @@ PartsSettings:
       inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
     connecting-points :
     -
-        name: connetct_point
-        types: [FRAME_BSIDE_X]
-        translation: [17.0, 8.0, 11.0]
-        rotation: [0.0, 1.0, 0.0, 90.0]
+      name: connetct_point
+      types: [FRAME_BSIDE_X]
+      translation: [17.0, 8.0, 11.0]
+      rotation: [0.0, 1.0, 0.0, 90.0]
     -
-        name: connetct_point2
-        types: [FRAME_BSIDE_X]
-        translation: [-17.0, -32.0, 11.0]
-        rotation: [0.7071, 0.0,  -0.7071, 180.0]
+      name: connetct_point2
+      types: [FRAME_BSIDE_X]
+      translation: [-17.0, -32.0, 11.0]
+      rotation: [0.7071, 0.0,  -0.7071, 180.0]
     -
-        name: p_0_0
-        types: [PC1]
-        translation: [-16.0, 4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_0_0
+      types: [PC1]
+      translation: [-16.0, 4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_0_1
-        types: [PC1]
-        translation: [-8.0, 4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_0_1
+      types: [PC1]
+      translation: [-8.0, 4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_0_2
-        types: [PC1]
-        translation: [0.0, 4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_0_2
+      types: [PC1]
+      translation: [0.0, 4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_0_3
-        types: [PC1]
-        translation: [8.0, 4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_0_3
+      types: [PC1]
+      translation: [8.0, 4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_0_4
-        types: [PC1]
-        translation: [16.0, 4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_0_4
+      types: [PC1]
+      translation: [16.0, 4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_1_0
-        types: [PC1]
-        translation: [-16.0, -4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_1_0
+      types: [PC1]
+      translation: [-16.0, -4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_1_1
-        types: [PC1]
-        translation: [-8.0, -4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_1_1
+      types: [PC1]
+      translation: [-8.0, -4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_1_2
-        types: [PC1]
-        translation: [0.0, -4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_1_2
+      types: [PC1]
+      translation: [0.0, -4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_1_3
-        types: [PC1]
-        translation: [8.0, -4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_1_3
+      types: [PC1]
+      translation: [8.0, -4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_1_4
-        types: [PC1]
-        translation: [16.0, -4.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_1_4
+      types: [PC1]
+      translation: [16.0, -4.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_2_0
-        types: [PC1]
-        translation: [-16.0, -12.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_2_0
+      types: [PC1]
+      translation: [-16.0, -12.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_2_1
-        types: [PC1]
-        translation: [-8.0, -12.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_2_1
+      types: [PC1]
+      translation: [-8.0, -12.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_2_2
-        types: [PC1]
-        translation: [0.0, -12.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_2_2
+      types: [PC1]
+      translation: [0.0, -12.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_2_3
-        types: [PC1]
-        translation: [8.0, -12.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_2_3
+      types: [PC1]
+      translation: [8.0, -12.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_2_4
-        types: [PC1]
-        translation: [16.0, -12.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_2_4
+      types: [PC1]
+      translation: [16.0, -12.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_3_0
-        types: [PC1]
-        translation: [-16.0, -20.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_3_0
+      types: [PC1]
+      translation: [-16.0, -20.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_3_1
-        types: [PC1]
-        translation: [-8.0, -20.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_3_1
+      types: [PC1]
+      translation: [-8.0, -20.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_3_2
-        types: [PC1]
-        translation: [0.0, -20.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_3_2
+      types: [PC1]
+      translation: [0.0, -20.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_3_3
-        types: [PC1]
-        translation: [8.0, -20.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_3_3
+      types: [PC1]
+      translation: [8.0, -20.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_3_4
-        types: [PC1]
-        translation: [16.0, -20.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_3_4
+      types: [PC1]
+      translation: [16.0, -20.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_4_0
-        types: [PC1]
-        translation: [-16.0, -28.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_4_0
+      types: [PC1]
+      translation: [-16.0, -28.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_4_1
-        types: [PC1]
-        translation: [-8.0, -28.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_4_1
+      types: [PC1]
+      translation: [-8.0, -28.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_4_2
-        types: [PC1]
-        translation: [0.0, -28.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_4_2
+      types: [PC1]
+      translation: [0.0, -28.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_4_3
-        types: [PC1]
-        translation: [8.0, -28.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_4_3
+      types: [PC1]
+      translation: [8.0, -28.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
     -
-        name: p_4_4
-        types: [PC1]
-        translation: [16.0, -28.0, 20.0]
-        rotation: [1, 0.0, 0.0, 0]
+      name: p_4_4
+      types: [PC1]
+      translation: [16.0, -28.0, 20.0]
+      rotation: [1, 0.0, 0.0, 0]
   -
     type: omni-shaft-x
     # print-file: "servo_parts_x_series/omni_wheel_shaft_x_mm.stl"
@@ -1158,8 +1158,8 @@ PartsSettings:
   -
     type: Bottom_mounter
     # print-file: "servo_parts_x_series/bottom_mounter_mm.stl"
-    class: Side frame C (Socket)
-    description: C side frame with LEGO sockets for X-series servomotor
+    class: Bottom frame (Socket)
+    description: Bottom frame with LEGO sockets for X-series servomotor
     visual:
       -
         type: mesh
