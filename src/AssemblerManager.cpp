@@ -45,6 +45,7 @@ AssemblerManager::AssemblerManager()
     DEBUG_PRINT();
     impl = new Impl(this);
 
+    swap_order = true;
     uniq_id = SceneWidget::issueUniqueCustomModeId();
     SceneView::instance()->sceneWidget()->activateCustomMode(this, uniq_id);
 }
@@ -477,7 +478,7 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
 }
 void AssemblerManager::attachRobots(bool _swap_order, bool _just_align, int increment)
 {
-    DEBUG_PRINT();
+    DEBUG_STREAM(" swap: " << _swap_order);
     if(!clickedPoint0 || !clickedPoint1) {
         DEBUG_STREAM( " require 2 clicked point" );
         return;
@@ -601,12 +602,18 @@ void AssemblerManager::itemSelected(AssemblerItemPtr itm, bool on)
         coordsSelectedFunc(nullptr, nullptr);
     }
 }
-void AssemblerManager::loadRoboasm(const std::string &_fname)
+void AssemblerManager::loadRoboasm(const std::string &_fname, bool _rename)
 {
     ra::cnoidRAFile raf(_fname);
     if(!raf.isValid()) {
         ERROR_STREAM(" invalid roboasm : " << _fname);
         return;
+    }
+    if(_rename) {
+        DEBUG_STREAM(" renamed");
+        ra::StringMap rmap_;
+        ra_util->renamePartsHistory(raf.history, rmap_);
+        raf.renameInfo(rmap_);
     }
     std::string name_;
     if(!raf.getRobotName(name_)) name_ = "AssembleRobot";
@@ -850,15 +857,19 @@ void AssemblerManager::com_load()
 
     QStringList filters;
     filters << "roboasm files (*.roboasm)";
+    filters << "roboasm files / parts renamed (*.roboasm)";
     filters << "Any files (*)";
+    filters << "Any files / parts renamed (*)";
     dialog->setNameFilters(filters);
 
     if(dialog->exec() == QDialog::Accepted) {
-        DEBUG_STREAM(" accepted");
+        DEBUG_STREAM(" accepted: " << filter_id);
+        bool rename_ = false;
+        if( filter_id == 1 || filter_id == 3 ) rename_ = true;
         auto fnames = dialog->selectedFiles();
         std::string fname = fnames.front().toStdString();
         if(fname.size() > 0) {
-            loadRoboasm(fname);
+            loadRoboasm(fname, rename_);
         }
     }
     delete dialog;

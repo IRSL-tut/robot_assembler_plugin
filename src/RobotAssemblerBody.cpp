@@ -166,9 +166,13 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
             lk->setName(lnm_);
             // joint-name
             std::string jnm_ = lnm_;
-            if(cinfo.getActuatorName(_pt->name(), jnm_)) {
+            if(cinfo.getActuatorName(act_->name(), jnm_)) {
                 lk->setJointName(jnm_);
             }
+            DEBUG_STREAM(" _pt->name() : " << _pt->name());
+            DEBUG_STREAM("act_->name() : " << act_->name());
+            DEBUG_STREAM("        lnm_ : " << lnm_);
+            DEBUG_STREAM("        jnm_ : " << jnm_);
             lk->setJointId(joint_counter++); // [todo] overwrite id by info
             map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(lnm_, _pt->name()));
             //map_joint_cnoid_roboasm.insert(std::pair<std::string, std::string>(jnm_, _pt->name()));
