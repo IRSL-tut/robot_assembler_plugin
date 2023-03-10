@@ -822,10 +822,10 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
                 // path.extension().string();
                 //DEBUG_STREAM(" body : " << fname << ".body");
                 if (filter_id == 0) {
+                    fname += ".body";
+                } else if (filter_id == 1) {
                     urdf = true;
                     fname += ".urdf";
-                } else if (filter_id == 1) {
-                    fname += ".body";
                 }
             }
         }
