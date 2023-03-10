@@ -125,10 +125,11 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         //lk->setJointName();
         lk->setJointType(Link::FreeJoint);
         lk->setJointId(-1);
-        // temp
+        // initial-offset : RoboasmRobot => RoboasmParts(root-parts)
         Position p;
         _pt->worldcoords().toPosition(p);
         lk->setOffsetPosition(p);
+        DEBUG_STREAM(" coords(root) : " << _pt->worldcoords());
         //
         map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(nm_, _pt->name()));
     } else { // usual (has parent) link
@@ -147,10 +148,19 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
             delete lk;
             return nullptr;
         }
+        coordinates p_origin = p_pt_->parent()->worldcoords();
+        if(p_pt_->parent()->isRobot()) {
+            p_origin = p_pt_->worldcoords();
+        }
         coordinates cds;
-        p_pt_->parent()->worldcoords().transformation(cds, s_cp_->worldcoords());
+        p_origin.transformation(cds, s_cp_->worldcoords());
         Position p; cds.toPosition(p);
         lk->setOffsetPosition(p);
+        DEBUG_STREAM(" link : " << _pt->name());
+        DEBUG_STREAM(" parent : " << p_pt_->name());
+        DEBUG_STREAM(" coords(parent)" << p_origin);
+        DEBUG_STREAM(" coords(self)" << s_cp_->worldcoords());
+
         RoboasmConnectingPointPtr act_;
         if (p_cp_->isActuator()) {
             act_ = p_cp_;
@@ -169,10 +179,10 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
             if(cinfo.getActuatorName(act_->name(), jnm_)) {
                 lk->setJointName(jnm_);
             }
-            DEBUG_STREAM(" _pt->name() : " << _pt->name());
-            DEBUG_STREAM("act_->name() : " << act_->name());
-            DEBUG_STREAM("        lnm_ : " << lnm_);
-            DEBUG_STREAM("        jnm_ : " << jnm_);
+            DEBUG_STREAM("  _pt->name() : " << _pt->name());
+            DEBUG_STREAM(" act_->name() : " << act_->name());
+            DEBUG_STREAM("         lnm_ : " << lnm_);
+            DEBUG_STREAM("         jnm_ : " << jnm_);
             lk->setJointId(joint_counter++); // [todo] overwrite id by info
             map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(lnm_, _pt->name()));
             //map_joint_cnoid_roboasm.insert(std::pair<std::string, std::string>(jnm_, _pt->name()));
