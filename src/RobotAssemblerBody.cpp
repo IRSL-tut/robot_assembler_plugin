@@ -341,7 +341,12 @@ BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, const std::string &_
     } else if (name.size() > 0) {
         local_name = name;
     } else if (!!info) {
-        
+        cnoidRAInfo cinfo(info);
+        std::string nm_;
+        cinfo.getRobotName(nm_);
+        if(nm_.size() > 0) {
+            local_name = nm_;
+        }
     } else {
         local_name = _rb->name();
     }
