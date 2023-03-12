@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include "../src/irsl_debug.h"
+#include <iomanip>
 
 #include <set>
 
@@ -26,6 +27,14 @@
 
 using namespace cnoid;
 
+#define _SET_PRECISION(strm,prec_)                                      \
+    int prc;                                                            \
+    prc = strm.precision();                                             \
+    strm << std::scientific << std::setprecision(prec_);                \
+
+#define _UNSET_PRECISION(strm)                                          \
+    strm << std::fixed << std::setprecision(prc);                       \
+
 //// inline functions for printing
 inline void _indent(int level, std::ostream &ostrm)
 {
@@ -33,18 +42,18 @@ inline void _indent(int level, std::ostream &ostrm)
 }
 inline void _print_vector(Vector3 &_vec, std::ostream &ostrm)
 {
-    // >precision
+    _SET_PRECISION(ostrm,12);
     ostrm << "\"";
     ostrm << _vec.x() << " ";
     ostrm << _vec.y() << " ";
     ostrm << _vec.z() << "\"";
-    // <precision
+    _UNSET_PRECISION(ostrm);
 }
 inline void _print_float(double _in, std::ostream &ostrm)
 {
-    // >precision
+    _SET_PRECISION(ostrm,12);
     ostrm << "\"" << _in << "\"";
-    // <precision
+    _UNSET_PRECISION(ostrm);
 }
 void _print_geom(std::string &fname, bool vis, std::ostream &ostrm)
 {
