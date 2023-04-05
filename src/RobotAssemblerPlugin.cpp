@@ -90,6 +90,36 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
                 manager->loadRoboasm(fname_);
             }
         }
+
+        if(variables.count("original-project")) {
+            std::string fname_ = variables["original-project"].as<std::string>();
+            DEBUG_STREAM(" original-project : " << fname_);
+            AssemblerManager *manager = AssemblerManager::instance();
+            if(!!manager) {
+                manager->setOriginalProject(fname_);
+            }
+        }
+
+        if(variables.count("project")) {
+            std::vector<std::string> _fls = variables["project"].as<std::vector<std::string>>();
+            DEBUG_STREAM(" project : ");
+            for(int i = 0; i < _fls.size(); i++) {
+                DEBUG_STREAM(" " << i << ": " << _fls[i]);
+            }
+            if(!!manager) {
+                manager->setAssemblerProject(_fls[0]);
+            }
+        }
+        if(variables.count("input-file")) {
+            std::vector<std::string> _fls = variables["input-file"].as<std::vector<std::string>>();
+            DEBUG_STREAM(" input-file : ");
+            for(int i = 0; i < _fls.size(); i++) {
+                DEBUG_STREAM(" " << i << ": " << _fls[i]);
+            }
+            if(!!manager) {
+                manager->setAssemblerProject(_fls[0]);
+            }
+        }
     }
 }
 RobotAssemblerPlugin* RobotAssemblerPlugin::instance()
@@ -115,6 +145,7 @@ bool RobotAssemblerPlugin::initialize()
     OptionManager& om = this->optionManager();
     om.addOption("assembler", po::value<std::string>(), "load robot_assembler config file");
     om.addOption("assembler-robot", po::value<std::string>(), "load robot_assembler .roboasm file");
+    om.addOption("original-project", po::value<std::string>(), "project file for original choreonoid");
     //om.sigOptionsParsed(1).connect(onSigOptionsParsed);
     om.sigOptionsParsed(1).connect(
         [&](po::variables_map& _v) { impl->onSigOptionsParsed(_v); } );

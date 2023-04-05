@@ -15,6 +15,8 @@
 #include <cnoid/UTF8>
 #include <cnoid/stdx/filesystem>
 
+#include <cnoid/ProjectManager>
+
 #include <vector>
 
 //#define IRSL_DEBUG
@@ -46,6 +48,7 @@ AssemblerManager::AssemblerManager()
     impl = new Impl(this);
 
     swap_order = true;
+    _current_mode = ASSEMBLER;
     uniq_id = SceneWidget::issueUniqueCustomModeId();
     SceneView::instance()->sceneWidget()->activateCustomMode(this, uniq_id);
 }
@@ -947,4 +950,38 @@ bool AssemblerManager::parseButtonYaml(const std::string &filename, PanelSetting
         return false;
     }
     return true;
+}
+
+void AssemblerManager::com_swap_mode()
+{
+    DEBUG_STREAM(" swap_mode : " << _current_mode);
+    switch(_current_mode) {
+    case ASSEMBLER:
+    {
+        ProjectManager *pm = ProjectManager::instance();
+        if (!!pm) {
+            std::string fname_ = original_project();
+            if(fname_.size() > 0) {
+                pm->loadProject(fname_, nullptr);
+                _current_mode = CNOID;
+            }
+        }
+    }
+    break;
+    case CNOID:
+    {
+        ProjectManager *pm = ProjectManager::instance();
+        if (!!pm) {
+            std::string fname_ = assembler_project();
+            if(fname_.size() > 0) {
+                pm->loadProject(fname_, nullptr);
+                _current_mode = ASSEMBLER;
+            }
+        }
+    }
+    break;
+    default:
+        ERROR_STREAM(" mode error : " << _current_mode);
+        break;
+    }
 }
