@@ -29,6 +29,10 @@ public:
     void loadSettings(const std::string _fname);
     const std::string &project_directory() { return _project_directory; }
     void setProjectDirectory(const std::string &_proj) { _project_directory = _proj; };
+    const std::string &original_project() { return _original_project; }
+    void setOriginalProject(const std::string &_proj) { _original_project = _proj; };
+    const std::string &assembler_project() { return _assembler_project; }
+    void setAssemblerProject(const std::string &_proj) { _assembler_project = _proj; };
     bool parseButtonYaml(const std::string &filename, PanelSettings &_res);
 
     void partsButtonClicked(const std::string &_name, const Vector3f &_color = Vector3f::Zero());
@@ -108,6 +112,7 @@ public:
     void com_save_history();
     void com_load();
     void com_delete_all() { deleteAllRobots(); }
+    void com_swap_mode();
 
     void notifyUpdate() {
         for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
@@ -134,7 +139,6 @@ public:
     ra::SettingsPtr ra_settings; // from option
     ra::RoboasmUtilPtr ra_util; // from settings
     std::set<ra::RASceneRobot*> srobot_set;
-    std::string _project_directory;
 protected:
     //// overrides : SceneWidgetEventHandler
     virtual void onSceneModeChanged(SceneWidgetEvent* event) override;
@@ -156,10 +160,16 @@ protected:
     Signal<void(ra::RoboasmCoordsPtr _pt, MappingPtr _info)> coordsSelectedFunc;
     Signal<void()> updateRobotsFunc;
 
-    bool swap_order;
 private:
     class Impl;
     Impl* impl;
+
+    enum MODE {NONE, ASSEMBLER, CNOID};
+    bool swap_order;
+    MODE _current_mode;
+    std::string _project_directory;
+    std::string _original_project;
+    std::string _assembler_project;
 };
 }
 #endif

@@ -76,6 +76,9 @@ AssemblerBar::Impl::Impl(AssemblerBar* _self)
     }
     addButton("DeleteAll", "Delete All", // Delete all
               [this](){ manager->com_delete_all(); } );
+
+    addButton("SS", "Swap Mode (choreonoid <-> assembler)", //
+              [this](){ manager->com_swap_mode(); } );
 }
 
 void AssemblerBar::Impl::addButton(const char *icon, const char *tooltip, std::function<void()> func)
