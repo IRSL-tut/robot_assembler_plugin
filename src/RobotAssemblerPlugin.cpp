@@ -6,6 +6,7 @@
 #include "AssemblerTreeView.h"
 #include "AssemblerPartsView.h"
 #include "AssemblerBar.h"
+#include "AssemblerSwapModeBar.h"
 #include "AssemblerManager.h"
 
 #include <fmt/format.h>
@@ -160,6 +161,7 @@ bool RobotAssemblerPlugin::initialize()
 
     //ToolBar
     addToolBar(AssemblerBar::instance());
+    addToolBar(AssemblerSwapModeBar::instance());
     DEBUG_STREAM(" FINISH Plugin initialize");
     return true;
 }

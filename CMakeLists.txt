@@ -8,6 +8,7 @@ set(sources
   src/AssemblerManager.cpp
   src/AssemblerView.cpp
   src/AssemblerBar.cpp
+  src/AssemblerSwapModeBar.cpp
   src/AssemblerTreeView.cpp
   src/AssemblerPartsView.cpp
   #src/RobotAssemblerInfo.cpp
@@ -23,6 +24,7 @@ set(headers
   src/AssemblerManager.h
   src/AssemblerView.h
   src/AssemblerBar.h
+  src/AssemblerSwapModeBar.h
   src/AssemblerTreeView.h
   src/AssemblerPartsView.h
   #src/RobotAssemblerInfo.h
@@ -62,6 +64,9 @@ set(libheaders
 add_definitions(-Wno-deprecated-declarations)
 add_definitions(-DIRSL_DEBUG)
 option(BUILD_TEST "build executables for test" OFF)
+
+QT5_ADD_RESOURCES(RC_SRCS src/RA.qrc)
+
 if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   # Build as a master project
   cmake_minimum_required(VERSION 3.10)
@@ -70,10 +75,11 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   set(CMAKE_CXX_STANDARD ${CHOREONOID_CXX_STANDARD})
   set(targetlib RobotAssembler)
   set(targetplugin CnoidRobotAssemblerPlugin)
-  choreonoid_add_library(${targetlib} SHARED ${libsources} HEADERS ${libheaders})
-  target_link_libraries(${targetlib} Choreonoid::CnoidBody Choreonoid::CnoidUtil)
+  choreonoid_add_library(${targetlib} SHARED ${libsources} ${RC_SRCS} HEADERS ${libheaders})
+  target_link_libraries(${targetlib} Choreonoid::CnoidBody Choreonoid::CnoidUtil ${CHOREONOID_QT_LIBRARIES})
   choreonoid_add_plugin(${targetplugin} ${sources})#HEADERS ${headers})
-  target_link_libraries(${targetplugin} Choreonoid::CnoidBody)
+  target_link_libraries(${targetplugin} ${targetlib})
+  target_link_libraries(${targetplugin} Choreonoid::CnoidBody Choreonoid::CnoidUtil)
   if(BUILD_TEST)
     add_subdirectory(test)
   endif()
@@ -83,8 +89,8 @@ else()
   set(targetlib RobotAssembler)
   set(targetplugin CnoidRobotAssemblerPlugin)
   ### [todo] build libRoboassembler.so and link it
-  choreonoid_add_library(${targetlib} SHARED ${libsources} HEADERS ${libheaders})
-  target_link_libraries(${targetlib} CnoidBody CnoidUtil)
+  choreonoid_add_library(${targetlib} SHARED ${libsources} ${RC_SRCS} HEADERS ${libheaders})
+  target_link_libraries(${targetlib} CnoidBody CnoidUtil ${CHOREONOID_QT_LIBRARIES})
   choreonoid_add_plugin(${targetplugin} ${sources} HEADERS ${headers})
   target_link_libraries(${targetplugin} ${targetlib})
   target_link_libraries(${targetplugin} CnoidBody CnoidUtil)## boost_filesystem

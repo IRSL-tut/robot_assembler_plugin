@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/RA" >
+    <file>icon/roboasm.svg</file>
+    <file>icon/cnoid.svg</file>
+  </qresource>
+</RCC>
