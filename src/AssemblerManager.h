@@ -100,6 +100,8 @@ public:
         return nullptr;
     }
 
+    bool isRunningAssembler();
+
     //// simple command without arguments for toolbar, etc.
     void com_attach()  { attachRobots(swap_order); }
     void com_attach_o(){ attachRobots(false); }
