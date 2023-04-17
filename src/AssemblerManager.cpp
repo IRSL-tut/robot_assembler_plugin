@@ -951,7 +951,13 @@ bool AssemblerManager::parseButtonYaml(const std::string &filename, PanelSetting
     }
     return true;
 }
-
+bool AssemblerManager::isRunningAssembler()
+{
+    if (_current_mode == ASSEMBLER) {
+        return true;
+    }
+    return false;
+}
 void AssemblerManager::com_swap_mode()
 {
     DEBUG_STREAM(" swap_mode : " << _current_mode);

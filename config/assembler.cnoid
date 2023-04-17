@@ -224,8 +224,9 @@ layoutOfToolBars:
   rows: 
     - 
       - { name: "AssemblerBar", x: 0, priority: 0 }
-      - { name: "SceneBar", x: 49, priority: 1 }
-      - { name: "CaptureBar", x: 584, priority: 2 }
+      - { name: "AssemblerSwapModeBar", x: 0, priority: 1 }
+      - { name: "SceneBar",  x: 0, priority: 2 }
+      - { name: "CaptureBar", x: 0, priority: 3 }
   hidden: 
     - "FileBar"
     - "TimeBar"
