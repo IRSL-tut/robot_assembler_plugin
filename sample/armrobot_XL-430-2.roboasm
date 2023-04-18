@@ -1,0 +1,333 @@
+history: 
+  - 
+    initial-parts: true
+    parts-name: vehicle-base-ps_213_0
+    parts-type: vehicle-base-ps
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_12_7_2
+    parts-name: FR12_S102_P_213_1
+    parts-point: p1_2_3
+    parts-type: FR12_S102_P
+  - 
+    parent: FR12_S102_P_213_1
+    parent-point: side_connetct_point
+    parts-name: XL-430_213_6
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 3.141592653590 ]
+    parent: XL-430_213_6
+    parent-point: horn
+    parts-name: omni-shaft-x_213_12
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_213_12
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_213_14
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_7_0_2
+    parts-name: FR12_S102_P_213_4
+    parts-point: p1_0_0
+    parts-type: FR12_S102_P
+  - 
+    parent: FR12_S102_P_213_4
+    parent-point: side_connetct_point2
+    parts-name: XL-430_213_5
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_5
+    parent-point: horn
+    parts-name: omni-shaft-x_213_11
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_213_11
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_213_17
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_0_5_2
+    parts-name: FR12_S102_P_213_3
+    parts-point: p1_0_0
+    parts-type: FR12_S102_P
+  - 
+    parent: FR12_S102_P_213_3
+    parent-point: side_connetct_point2
+    parts-name: XL-430_213_8
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_8
+    parent-point: horn
+    parts-name: omni-shaft-x_213_10
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_213_10
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_213_16
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: p1_12_7_1
+    parts-name: block_1_3_213_34
+    parts-point: SK1_0_2
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_34
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_35
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_35
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_36
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_36
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_37
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_37
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_38
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-ps_213_0
+    parent-point: s1_5_12_2
+    parts-name: FR12_S102_P_213_2
+    parts-point: p1_2_3
+    parts-type: FR12_S102_P
+  - 
+    parent: FR12_S102_P_213_2
+    parent-point: side_connetct_point
+    parts-name: XL-430_213_7
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_7
+    parent-point: horn
+    parts-name: omni-shaft-x_213_9
+    parts-point: connetct_point
+    parts-type: omni-shaft-x
+  - 
+    parent: omni-shaft-x_213_9
+    parent-point: wheel-shaft
+    parts-name: omni-wheel_213_15
+    parts-point: omni_wheel
+    parts-type: omni-wheel
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, 1.000000000000, 1.570796326795 ]
+    parent: vehicle-base-ps_213_0
+    parent-point: p1_7_12_1
+    parts-name: block_1_3_213_39
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_39
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_40
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_40
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_41
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_41
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_42
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_42
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_43
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: block_1_3_213_43
+    parent-point: PL1_0_0
+    parts-name: vehicle-base-ps_213_44
+    parts-point: s1_7_12_2
+    parts-type: vehicle-base-ps
+  - 
+    parent: vehicle-base-ps_213_44
+    parent-point: p1_6_10_1
+    parts-name: Bottom_mounter_213_18
+    parts-point: s1_1_1
+    parts-type: Bottom_mounter
+  - 
+    parent: Bottom_mounter_213_18
+    parent-point: connetct_point
+    parts-name: XL-430_213_19
+    parts-point: bottom-side2
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_19
+    parent-point: horn
+    parts-name: FR12_S102_213_20
+    parts-point: horn
+    parts-type: FR12_S102
+  - 
+    parent: FR12_S102_213_20
+    parent-point: side_connetct_point
+    parts-name: XL-430_213_21
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_21
+    parent-point: horn
+    parts-name: FR12_H101_P_213_22
+    parts-point: side_connetct_point
+    parts-type: FR12_H101_P
+  - 
+    parent: FR12_H101_P_213_22
+    parent-point: p1_2_3
+    parts-name: FR12_H103_S_213_23
+    parts-point: s1_0_3
+    parts-type: FR12_H103_S
+  - 
+    parent: FR12_H103_S_213_23
+    parent-point: side_connetct_point
+    parts-name: XL-430_213_24
+    parts-point: horn
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_24
+    parent-point: bottom-side1
+    parts-name: FR12_S102_P_213_25
+    parts-point: side_connetct_point
+    parts-type: FR12_S102_P
+  - 
+    connecting-offset: 
+      rotation: [ 0.000000000000, 0.000000000000, -1.000000000000, 1.570796326795 ]
+    parent: FR12_S102_P_213_25
+    parent-point: p1_0_0
+    parts-name: Fixed_Finger_213_26
+    parts-point: s1_3_0
+    parts-type: Fixed_Finger
+  - 
+    parent: Fixed_Finger_213_26
+    parent-point: side_connetct_point1
+    parts-name: XL-430_213_27
+    parts-point: bottom-side1
+    parts-type: XL-430
+  - 
+    parent: XL-430_213_27
+    parent-point: horn
+    parts-name: Moveable_Finger_213_28
+    parts-point: horn
+    parts-type: Moveable_Finger
+  - 
+    parent: vehicle-base-ps_213_0
+    parent-point: p1_0_7_1
+    parts-name: block_1_3_213_29
+    parts-point: SK1_0_2
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_29
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_30
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_30
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_31
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_31
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_32
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+  - 
+    parent: block_1_3_213_32
+    parent-point: PL1_0_0
+    parts-name: block_1_3_213_33
+    parts-point: SK1_0_0
+    parts-type: block_1_3
+parts-info: 
+  XL-430_213_19: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_213_21: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_213_24: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_213_27: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_213_5: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_213_6: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_213_7: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  XL-430_213_8: 
+    color: [ 0.200000000000, 0.200000000000, 0.200000000000 ]
+  block_1_3_213_29: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_30: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_31: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_32: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_33: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_34: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_35: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_36: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_37: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_38: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_39: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_40: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_41: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_42: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+  block_1_3_213_43: 
+    color: [ 0.950000000000, 0.950000000000, 0.950000000000 ]
+    name: block_1_3_213_43
+  omni-wheel_213_14: 
+    color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
+  omni-wheel_213_15: 
+    color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
+  omni-wheel_213_16: 
+    color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
+  omni-wheel_213_17: 
+    color: [ 0.100000000000, 0.100000000000, 0.100000000000 ]
+robot-info: 
+  name: AssembleRobot
