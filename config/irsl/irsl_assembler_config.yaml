@@ -135,7 +135,7 @@ ConnectingConstraintSettings:
 PanelSettings: ## just for choreonoid
   tab_list:
     - name: Servo Parts (X-series)
-      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_S101_P, FR12_S101_S, Bottom_mounter, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, omni-shaft-x]
+      parts: [XL-430, FR12_S102, FR12_S102_P, FR12_S102_S, FR12_S101_P, FR12_S101_S, Bottom_mounter, FR12_H101_P, FR12_H101_S, FR12_H103_P, FR12_H103_S, omni-shaft-x, Fixed_Finger, Moveable_Finger]
     - name : Vehicle Parts
       parts: [vehicle-base, vehicle-base-pp,  vehicle-base-pp-r1, vehicle-base-ps, omni-wheel]
     - name: Sensor Parts
@@ -1225,6 +1225,152 @@ PartsSettings:
       types : [SC1]
       translation: [8.0, -20.0, -3.2]
       rotation: [1., 0., 0., 0.0]
+  -
+    type: Fixed_Finger
+    description: 'Fixed finger'
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/fixed_finger.stl"
+        scale : 0.001
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/fixed_finger.stl"
+        scale : 0.001
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    -
+        name: side_connetct_point1
+        types: [FRAME_ASIDE_X]
+        translation: [17.0, 9.25, 11.0]
+        rotation: [0.57735, 0.57735, 0.57735, 120.0]
+    -
+      name: s1_0_0
+      types : [SC1]
+      translation: [-12.0, 13.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_0_1
+      types : [SC1]
+      translation: [-12.0, 21.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_0_2
+      types : [SC1]
+      translation: [-12.0, 29.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_0_3
+      types : [SC1]
+      translation: [-12.0, 37.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_0_4
+      types : [SC1]
+      translation: [-12.0, 45.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_0
+      types : [SC1]
+      translation: [-4.0, 13.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_1
+      types : [SC1]
+      translation: [-4.0, 21.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_2
+      types : [SC1]
+      translation: [-4.0, 29.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_3
+      types : [SC1]
+      translation: [-4.0, 37.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_1_4
+      types : [SC1]
+      translation: [-4.0, 45.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_0
+      types : [SC1]
+      translation: [4.0, 13.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_1
+      types : [SC1]
+      translation: [4.0, 21.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_2
+      types : [SC1]
+      translation: [4.0, 29.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_3
+      types : [SC1]
+      translation: [4.0, 37.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_2_4
+      types : [SC1]
+      translation: [4.0, 45.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_3_0
+      types : [SC1]
+      translation: [12.0, 13.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_3_1
+      types : [SC1]
+      translation: [12.0, 21.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_3_2
+      types : [SC1]
+      translation: [12.0, 29.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_3_3
+      types : [SC1]
+      translation: [12.0, 37.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+    -
+      name: s1_3_4
+      types : [SC1]
+      translation: [12.0, 45.25, -24.2]
+      rotation: [1., 0., 0., 0.0]
+  -
+    type: Moveable_Finger
+    description: 'Moveable finger'
+    visual:
+      -
+        type: mesh
+        url: "meshes_xseries/moveable_finger.stl"
+        scale : 0.001
+    collision:
+      -
+        type: mesh
+        url: "meshes_xseries/moveable_finger.stl"
+        scale : 0.001
+    mass-param:
+      mass: 1.0
+      center-of-mass: [0.0, 0.0, 0.0]
+      inertia-tensor: [1, 0.0, 0.0,  0.0, 1, 0.0,  0.0, 0.0, 1]
+    connecting-points :
+    -
+        name: horn
+        types: [HORN_X]
+        translation: [-19.0, 19.017, -0.013]
+        rotation: [-0.70710678118655, 0, 0.70710678118655, -180]
   -
     type: ax-12a
     class: Dynamixel AX-12A
