@@ -1,0 +1,25 @@
+<launch>
+  <arg name="project_file" default=""/>
+  <arg name="model" default=""/>
+  <arg name="control_config" default=""/>
+  <rosparam file="$(arg control_config)" command="load"/>
+
+  <!-- Choreonoid on ROS -->
+  <include file="/choreonoid_ws/src/choreonoid_ros/launch/choreonoid.launch">
+    <arg name="choreonoid_arg" value="$(arg project_file)"/>
+  </include>
+
+  <!-- ROS Control -->
+
+  <!-- robot description -->
+  <param name="/AssembleRobot/robot_description" command="$(find xacro)/xacro '$(arg model)'"/>
+   
+  <!-- state publisher -->
+  <node ns="AssembleRobot" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true"/>
+  
+  <!-- load the controllers -->
+  <node name="robot_controller_spawner" pkg="controller_manager"
+		type="spawner" output="screen" respawn="true"
+		args="--namespace AssembleRobot
+          joint_controler"/>  
+</launch>
