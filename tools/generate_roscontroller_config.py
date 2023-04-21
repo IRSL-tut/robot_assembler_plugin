@@ -40,26 +40,26 @@ if __name__=='__main__':
     rbody.initializePosition()
     rbody.calcForwardKinematics()
 
-    rotate_joint_list = []
+    joint_list = []
 
     num_link = rbody.getNumLinks()
     num_joint = rbody.getNumJoints()
 
     for idx in range(num_joint):
         joint = rbody.getJoint(idx)
-        rotate_joint_list.append(joint.getName())
+        joint_list.append(joint)
     
     robotname = args.robotname if args.robotname != "" else rbody.getModelName()
-    if len(rotate_joint_list)>0:
+    if len(joint_list)>0:
         print('%s:'%robotname)
         print('  %s:'%controllername)
         print('    type: "position_controllers/JointTrajectoryController"')
         print("    joints:")
-        for joint in rotate_joint_list:
-            print('      - %s%s'%(joint, joint_suffix))
+        for joint in joint_list:
+            print('      - %s%s'%(joint.getName(), joint_suffix))
         print("    gains:")
-        for joint in rotate_joint_list:
-            print('      %s%s:'%(joint, joint_suffix))
+        for joint in joint_list:
+            print('      %s%s:'%(joint.getName(), joint_suffix))
             print('        p: 100')
             print('        i: 10')
             print('        d: 1')
