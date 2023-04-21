@@ -6,7 +6,13 @@ try:
     import cnoid.Util
 except ImportError:
     import sys 
-    sys.path.append('/choreonoid_ws/install/lib/choreonoid-1.8/python')
+    import shutil
+    import os
+    choreonoid_path = os.path.join(os.path.dirname(shutil.which('choreonoid')), '../lib/choreonoid-1.8/python') if shutil.which('choreonoid') is not None else None
+    if choreonoid_path is None:
+        print('Error: choreonoid_path not found.', file=sys.stderr)
+        sys.exit(1)
+    sys.path.append(choreonoid_path)
     import cnoid.Body
     import cnoid.Util
 
@@ -20,7 +26,8 @@ if __name__=='__main__':
             add_help=True, # -h/–help オプションの追加
             )
     parser.add_argument('--bodyfile', type=str, default="robotname.body")
-    parser.add_argument('--controllername', type=str, default="joint_controler")
+    parser.add_argument('--controllername', type=str, default="joint_controller")
+    parser.add_argument('--robotname', type=str, default="")
     parser.add_argument('--jointsuffix', type=str, default="")
 
     args = parser.parse_args()
@@ -38,17 +45,13 @@ if __name__=='__main__':
     num_link = rbody.getNumLinks()
     num_joint = rbody.getNumJoints()
 
-    for idx in range(num_link):
-        lk = rbody.getLink(idx)
-        if lk.isRoot():
-            continue
-        p = lk.getParent()
-        if p:
-            if lk.isRevoluteJoint():
-                rotate_joint_list.append(lk.getName())
+    for idx in range(num_joint):
+        joint = rbody.getJoint(idx)
+        rotate_joint_list.append(joint.getName())
     
+    robotname = args.robotname if args.robotname != "" else rbody.getModelName()
     if len(rotate_joint_list)>0:
-        print('%s:'%rbody.getModelName())
+        print('%s:'%robotname)
         print('  %s:'%controllername)
         print('    type: "position_controllers/JointTrajectoryController"')
         print("    joints:")

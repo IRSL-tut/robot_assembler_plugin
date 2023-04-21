@@ -2,6 +2,7 @@
   <arg name="project_file" default=""/>
   <arg name="model" default=""/>
   <arg name="control_config" default=""/>
+  <arg name="robot_name" default="AssembleRobot"/>
   <rosparam file="$(arg control_config)" command="load"/>
 
   <!-- Choreonoid on ROS -->
@@ -12,14 +13,14 @@
   <!-- ROS Control -->
 
   <!-- robot description -->
-  <param name="/AssembleRobot/robot_description" command="$(find xacro)/xacro '$(arg model)'"/>
+  <param name="/$(arg robot_name)/robot_description" command="$(find xacro)/xacro '$(arg model)'"/>
    
   <!-- state publisher -->
-  <node ns="AssembleRobot" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true"/>
+  <node ns="$(arg robot_name)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true"/>
   
   <!-- load the controllers -->
   <node name="robot_controller_spawner" pkg="controller_manager"
 		type="spawner" output="screen" respawn="true"
-		args="--namespace AssembleRobot
+		args="--namespace $(arg robot_name)
           joint_controler"/>  
 </launch>

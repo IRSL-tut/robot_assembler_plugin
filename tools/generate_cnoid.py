@@ -5,7 +5,13 @@ try:
     import cnoid.Util
 except ImportError:
     import sys 
-    sys.path.append('/choreonoid_ws/install/lib/choreonoid-1.8/python')
+    import shutil
+    import os
+    choreonoid_path = os.path.join(os.path.dirname(shutil.which('choreonoid')), '../lib/choreonoid-1.8/python') if shutil.which('choreonoid') is not None else None
+    if choreonoid_path is None:
+        print('Error: choreonoid_path not found.', file=sys.stderr)
+        sys.exit(1)
+    sys.path.append(choreonoid_path)
     import cnoid.Body
     import cnoid.Util
 
@@ -17,6 +23,7 @@ if __name__=='__main__':
             )
     parser.add_argument('--bodyfile', type=str, default="robotname.body")
     parser.add_argument('--templatefile', type=str, default="choreonoid_ros_template.cnoid")
+    parser.add_argument('--robotname', type=str, default="")
     parser.add_argument('--offsetx', type=float, default="0.0")
     parser.add_argument('--offsety', type=float, default="0.0")
     parser.add_argument('--offsetz', type=float, default="0.0")
@@ -32,7 +39,7 @@ if __name__=='__main__':
     template_filename = args.templatefile
     p = pathlib.Path(args.bodyfile)
     bodyfile_path =  str(p.resolve())
-    robotname = rbody.getModelName()
+    robotname = args.robotname if args.robotname != "" else rbody.getModelName()
     offset_x = args.offsetx
     offset_y = args.offsety
     offset_z = args.offsetz
