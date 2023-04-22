@@ -3,6 +3,8 @@
 #include <cnoid/YAMLWriter> //
 #include <iostream>
 #include <cmath>
+#include <algorithm> // transform
+#include <sstream>
 
 //#include <cnoid/UTF8>
 //#include <cnoid/stdx/filesystem>
@@ -1066,7 +1068,67 @@ bool Settings::Impl::parseActuator(ValueNode *vn, Actuator &act)
 }
 bool Settings::Impl::parseExtraInfo(ValueNode *vn, ExtraInfo &einfo)
 {
-    // TODO
+    if (! vn->isMapping() ) {
+        return false;
+    }
+    Mapping *mp = vn->toMapping();
+    if (!mapString(mp, "name", einfo.name, std::cerr)) {
+        return false;
+    }
+    if(!mapString(mp, "description", einfo.description, std::cerr, false) ) {
+        return false;
+    }
+    std::string _sen_type;
+    if (!mapString(mp, "type", _sen_type, std::cerr)) {
+        return false;
+    }
+    std::transform(_sen_type.cbegin(), _sen_type.cend(), _sen_type.begin(), ::toupper);
+    if (_sen_type == "IMU") {
+        einfo.type = ExtraInfo::IMU;
+    } else if (_sen_type == "TOUCH") {
+        einfo.type = ExtraInfo::Touch;
+    } else if (_sen_type == "FORCE") {
+        einfo.type = ExtraInfo::Force;
+    } else if (_sen_type == "FORCETORQUE") {
+        einfo.type = ExtraInfo::Force;
+    } else if (_sen_type == "COLOR") {
+        einfo.type = ExtraInfo::Color;
+    } else if (_sen_type == "DISTANCE") {
+        einfo.type = ExtraInfo::Distance;
+    } else if (_sen_type == "POSITION") {
+        einfo.type = ExtraInfo::Position;
+    } else if (_sen_type == "CAMERA") {
+        einfo.type = ExtraInfo::Camera;
+    } else if (_sen_type == "DEPTH") {
+        einfo.type = ExtraInfo::Depth;
+    } else if (_sen_type == "RGBD") {
+        einfo.type = ExtraInfo::RGBD;
+    } else if (_sen_type == "RAY") {
+        einfo.type = ExtraInfo::Ray;
+    } else {
+        ERROR_STREAM("unknown sensor type: " << _sen_type);
+        return false;
+    }
+    {   // coords
+        bool res = parseCoords(mp, einfo.coords);
+    }
+    {   // parameters
+        bool res = mapVector(mp, "parameters", einfo.parameters, std::cerr, false);
+    }
+    {   // device_mapping
+        ValueNode *vn_ = mp->find("device-mapping");
+        if(vn_->isValid() && vn_->isMapping()) {
+            YAMLWriter yw_;
+            yw_.setMessageSink(std::cerr);
+            yw_.setDoubleFormat("%12.12f");
+            std::ostringstream oss_;
+            yw_.setOutput(oss_);
+            MappingPtr mp_ = vn_->toMapping();
+            yw_.putNode(mp_);
+            yw_.flush();
+            einfo.device_mapping = oss_.str();
+        }
+    }
     return true;
 }
 static bool parse(Mapping *map_, coordinates &cds, bool check = true)

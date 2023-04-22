@@ -199,7 +199,8 @@ PanelSettings: ## just for choreonoid
 #        type: sensor-type # '', '', ''
 #        translation: (optional)
 #        rotation: (optional)
-#        parameters: {} depend on sensor-type
+#        parameters: [] ## depend on sensor-type
+#        device-mapping: {} ## just pass to choreonoid device
 #        description: optional
 PartsSettings:
   -
@@ -2470,6 +2471,13 @@ PartsSettings:
       types: [LEGO-2S]
       translation: [11.9, 11.9, 0.0]
       rotation: [1., 0., 0., 0.0]
+    extra-data:
+    -
+      name: TOF_Sensor
+      type: Distance
+      translation: [0, 0, 0]
+      rotation: [ 0, 0, 1, 180 ]
+      device-mapping: {frame_rate: 30, optical_frame: 'cv', width: 3, height: 3, field_of_view: 10, near_clip_distance: 0.01, far_clip_distance: 100, format: 'COLOR_DEPTH', min_distance: 0.01, max_distance: 10, detection_rate: 1, error_deviation: 0}
   -
     type: sensor-mounter
     class: M5Stack sensor mount (Socket)
