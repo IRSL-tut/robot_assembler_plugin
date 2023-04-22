@@ -5,6 +5,17 @@
 #include <cnoid/MeshGenerator>
 #include <cnoid/CloneMap>
 
+// Devices
+#include <cnoid/Camera>
+#include <cnoid/RangeCamera>
+#include <cnoid/RangeSensor>
+#include <cnoid/AccelerationSensor>
+#include <cnoid/RateGyroSensor>
+#include <cnoid/ForceSensor>
+#include <cnoid/Light>
+#include <cnoid/PointLight>
+#include <cnoid/SpotLight>
+
 #include <cnoid/UTF8>
 #include <cnoid/stdx/filesystem>
 
@@ -107,12 +118,132 @@ void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
         }
     }
 }
+static cnoid::Device *createDevice(ExtraInfo &_info, int dev_no)
+{
+    cnoid::Device *ret = nullptr;
+    MappingPtr mp_ = nullptr;
+    if (_info.device_mapping.size() > 0) {
+        YAMLReader rd_;
+        bool res_ = rd_.parse(_info.device_mapping);
+        if(res_ && rd_.numDocuments() > 0) {
+            ValueNode *vn_ = rd_.document();
+            if( vn_->isValid() && vn_->isMapping() ) {
+                mp_ = vn_->toMapping();
+            }
+        }
+    }
 
-RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(nullptr), joint_counter(0), merge_fixed_joint(false)
+    switch(_info.type) {
+    case ExtraInfo::IMU:
+        break;
+    case ExtraInfo::Acceleration:
+    {
+        cnoid::AccelerationSensor *dev_ = new AccelerationSensor();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    break;
+    case ExtraInfo::RateGyro:
+    {
+        cnoid::RateGyroSensor *dev_ = new RateGyroSensor();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    break;
+    case ExtraInfo::Touch:
+        ERROR_STREAM(" TouchSensor is not implemented yet : " << _info.name);
+        break;
+    case ExtraInfo::Force:
+    {
+        cnoid::ForceSensor *dev_ = new ForceSensor();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    case ExtraInfo::Color:
+    case ExtraInfo::Camera:
+    {
+        cnoid::Camera *dev_ = new Camera();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    break;
+    case ExtraInfo::Distance:
+    case ExtraInfo::Depth:
+    case ExtraInfo::RGBD:
+    {
+        cnoid::RangeCamera *dev_ = new RangeCamera();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    break;
+    case ExtraInfo::Ray:
+    {
+        cnoid::RangeSensor *dev_ = new RangeSensor();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    break;
+    case ExtraInfo::Position:
+        ERROR_STREAM(" PositionSensor is not implemented yet : " << _info.name);
+        break;
+    case ExtraInfo::Light:
+    case ExtraInfo::PointLight:
+    {
+        cnoid::PointLight *dev_ = new PointLight();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    case ExtraInfo::SpotLight:
+    {
+        cnoid::SpotLight *dev_ = new SpotLight();
+        if(!!mp_ && mp_->isValid()) {
+            dev_->readSpecifications(mp_);
+        }
+        ret = dev_;
+    }
+    case ExtraInfo::DegitalIO:
+        ERROR_STREAM(" DegitalIO is not implemented yet : " << _info.name);
+        break;
+    case ExtraInfo::AnalogIO:
+        ERROR_STREAM(" AnalogIO is not implemented yet : " << _info.name);
+        break;
+    default:
+        ERROR_STREAM(" invalid device-type [" << _info.name << "] " << _info.type);
+        break;
+    }
+
+    if (!ret) return ret;
+
+    std::ostringstream oss_;
+    oss_ << _info.name << dev_no;
+    ret->setName(oss_.str());
+
+    DEBUG_STREAM(" device local: " << _info.coords);
+    Isometry3 pos;
+    _info.coords.toPosition(pos);
+    ret->setLocalPosition(pos);
+
+    return ret;
+}
+RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(nullptr), joint_counter(0), device_counter(0), merge_fixed_joint(false)
 {
     project_directory = _proj_dir;
 }
-Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
+Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLinkList &_dev_list)
 {
     Link *lk = new Link();
     coordinates link_origin_to_self_;
@@ -224,14 +355,16 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
             lk->setJointId(-1);
             map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(nm_, _pt->name()));
         }
-    } // root or not root
+    } // if (_is_root) {
+
+    // Mass Parameter
     if (!!_pt->info && _pt->info->hasMassParam) {
         lk->setCenterOfMass(_pt->info->COM);
         lk->setMass(_pt->info->mass);
         lk->setInertia(_pt->info->inertia_tensor);
     }
 #if 0
-    // shape
+    // Debug for shape
     MeshGenerator mg;
     // com / next point
     { // red parts(origin)
@@ -264,6 +397,7 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
         lk->addShapeNode(trs); //
     }
 #endif
+    // Geometry
     if(!!_pt->info) {
         SgPosTransformPtr trs_vis;
         SgPosTransformPtr trs_col;
@@ -298,18 +432,28 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root)
             lk->addCollisionShapeNode(trs_vis);
         }
     }
+    // Device
+    if(!!_pt->info && _pt->info->extra_data.size() > 0) {
+        for(auto it = _pt->info->extra_data.begin();
+            it != _pt->info->extra_data.end(); it++) {
+            cnoid::Device *dev = createDevice(*it, device_counter++);
+            if(!!dev) {
+                _dev_list.push_back(std::make_pair(dev, lk));
+            }
+        }
+    }
     return lk;
 }
-bool RoboasmBodyCreator::appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr _pt)
+bool RoboasmBodyCreator::appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr _pt, DevLinkList &_dev_list)
 {
     partsPtrList plst;
     _pt->childParts(plst);
     for (auto it = plst.begin(); it != plst.end(); it++) {
-        Link *clk = createLink(*it);
+        Link *clk = createLink(*it, false, _dev_list);
         if(!!clk) {
             _lk->appendChild(clk);
             _bd->updateLinkTree();
-            appendChildLink(_bd, clk, (*it));
+            appendChildLink(_bd, clk, (*it), _dev_list);
         }
     }
     return true;
@@ -331,13 +475,25 @@ BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb, const std::string &
         body->setName(_rb->name());
         body->setModelName(_rb->name());
     }
-
-    Link *lk = createLink(root_, true);
+    DevLinkList dev_list;
+    Link *lk = createLink(root_, true, dev_list);
     body->setRootLink(lk);
     body->updateLinkTree();
 
-    appendChildLink(body, lk, root_);
+    appendChildLink(body, lk, root_, dev_list);
 
+    // devices
+    if (dev_list.size() > 0) {
+        for(auto it = dev_list.begin(); it != dev_list.end(); it++) {
+            Device *dev = it->first;
+            Link *lk = it->second;
+            if (!body->addDevice(dev, lk)) {
+                ERROR_STREAM("failed : add device");
+            } else {
+                DEBUG_STREAM("!!!!!!!!!!!! add device !!!!!!!!!!!!!");
+            }
+        }
+    }
     return body;
 }
 BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, const std::string &_name)
@@ -444,6 +600,7 @@ static bool mergeLink(Link *plink, Link *clink)
         // append children of clink to plink
         plink->appendChild(all_child[i]);
     }
+    // [TODO] merge Devices
     return true;
 }
 bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
