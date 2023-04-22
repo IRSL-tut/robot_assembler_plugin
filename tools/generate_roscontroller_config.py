@@ -5,7 +5,7 @@ try:
     import cnoid.Body
     import cnoid.Util
 except ImportError:
-    import sys 
+    import sys
     import shutil
     import os
     choreonoid_path = os.path.join(os.path.dirname(shutil.which('choreonoid')), '../lib/choreonoid-1.8/python') if shutil.which('choreonoid') is not None else None
@@ -15,7 +15,6 @@ except ImportError:
     sys.path.append(choreonoid_path)
     import cnoid.Body
     import cnoid.Util
-
 
 
 if __name__=='__main__':
@@ -48,7 +47,7 @@ if __name__=='__main__':
     for idx in range(num_joint):
         joint = rbody.getJoint(idx)
         joint_list.append(joint)
-    
+
     robotname = args.robotname if args.robotname != "" else rbody.getModelName()
     if len(joint_list)>0:
         print('%s:'%robotname)

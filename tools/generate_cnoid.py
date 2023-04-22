@@ -4,7 +4,7 @@ try:
     import cnoid.Body
     import cnoid.Util
 except ImportError:
-    import sys 
+    import sys
     import shutil
     import os
     choreonoid_path = os.path.join(os.path.dirname(shutil.which('choreonoid')), '../lib/choreonoid-1.8/python') if shutil.which('choreonoid') is not None else None
@@ -14,6 +14,7 @@ except ImportError:
     sys.path.append(choreonoid_path)
     import cnoid.Body
     import cnoid.Util
+
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(
@@ -29,12 +30,10 @@ if __name__=='__main__':
     parser.add_argument('--offsetz', type=float, default="0.0")
     args = parser.parse_args()
 
-
     rbody = cnoid.Body.BodyLoader().load(str(args.bodyfile))
     rbody.updateLinkTree()
     rbody.initializePosition()
     rbody.calcForwardKinematics()
-
 
     template_filename = args.templatefile
     p = pathlib.Path(args.bodyfile)
@@ -59,5 +58,4 @@ if __name__=='__main__':
     for line in lines:
         for maping in replace_mapping:
             line = line.replace(maping[0], maping[1])
-        
         print(line)

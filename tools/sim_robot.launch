@@ -7,6 +7,7 @@
 
   <!-- Choreonoid on ROS -->
   <!-- TODO choreonoid_rosがinstall dirへlaunch fileコピーをコピーするようになった際にfindコマンドを使うようにする．-->
+  <!-- include file="$(find choreonoid_ros)/launch/choreonoid.launch"-->
   <include file="/choreonoid_ws/src/choreonoid_ros/launch/choreonoid.launch">
     <arg name="choreonoid_arg" value="$(arg project_file)"/>
   </include>
@@ -15,13 +16,12 @@
 
   <!-- robot description -->
   <param name="/$(arg robot_name)/robot_description" command="$(find xacro)/xacro '$(arg model)'"/>
-   
+
   <!-- state publisher -->
   <node ns="$(arg robot_name)" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true"/>
-  
+
   <!-- load the controllers -->
   <node name="robot_controller_spawner" pkg="controller_manager"
-		type="spawner" output="screen" respawn="true"
-		args="--namespace $(arg robot_name)
-          joint_controler"/>  
+        type="spawner" output="screen" respawn="true"
+        args="--namespace $(arg robot_name) joint_controler"/>
 </launch>
