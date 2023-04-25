@@ -34,9 +34,15 @@ if __name__=='__main__':
     controllername = args.controllername
     joint_suffix = args.jointsuffix
     if not os.path.isfile(str(fname)):
-        print("file is not exist.", file=sys.stderr)
+        print("File is not exist.", file=sys.stderr)
+        print("Please check file : {}".format(fname), file=sys.stderr)
         exit(1)
     rbody = cnoid.Body.BodyLoader().load(str(fname))
+    if rbody is None:
+        print("File is broken.", file=sys.stderr)
+        print("Please check file : {}".format(fname), file=sys.stderr)
+        exit(1)
+    
     rbody.updateLinkTree()
     rbody.initializePosition()
     rbody.calcForwardKinematics()

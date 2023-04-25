@@ -31,11 +31,18 @@ if __name__=='__main__':
     parser.add_argument('--offsetz', type=float, default="0.0")
     args = parser.parse_args()
     
-    if not os.path.isfile(str(args.bodyfile)):
-        print("file is not exist.", file=sys.stderr)
+    fname = str(args.bodyfile)
+    if not os.path.isfile(str(fname)):
+        print("File is not exist.", file=sys.stderr)
+        print("Please check file : {}".format(fname), file=sys.stderr)
         exit(1)
 
     rbody = cnoid.Body.BodyLoader().load(str(args.bodyfile))
+    if rbody is None:
+        print("file is broken.", file=sys.stderr)
+        print("Please check file : {}".format(fname), file=sys.stderr)
+        exit(1)
+        
     rbody.updateLinkTree()
     rbody.initializePosition()
     rbody.calcForwardKinematics()
