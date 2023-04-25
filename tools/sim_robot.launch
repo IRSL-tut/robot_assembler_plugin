@@ -23,5 +23,5 @@
   <!-- load the controllers -->
   <node name="robot_controller_spawner" pkg="controller_manager"
         type="spawner" output="screen" respawn="true"
-        args="--namespace $(arg robot_name) joint_controler"/>
+        args="--namespace $(arg robot_name) joint_controller"/>
 </launch>
