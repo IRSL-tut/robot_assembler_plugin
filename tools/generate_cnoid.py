@@ -1,12 +1,13 @@
 import argparse
 import pathlib
+import os
+
 try:
     import cnoid.Body
     import cnoid.Util
 except ImportError:
     import sys
     import shutil
-    import os
     choreonoid_path = os.path.join(os.path.dirname(shutil.which('choreonoid')), '../lib/choreonoid-1.8/python') if shutil.which('choreonoid') is not None else None
     if choreonoid_path is None:
         print('Error: choreonoid_path not found.', file=sys.stderr)
@@ -29,6 +30,10 @@ if __name__=='__main__':
     parser.add_argument('--offsety', type=float, default="0.0")
     parser.add_argument('--offsetz', type=float, default="0.0")
     args = parser.parse_args()
+    
+    if not os.path.isfile(str(args.bodyfile)):
+        print("file is not exist.", file=sys.stderr)
+        exit(1)
 
     rbody = cnoid.Body.BodyLoader().load(str(args.bodyfile))
     rbody.updateLinkTree()

@@ -1,5 +1,6 @@
 import argparse
 import numpy
+import os
 
 try:
     import cnoid.Body
@@ -7,7 +8,6 @@ try:
 except ImportError:
     import sys
     import shutil
-    import os
     choreonoid_path = os.path.join(os.path.dirname(shutil.which('choreonoid')), '../lib/choreonoid-1.8/python') if shutil.which('choreonoid') is not None else None
     if choreonoid_path is None:
         print('Error: choreonoid_path not found.', file=sys.stderr)
@@ -33,7 +33,9 @@ if __name__=='__main__':
     fname = args.bodyfile
     controllername = args.controllername
     joint_suffix = args.jointsuffix
-
+    if not os.path.isfile(str(fname)):
+        print("file is not exist.", file=sys.stderr)
+        exit(1)
     rbody = cnoid.Body.BodyLoader().load(str(fname))
     rbody.updateLinkTree()
     rbody.initializePosition()
