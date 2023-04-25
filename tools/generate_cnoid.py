@@ -39,7 +39,7 @@ if __name__=='__main__':
 
     rbody = cnoid.Body.BodyLoader().load(str(args.bodyfile))
     if rbody is None:
-        print("file is broken.", file=sys.stderr)
+        print("File is broken.", file=sys.stderr)
         print("Please check file : {}".format(fname), file=sys.stderr)
         exit(1)
         
