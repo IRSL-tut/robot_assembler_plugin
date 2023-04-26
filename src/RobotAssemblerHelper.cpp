@@ -451,7 +451,9 @@ void RASceneRobot::onFocusChanged(SceneWidgetEvent* event, bool on)
 bool RASceneRobot::onContextMenuRequest(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
-
+    if (!manager || !(manager->isAssembler())) {
+        return false;
+    }
     auto menu = event->contextMenu();
 
     menu->addSeparator();

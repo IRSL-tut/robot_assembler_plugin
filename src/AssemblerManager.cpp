@@ -655,6 +655,9 @@ bool AssemblerManager::onDoubleClickEvent(SceneWidgetEvent* event)
 bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
+    if (_current_mode != ASSEMBLER) {
+        return false;
+    }
     SgNodePath enp = event->nodePath();
     DEBUG_STREAM(" event->nodePath() : " << enp.size());
     for (int i = 0 ; i < enp.size(); i++) {

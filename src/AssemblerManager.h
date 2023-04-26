@@ -131,6 +131,8 @@ public:
     SignalProxy<void(ra::RoboasmCoordsPtr _pt, MappingPtr _info)> sigCoordsSelected() { return coordsSelectedFunc; }
     SignalProxy<void()> sigUpdateRobots() { return updateRobotsFunc; }
 
+    bool isAssembler() { return (_current_mode == ASSEMBLER); }
+
     int uniq_id;
     ra::RASceneConnectingPoint *clickedPoint0;
     ra::RASceneConnectingPoint *clickedPoint1;
