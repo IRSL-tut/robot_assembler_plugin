@@ -125,6 +125,25 @@ items:
             kinematicWalking: false
             2Dmode: false
             oldAccelSensorMode: false
+          children: 
+            - 
+              id: 8
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                max_frame_rate: 1000
+                max_latency: 1
+                record_vision_data: false
+                thread_mode: Sensor
+                best_effort: true
+                all_scene_objects: true
+                range_sensor_precision_ratio: 2
+                depth_error: 0
+                enable_head_light: true
+                enable_additional_lights: true
+                antialiasing: false
 views: 
   - 
     id: 0
