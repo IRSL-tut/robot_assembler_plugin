@@ -1,0 +1,23 @@
+controller_name: wheel_controller
+robot_name: AssembleRobot
+wheels:
+- name: LINK_0
+  rot_axis:
+  - 0.0
+  - -1.0
+  - 0.0
+  translation:
+  - 0.000
+  - -0.055
+  - -0.0452
+  wheel_radius: 0.024
+- name: LINK_1
+  rot_axis:
+  - 0.0
+  - 1.0
+  - 0.0
+  translation:
+  - 0.000
+  - 0.0550
+  - -0.0452
+  wheel_radius: 0.024
