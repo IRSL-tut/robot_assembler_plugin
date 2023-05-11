@@ -291,6 +291,8 @@ void GeometryToAssimpImpl::addMesh()
     SgMesh* mesh = meshExtractor.currentMesh();
     SgShape* shape = meshExtractor.currentShape();
     const Affine3& T = meshExtractor.currentTransform();
+    const Isometry3 &Ti = meshExtractor.currentTransformWithoutScaling();
+    const Matrix3 Rot(Ti.linear());
 
     if(mesh->primitiveType() == SgMesh::MESH && mesh->hasTriangles()) {
         aiMesh *pMesh = new aiMesh();
@@ -321,7 +323,7 @@ void GeometryToAssimpImpl::addMesh()
                 if (nIndices.size() == vIndices.size()) {
                     pMesh->mNormals  = new aiVector3D [pMesh->mNumVertices];
                     for (size_t k = 0; k < nIndices.size(); k++) {
-                        Vector3 n = T * normals_[nIndices[k]].cast<Isometry3::Scalar>();
+                        Vector3 n = Rot * normals_[nIndices[k]].cast<Isometry3::Scalar>();
                         size_t idx = vIndices[k];
                         n.normalize();
                         pMesh->mNormals[idx].x = n.x();
@@ -335,7 +337,7 @@ void GeometryToAssimpImpl::addMesh()
                 if(numNormals == pMesh->mNumVertices) {
                     pMesh->mNormals  = new aiVector3D [numNormals];
                     for (size_t k = 0; k < numNormals; k++) {
-                        Vector3 n = T * normals_[k].cast<Isometry3::Scalar>();
+                        Vector3 n = Rot * normals_[k].cast<Isometry3::Scalar>();
                         n.normalize();
                         pMesh->mNormals[k].x = n.x();
                         pMesh->mNormals[k].y = n.y();
@@ -553,8 +555,8 @@ void _dump_urdf(cnoid::Body *_body, bool _no_offset, bool _no_geom, bool _no_xac
             // geometry to file
             GeometryToAssimpImpl me;
             //std::string vfname = "/tmp/"; vfname += lk->name(); vfname += "_vis.stl";
-            std::string vfname = "/tmp/"; vfname += lk->name(); vfname += "_vis.dae";
-            std::string cfname = "/tmp/"; cfname += lk->name(); cfname += "_col.stl";
+            std::string vfname = "/tmp/"; vfname += robot_name; vfname += "_"; vfname += lk->name(); vfname += "_vis.dae";
+            std::string cfname = "/tmp/"; cfname += robot_name; cfname += "_"; cfname += lk->name(); cfname += "_col.stl";
 
             //if(me.storeMeshGeometry(lk->visualShape(), vfname, "stlb")) {
             if(me.storeMeshGeometry(lk->visualShape(), vfname, "collada")) {
