@@ -555,8 +555,8 @@ void _dump_urdf(cnoid::Body *_body, bool _no_offset, bool _no_geom, bool _no_xac
             // geometry to file
             GeometryToAssimpImpl me;
             //std::string vfname = "/tmp/"; vfname += lk->name(); vfname += "_vis.stl";
-            std::string vfname = "/tmp/"; vfname += lk->name(); vfname += "_vis.dae";
-            std::string cfname = "/tmp/"; cfname += lk->name(); cfname += "_col.stl";
+            std::string vfname = "/tmp/"; vfname += robot_name; vfname += "_"; vfname += lk->name(); vfname += "_vis.dae";
+            std::string cfname = "/tmp/"; cfname += robot_name; cfname += "_"; cfname += lk->name(); cfname += "_col.stl";
 
             //if(me.storeMeshGeometry(lk->visualShape(), vfname, "stlb")) {
             if(me.storeMeshGeometry(lk->visualShape(), vfname, "collada")) {
