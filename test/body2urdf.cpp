@@ -291,6 +291,8 @@ void GeometryToAssimpImpl::addMesh()
     SgMesh* mesh = meshExtractor.currentMesh();
     SgShape* shape = meshExtractor.currentShape();
     const Affine3& T = meshExtractor.currentTransform();
+    const Isometry3 &Ti = meshExtractor.currentTransformWithoutScaling();
+    const Matrix3 Rot(Ti.linear());
 
     if(mesh->primitiveType() == SgMesh::MESH && mesh->hasTriangles()) {
         aiMesh *pMesh = new aiMesh();
@@ -321,7 +323,7 @@ void GeometryToAssimpImpl::addMesh()
                 if (nIndices.size() == vIndices.size()) {
                     pMesh->mNormals  = new aiVector3D [pMesh->mNumVertices];
                     for (size_t k = 0; k < nIndices.size(); k++) {
-                        Vector3 n = T * normals_[nIndices[k]].cast<Isometry3::Scalar>();
+                        Vector3 n = Rot * normals_[nIndices[k]].cast<Isometry3::Scalar>();
                         size_t idx = vIndices[k];
                         n.normalize();
                         pMesh->mNormals[idx].x = n.x();
@@ -335,7 +337,7 @@ void GeometryToAssimpImpl::addMesh()
                 if(numNormals == pMesh->mNumVertices) {
                     pMesh->mNormals  = new aiVector3D [numNormals];
                     for (size_t k = 0; k < numNormals; k++) {
-                        Vector3 n = T * normals_[k].cast<Isometry3::Scalar>();
+                        Vector3 n = Rot * normals_[k].cast<Isometry3::Scalar>();
                         n.normalize();
                         pMesh->mNormals[k].x = n.x();
                         pMesh->mNormals[k].y = n.y();
