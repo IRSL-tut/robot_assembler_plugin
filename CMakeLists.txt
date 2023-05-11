@@ -104,6 +104,3 @@ install(FILES config/original.cnoid  DESTINATION ${CHOREONOID_SHARE_SUBDIR}/robo
 
 install(DIRECTORY tools       DESTINATION ${CHOREONOID_SHARE_SUBDIR}/robot_assembler)
 # install(DIRECTORY docs        DESTINATION ${CHOREONOID_SHARE_SUBDIR}/robot_assembler)
-### IRSL configuration and samples (TODO: divided to the other repository)
-install(DIRECTORY config/irsl DESTINATION ${CHOREONOID_SHARE_SUBDIR}/robot_assembler)
-install(DIRECTORY sample      DESTINATION ${CHOREONOID_SHARE_SUBDIR}/robot_assembler)
