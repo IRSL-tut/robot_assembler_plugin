@@ -65,11 +65,12 @@ void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                 geom_file_path = _proj_dir;
                 geom_file_path = geom_file_path + "/" + geom.url;
             }
-            DEBUG_STREAM(" mesh load: " << geom_file_path);
+            DEBUG_STREAM(" mesh load: " << geom.url << " / " << geom_file_path);
             SgNodePtr shape = sceneLoader.load(geom_file_path);
             if (!!shape) {
                 DEBUG_STREAM(" mesh loaded!");
                 shape->setName(name_ + "/geom");
+                shape->setUri(geom.url, geom_file_path);
                 if(!_color.isZero()) {
                     addMaterial(shape, _color);
                 } else if (!geom.color.isZero()) {

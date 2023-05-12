@@ -18,6 +18,10 @@
 #include <cnoid/ProjectManager>
 
 #include <vector>
+#include <QLabel>
+#include <QCheckBox>
+#include <QVBoxLayout>
+#include <QComboBox>
 
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
@@ -801,6 +805,32 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
     dialog->setLabelText(QFileDialog::Reject, "Cancel");
     dialog->setOption(QFileDialog::DontConfirmOverwrite);
 
+    // add option panel to Dialog, see BodyItemFileIO.cpp
+    QWidget *optionPanel = new QWidget;
+    QVBoxLayout *optionVBox = new QVBoxLayout;
+    optionVBox->setContentsMargins(0, 0, 0, 0);
+    optionPanel->setLayout(optionVBox);
+
+    auto hbox = new QHBoxLayout;
+    hbox->addWidget(new QLabel("Ext model file mode:"));
+    QComboBox* extModelFileModeCombo = new QComboBox;
+    extModelFileModeCombo->addItem(
+        "Replace with OBJ model files", StdSceneWriter::ReplaceWithObjModelFiles);
+    extModelFileModeCombo->addItem(
+        "Link to the original model files", StdSceneWriter::LinkToOriginalModelFiles);
+    extModelFileModeCombo->addItem(
+        "Embed models", StdSceneWriter::EmbedModels);
+    extModelFileModeCombo->addItem(
+        "Replace with standard scene files", StdSceneWriter::ReplaceWithStdSceneFiles);
+    hbox->addWidget(extModelFileModeCombo);
+
+    //QCheckBox *transformIntegrationCheck = new QCheckBox;
+    //transformIntegrationCheck->setText("Integrate transforms");
+    //hbox->addWidget(transformIntegrationCheck);
+
+    optionVBox->addLayout(hbox);
+    dialog->insertOptionPanel(optionPanel);
+
     QStringList filters;
     filters << "body files (*.body)";
     filters << "urdf files (*.urdf)";
@@ -841,6 +871,12 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
             //bc.setMergeFixedJoint(true);
             BodyPtr bd = bc.createBody(_sr->robot(), _sr->info);
             StdBodyWriter writer;
+            int mode_ = StdBodyWriter::LinkToOriginalModelFiles;
+            if (!!extModelFileModeCombo) {
+                mode_ = extModelFileModeCombo->currentData().toInt();
+            }
+            writer.setExtModelFileMode(mode_);
+            // writer.sceneWriter()->setBaseDirectory();
             writer.writeBody(bd, fname);
             // [TODO] if urdf
         }
@@ -861,6 +897,20 @@ void AssemblerManager::com_load()
     dialog->setLabelText(QFileDialog::Reject, "Cancel");
     dialog->setOption(QFileDialog::DontConfirmOverwrite);
 
+    // add option panel to Dialog, see BodyItemFileIO.cpp
+    QWidget *optionPanel = new QWidget;
+    QVBoxLayout *optionVBox = new QVBoxLayout;
+    optionVBox->setContentsMargins(0, 0, 0, 0);
+    optionPanel->setLayout(optionVBox);
+
+    auto hbox = new QHBoxLayout;
+    QCheckBox *renameCheck = new QCheckBox;
+    renameCheck->setText("Parts renamed");
+    hbox->addWidget(renameCheck);
+
+    optionVBox->addLayout(hbox);
+    dialog->insertOptionPanel(optionPanel);
+
     QStringList filters;
     filters << "roboasm files (*.roboasm)";
     filters << "roboasm files / parts renamed (*.roboasm)";
@@ -871,6 +921,9 @@ void AssemblerManager::com_load()
     if(dialog->exec() == QDialog::Accepted) {
         DEBUG_STREAM(" accepted: " << filter_id);
         bool rename_ = false;
+        if(!!renameCheck) {
+            rename_ = renameCheck->isChecked();
+        }
         if( filter_id == 1 || filter_id == 3 ) rename_ = true;
         auto fnames = dialog->selectedFiles();
         std::string fname = fnames.front().toStdString();
