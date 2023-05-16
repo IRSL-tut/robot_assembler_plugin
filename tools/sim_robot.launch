@@ -3,6 +3,7 @@
   <arg name="model" default=""/>
   <arg name="control_config" default=""/>
   <arg name="robot_name" default="AssembleRobot"/>
+  <arg name="controllers" default="joint_controller" />
   <rosparam file="$(arg control_config)" command="load"/>
 
   <!-- Choreonoid on ROS -->
@@ -23,5 +24,5 @@
   <!-- load the controllers -->
   <node name="robot_controller_spawner" pkg="controller_manager"
         type="spawner" output="screen" respawn="true"
-        args="--namespace $(arg robot_name) joint_controller"/>
+        args="--namespace $(arg robot_name) $(arg controllers)"/>
 </launch>
