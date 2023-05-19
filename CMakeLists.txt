@@ -97,10 +97,10 @@ else()
   set(targetplugin CnoidRobotAssemblerPlugin)
   ### [todo] build libRoboassembler.so and link it
   choreonoid_add_library(${targetlib} SHARED ${libsources} ${RC_SRCS} HEADERS ${libheaders})
-  target_link_libraries(${targetlib} CnoidBody CnoidUtil ${CHOREONOID_QT_LIBRARIES})
+  target_link_libraries(${targetlib} PUBLIC CnoidBody CnoidUtil ${CHOREONOID_QT_LIBRARIES})
   choreonoid_add_plugin(${targetplugin} ${sources} HEADERS ${headers})
-  target_link_libraries(${targetplugin} ${targetlib})
-  target_link_libraries(${targetplugin} CnoidBody CnoidUtil)## boost_filesystem
+  target_link_libraries(${targetplugin} PUBLIC ${targetlib})
+  target_link_libraries(${targetplugin} PUBLIC CnoidBody CnoidUtil)## boost_filesystem
   if(BUILD_TEST)
     add_subdirectory(test)
   endif()
