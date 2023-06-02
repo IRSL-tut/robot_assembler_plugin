@@ -63,6 +63,10 @@ inline Mapping *getActuatorInfo(Mapping *info, const std::string &_actname)
 {
     return getMapping(info, "actuator-info", _actname);
 }
+inline Mapping *getDeviceInfo(Mapping *info, const std::string &_devname)
+{
+    return getMapping(info, "device-info", _devname);
+}
 inline bool getRobotName(Mapping *info, std::string &_res)
 {
     Mapping *mp_ = getRobotInfo(info);
@@ -99,6 +103,13 @@ inline bool getActuatorLimit(Mapping *info, const std::string &_ac, const std::s
     Mapping *mp_ = getActuatorInfo(info, _ac);
     if(!mp_) return false;
     return readFromMapping(mp_, _ky, a, b);
+}
+inline bool getDeviceName(Mapping *info, const std::string &_pt, const std::string &_dev, std::string &_res)
+{
+    std::string nm_ = _pt + "/" + _dev;
+    Mapping *mp_ = getDeviceInfo(info, nm_);
+    if(!mp_) return false;
+    return readFromMapping(mp_, "name", _res);
 }
 class CNOID_EXPORT cnoidRAInfo
 {
@@ -141,6 +152,10 @@ public:
     bool getActuatorLimit(const std::string &_ac, const std::string &_ky, double &a, double &b)
     {
         return cnoid::robot_assembler::getActuatorLimit(info, _ac, _ky, a, b);
+    }
+    bool getDeviceName(const std::string &_pt, const std::string &_dev, std::string &_res)
+    {
+        return cnoid::robot_assembler::getDeviceName(info, _pt, _dev, _res);
     }
     bool renameInfo(StringMap &_rmap);
 };
@@ -187,4 +202,7 @@ actuator-info:
     limit:
     vlimit:
     tqlimit:
+device-info:
+  devicename0:
+    name:
 #endif

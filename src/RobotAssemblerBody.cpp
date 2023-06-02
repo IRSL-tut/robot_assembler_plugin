@@ -460,6 +460,11 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
             it != _pt->info->extra_data.end(); it++) {
             cnoid::Device *dev = createDevice(*it, device_counter++, link_origin_to_self_);
             if(!!dev) {
+                // device name
+                std::string devname_;
+                if (cinfo.getDeviceName(_pt->name(), (*it).name, devname_)) {
+                    dev->setName(devname_);
+                }
                 _dev_list.push_back(std::make_pair(dev, lk));
             }
         }
