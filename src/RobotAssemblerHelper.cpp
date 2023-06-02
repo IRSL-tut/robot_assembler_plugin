@@ -197,6 +197,20 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
             spoint_list.push_back(cp);
         }
     }
+    // for making parts already connected
+    if(_p->hasParent() && _p->parent()->isConnectingPoint()) {
+        RoboasmCoords *ra_p = _p->parent();
+        if (ra_p->hasParent()) {
+            RoboasmCoordsPtr cds_ptr = ra_p->parent()->isDirectDescendant(ra_p);
+            RoboasmConnectingPointPtr ptr = dynamic_pointer_cast<RoboasmConnectingPoint>(cds_ptr);
+            if(!!ptr) {
+                 RASceneConnectingPoint *cp = new RASceneConnectingPoint(ptr);
+                //this->addChild(cp);
+                partsScene->addChild(cp);
+                spoint_list.push_back(cp);
+            }
+        }
+    }
 }
 RASceneParts::~RASceneParts()
 {
