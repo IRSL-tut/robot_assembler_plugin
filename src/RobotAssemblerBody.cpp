@@ -346,10 +346,22 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
                     break;
                 }
                 DEBUG_STREAM(" limit : " << ainfo_->limit[0] << " / " << ainfo_->limit[1]);
-                // [TODO] overwrite limit by info
-                lk->setJointRange(ainfo_->limit[0], ainfo_->limit[1]);
-                lk->setJointVelocityRange(ainfo_->vlimit[0], ainfo_->vlimit[1]);
-                lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
+                double lim_min_, lim_max_;
+                if(cinfo.getActuatorLimit(act_->name(), "limit", lim_min_, lim_max_)) {
+                    lk->setJointRange(lim_min_, lim_max_);
+                } else {
+                    lk->setJointRange(ainfo_->limit[0], ainfo_->limit[1]);
+                }
+                if(cinfo.getActuatorLimit(act_->name(), "vlimit", lim_min_, lim_max_)) {
+                    lk->setJointVelocityRange(lim_min_, lim_max_);
+                } else {
+                    lk->setJointVelocityRange(ainfo_->vlimit[0], ainfo_->vlimit[1]);
+                }
+                if(cinfo.getActuatorLimit(act_->name(), "tqlimit", lim_min_, lim_max_)) {
+                    lk->setJointEffortRange(lim_min_, lim_max_);
+                } else {
+                    lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
+                }
             } else {
                 // no ainfo
             }
