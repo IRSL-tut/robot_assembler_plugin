@@ -290,6 +290,10 @@ public:
     {
         info_("actuator-info", _act, _key, _str);
     }
+    void infoDevice(const std::string &_dev, const std::string &_key, const std::string &_str)
+    {
+        info_("device-info", _dev, _key, _str);
+    }
     void infoLinkVec3(const std::string &_parts, const std::string &_key, const std::string &_txt)
     {
         info_vec3_("parts-info", _parts, _key, _txt);
@@ -502,6 +506,77 @@ void AssemblerPartsView::Impl::panelParts(ra::RoboasmCoordsPtr _coords, MappingP
         addDescriptionToPanel("mass", info->mass, row++);
         addDescriptionToPanel("COM", info->COM, row++);
         //addDescriptionToPanel("inertia", info->inertia_tensor, row++);
+
+        for(int i = 0; i < info->extra_data.size(); i++) {
+            std::string tp = "unknown";
+            switch(info->extra_data[i].type) {
+            case ra::ExtraInfo::IMU:
+                tp = "IMU";
+                break;
+            case ra::ExtraInfo::Acceleration:
+                tp = "Acceleration";
+                break;
+            case ra::ExtraInfo::RateGyro:
+                tp = "RateGyro";
+                break;
+            case ra::ExtraInfo::Touch:
+                tp = "Touch";
+                break;
+            case ra::ExtraInfo::Force:
+                tp = "Force";
+                break;
+            case ra::ExtraInfo::Color:
+                tp = "Color";
+                break;
+            case ra::ExtraInfo::Distance:
+                tp = "Distance";
+                break;
+            case ra::ExtraInfo::Camera:
+                tp = "Camera";
+                break;
+            case ra::ExtraInfo::Depth:
+                tp = "Depth";
+                break;
+            case ra::ExtraInfo::RGBD:
+                tp = "RGBD";
+                break;
+            case ra::ExtraInfo::Ray:
+                tp = "Ray";
+                break;
+            case ra::ExtraInfo::Position:
+                tp = "Position";
+                break;
+            case ra::ExtraInfo::Light:
+                tp = "Light";
+                break;
+            case ra::ExtraInfo::PointLight:
+                tp = "PointLight";
+                break;
+            case ra::ExtraInfo::SpotLight:
+                tp = "SpotLight";
+                break;
+            case ra::ExtraInfo::DegitalIO:
+                tp = "DegitalIO";
+                break;
+            case ra::ExtraInfo::AnalogIO:
+                tp = "AnalogIO";
+                break;
+            }
+
+            addDescriptionToPanel("---", "", row++);
+            addDescriptionToPanel("  id", info->extra_data[i].name, row++);
+            addDescriptionToPanel("type", tp, row++);
+            std::string dev_ = _coords->name() + "/" + info->extra_data[i].name;
+            std::string dnm_;
+            if(!!current_info) {
+                Mapping *mp_ = ra::getDeviceInfo(current_info, dev_);
+                if(!!mp_) {
+                    readFromMapping(mp_, "name", dnm_);
+                }
+            }
+            addEditorToPanel("name", dnm_, row++,
+                     [this,dev_] (const std::string &_s) { infoDevice(dev_, "name", _s); } );
+        }
     }
 }
 void AssemblerPartsView::Impl::panelConnectingPoint(ra::RoboasmCoordsPtr _coords, MappingPtr _info)

@@ -164,6 +164,12 @@ bool ra::cnoidRAFile::dumpRoboasm(const std::string &_filename)
             mp_->insert("actuator-info", tmp);
         }
     }
+    {
+        Mapping *tmp = info->findMapping("device-info");
+        if(tmp->isValid()) {
+            mp_->insert("device-info", tmp);
+        }
+    }
     YAMLWriter ywtr;
     ywtr.setMessageSink(std::cerr);
     //ywtr.setDoubleFormat("%12.12f");
