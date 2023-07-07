@@ -930,6 +930,17 @@ bool Settings::Impl::parseGeometry(ValueNode *vn, Geometry &geom)
         uc.convLengthVector(vec, nvec);
         geom.parameter = nvec;
     }
+    {
+        geom.color[0] = -1.0f; // for checking color is changed
+        geom.color[1] = 0.0f;
+        geom.color[2] = 0.0f;
+        std::vector<double> vec_;
+        if ( mapVector(mp, "color", vec_, std::cerr, false) ) {
+            for(int i = 0; i < vec_.size() && i < 3; i++) {
+                geom.color[i] = vec_[i];
+            }
+        }
+    }
     return true;
 }
 bool Settings::Impl::parseConnectingPoint(ValueNode *vn, ConnectingPoint &cpt)
