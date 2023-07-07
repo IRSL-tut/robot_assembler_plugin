@@ -73,7 +73,7 @@ void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                 shape->setUri(geom.url, geom_file_path);
                 if(!_color.isZero()) {
                     addMaterial(shape, _color);
-                } else if (!geom.color.isZero()) {
+                } else if (geom.color[0] >= 0.0) { // checking color is changed
                     addMaterial(shape, geom.color);
                 } else { // default color
                     addMaterial(shape, default_mesh_color);
@@ -105,7 +105,7 @@ void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                 shape->setName(name_ + "/box");
                 if(!_color.isZero()) {
                     addMaterial(shape, _color);
-                } else if (!geom.color.isZero()) {
+                } else if (geom.color[0] >= 0.0) { // checking color is changed
                     addMaterial(shape, geom.color);
                 } else {
                     addMaterial(shape, default_body_color);
