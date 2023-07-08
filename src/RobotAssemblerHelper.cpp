@@ -25,8 +25,40 @@ static const Vector3f color_can_connect0(0.0f, 1.0f, 1.0f);
 static const Vector3f color_can_connect1(0.0f, 1.0f, 1.0f);
 static const Vector3f color_selected(0.5f, 0.0f, 0.5f);
 
+#define SCP_LENGTH_LONG  0.015
+#define SCP_LENGTH_SHORT 0.006
+#define SCP_WIDTH 0.003
+//    Vector3(SCP_LENGTH_SHORT, SCP_WIDTH, SCP_WIDTH)
+static inline SgPosTransformPtr genBox(const std::string &_nm, const Vector3 &_size, const Vector3 &_trans, SgMaterialPtr &_mat)
+{
+    MeshGenerator mg;
+
+    SgShapePtr shape(new SgShape());
+    shape->setName(_nm);
+    SgMeshPtr mesh = mg.generateBox(_size);
+    shape->setMesh(mesh);
+    shape->setMaterial(_mat);
+    SgPosTransformPtr pt = new SgPosTransform();
+    pt->position().translation() = _trans;
+    pt->addChild(shape);
+    return pt;
+}
+static inline SgPosTransformPtr genCylinder(const std::string &_nm, double _radius, double _height, const Isometry3 &_position, SgMaterialPtr &_mat)
+{
+    MeshGenerator mg;
+    SgShapePtr shape(new SgShape());
+    shape->setName(_nm);
+    SgMeshPtr mesh = mg.generateCylinder(_radius, _height);
+    shape->setMesh(mesh);
+    shape->setMaterial(_mat);
+    SgPosTransformPtr pt = new SgPosTransform();
+    pt->position() = _position;
+    pt->addChild(shape);
+    return pt;
+}
 static void createShapeConnectingPoint(SgPosTransform *_root, SgMaterialPtr &_res_material,
-                                       SgSwitchableGroupPtr &_res_switch, SgScaleTransformPtr &_res_scl)
+                                       SgSwitchableGroupPtr &_res_switch, SgScaleTransformPtr &_res_scl,
+                                       Vector3 _axis = Vector3::Zero())
 {
     // create shape
     const std::string &name_ = _root->name();
@@ -38,43 +70,39 @@ static void createShapeConnectingPoint(SgPosTransform *_root, SgMaterialPtr &_re
     material->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
     material->setSpecularColor(Vector3f(0.0f, 0.0f, 0.0f));
     material->setAmbientIntensity(0.7f);
-#define SCP_LENGTH_LONG  0.015
-#define SCP_LENGTH_SHORT 0.006
-#define SCP_WIDTH 0.003
+
     SgSwitchableGroupPtr sw_g(new SgSwitchableGroup());
     sw_g->setName(name_ + "/switch");
-    MeshGenerator mg;
-    {
-        SgShapePtr shape(new SgShape());
-        shape->setName(name_ + "/x");
-        SgMeshPtr mesh = mg.generateBox(Vector3(SCP_LENGTH_SHORT, SCP_WIDTH, SCP_WIDTH));
-        shape->setMesh(mesh);
-        shape->setMaterial(material);
-        SgPosTransformPtr pt = new SgPosTransform();
-        pt->position().translation() = Vector3(SCP_LENGTH_SHORT/2 + SCP_WIDTH/2, 0, 0);
-        pt->addChild(shape);
+    {// x-axis
+        SgPosTransformPtr pt = genBox(name_ + "/x",
+                                      Vector3(SCP_LENGTH_SHORT, SCP_WIDTH, SCP_WIDTH),
+                                      Vector3(SCP_LENGTH_SHORT/2 + SCP_WIDTH/2, 0, 0),
+                                      material);
         sw_g->addChild(pt);
     }
-    {
-        SgShapePtr shape(new SgShape());
-        shape->setName(name_ + "/y");
-        SgMeshPtr mesh = mg.generateBox(Vector3(SCP_WIDTH, SCP_LENGTH_SHORT, SCP_WIDTH));
-        shape->setMesh(mesh);
-        shape->setMaterial(material);
-        SgPosTransformPtr pt = new SgPosTransform();
-        pt->position().translation() = Vector3(0, SCP_LENGTH_SHORT/2 + SCP_WIDTH/2, 0);
-        pt->addChild(shape);
+    {// y-axis
+        SgPosTransformPtr pt = genBox(name_ + "/y",
+                                      Vector3(SCP_WIDTH, SCP_LENGTH_SHORT, SCP_WIDTH),
+                                      Vector3(0, SCP_LENGTH_SHORT/2 + SCP_WIDTH/2, 0),
+                                      material);
         sw_g->addChild(pt);
     }
-    {
-        SgShapePtr shape(new SgShape());
-        shape->setName(name_ + "/z");
-        SgMeshPtr mesh = mg.generateBox(Vector3(SCP_WIDTH, SCP_WIDTH, SCP_LENGTH_LONG));
-        shape->setMesh(mesh);
-        shape->setMaterial(material);
-        SgPosTransformPtr pt = new SgPosTransform();
-        pt->position().translation() = Vector3(0, 0, SCP_LENGTH_LONG/2 - SCP_WIDTH/2);
-        pt->addChild(shape);
+    {// z-axis
+        SgPosTransformPtr pt = genBox(name_ + "/z",
+                                      Vector3(SCP_WIDTH, SCP_WIDTH, SCP_LENGTH_LONG),
+                                      Vector3(0, 0, SCP_LENGTH_LONG/2 - SCP_WIDTH/2),
+                                      material);
+        sw_g->addChild(pt);
+    }
+    if (!_axis.isZero()) { // valid axis
+        //// [todo] update shape
+        Isometry3 pos_;
+        pos_.setIdentity();
+        pos_.translation() = SCP_LENGTH_SHORT * _axis;
+        SgPosTransformPtr pt = genCylinder(name_ + "/axis",
+                                           SCP_WIDTH, SCP_WIDTH,
+                                           pos_,
+                                           material);
         sw_g->addChild(pt);
     }
     _res_scl = new SgScaleTransform(0.5);
@@ -112,7 +140,13 @@ RASceneConnectingPoint::RASceneConnectingPoint(RoboasmConnectingPointPtr _c)
     SgMaterialPtr mat_;
     SgSwitchableGroupPtr sw_;
     SgScaleTransformPtr scl_;
-    createShapeConnectingPoint(this, mat_, sw_, scl_);
+    if (self->isActuator()) {
+        DEBUG_STREAM(" actuator : " << self->name());
+        Actuator *ainfo_ = dynamic_cast<Actuator *>(self->info);
+        createShapeConnectingPoint(this, mat_, sw_, scl_, ainfo_->axis);
+    } else {
+        createShapeConnectingPoint(this, mat_, sw_, scl_);
+    }
 
     coordinates *cds = static_cast<coordinates *>(self.get());
     Position p;
