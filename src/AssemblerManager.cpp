@@ -123,7 +123,7 @@ void AssemblerManager::detachSceneRobot(ra::RASceneParts *_scpt)
         addAssemblerItem(newrb_);
     }
 }
-void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _info)
+AssemblerItemPtr AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _info)
 {
     AssemblerItemPtr itm = AssemblerItem::createItem(_rb, this);
     if (!!itm) {
@@ -156,15 +156,19 @@ void AssemblerManager::addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _inf
         clickedParts = nullptr;
         selectable_spoint_set.clear();
         itm->setChecked(true);
+        itm->setSelected(true);
         RootItem::instance()->addChildItem(itm);
         //
         updateRobots();
         clearAllPoints();
         notifyUpdate();
         SceneView::instance()->sceneWidget()->viewAll();
+
+        return itm;
     } else {
         ERROR_STREAM(" item create error : " << _rb->name());
     }
+    return nullptr;
 }
 int AssemblerManager::pointClicked(ra::RASceneConnectingPoint *_cp)
 {
@@ -627,7 +631,21 @@ void AssemblerManager::loadRoboasm(const std::string &_fname, bool _rename)
     ra::RoboasmRobotPtr rb_ = ra_util->makeRobot(name_, raf.history);
     if(!!rb_) {
         raf.updateRobotByInfo(rb_);
-        addAssemblerItem(rb_, raf.info);
+        AssemblerItemPtr itm_ = addAssemblerItem(rb_, raf.info);
+        //
+        if(!!itm_) {
+            ra::RASceneRobot *srb_ = dynamic_cast<ra::RASceneRobot *>(itm_->getScene());
+            ra::connectingPointPtrList a_act;
+            rb_->inactiveActuators(a_act);
+            for(auto it = a_act.begin(); it != a_act.end(); it++) {
+                double ang;
+                if (raf.getActuatorValue((*it)->name(), "current_angle", ang)) {
+                    (*it)->applyJointAngle(ang);
+                }
+            }
+            srb_->updateStructure();
+            srb_->notifyUpdate(SgUpdate::MODIFIED);
+        }
     } else {
         ERROR_STREAM(" robot build failed");
     }
