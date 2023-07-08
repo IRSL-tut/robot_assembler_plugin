@@ -133,6 +133,10 @@ static SgMaterial *searchMaterial(SgNode *_node)
     }
     return nullptr;
 }
+
+//
+// RASceneConnectingPoint
+//
 RASceneConnectingPoint::RASceneConnectingPoint(RoboasmConnectingPointPtr _c)
     : SgPosTransform(), self(_c), current_state(DEFAULT)
 {
@@ -203,6 +207,9 @@ void RASceneConnectingPoint::changeState(RASceneConnectingPoint::Clicked _clk)
     break;
     }
 }
+//
+// RASceneParts
+//
 RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
     : SgPosTransform(), self(_p), partsScene(nullptr)
 {
@@ -226,7 +233,6 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
         RoboasmConnectingPointPtr ptr = dynamic_pointer_cast<RoboasmConnectingPoint>(*it);
         if(!!ptr) {
             RASceneConnectingPoint *cp = new RASceneConnectingPoint(ptr);
-            //this->addChild(cp);
             partsScene->addChild(cp);
             spoint_list.push_back(cp);
         }
@@ -238,8 +244,14 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
             RoboasmCoordsPtr cds_ptr = ra_p->parent()->isDirectDescendant(ra_p);
             RoboasmConnectingPointPtr ptr = dynamic_pointer_cast<RoboasmConnectingPoint>(cds_ptr);
             if(!!ptr) {
-                 RASceneConnectingPoint *cp = new RASceneConnectingPoint(ptr);
-                //this->addChild(cp);
+                RASceneConnectingPoint *cp = new RASceneConnectingPoint(ptr);
+                // invert position
+                coordinates newtrans;
+                _p->worldcoords().transformation(newtrans, ptr->worldcoords());
+                newtrans.toPosition(cp->position());
+                // add color
+                Vector3f col(1.0f, 1.0f, 0);
+                cp->material->setDiffuseColor(col);
                 partsScene->addChild(cp);
                 spoint_list.push_back(cp);
             }
@@ -274,6 +286,19 @@ bool RASceneParts::updateColor(Vector3f &_color)
     }
     return false;
 }
+void RASceneParts::updateCoords()
+{
+    Position p;
+    self->worldcoords().toPosition(p);
+    position() = p;
+    // update coords of connecting-points
+    for(auto it = spoint_list.begin(); it != spoint_list.end(); it++) {
+        (*it)->updateCoords();
+    }
+}
+//
+// RASceneRobot
+//
 RASceneRobot::RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma)
     : SgPosTransform(), self(_r)
 {
