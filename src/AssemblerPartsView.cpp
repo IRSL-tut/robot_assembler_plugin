@@ -674,14 +674,14 @@ void AssemblerPartsView::Impl::panelConnectingPoint(ra::RoboasmCoordsPtr _coords
                 if(!!current_info) {
                     Mapping *mp_ = ra::getActuatorInfo(current_info, nm_);
                     if(!!mp_) {
-                        readFromMapping(mp_, "current_angle", a);
+                        readFromMapping(mp_, "current-angle", a);
                         DEBUG_SIMPLE("cur_ang: " << a);
                     }
                 }
-                addVectorToPanel("current_angle", a, row++,
+                addVectorToPanel("current-angle", a, row++,
                                  [this,nm_, _coords] (const std::string &_s) {
                                      double _val;
-                                     if (info_float_("actuator-info", nm_, "current_angle", _s, _val)) {
+                                     if (info_float_("actuator-info", nm_, "current-angle", _s, _val)) {
                                          // update robot
                                          ra::RASceneBase *res = manager->coordsToScene(_coords);
                                          if (!!res) {
@@ -700,12 +700,12 @@ void AssemblerPartsView::Impl::panelConnectingPoint(ra::RoboasmCoordsPtr _coords
                 if(!!current_info) {
                     Mapping *mp_ = ra::getActuatorInfo(current_info, nm_);
                     if(!!mp_) {
-                        readFromMapping(mp_, "initial_angle", a);
+                        readFromMapping(mp_, "initial-angle", a);
                     }
                 }
-                addVectorToPanel("initial_angle", a, row++,
+                addVectorToPanel("initial-angle", a, row++,
                                  [this,nm_] (const std::string &_s) {
-                                     double _a; info_float_("actuator-info", nm_, "initial_angle", _s, _a); } );
+                                     double _a; info_float_("actuator-info", nm_, "initial-angle", _s, _a); } );
                 }
                 {// limit
                 double a = ainfo->limit[0];

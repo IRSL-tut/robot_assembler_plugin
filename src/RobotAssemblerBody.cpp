@@ -363,8 +363,8 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
                     lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
                 }
                 double init_ang;
-                if (cinfo.getActuatorValue(act_->name(), "initial_angle",  init_ang)) {
-                    DEBUG_STREAM(" " << act_->name() << ", initial_ang <= " << init_ang);
+                if (cinfo.getActuatorValue(act_->name(), "initial-angle",  init_ang)) {
+                    DEBUG_STREAM(" " << act_->name() << ", initial-angle <= " << init_ang);
                     lk->setInitialJointAngle(init_ang);
                 }
             } else {
@@ -574,7 +574,7 @@ BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, MappingPtr _info, co
         _rb->inactiveActuators(a_act);
         for(auto it = a_act.begin(); it != a_act.end(); it++) {
             double ang;
-            if (cinfo.getActuatorValue((*it)->name(), "current_angle", ang)) {
+            if (cinfo.getActuatorValue((*it)->name(), "current-angle", ang)) {
                 DEBUG_STREAM(" set: " << (*it)->name() << " <= " << ang);
                 (*it)->applyJointAngle(ang);
             }

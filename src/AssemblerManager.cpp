@@ -639,7 +639,7 @@ void AssemblerManager::loadRoboasm(const std::string &_fname, bool _rename)
             rb_->inactiveActuators(a_act);
             for(auto it = a_act.begin(); it != a_act.end(); it++) {
                 double ang;
-                if (raf.getActuatorValue((*it)->name(), "current_angle", ang)) {
+                if (raf.getActuatorValue((*it)->name(), "current-angle", ang)) {
                     (*it)->applyJointAngle(ang);
                 }
             }
