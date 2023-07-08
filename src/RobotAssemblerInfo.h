@@ -153,6 +153,12 @@ public:
     {
         return cnoid::robot_assembler::getActuatorLimit(info, _ac, _ky, a, b);
     }
+    bool getActuatorValue(const std::string &_ac, const std::string &_ky, double &a)
+    {
+        Mapping *mp_ = cnoid::robot_assembler::getActuatorInfo(info, _ac);
+        if(!mp_) return false;
+        return readFromMapping(mp_, _ky, a);
+    }
     bool getDeviceName(const std::string &_pt, const std::string &_dev, std::string &_res)
     {
         return cnoid::robot_assembler::getDeviceName(info, _pt, _dev, _res);

@@ -24,12 +24,8 @@ public:
 
     void setName(const std::string &_nm) { name = _nm; }
     void setMergeFixedJoint(bool on = true) { merge_fixed_joint = on; };
-    BodyPtr createBody(RoboasmRobotPtr _rb, const std::string &_name = std::string());
-    BodyPtr createBody(RoboasmRobotPtr _rb, MappingPtr _info)
-    {
-        info = _info;
-        return createBody(_rb);
-    }
+    BodyPtr createBody(RoboasmRobotPtr _rb, MappingPtr _info = nullptr, const std::string &_name = std::string(), bool reset_angle = true);
+
 protected:
     std::string name;
     std::string project_directory;

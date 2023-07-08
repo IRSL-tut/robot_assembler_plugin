@@ -4,8 +4,24 @@
 #include <cnoid/YAMLReader>
 #include <cmath>
 
+#include <sstream>
+
 namespace cnoid {
 
+inline bool parseFromString(std::vector<double> &_vec, const std::string &_input)
+{
+    YAMLReader yrdr;
+    if (!yrdr.parse(_input)) return false;
+    if(yrdr.numDocuments() < 1) return false;
+    ValueNode *nd = yrdr.document(0);
+    if(!nd->isValid() || !nd->isListing()) return false;
+    Listing *lst = nd->toListing();
+    if(lst->size() < 1) return false;
+    for(int i = 0; i < lst->size(); i++) {
+        _vec[i] = lst->at(i)->toDouble();
+    }
+    return true;
+}
 inline bool parseFromString(Vector3f &_vec, const std::string &_input)
 {
     YAMLReader yrdr;
@@ -62,6 +78,12 @@ inline bool parseFromString(double &a, double &b, const std::string &_input)
     b = lst->at(1)->toDouble();
     return true;
 }
+inline bool parseFromString(double &_flt, const std::string &_input)
+{
+    std::istringstream iss(_input);
+    iss >> _flt;
+    return true;
+}
 inline bool parseFromString(coordinates &_cds, const std::string &_input_trans,
                             const std::string &_input_rot)
 {
@@ -87,6 +109,24 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, ValueNode *_tgt)
         _mp->remove(_key);
     }
     _mp->insert(_key, _tgt);
+}
+inline void addToMapping(Mapping *_mp, const std::string &_key, std::vector<double> &_vec, double eps = 1e-12)
+{
+    ValueNode *vn = _mp->find(_key);
+    if(vn->isValid()) {
+        _mp->remove(_key);
+    }
+    ListingPtr lst = new Listing();
+    lst->setFlowStyle();
+    lst->setFloatingNumberFormat("%12.12f");
+    for(int i = 0; i < _vec.size(); i++) {
+        if(std::fabs(_vec[i]) < eps) {
+            lst->append(0.0);
+        } else {
+            lst->append(_vec[i]);
+        }
+    }
+    _mp->insert(_key, lst);
 }
 inline void addToMapping(Mapping *_mp, const std::string &_key, double a, const Vector3 &_vec, double eps = 1e-12)
 {
@@ -192,6 +232,15 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, double a, double
     }
     _mp->insert(_key, lst);
 }
+inline void addToMapping(Mapping *_mp, const std::string &_key, double _flt)
+{
+    ValueNode *vn = _mp->find(_key);
+    if(vn->isValid()) {
+        _mp->remove(_key);
+    }
+    _mp->setFloatingNumberFormat("%12.12f");//
+    _mp->write(_key, _flt);
+}
 inline void addToMapping(Mapping *_mp, const std::string &_key, const std::string &_str)
 {
     ValueNode *vn = _mp->find(_key);
@@ -224,6 +273,19 @@ inline void addCoordsToMapping(Mapping *_mp, const std::string &_key, const coor
         addToMapping(mm_, "rotation", aa_.angle(), aa_.axis());
     }
     addToMapping(_mp, _key, mm_);
+}
+inline bool readFromMapping(Mapping *_mp, const std::string &_key, std::vector<double> &_vec)
+{
+    ValueNode *vn = _mp->find(_key);
+    if (!vn->isValid() || !vn->isListing()) {
+        return false;
+    }
+    Listing *lst = vn->toListing();
+    if (lst->size() == 0) return false;
+    for(int i = 0; i < lst->size(); i ++) {
+        _vec[i] = lst->at(i)->toDouble();
+    }
+    return true;
 }
 inline bool readFromMapping(Mapping *_mp, const std::string &_key, Vector3 &_vec, double &a)
 {
@@ -275,6 +337,15 @@ inline bool readFromMapping(Mapping *_mp, const std::string &_key, double &a, do
     if(lst->size() < 2) return false;
     a = lst->at(0)->toDouble();
     b = lst->at(1)->toDouble();
+    return true;
+}
+inline bool readFromMapping(Mapping *_mp, const std::string &_key, double &_flt)
+{
+    ValueNode *vn = _mp->find(_key);
+    if (!vn->isValid() || !vn->isScalar()) {
+        return false;
+    }
+    _flt = vn->toDouble();
     return true;
 }
 inline bool readFromMapping(Mapping *_mp, const std::string &_key, std::string &_str)

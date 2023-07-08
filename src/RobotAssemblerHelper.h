@@ -42,6 +42,8 @@ public:
     void setScale(double _scl) { if (!!scale_node) scale_node->setScale(_scl); }
     void changeState(Clicked _clk = DEFAULT);
     RASceneRobot *scene_robot() { return robot_ptr; }
+
+    void updateCoords() {}
 protected:
     RASceneRobot *robot_ptr;
     RoboasmConnectingPointPtr self;
@@ -66,6 +68,7 @@ public:
     RASceneRobot *scene_robot() { return robot_ptr; }
     void drawBoundingBox(bool _on = true);
     bool updateColor(Vector3f &_color);
+    void updateCoords();
 protected:
     RASceneRobot *robot_ptr;
     RoboasmPartsPtr self;
@@ -96,6 +99,13 @@ public:
         self->newcoords(_coords);
         self->updateDescendants();
         updateFromSelf();
+    }
+    void updateStructure()
+    {
+        self->updateDescendants();
+        for(auto it = sparts_set.begin(); it != sparts_set.end(); it++) {
+            (*it)->updateCoords();
+        }
     }
     void setInitialCoords(coordinates &_coords)
     {

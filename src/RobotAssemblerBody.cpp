@@ -362,6 +362,11 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
                 } else {
                     lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
                 }
+                double init_ang;
+                if (cinfo.getActuatorValue(act_->name(), "initial-angle",  init_ang)) {
+                    DEBUG_STREAM(" " << act_->name() << ", initial-angle <= " << init_ang);
+                    lk->setInitialJointAngle(init_ang);
+                }
             } else {
                 // no ainfo
             }
@@ -523,11 +528,14 @@ BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb, const std::string &
     }
     return body;
 }
-BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, const std::string &_name)
+BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, MappingPtr _info, const std::string &_name, bool reset_angle)
 {
+    info = _info;
+
     body = new Body();
     currentRobot = _rb;
 
+    // set robot-name
     std::string local_name;
     if(_name.size() > 0) {
         local_name = _name;
@@ -544,7 +552,34 @@ BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, const std::string &_
         local_name = _rb->name();
     }
 
+    if (reset_angle) {
+        // reset angle to default
+        connectingPointPtrList a_act;
+        _rb->inactiveActuators(a_act);
+
+        for(auto it = a_act.begin(); it != a_act.end(); it++) {
+            DEBUG_STREAM(" reset: " << (*it)->name());
+            (*it)->resetJointAngle();
+        }
+    }
+
+    //// Create Body
+    _rb->updateDescendants();
     _createBody(_rb, local_name);
+
+    if (reset_angle) {
+        // revert angle
+        cnoidRAInfo cinfo(info);
+        connectingPointPtrList a_act;
+        _rb->inactiveActuators(a_act);
+        for(auto it = a_act.begin(); it != a_act.end(); it++) {
+            double ang;
+            if (cinfo.getActuatorValue((*it)->name(), "current-angle", ang)) {
+                DEBUG_STREAM(" set: " << (*it)->name() << " <= " << ang);
+                (*it)->applyJointAngle(ang);
+            }
+        }
+    }
 
     if (merge_fixed_joint) {
         mergeFixedJoint(body);

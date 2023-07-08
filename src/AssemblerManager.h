@@ -36,7 +36,7 @@ public:
     bool parseButtonYaml(const std::string &filename, PanelSettings &_res);
 
     void partsButtonClicked(const std::string &_name, const Vector3f &_color = Vector3f::Zero());
-    void addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _info = nullptr);
+    AssemblerItemPtr addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _info = nullptr);
     void save_model(ra::RASceneRobot *_sr);
     void save_history(ra::RASceneRobot *_sr);
     int pointClicked(ra::RASceneConnectingPoint *_cp);

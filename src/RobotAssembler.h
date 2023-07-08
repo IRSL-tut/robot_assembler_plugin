@@ -201,6 +201,12 @@ public:
     bool isActive() { return (descendants.size() < 1); }
     bool isConnected() { return (descendants.size() > 0); }
     ConnectingPoint *info;
+
+    bool isInverted() {
+        return ( hasParent() && parent_ptr->isConnectingPoint() );
+    }
+    bool applyJointAngle(double angle);
+    void resetJointAngle();
 protected:
     //
     std::string type_name_;
@@ -210,6 +216,8 @@ protected:
     coordinates configuration_coords;
     ConnectingConfiguration *current_configuration;
     ConnectingTypeMatch *current_type_match;
+
+    coordinates default_coords; // for joint_angle
     // bool inverse_connect
     friend RoboasmCoords;
     friend RoboasmParts;
@@ -387,6 +395,7 @@ public:
     // RoboasmRobotPtr detach(RoboasmConnectiongPointPtr _cp);
     RoboasmRobotPtr detach(RoboasmPartsPtr _pt);
 
+    bool applyJointAngle(const std::string &_nm, double angle);
 protected:
     SettingsPtr settings;
     friend RoboasmCoords;
