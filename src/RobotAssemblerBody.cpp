@@ -42,6 +42,24 @@ static inline void addMaterial(SgNode *_nd, const Vector3f &_color, float _inten
     mat_->setEmissiveColor(Vector3f(0.0f, 0.0f, 0.0f));
     _shape->setMaterial(mat_);
 }
+static inline SgPosTransformPtr addShape(const std::string &_name, const SgMeshPtr mesh, const Vector3f &_color, Geometry &geom)
+{
+    SgShapePtr shape(new SgShape());
+    shape->setMesh(mesh);
+    shape->setName(_name);
+    if(!_color.isZero()) {
+        addMaterial(shape, _color);
+    } else if (geom.color[0] >= 0.0) { // checking color is changed
+        addMaterial(shape, geom.color);
+    } else {
+        addMaterial(shape, default_body_color);
+    }
+    SgPosTransformPtr trs(new SgPosTransform);
+    geom.coords.toPosition(trs->position());
+    trs->setName("geom_postrans");
+    trs->addChild(shape);
+    return trs;
+}
 void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color) {
     createSceneFromGeometry(sg_main, geom_list, std::string(), _color);
 }
@@ -93,29 +111,35 @@ void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                 }
             }
         } else if (geom.type == Geometry::Box) {
-            // parameter
             MeshGenerator mg;
             SgMeshPtr mesh = mg.generateBox(Vector3(geom.parameter[0], geom.parameter[1], geom.parameter[2]));
-
-            SgShapePtr shape(new SgShape());
-            shape->setMesh(mesh);
-            //shape->setName("box");
-            // material
-            if (!!shape) {
-                shape->setName(name_ + "/box");
-                if(!_color.isZero()) {
-                    addMaterial(shape, _color);
-                } else if (geom.color[0] >= 0.0) { // checking color is changed
-                    addMaterial(shape, geom.color);
-                } else {
-                    addMaterial(shape, default_body_color);
-                }
-                Position p; geom.coords.toPosition(p);
-                SgPosTransformPtr trs(new SgPosTransform(p));
-                trs->setName(name_ + "/geom_postrans");
-                trs->addChild(shape);
-                sg_main->addChild(trs);
-            }
+            //SgMesh* generateBox(const Vector3& size, int options = NoOption);
+            SgPosTransformPtr trs = addShape(name_ + "/box", mesh, _color, geom);
+            sg_main->addChild(trs);
+        } else if (geom.type == Geometry::Cylinder) {
+            MeshGenerator mg;
+            SgMeshPtr mesh = mg.generateCylinder(geom.parameter[0], geom.parameter[1]);
+            //SgMesh* generateCylinder(double radius, double height, int options = NoOption);
+            SgPosTransformPtr trs = addShape(name_ + "/cylinder", mesh, _color, geom);
+            sg_main->addChild(trs);
+        } else if (geom.type == Geometry::Sphere) {
+            MeshGenerator mg;
+            SgMeshPtr mesh = mg.generateSphere(geom.parameter[0]);
+            //SgMesh* generateSphere(double radius, int options = NoOption);
+            SgPosTransformPtr trs = addShape(name_ + "/sphere", mesh, _color, geom);
+            sg_main->addChild(trs);
+        } else if (geom.type == Geometry::Cone) {
+            MeshGenerator mg;
+            SgMeshPtr mesh = mg.generateCone(geom.parameter[0], geom.parameter[1]);
+            //SgMesh* generateCone(double radius, double height, int options = NoOption);
+            SgPosTransformPtr trs = addShape(name_ + "/cone", mesh, _color, geom);
+            sg_main->addChild(trs);
+        } else if (geom.type == Geometry::Capsule) {
+            MeshGenerator mg;
+            SgMeshPtr mesh = mg.generateCapsule(geom.parameter[0], geom.parameter[1]);
+            //SgMesh* generateCapsule(double radius, double height);
+            SgPosTransformPtr trs = addShape(name_ + "/capsule", mesh, _color, geom);
+            sg_main->addChild(trs);
         }
     }
 }
