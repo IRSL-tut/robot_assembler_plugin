@@ -204,10 +204,11 @@ actuator-info:
     id:
     direction:
     offset:
-    initial:
     limit:
     vlimit:
     tqlimit:
+    initial-angle:
+    current-angle:
 device-info:
   devicename0:
     name:
