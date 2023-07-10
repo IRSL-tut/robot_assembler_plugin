@@ -1,8 +1,7 @@
 #ifndef CNOID_ROBOT_ASSEMBLER_PLUGIN_MANAGER_H
 #define CNOID_ROBOT_ASSEMBLER_PLUGIN_MANAGER_H
 
-#include "RobotAssembler.h"
-#include "RobotAssemblerHelper.h"
+#include "AssemblerForBase.h"
 #include "AssemblerItem.h"
 
 namespace ra = cnoid::robot_assembler;
