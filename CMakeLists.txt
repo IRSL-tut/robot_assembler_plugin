@@ -2,8 +2,9 @@ set(sources
   #src/RobotAssemblerSettings.cpp
   #src/RobotAssembler.cpp
   #src/RobotAssemblerBody.cpp
+  #src/RobotAssemblerHelper.cpp
+  #src/RobotAssemblerInfo.cpp
   src/RobotAssemblerPlugin.cpp
-  src/RobotAssemblerHelper.cpp
   src/AssemblerItem.cpp
   src/AssemblerManager.cpp
   src/AssemblerView.cpp
@@ -11,15 +12,17 @@ set(sources
   src/AssemblerSwapModeBar.cpp
   src/AssemblerTreeView.cpp
   src/AssemblerPartsView.cpp
-  #src/RobotAssemblerInfo.cpp
+  src/AssemblerForBase.cpp
   )
 set(headers
   #src/irsl_choreonoid/Coordinates.h
   #src/RobotAssemblerSettings.h
   #src/RobotAssembler.h
   #src/RobotAssemblerBody.h
+  #src/RobotAssemblerHelper.h
+  #src/RobotAssemblerInfo.h
+  #src/ValueTreeUtil.h
   src/RobotAssemblerPlugin.h
-  src/RobotAssemblerHelper.h
   src/AssemblerItem.h
   src/AssemblerManager.h
   src/AssemblerView.h
@@ -27,38 +30,41 @@ set(headers
   src/AssemblerSwapModeBar.h
   src/AssemblerTreeView.h
   src/AssemblerPartsView.h
-  #src/RobotAssemblerInfo.h
-  #src/ValueTreeUtil.h
+  src/AssemblerForBase.h
   )
 set(libsources
   src/RobotAssemblerSettings.cpp
   src/RobotAssembler.cpp
   src/RobotAssemblerBody.cpp
+  src/RobotAssemblerHelper.cpp
+  src/RobotAssemblerInfo.cpp
   #src/RobotAssemblerPlugin.cpp
-  #src/RobotAssemblerHelper.cpp
   #src/AssemblerItem.cpp
   #src/AssemblerManager.cpp
   #src/AssemblerView.cpp
   #src/AssemblerBar.cpp
+  #src/AssemblerSwapModeBar.cpp
   #src/AssemblerTreeView.cpp
   #src/AssemblerPartsView.cpp
-  src/RobotAssemblerInfo.cpp
+  #src/AssemblerForBase.cpp
   )
 set(libheaders
   src/irsl_choreonoid/Coordinates.h
   src/RobotAssemblerSettings.h
   src/RobotAssembler.h
   src/RobotAssemblerBody.h
+  src/RobotAssemblerHelper.h
+  src/RobotAssemblerInfo.h
+  src/ValueTreeUtil.h
   #src/RobotAssemblerPlugin.h
-  #src/RobotAssemblerHelper.h
   #src/AssemblerItem.h
   #src/AssemblerManager.h
   #src/AssemblerView.h
   #src/AssemblerBar.h
+  #src/AssemblerSwapModeBar.h
   #src/AssemblerTreeView.h
   #src/AssemblerPartsView.h
-  src/RobotAssemblerInfo.h
-  src/ValueTreeUtil.h
+  #src/AssemblerForBase.h
   )
 ## TODO install irsl_choreonoid/Coordinates.h
 add_definitions(-Wno-deprecated-declarations)

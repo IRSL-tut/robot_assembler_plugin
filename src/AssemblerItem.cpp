@@ -52,7 +52,7 @@ AssemblerItemPtr AssemblerItem::createItem(RoboasmRobotPtr _rb, AssemblerManager
     AssemblerItemPtr ret(new AssemblerItem(_rb->name()));
     ret->impl->manager = _ma; //
 
-    RASceneRobotPtr rb_scene(new RASceneRobot(_rb, _ma));
+    RASceneRobotBasePtr rb_scene(new RASceneRobotBase(_rb, _ma));
     ret->impl->scene = dynamic_pointer_cast<SgNode>(rb_scene); //
 
     return ret;
@@ -170,7 +170,7 @@ bool AssemblerItem::setName(const std::string& name)
 {
     DEBUG_STREAM(" name: " << name);
     if(!!(impl->scene)) {
-        RASceneRobotPtr p = dynamic_pointer_cast<RASceneRobot>(impl->scene);
+        RASceneRobotBasePtr p = dynamic_pointer_cast<RASceneRobotBase>(impl->scene);
         if(!!p) {
             p->setName(name);
             // p->robot->name = 

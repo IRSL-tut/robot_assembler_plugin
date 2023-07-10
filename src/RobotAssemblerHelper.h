@@ -3,13 +3,15 @@
 
 #include "RobotAssembler.h"
 #include <cnoid/SceneGraph>
-#include <cnoid/SceneWidgetEventHandler>
+//#include <cnoid/SceneWidgetEventHandler>
 #include <cnoid/Body>
 #include <cnoid/ValueTree>
 #include <set>
 
+#include "exportdecl.h"
+
 namespace cnoid {
-class AssemblerManager;
+//class AssemblerManager;
 
 namespace robot_assembler {
 class RASceneConnectingPoint;
@@ -18,7 +20,7 @@ class RASceneRobot;
 
 typedef SgPosTransform RASceneBase;
 
-class RASceneConnectingPoint : public RASceneBase
+class CNOID_EXPORT RASceneConnectingPoint : public RASceneBase
 {
 public:
     enum Clicked {
@@ -57,13 +59,13 @@ protected:
 };
 typedef ref_ptr<RASceneConnectingPoint> RASceneConnectingPointPtr;
 
-class RASceneParts : public RASceneBase
+class CNOID_EXPORT RASceneParts : public RASceneBase
 {
 public:
     RASceneParts() = delete;
     RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir = std::string());
     ~RASceneParts();
-    //~RASceneParts();
+
     RoboasmPartsPtr parts() { return self; }
     RASceneRobot *scene_robot() { return robot_ptr; }
     void drawBoundingBox(bool _on = true);
@@ -81,18 +83,20 @@ protected:
 };
 typedef ref_ptr<RASceneParts> RAScenePartsPtr;
 
-class RASceneRobot : public RASceneBase, public SceneWidgetEventHandler
+class CNOID_EXPORT RASceneRobot : public RASceneBase
 {
 public:
     RASceneRobot() = delete;
-    RASceneRobot(RoboasmRobotPtr _r, AssemblerManager *_ma = nullptr);
+    RASceneRobot(RoboasmRobotPtr _r);
+    RASceneRobot(RoboasmRobotPtr _r, const std::string &_project_dir);
     ~RASceneRobot();
+
+    void initializeRobotStructure(const std::string &_project_dir);
 
     RoboasmRobotPtr robot() { return self; }
     void updateFromSelf()
     {   // [TODO] concern initial
-        Position p; self->toPosition(p);
-        this->position() = p;
+        self->toPosition(this->position());
     }
     void setCoords(coordinates &_coords)
     {
@@ -119,6 +123,26 @@ public:
     RASceneParts *searchParts(RoboasmPartsPtr _pt);
     RASceneConnectingPoint *searchConnectingPoint(RoboasmConnectingPointPtr _pt);
     bool mergeRobot(RASceneRobot *_rb);
+
+    void attachHistory(AttachHistory &_hist,
+                       const std::string &_parent,
+                       const std::string &_parent_point,
+                       const std::string &_parts_name,
+                       const std::string &_parts_type,
+                       const std::string &_parts_point,
+                       coordinates &_coords)
+    {
+        _attachHistory(_hist, _parent, _parent_point, _parts_name, _parts_type, _parts_point);
+        _hist[0].connecting_offset = _coords;
+        for(auto it = _hist.begin(); it != _hist.end(); it++) {
+            history.push_back(*it);
+        }
+    }
+    std::set<RASceneParts*> sparts_set;
+    std::set<RASceneConnectingPoint*> spoint_set;
+    AttachHistory history;
+    MappingPtr info;
+    // AssembleConfig -> info
 #if 0
     void debug() {
         partsPtrList plst;
@@ -162,39 +186,6 @@ public:
     }
 #endif
 
-    //// overrides : SceneWidgetEventHandler
-    virtual void onSceneModeChanged(SceneWidgetEvent* event) override;
-    virtual bool onButtonPressEvent(SceneWidgetEvent* event) override;
-    virtual bool onDoubleClickEvent(SceneWidgetEvent* event) override;
-#if 0
-    virtual bool onButtonReleaseEvent(SceneWidgetEvent* event) override;
-    virtual bool onPointerMoveEvent(SceneWidgetEvent* event) override;
-    virtual void onPointerLeaveEvent(SceneWidgetEvent* event) override;
-    virtual bool onKeyPressEvent(SceneWidgetEvent* event) override;
-    virtual bool onKeyReleaseEvent(SceneWidgetEvent* event) override;
-    virtual bool onScrollEvent(SceneWidgetEvent* event) override;
-#endif
-    virtual void onFocusChanged(SceneWidgetEvent* event, bool on) override;
-    virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
-    void attachHistory(AttachHistory &_hist,
-                       const std::string &_parent,
-                       const std::string &_parent_point,
-                       const std::string &_parts_name,
-                       const std::string &_parts_type,
-                       const std::string &_parts_point,
-                       coordinates &_coords)
-    {
-        _attachHistory(_hist, _parent, _parent_point, _parts_name, _parts_type, _parts_point);
-        _hist[0].connecting_offset = _coords;
-        for(auto it = _hist.begin(); it != _hist.end(); it++) {
-            history.push_back(*it);
-        }
-    }
-    std::set<RASceneParts*> sparts_set;
-    std::set<RASceneConnectingPoint*> spoint_set;
-    AttachHistory history;
-    MappingPtr info;
-    // AssembleConfig -> info
 protected:
     bool _attachHistory(AttachHistory &_hist,
                         const std::string &_parent,
@@ -213,13 +204,9 @@ protected:
         return true;
     }
     RoboasmRobotPtr self;
-    cnoid::AssemblerManager *manager;
-    RASceneParts *lastClickedParts;
-    RASceneConnectingPoint *lastClickedPoint;
 
     friend RASceneConnectingPoint;
     friend RASceneParts;
-    friend cnoid::AssemblerManager;
 };
 typedef ref_ptr<RASceneRobot> RASceneRobotPtr;
 
