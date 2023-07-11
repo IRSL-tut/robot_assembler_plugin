@@ -74,7 +74,8 @@ option(BUILD_TEST "build executables for test" OFF)
 QT5_ADD_RESOURCES(RC_SRCS src/RA.qrc)
 
 if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-  # Build as a master project
+  Message ("Build : RobotAssemblerPlugin (independent)")
+  # Build as an independent project
   cmake_minimum_required(VERSION 3.10)
   project(RobotAssemblerPlugin)
   find_package(Choreonoid REQUIRED)
@@ -90,8 +91,8 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     add_subdirectory(test)
   endif()
 else()
-  Message ("Build : RobotAssemblerPlugin")
-  # Build as a bundled project
+  Message ("Build : RobotAssemblerPlugin (under choreonoid/ext)")
+  # Build as a bundled project / under ext
   set(targetlib RobotAssembler)
   set(targetplugin CnoidRobotAssemblerPlugin)
   ### [todo] build libRoboassembler.so and link it
@@ -103,6 +104,7 @@ else()
   if(BUILD_TEST)
     add_subdirectory(test)
   endif()
+  add_subdirectory(pybind11)
 endif()
 
 install(FILES config/assembler.cnoid DESTINATION ${CHOREONOID_SHARE_SUBDIR}/robot_assembler/layout)

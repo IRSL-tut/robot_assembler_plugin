@@ -69,7 +69,7 @@ public:
     RoboasmPartsPtr parts() { return self; }
     RASceneRobot *scene_robot() { return robot_ptr; }
     void drawBoundingBox(bool _on = true);
-    bool updateColor(Vector3f &_color);
+    bool updateColor(const Vector3f &_color);
     void updateCoords();
 protected:
     RASceneRobot *robot_ptr;
