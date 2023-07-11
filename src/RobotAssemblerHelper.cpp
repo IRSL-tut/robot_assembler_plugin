@@ -275,7 +275,7 @@ void RASceneParts::drawBoundingBox(bool _on)
         this->addChild(partsScene);
     }
 }
-bool RASceneParts::updateColor(Vector3f &_color)
+bool RASceneParts::updateColor(const Vector3f &_color)
 {
     if(!!material) {
         DEBUG_STREAM("update col1 " << this->name() << " / [" << _color[0] << " " << _color[1] << " " << _color[2] << "]");
