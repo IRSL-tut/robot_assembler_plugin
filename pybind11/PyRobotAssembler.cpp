@@ -42,6 +42,7 @@ void exportPyRobotAssembler(py::module &m)
     py::class_< ra::RoboasmUtil > roboasmutil_cls(m, "RoboasmUtil");
     roboasmutil_cls.def(py::init<const std::string &>())
     .def(py::init<ra::SettingsPtr>())
+    .def_property_readonly("settings", &ra::RoboasmUtil::settings)
     .def("makeParts", (ra::RoboasmPartsPtr (ra::RoboasmUtil::*)(const std::string &_ky)) &ra::RoboasmUtil::makeParts)
     .def("makeParts", (ra::RoboasmPartsPtr (ra::RoboasmUtil::*)(const std::string &_ky, const std::string &_nm)) &ra::RoboasmUtil::makeParts)
     //.def("makeRobot"

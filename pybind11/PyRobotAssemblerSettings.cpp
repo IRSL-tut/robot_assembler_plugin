@@ -132,27 +132,47 @@ void exportPyRobotAssemblerSettings(py::module &m)
     .def_property_readonly("type", [](ra::Parts &self) { return self.type; })
     .def_property_readonly("class_name", [](ra::Parts &self) { return self.class_name; })
     .def_property_readonly("description", [](ra::Parts &self) { return self.description; })
-    .def("visual", [](ra::Parts &self, int idx) {
+    .def_property_readonly("visualList", [](ra::Parts &self) {
+        py::list _lst;
+        for (int i = 0; i < self.visual.size(); i++) _lst.append( py::cast(self.visual[i]) );
+        return _lst; })
+    .def_property_readonly("collisionList", [](ra::Parts &self) {
+        py::list _lst;
+        for (int i = 0; i < self.collision.size(); i++) _lst.append( py::cast(self.collision[i]) );
+        return _lst; })
+    .def_property_readonly("connectingPointList", [](ra::Parts &self) {
+        py::list _lst;
+        for (int i = 0; i < self.connecting_points.size(); i++) _lst.append( py::cast(self.connecting_points[i]) );
+        return _lst; })
+    .def_property_readonly("actuatorList", [](ra::Parts &self) {
+        py::list _lst;
+        for (int i = 0; i < self.actuators.size(); i++) _lst.append( py::cast(self.actuators[i]) );
+        return _lst; })
+    .def_property_readonly("extraDataList", [](ra::Parts &self) {
+        py::list _lst;
+        for (int i = 0; i < self.extra_data.size(); i++) _lst.append( py::cast(self.extra_data[i]) );
+        return _lst; })
+    .def("getVisual", [](ra::Parts &self, int idx) {
         try {  return py::cast(self.visual.at(idx)); } catch ( ... ) { }
         return py::cast(nullptr);
     })
-    .def("collision", [](ra::Parts &self, int idx) {
+    .def("getCollision", [](ra::Parts &self, int idx) {
         try {  return py::cast(self.collision.at(idx)); } catch ( ... ) { }
         return py::cast(nullptr);
     })
-    .def("connecting_points", [](ra::Parts &self, int idx) {
+    .def("getConnectingPoint", [](ra::Parts &self, int idx) {
         try {  return py::cast(self.connecting_points.at(idx)); } catch ( ... ) { }
         return py::cast(nullptr);
     })
-    .def("actuators", [](ra::Parts &self, int idx) {
+    .def("getActuators", [](ra::Parts &self, int idx) {
         try {  return py::cast(self.actuators.at(idx)); } catch ( ... ) { }
         return py::cast(nullptr);
     })
-    .def("extra_data", [](ra::Parts &self, int idx) {
+    .def("getExtraData", [](ra::Parts &self, int idx) {
         try {  return py::cast(self.extra_data.at(idx)); } catch ( ... ) { }
         return py::cast(nullptr);
     })
-    .def("create_visual", [] (ra::Parts &self,
+    .def("createVisual", [] (ra::Parts &self,
                              const std::string &_dir, const std::vector<double> &_col) {
         SgGroup *ptr = new SgGroup();
         ptr->setName("xxx");
@@ -174,14 +194,18 @@ void exportPyRobotAssemblerSettings(py::module &m)
             lst_.push_back(it->first);
         }
         return lst_; })
-    .def("parts", [](ra::Settings &self, const int idx) {
+    .def_property_readonly("partsList", [](ra::Settings &self) {
+        py::list _lst;
+        for (auto it = self.mapParts.begin(); it != self.mapParts.end(); it++) _lst.append( py::cast(*it) );
+        return _lst; })
+    .def("getParts", [](ra::Settings &self, const int idx) {
         int index = 0;
         for( auto it = self.mapParts.begin(); it != self.mapParts.end(); it++, index++ ) {
             if (index == idx) return py::cast(it->second);
         }
         return py::cast(nullptr);
     })
-    .def("parts", [](ra::Settings &self, const std::string &name) {
+    .def("getParts", [](ra::Settings &self, const std::string &name) {
         try {  return py::cast(self.mapParts.at(name));  } catch ( ... ) { }
         return py::cast(nullptr);
     })
