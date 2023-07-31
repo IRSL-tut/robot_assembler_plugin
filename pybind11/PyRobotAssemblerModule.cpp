@@ -21,7 +21,7 @@ PYBIND11_MODULE(RobotAssembler, m)
 
     py::module::import("cnoid.Body");
     py::module::import("cnoid.Util");
-    //py::module::import("cnoid.IRSLCoords");
+    py::module::import("cnoid.IRSLCoords");
 
     exportPyRobotAssemblerSettings(m);
     exportPyRobotAssembler(m);

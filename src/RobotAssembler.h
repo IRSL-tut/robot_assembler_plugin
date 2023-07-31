@@ -447,7 +447,7 @@ public:
     bool canMatch(RoboasmConnectingPointPtr _a, RoboasmConnectingPointPtr _b);
 
     bool renamePartsHistory(AttachHistory &_hist, StringMap &_rmap);
-    //SettingPtr settings() const { return current_settings; }
+    SettingsPtr settings() const { return current_settings; }
 private:
     //class Impl;
     //static Impl *impl;
