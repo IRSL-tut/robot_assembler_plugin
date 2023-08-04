@@ -219,7 +219,7 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
     bbEffect = new SgBoundingBox();
     bbEffect->setColor(Vector3f(1.0f, 1.0f, 0.0f));
     bbEffect->setLineWidth(-1.0f);
-    this->addChild(partsScene);
+    this->addChild(partsScene); // parts->connectingpoint (SgPosTrans)
 
     //partsScene = node;
     Position p; _p->worldcoords().toPosition(p);
@@ -286,9 +286,9 @@ bool RASceneParts::updateColor(const Vector3f &_color)
 }
 void RASceneParts::updateCoords()
 {
-    Position p;
-    self->worldcoords().toPosition(p);
-    position() = p;
+    coordinates robot_to_parts;
+    robot_ptr->robot()->worldcoords().transformation(robot_to_parts, self->worldcoords());
+    robot_to_parts.toPosition(this->position());
     // update coords of connecting-points
     for(auto it = spoint_list.begin(); it != spoint_list.end(); it++) {
         (*it)->updateCoords();
@@ -326,7 +326,7 @@ void RASceneRobot::initializeRobotStructure(const std::string &_project_dir)
         pt = new RASceneParts(*it, _project_dir);
         pt->robot_ptr = this;
         sparts_set.insert(pt);
-        this->addChild(pt);
+        this->addChild(pt); // robot->parts(SgPosTrans)
         for(int i = 0; i < pt->spoint_list.size(); i++) {
             pt->spoint_list[i]->robot_ptr = this;
             spoint_set.insert(pt->spoint_list[i]);
