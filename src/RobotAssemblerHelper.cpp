@@ -150,9 +150,7 @@ RASceneConnectingPoint::RASceneConnectingPoint(RoboasmConnectingPointPtr _c)
     }
 
     coordinates *cds = static_cast<coordinates *>(self.get());
-    Position p;
-    cds->toPosition(p);
-    position() = p;
+    cds->toPosition(this->position());
 
     material = mat_;
     switch_node = sw_;
@@ -222,8 +220,8 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
     this->addChild(partsScene); // parts->connectingpoint (SgPosTrans)
 
     //partsScene = node;
-    Position p; _p->worldcoords().toPosition(p);
-    position() = p;
+    _p->worldcoords().toPosition(this->position());
+
     coordsPtrList lst;
     _p->directDescendants(lst);
     for(auto it = lst.begin(); it != lst.end(); it++) {
@@ -346,7 +344,7 @@ void RASceneRobot::initializeRobotStructure(const std::string &_project_dir)
     // restore original coords
     self->newcoords(org_coords_);
     self->updateDescendants();
-    org_coords_.toPosition(position());
+    org_coords_.toPosition(this->position());
 }
 RASceneParts *RASceneRobot::searchParts(RoboasmPartsPtr _pt)
 {
@@ -373,13 +371,11 @@ RASceneConnectingPoint *RASceneRobot::searchConnectingPoint(RoboasmConnectingPoi
 bool RASceneRobot::mergeRobot(RASceneRobot *_rb) {
     coordinates base_coords = self->worldcoords();
     coordinates trans;
-    Position p;
     _rb->clearChildren();//
     for(auto pt_it = _rb->sparts_set.begin(); pt_it != _rb->sparts_set.end(); pt_it++) {
         this->addChild(*pt_it);
         base_coords.transformation(trans, (*pt_it)->parts()->worldcoords());
-        trans.toPosition(p);
-        (*pt_it)->position() = p;
+        trans.toPosition((*pt_it)->position());
         sparts_set.insert(*pt_it);
         (*pt_it)->robot_ptr = this;
         for(auto pit = (*pt_it)->spoint_list.begin(); pit != (*pt_it)->spoint_list.end(); pit++) {
