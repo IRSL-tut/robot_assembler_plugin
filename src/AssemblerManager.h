@@ -50,6 +50,7 @@ public:
     void updateRobotsCoords() {
         for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
             (*it)->updateFromSelf();
+            (*it)->notifyUpdate(SgUpdate::MODIFIED);
         }
     }
     bool robotExist(ra::RASceneRobot *_rb) {

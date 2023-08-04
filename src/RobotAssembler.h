@@ -488,8 +488,8 @@ inline RoboasmParts *RoboasmCoords::toParts() {
 inline RoboasmRobot *RoboasmCoords::toRobot() {
     return dynamic_cast<RoboasmRobot*>(this);
 }
-std::ostream& operator<< (std::ostream& ostr, const cnoid::robot_assembler::RoboasmCoords &output);
+CNOID_EXPORT std::ostream& operator<< (std::ostream& ostr, const cnoid::robot_assembler::RoboasmCoords &output);
 }
-std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &output);
+CNOID_EXPORT std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &output);
 }
 #endif
