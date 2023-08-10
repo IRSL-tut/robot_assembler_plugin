@@ -13,6 +13,10 @@ After that, run cmake and make install in choreonoid main directory
 ## run sample
 choreonoid --assembler config/kxr/kxr_assembler_config.yaml config/assembler.cnoid
 
+## 操作方法
+
+[RobotAssemblerの使い方](https://github.com/IRSL-tut/CPS-lecture/wiki/RobotAssembler%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9)
+
 ## ソースファイル説明
 - src/RobotAssemblerPlugin.{cpp, h}
   - choreonoidプラグイン登録
