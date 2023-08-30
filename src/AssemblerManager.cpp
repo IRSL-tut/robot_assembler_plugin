@@ -830,14 +830,14 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
     optionPanel->setLayout(optionVBox);
 
     auto hbox = new QHBoxLayout;
-    hbox->addWidget(new QLabel("Ext model file mode:"));
+    hbox->addWidget(new QLabel("Mode: exporting mesh file"));
     QComboBox* extModelFileModeCombo = new QComboBox;
     extModelFileModeCombo->addItem(
-        "Replace with OBJ model files", StdSceneWriter::ReplaceWithObjModelFiles);
+        "Embed models", StdSceneWriter::EmbedModels);
     extModelFileModeCombo->addItem(
         "Link to the original model files", StdSceneWriter::LinkToOriginalModelFiles);
     extModelFileModeCombo->addItem(
-        "Embed models", StdSceneWriter::EmbedModels);
+        "Replace with OBJ model files", StdSceneWriter::ReplaceWithObjModelFiles);
     extModelFileModeCombo->addItem(
         "Replace with standard scene files", StdSceneWriter::ReplaceWithStdSceneFiles);
     hbox->addWidget(extModelFileModeCombo);
