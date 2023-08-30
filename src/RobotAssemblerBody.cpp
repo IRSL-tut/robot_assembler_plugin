@@ -369,6 +369,9 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
                     lk->setJointType(Link::FreeJoint);
                     break;
                 }
+                if (lk->jointType() != Link::FreeJoint && lk->jointType() != Link::FixedJoint) {
+                    lk->setEquivalentRotorInertia(0.1); // magic word
+                }
                 DEBUG_STREAM(" limit : " << ainfo_->limit[0] << " / " << ainfo_->limit[1]);
                 double lim_min_, lim_max_;
                 if(cinfo.getActuatorLimit(act_->name(), "limit", lim_min_, lim_max_)) {
