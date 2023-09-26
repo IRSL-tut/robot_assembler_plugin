@@ -184,6 +184,7 @@ public:
     }
     virtual bool dumpRoboasm(const std::string &_filename) override;
     MappingPtr historyToMap(MappingPtr _main = nullptr);
+    MappingPtr addInfo(MappingPtr _main = nullptr);
     bool updateRobotByInfo(RoboasmRobotPtr _rb);
 };
 } }
