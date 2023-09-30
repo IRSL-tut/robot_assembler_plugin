@@ -163,12 +163,12 @@ bool RASceneRobotBase::onContextMenuRequest(SceneWidgetEvent* event)
     auto menu = event->contextMenu();
 
     menu->addSeparator();
-    menu->addItem("Move")->sigTriggered().connect(
-        [this](){ } );
-
-    if (!!lastClickedParts) {
+    {
+        std::string label = "Move : " + this->name();
+        menu->addItem(label)->sigTriggered().connect(
+            [this](){ } );
+        //
         menu->addSeparator();
-
         std::string label0_ = "Save history : " + this->name();
         menu->addItem(label0_)->sigTriggered().connect(
             [this](){ manager->save_history(this); });
@@ -180,8 +180,11 @@ bool RASceneRobotBase::onContextMenuRequest(SceneWidgetEvent* event)
         std::string label2_ = "Delete Robot: " + this->name();
         menu->addItem(label2_)->sigTriggered().connect(
             [this](){ manager->deleteRobot(this); });
-        //
+    }
+
+    if (!!lastClickedParts) {
         menu->addSeparator();
+        //
         std::string label3_ = "Select Parts : " + lastClickedParts->name();
         menu->addItem(label3_);
         std::string label4_ = "Detach Parts : " + lastClickedParts->name();
