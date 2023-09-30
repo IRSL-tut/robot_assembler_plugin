@@ -1,4 +1,4 @@
-//this is copy of irsl_choreonoid / 46671c17e4fa1d876f03521bd65eaa2c4b81ee65
+//this is copy of irsl_choreonoid / 183ca0551256ebeaff22efd0168de1871339e681
 #include <cnoid/EigenTypes>
 #include <cnoid/EigenUtil> // rotFromRpy
 #include <memory>
@@ -210,7 +210,8 @@ namespace cnoid {
         void set(const Matrix3 &r) { rot = r; }
         void set(const Quaternion &q) { rot = q; }
         void set(const AngleAxis &ax) { rot = ax; }
-
+        virtual void newcoords(const coordinates &c) { *this = c; }
+        virtual void newcoords(const cnoidPosition &p) { *this = p; }
         bool equal(const coordinates &c, const double eps = 0.00001) const
         {
             if (!eps_eq(pos, c.pos, eps)) return false;
