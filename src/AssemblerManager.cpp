@@ -674,6 +674,22 @@ bool AssemblerManager::onDoubleClickEvent(SceneWidgetEvent* event)
     // override double-click default behavior(change mode)
     return true;
 }
+bool AssemblerManager::onKeyPressEvent(SceneWidgetEvent* event)
+{
+    DEBUG_PRINT();
+    if (event->modifiers() | Qt::AltModifier) {
+        DEBUG_STREAM("alt");
+    }
+    if (event->key() == Qt::Key_Tab) {
+        com_unselect_points();
+    }
+    return false;
+}
+bool AssemblerManager::onKeyReleaseEvent(SceneWidgetEvent* event)
+{
+    DEBUG_PRINT();
+    return false;
+}
 bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
@@ -725,7 +741,9 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     menu->addSeparator();
     menu->addItem("Delete All")->sigTriggered().connect(
         [this](){ com_delete_all(); } );
-
+    menu->addSeparator();
+    menu->addItem("Unselect points")->sigTriggered().connect(
+        [this](){ com_unselect_points(); } );
     //return true;
     return false;
 }

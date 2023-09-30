@@ -115,7 +115,12 @@ public:
     void com_load();
     void com_delete_all() { deleteAllRobots(); }
     void com_swap_mode();
-
+    void com_unselect_points() {
+        clickedPoint0=nullptr;
+        clickedPoint1=nullptr;
+        updateConnectingPoints();
+        notifyUpdate();
+    }
     void notifyUpdate() {
         for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
             //(*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
@@ -151,8 +156,8 @@ protected:
     //virtual bool onButtonReleaseEvent(SceneWidgetEvent* event) override;
     //virtual bool onPointerMoveEvent(SceneWidgetEvent* event) override;
     //virtual void onPointerLeaveEvent(SceneWidgetEvent* event) override;
-    //virtual bool onKeyPressEvent(SceneWidgetEvent* event) override;
-    //virtual bool onKeyReleaseEvent(SceneWidgetEvent* event) override;
+    virtual bool onKeyPressEvent(SceneWidgetEvent* event) override;
+    virtual bool onKeyReleaseEvent(SceneWidgetEvent* event) override;
     //virtual bool onScrollEvent(SceneWidgetEvent* event) override;
     //virtual void onFocusChanged(SceneWidgetEvent* event, bool on) override;
     virtual bool onContextMenuRequest(SceneWidgetEvent* event) override;
