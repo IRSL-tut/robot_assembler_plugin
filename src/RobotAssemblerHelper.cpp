@@ -10,9 +10,11 @@
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
 
-namespace cnoid {
-namespace robot_assembler {
+using namespace cnoid;
+using namespace cnoid::robot_assembler;
 
+namespace
+{
 static const Vector3f color_default(0.3f, 0.3f, 0.6f);
 static const Vector3f color_good0(0.0f, 1.0f, 0.0f);
 static const Vector3f color_good1(0.0f, 1.0f, 0.0f);
@@ -21,6 +23,7 @@ static const Vector3f color_bad1(1.0f, 0.0f, 0.0f);
 static const Vector3f color_can_connect0(0.0f, 1.0f, 1.0f);
 static const Vector3f color_can_connect1(0.0f, 1.0f, 1.0f);
 static const Vector3f color_selected(0.5f, 0.0f, 0.5f);
+}
 
 #define SCP_LENGTH_LONG  0.015
 #define SCP_LENGTH_SHORT 0.006
@@ -385,5 +388,3 @@ bool RASceneRobot::mergeRobot(RASceneRobot *_rb) {
     }
     return true;
 }
-
-} }

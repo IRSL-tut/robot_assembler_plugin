@@ -1,8 +1,10 @@
 #ifndef CNOID_ASSEMBLER_FOR_BASE_H
 #define CNOID_ASSEMBLER_FOR_BASE_H
 
-#include <cnoid/SceneWidgetEventHandler>
 #include "RobotAssemblerHelper.h"
+#include <cnoid/SceneWidgetEventHandler>
+
+#include "exportdecl.h"
 
 namespace cnoid {
 class AssemblerManager;

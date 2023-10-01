@@ -6,8 +6,8 @@
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
 
-namespace cnoid {
-namespace robot_assembler {
+using namespace cnoid;
+using namespace cnoid::robot_assembler;
 
 RASceneRobotBase::RASceneRobotBase(RoboasmRobotPtr _r, AssemblerManager *_ma)
     : RASceneRobot(_r)
@@ -203,5 +203,3 @@ bool RASceneRobotBase::onContextMenuRequest(SceneWidgetEvent* event)
 
     return false; //??
 }
-
-} }

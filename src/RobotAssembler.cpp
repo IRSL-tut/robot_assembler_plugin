@@ -4,17 +4,19 @@
 #include <sstream>
 #include <algorithm> //std::find
 
+#ifndef _WIN32
 // get pid
 #include <sys/types.h>
 #include <unistd.h>
+#else
+#include <process.h>
+#endif
 
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
 
 using namespace cnoid;
-
-namespace cnoid {
-namespace robot_assembler {
+using namespace cnoid::robot_assembler;
 
 void static print(coordinates &cds)
 {
@@ -995,7 +997,11 @@ RoboasmUtil::RoboasmUtil(const std::string &filename)
     SettingsPtr p = std::make_shared<Settings>();
     if (p->parseYaml(filename)) {
         parts_counter = 0;
+#ifndef _WIN32
         pid = getpid();
+#else
+        pid = _getpid();
+#endif
         current_settings = p;
     } else {
         current_settings = nullptr;
@@ -1005,7 +1011,11 @@ RoboasmUtil::RoboasmUtil(SettingsPtr settings)
 {
     if(!!settings) {
         parts_counter = 0;
+#ifndef _WIN32
         pid = getpid();
+#else
+        pid = _getpid();
+#endif
     }
     current_settings = settings;
 }
@@ -1187,14 +1197,13 @@ bool RoboasmUtil::renamePartsHistory(AttachHistory &_hist, StringMap &_rmap)
     }
     return res_;
 }
-std::ostream& operator<< (std::ostream& ostr, const cnoid::robot_assembler::RoboasmCoords &output)
+std::ostream& cnoid::robot_assembler::operator<< (std::ostream& ostr, const cnoid::robot_assembler::RoboasmCoords &output)
 {
-    ostr << "[" << &output << "] " << output.name() << " : ";
+    ostr << "[" << *((cnoid::coordinates *)&output) << "] " << output.name() << " : ";
     ostr << output.worldcoords();
     return ostr;
 }
-}
-std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &cds)
+std::ostream& cnoid::operator<< (std::ostream& ostr, const cnoid::coordinates &cds)
 {
     ostr << "((" << cds.pos(0) << " "
          << cds.pos(1) << " " << cds.pos(2);
@@ -1202,5 +1211,4 @@ std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &cds)
     ostr << ") (" << rpy(0)  << " " << rpy(1)  << " "
          << rpy(2) << "))";
     return ostr;
-}
 }

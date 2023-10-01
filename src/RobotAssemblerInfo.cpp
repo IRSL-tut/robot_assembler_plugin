@@ -3,9 +3,9 @@
 #include "irsl_debug.h"
 
 using namespace cnoid;
-namespace ra = cnoid::robot_assembler;
+using namespace cnoid::robot_assembler;
 
-MappingPtr ra::parseInfo(const std::string &_fname)
+MappingPtr cnoid::robot_assembler::parseInfo(const std::string &_fname)
 {
     DEBUG_STREAM(" rd: " << _fname);
     YAMLReader yrdr;
@@ -28,9 +28,9 @@ MappingPtr ra::parseInfo(const std::string &_fname)
     }
     return nullptr;
 }
-MappingPtr ra::createInfo(ra::RoboasmRobotPtr _rb)
+MappingPtr cnoid::robot_assembler::createInfo(RoboasmRobotPtr _rb)
 {
-    ra::RoboasmPartsPtr root_ = _rb->rootParts();
+    RoboasmPartsPtr root_ = _rb->rootParts();
     if(!root_) return nullptr;
     MappingPtr ret = new Mapping();
     MappingPtr rb_info = new Mapping();
@@ -40,7 +40,7 @@ MappingPtr ra::createInfo(ra::RoboasmRobotPtr _rb)
     ret->insert("robot-info", rb_info);
     MappingPtr pt_info = new Mapping();
     bool added = false;
-    ra::partsPtrList lst;
+    partsPtrList lst;
     _rb->allParts(lst);
     for(auto it = lst.begin(); it != lst.end(); it++) {
         if((*it)->color.isZero()) continue;
@@ -54,7 +54,7 @@ MappingPtr ra::createInfo(ra::RoboasmRobotPtr _rb)
     }
     return ret;
 }
-bool ra::mergeInfo(Mapping *_dst, Mapping *_src)
+bool cnoid::robot_assembler::mergeInfo(Mapping *_dst, Mapping *_src)
 {
     if(!_dst || !_src) return false;
     Mapping *d_parts = _dst->findMapping("parts-info");
@@ -84,14 +84,14 @@ bool ra::mergeInfo(Mapping *_dst, Mapping *_src)
     return true;
 }
 //
-static inline void _rename(std::string &_in, ra::StringMap _rmap)
+static inline void _rename(std::string &_in, StringMap _rmap)
 {
     auto it = _rmap.find(_in);
     if (it != _rmap.end()) {
         _in = it->second;
     }
 }
-static inline void _rename_connecting_point(std::string &_in, ra::StringMap _rmap)
+static inline void _rename_connecting_point(std::string &_in, StringMap _rmap)
 {
     // position of "/"
     size_t len = _in.size();
@@ -103,7 +103,7 @@ static inline void _rename_connecting_point(std::string &_in, ra::StringMap _rma
     _rename(str_pt_, _rmap);
     _in = str_pt_ + "/" + str_cp_;
 }
-bool ra::cnoidRAInfo::renameInfo(ra::StringMap &_rmap)
+bool cnoidRAInfo::renameInfo(StringMap &_rmap)
 {
     bool res_ = true;
     {   // rename parts-info
@@ -143,7 +143,7 @@ bool ra::cnoidRAInfo::renameInfo(ra::StringMap &_rmap)
     return res_;
 }
 //
-bool ra::cnoidRAFile::dumpRoboasm(const std::string &_filename)
+bool cnoidRAFile::dumpRoboasm(const std::string &_filename)
 {
     MappingPtr mp_ = historyToMap();
     addInfo(mp_);
@@ -159,7 +159,7 @@ bool ra::cnoidRAFile::dumpRoboasm(const std::string &_filename)
     ywtr.closeFile();
     return true;
 }
-MappingPtr ra::cnoidRAFile::addInfo(MappingPtr _main)
+MappingPtr cnoidRAFile::addInfo(MappingPtr _main)
 {
     if (!_main) {
         _main = new Mapping();
@@ -190,7 +190,7 @@ MappingPtr ra::cnoidRAFile::addInfo(MappingPtr _main)
     }
     return _main;
 }
-MappingPtr ra::cnoidRAFile::historyToMap(MappingPtr _main)
+MappingPtr cnoidRAFile::historyToMap(MappingPtr _main)
 {
     ListingPtr hist = new Listing();
     for(auto it = history.begin(); it != history.end(); it++) {
@@ -232,20 +232,20 @@ MappingPtr ra::cnoidRAFile::historyToMap(MappingPtr _main)
     main_map->insert("history", hist);
     return main_map;
 }
-bool ra::cnoidRAFile::updateRobotByInfo(RoboasmRobotPtr _rb)
+bool cnoidRAFile::updateRobotByInfo(RoboasmRobotPtr _rb)
 {
     DEBUG_PRINT();
     coordinates cds_;
     if(getRobotCoords(cds_)) {
         DEBUG_STREAM(" initial-coords : " << cds_);
-        ra::RoboasmPartsPtr root_ = _rb->rootParts();
+        RoboasmPartsPtr root_ = _rb->rootParts();
         if(!!root_) {
             DEBUG_STREAM(" set initial to root(" << root_->name() << ")");
             root_->newcoords(cds_);
         }
         _rb->updateDescendants();
     }
-    ra::partsPtrList lst;
+    partsPtrList lst;
     _rb->allParts(lst);
     for(auto it = lst.begin(); it != lst.end(); it++) {
         Mapping *mp_ = getPartsInfo((*it)->name());

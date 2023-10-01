@@ -5,10 +5,13 @@
 #include <cnoid/Body>
 #include <cnoid/ValueTree>
 
+#include "exportdecl_lib.h"
+
 namespace cnoid {
 namespace robot_assembler {
 
 extern const Vector3f default_body_color;
+extern const Vector3f default_mesh_color;
 
 void CNOID_EXPORT createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                              const std::string &_proj_dir = std::string(), const Vector3f &_color = Vector3f::Zero());

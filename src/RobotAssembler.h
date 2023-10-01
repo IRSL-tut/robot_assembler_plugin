@@ -7,6 +7,9 @@
 #include <vector>
 #include <memory>
 #include <set>
+#include <iostream>
+
+#include "exportdecl_lib.h"
 
 namespace cnoid {
 namespace robot_assembler {
@@ -129,7 +132,7 @@ protected:
     bool _existing_descendant(RoboasmCoords *c);
     bool _erase_descendant(RoboasmCoords *c);
 
-    friend std::ostream& operator<< (std::ostream& ostr, const RoboasmCoords &output);
+    //friend std::ostream& operator<< (std::ostream& ostr, const RoboasmCoords *output);
     friend RoboasmConnectingPoint;
     friend RoboasmParts;
     friend RoboasmRobot;
@@ -492,4 +495,5 @@ CNOID_EXPORT std::ostream& operator<< (std::ostream& ostr, const cnoid::robot_as
 }
 CNOID_EXPORT std::ostream& operator<< (std::ostream& ostr, const cnoid::coordinates &output);
 }
+
 #endif

@@ -3,12 +3,14 @@
 
 #include "RobotAssembler.h"
 #include <cnoid/SceneGraph>
+#include <cnoid/SceneDrawables>
+#include <cnoid/SceneEffects>
 //#include <cnoid/SceneWidgetEventHandler>
 #include <cnoid/Body>
 #include <cnoid/ValueTree>
 #include <set>
 
-#include "exportdecl.h"
+#include "exportdecl_lib.h"
 
 namespace cnoid {
 //class AssemblerManager;

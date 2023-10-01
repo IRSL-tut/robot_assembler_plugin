@@ -67,7 +67,9 @@ set(libheaders
   #src/AssemblerForBase.h
   )
 ## TODO install irsl_choreonoid/Coordinates.h
-add_definitions(-Wno-deprecated-declarations)
+if (NOT WIN32)
+  add_definitions(-Wno-deprecated-declarations)
+endif()
 add_definitions(-DIRSL_DEBUG)
 option(BUILD_TEST "build executables for test" OFF)
 
