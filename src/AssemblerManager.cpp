@@ -674,6 +674,22 @@ bool AssemblerManager::onDoubleClickEvent(SceneWidgetEvent* event)
     // override double-click default behavior(change mode)
     return true;
 }
+bool AssemblerManager::onKeyPressEvent(SceneWidgetEvent* event)
+{
+    DEBUG_PRINT();
+    if (event->modifiers() | Qt::AltModifier) {
+        DEBUG_STREAM("alt");
+    }
+    if (event->key() == Qt::Key_Tab) {
+        com_unselect_points();
+    }
+    return false;
+}
+bool AssemblerManager::onKeyReleaseEvent(SceneWidgetEvent* event)
+{
+    DEBUG_PRINT();
+    return false;
+}
 bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
@@ -725,7 +741,9 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     menu->addSeparator();
     menu->addItem("Delete All")->sigTriggered().connect(
         [this](){ com_delete_all(); } );
-
+    menu->addSeparator();
+    menu->addItem("Unselect points")->sigTriggered().connect(
+        [this](){ com_unselect_points(); } );
     //return true;
     return false;
 }
@@ -884,19 +902,30 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
             }
         }
         if(fname.size() > 0) {
+            if (urdf) {
+                // [TODO] if urdf
+            } else {
             // createBody
             ra::RoboasmBodyCreator bc(_project_directory);
             //bc.setMergeFixedJoint(true);
             BodyPtr bd = bc.createBody(_sr->robot(), _sr->info);
+            {
+                ra::cnoidRAFile raf;
+                raf.history = _sr->history;
+                raf.info = _sr->info;
+                MappingPtr roboasm = new Mapping();
+                raf.historyToMap(roboasm);
+                raf.addInfo(roboasm);
+                bd->info()->insert("roboasm", roboasm);
+            }
             StdBodyWriter writer;
             int mode_ = StdBodyWriter::LinkToOriginalModelFiles;
             if (!!extModelFileModeCombo) {
                 mode_ = extModelFileModeCombo->currentData().toInt();
             }
             writer.setExtModelFileMode(mode_);
-            // writer.sceneWriter()->setBaseDirectory();
             writer.writeBody(bd, fname);
-            // [TODO] if urdf
+            }
         }
     }
     delete dialog;

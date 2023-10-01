@@ -146,30 +146,8 @@ bool ra::cnoidRAInfo::renameInfo(ra::StringMap &_rmap)
 bool ra::cnoidRAFile::dumpRoboasm(const std::string &_filename)
 {
     MappingPtr mp_ = historyToMap();
-    {
-        Mapping *tmp = info->findMapping("robot-info");
-        if(tmp->isValid()) {
-            mp_->insert("robot-info", tmp);
-        }
-    }
-    {
-        Mapping *tmp = info->findMapping("parts-info");
-        if(tmp->isValid()) {
-            mp_->insert("parts-info", tmp);
-        }
-    }
-    {
-        Mapping *tmp = info->findMapping("actuator-info");
-        if(tmp->isValid()) {
-            mp_->insert("actuator-info", tmp);
-        }
-    }
-    {
-        Mapping *tmp = info->findMapping("device-info");
-        if(tmp->isValid()) {
-            mp_->insert("device-info", tmp);
-        }
-    }
+    addInfo(mp_);
+
     YAMLWriter ywtr;
     ywtr.setMessageSink(std::cerr);
     //ywtr.setDoubleFormat("%12.12f");
@@ -180,6 +158,37 @@ bool ra::cnoidRAFile::dumpRoboasm(const std::string &_filename)
     ywtr.flush();
     ywtr.closeFile();
     return true;
+}
+MappingPtr ra::cnoidRAFile::addInfo(MappingPtr _main)
+{
+    if (!_main) {
+        _main = new Mapping();
+    }
+    {
+        Mapping *tmp = info->findMapping("robot-info");
+        if(tmp->isValid()) {
+            _main->insert("robot-info", tmp);
+        }
+    }
+    {
+        Mapping *tmp = info->findMapping("parts-info");
+        if(tmp->isValid()) {
+            _main->insert("parts-info", tmp);
+        }
+    }
+    {
+        Mapping *tmp = info->findMapping("actuator-info");
+        if(tmp->isValid()) {
+            _main->insert("actuator-info", tmp);
+        }
+    }
+    {
+        Mapping *tmp = info->findMapping("device-info");
+        if(tmp->isValid()) {
+            _main->insert("device-info", tmp);
+        }
+    }
+    return _main;
 }
 MappingPtr ra::cnoidRAFile::historyToMap(MappingPtr _main)
 {
