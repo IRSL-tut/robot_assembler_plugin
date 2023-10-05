@@ -46,9 +46,10 @@ AssemblerManager* AssemblerManager::instance()
     static AssemblerManager* instance_ = new AssemblerManager();
     return instance_;
 }
-AssemblerManager::AssemblerManager()
+AssemblerManager::AssemblerManager() : clickedPoint0(nullptr), clickedPoint1(nullptr), clickedParts(nullptr)
 {
     DEBUG_PRINT();
+
     impl = new Impl(this);
 
     swap_order = true;
