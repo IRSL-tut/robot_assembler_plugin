@@ -22,10 +22,11 @@ public:
     virtual void onSceneModeChanged(SceneWidgetEvent* event) override;
     virtual bool onButtonPressEvent(SceneWidgetEvent* event) override;
     virtual bool onDoubleClickEvent(SceneWidgetEvent* event) override;
-#if 0
-    virtual bool onButtonReleaseEvent(SceneWidgetEvent* event) override;
+    //
     virtual bool onPointerMoveEvent(SceneWidgetEvent* event) override;
+#if 0
     virtual void onPointerLeaveEvent(SceneWidgetEvent* event) override;
+    virtual bool onButtonReleaseEvent(SceneWidgetEvent* event) override;
     virtual bool onKeyPressEvent(SceneWidgetEvent* event) override;
     virtual bool onKeyReleaseEvent(SceneWidgetEvent* event) override;
     virtual bool onScrollEvent(SceneWidgetEvent* event) override;
@@ -41,6 +42,10 @@ protected:
     friend RASceneConnectingPoint;
     friend RASceneParts;
     friend cnoid::AssemblerManager;
+
+private:
+    class Impl;
+    Impl *impl;
 };
 typedef ref_ptr<RASceneRobotBase> RASceneRobotBasePtr;
 
