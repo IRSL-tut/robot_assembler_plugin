@@ -287,11 +287,16 @@ int AssemblerManager::pointClickedProcess(ra::RASceneConnectingPoint *_cp)
 int AssemblerManager::partsClickedProcess(ra::RASceneParts *_pt)
 {
     DEBUG_STREAM(" " << _pt->name() );
-    _pt->drawBoundingBox();
-    if (!!clickedParts) {
-        clickedParts->drawBoundingBox(false);
+    if (_pt == clickedParts) {
+        _pt->drawBoundingBox(false);
+        clickedParts = nullptr;
+    } else {
+        _pt->drawBoundingBox();
+        if (!!clickedParts) {
+            clickedParts->drawBoundingBox(false);
+        }
+        clickedParts = _pt;
     }
-    clickedParts = _pt;
     for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
         (*it)->notifyUpdate(SgUpdate::Added | SgUpdate::Removed | SgUpdate::Modified);
     }
