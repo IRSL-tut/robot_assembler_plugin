@@ -104,11 +104,13 @@ bool RASceneRobotBase::onButtonPressEvent(SceneWidgetEvent* event)
         break;
     }
 
+    manager->selectRobot(this);
     if(!!lastClickedPoint) {
         manager->pointClicked(cp_);
     } else if (!!lastClickedParts) {
         manager->partsClicked(pt_);
     }
+
     return false;
     //if return true, handling events after this function may not occurred
 }
@@ -164,9 +166,11 @@ bool RASceneRobotBase::onContextMenuRequest(SceneWidgetEvent* event)
 
     menu->addSeparator();
     {
+#if 0
         std::string label = "Move : " + this->name();
         menu->addItem(label)->sigTriggered().connect(
             [this](){ } );
+#endif
         //
         menu->addSeparator();
         std::string label0_ = "Save history : " + this->name();

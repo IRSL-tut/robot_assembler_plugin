@@ -469,6 +469,25 @@ void AssemblerManager::deleteAllRobots()
     notifyUpdate();
     SceneView::instance()->sceneWidget()->viewAll();
 }
+bool AssemblerManager::selectRobot(ra::RASceneRobot *_rb)
+{
+    DEBUG_STREAM(" select robot : " << _rb->name() );
+    ItemList<AssemblerItem> lst =  RootItem::instance()->checkedItems<AssemblerItem>();
+    for(auto it = lst.begin(); it != lst.end(); it++) {
+        (*it)->setSelected(false);
+    }
+    for(auto it = lst.begin(); it != lst.end(); it++) {
+        SgNode *node = (*it)->getScene();
+        ra::RASceneRobot *rbt = dynamic_cast<ra::RASceneRobot*>(node);
+        if (!!rbt && (rbt == _rb)) {
+            // find robot
+            DEBUG_STREAM(" find:" );
+            (*it)->setSelected(true, true);
+            return true;
+        }
+    }
+    return false;
+}
 void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
 {
     DEBUG_STREAM(" delete robot : " << _rb->name() );
@@ -684,6 +703,28 @@ bool AssemblerManager::onDoubleClickEvent(SceneWidgetEvent* event)
     // override double-click default behavior(change mode)
     return true;
 }
+#if 0
+////
+bool AssemblerManager::onPointerMoveEvent(SceneWidgetEvent* event)
+{
+    return false;
+}
+bool AssemblerManager::onButtonPressEvent(SceneWidgetEvent* event)
+{
+    DEBUG_PRINT();
+    return false;
+}
+bool AssemblerManager::onButtonReleaseEvent(SceneWidgetEvent* event)
+{
+    DEBUG_PRINT();
+    return false;
+}
+void AssemblerManager::onPointerLeaveEvent(SceneWidgetEvent* event)
+{
+    DEBUG_PRINT();
+}
+////
+#endif
 bool AssemblerManager::onKeyPressEvent(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();

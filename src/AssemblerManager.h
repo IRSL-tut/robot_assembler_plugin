@@ -57,6 +57,7 @@ public:
         auto it = srobot_set.find(_rb);
         return (it != srobot_set.end());
     }
+    bool selectRobot(ra::RASceneRobot *_rb);
     void deleteRobot(ra::RASceneRobot *_rb);
     void detachSceneRobot(ra::RASceneParts *_scpt);
     void deleteAllRobots();
