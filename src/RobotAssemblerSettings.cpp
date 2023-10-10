@@ -13,6 +13,7 @@
 #include "irsl_debug.h"
 
 using namespace cnoid;
+using namespace cnoid::robot_assembler;
 
 namespace {
 class UnitConfig
@@ -222,8 +223,7 @@ bool mapVector(Mapping *mp, const std::string &key, std::vector<double> &vec,
 }
 };
 
-namespace cnoid {
-namespace robot_assembler {
+
 
 class Settings::Impl
 {
@@ -1424,4 +1424,3 @@ bool RoboasmFile::dumpRoboasm(const std::string &_filename)
 
     return true;
 }
-} }

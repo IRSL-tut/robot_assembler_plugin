@@ -10,7 +10,7 @@
 //#include <set>
 #include <limits>
 
-#include "exportdecl.h"
+#include "exportdecl_lib.h"
 
 namespace cnoid {
 namespace robot_assembler {

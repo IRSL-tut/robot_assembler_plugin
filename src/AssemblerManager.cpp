@@ -27,10 +27,13 @@
 #include "irsl_debug.h"
 
 using namespace cnoid;
+using namespace cnoid::robot_assembler;
+
 namespace ra = cnoid::robot_assembler;
 namespace filesystem = cnoid::stdx::filesystem;
 
 namespace cnoid {
+
 class AssemblerManager::Impl
 {
 public:
@@ -39,6 +42,7 @@ public:
 
     AssemblerManager *self;
 };
+
 }
 
 AssemblerManager* AssemblerManager::instance()

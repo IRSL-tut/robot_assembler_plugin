@@ -24,11 +24,11 @@
 
 namespace filesystem = cnoid::stdx::filesystem;
 
-namespace cnoid {
-namespace robot_assembler {
+using namespace cnoid;
+using namespace cnoid::robot_assembler;
 
-const Vector3f default_body_color(0.0f, 0.0f, 0.8f);
-const Vector3f default_mesh_color(0.95f, 0.95f, 0.95f);
+const Vector3f cnoid::robot_assembler::default_body_color(0.0f, 0.0f, 0.8f);
+const Vector3f cnoid::robot_assembler::default_mesh_color(0.95f, 0.95f, 0.95f);
 
 static inline void addMaterial(SgNode *_nd, const Vector3f &_color, float _intensity = 0.7)
 {
@@ -60,10 +60,10 @@ static inline SgPosTransformPtr addShape(const std::string &_name, const SgMeshP
     trs->addChild(shape);
     return trs;
 }
-void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color) {
+void cnoid::robot_assembler::createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color) {
     createSceneFromGeometry(sg_main, geom_list, std::string(), _color);
 }
-void createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
+void cnoid::robot_assembler::createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list,
                              const std::string &_proj_dir, const Vector3f &_color)
 {
     DEBUG_PRINT();
@@ -727,5 +727,3 @@ bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
     }
     return true;
 }
-
-} }

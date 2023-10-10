@@ -5,6 +5,8 @@
 #include "ValueTreeUtil.h"
 #include <cnoid/ValueTree>
 
+#include "exportdecl_lib.h"
+
 namespace cnoid {
 namespace robot_assembler {
 MappingPtr CNOID_EXPORT parseInfo(const std::string &_fname);
