@@ -31,6 +31,7 @@ set(headers
   src/AssemblerTreeView.h
   src/AssemblerPartsView.h
   src/AssemblerForBase.h
+  src/exportdecl.h
   )
 set(libsources
   src/RobotAssemblerSettings.cpp
@@ -49,13 +50,14 @@ set(libsources
   #src/AssemblerForBase.cpp
   )
 set(libheaders
-  src/irsl_choreonoid/Coordinates.h
+  # src/irsl_choreonoid/Coordinates.h
   src/RobotAssemblerSettings.h
   src/RobotAssembler.h
   src/RobotAssemblerBody.h
   src/RobotAssemblerHelper.h
   src/RobotAssemblerInfo.h
   src/ValueTreeUtil.h
+  src/exportdecl_lib.h
   #src/RobotAssemblerPlugin.h
   #src/AssemblerItem.h
   #src/AssemblerManager.h
@@ -107,6 +109,8 @@ else()
     add_subdirectory(test)
   endif()
   add_subdirectory(pybind11)
+  file(RELATIVE_PATH rel_src_dir ${PROJECT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+  install(FILES src/irsl_choreonoid/Coordinates.h DESTINATION ${CHOREONOID_HEADER_SUBDIR}/cnoid/${rel_src_dir}/irsl_choreonoid)
 endif()
 
 install(FILES config/assembler.cnoid DESTINATION ${CHOREONOID_SHARE_SUBDIR}/robot_assembler/layout)
