@@ -2,6 +2,7 @@
 #include "AssemblerManager.h"
 // context menu
 #include <cnoid/MenuManager>
+#include <cnoid/SceneCameras>
 
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
@@ -9,9 +10,23 @@
 using namespace cnoid;
 using namespace cnoid::robot_assembler;
 
+class RASceneRobotBase::Impl
+{
+public:
+    Impl() {};
+    ~Impl() {};
+
+public:
+    int pre_x;
+    int pre_y;
+};
+
 RASceneRobotBase::RASceneRobotBase(RoboasmRobotPtr _r, AssemblerManager *_ma)
     : RASceneRobot(_r)
 {
+    impl = new RASceneRobotBase::Impl();
+    impl->pre_x = -1;
+    impl->pre_y = -1;
     manager = _ma;
     if (!!manager) {
         initializeRobotStructure(manager->project_directory());
@@ -20,6 +35,7 @@ RASceneRobotBase::RASceneRobotBase(RoboasmRobotPtr _r, AssemblerManager *_ma)
 RASceneRobotBase::~RASceneRobotBase()
 {
     DEBUG_STREAM(self->name());
+    delete impl;
 }
 //// overrides : SceneWidgetEventHandler
 void RASceneRobotBase::onSceneModeChanged(SceneWidgetEvent* event)
@@ -104,11 +120,13 @@ bool RASceneRobotBase::onButtonPressEvent(SceneWidgetEvent* event)
         break;
     }
 
+    manager->selectRobot(this);
     if(!!lastClickedPoint) {
         manager->pointClicked(cp_);
     } else if (!!lastClickedParts) {
         manager->partsClicked(pt_);
     }
+
     return false;
     //if return true, handling events after this function may not occurred
 }
@@ -118,13 +136,49 @@ bool RASceneRobotBase::onDoubleClickEvent(SceneWidgetEvent* event)
     // disable default behavior / default: double click -> toggle edit-mode
     return true;
 }
-#if 0
-bool RASceneRobotBase::onButtonReleaseEvent(SceneWidgetEvent* event)
+bool RASceneRobotBase::onPointerMoveEvent(SceneWidgetEvent* event)
 {
-    DEBUG_PRINT();
+    if (event->modifiers() & Qt::AltModifier) {
+        //DEBUG_STREAM(" mod:alt");
+        //DEBUG_STREAM(" x: " << event->x() << " y: " << event->y());
+        //DEBUG_STREAM(" ratio : " << event->pixelSizeRatio());
+        if (impl->pre_x > 0 || impl->pre_y > 0) {
+            //DEBUG_STREAM(" diff_x: " << impl->pre_x - event->x() << " diff_y: " << impl->pre_y - event->y());
+            //event->sceneWidget()
+            int diffx = impl->pre_x - event->x();
+            int diffy = impl->pre_y - event->y();
+            coordinates cam_pos(event->cameraPosition());
+            const SgPerspectiveCamera *cam = dynamic_cast<const SgPerspectiveCamera *>(event->camera());
+            if (!!cam) {
+                coordinates cds(robot()->worldcoords());
+                if (event->modifiers() & Qt::ShiftModifier) {
+                    Vector3 ax(diffy, -diffx, 0);
+                    double norm = ax.norm();
+                    double ang = norm / 160;// 1 radian / 160 pixel
+                    ax /= norm;
+                    cds.rotate(ang, ax, cam_pos);
+                    setCoords(cds);
+                    notifyUpdate(SgUpdate::MODIFIED);
+                } else {
+                    Vector3 trs(diffx, diffy, 0);
+                    trs *= -1.0 / event->pixelSizeRatio();
+                    cds.translate(trs, cam_pos);
+                    setCoords(cds);
+                    notifyUpdate(SgUpdate::MODIFIED);
+                }
+            }
+        }
+        impl->pre_x = event->x();
+        impl->pre_y = event->y();
+    } else {
+        // end dragging
+        impl->pre_x = -1;
+        impl->pre_y = -1;
+    }
     return false;
 }
-bool RASceneRobotBase::onPointerMoveEvent(SceneWidgetEvent* event)
+#if 0
+bool RASceneRobotBase::onButtonReleaseEvent(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
     return false;
@@ -164,9 +218,11 @@ bool RASceneRobotBase::onContextMenuRequest(SceneWidgetEvent* event)
 
     menu->addSeparator();
     {
+#if 0
         std::string label = "Move : " + this->name();
         menu->addItem(label)->sigTriggered().connect(
             [this](){ } );
+#endif
         //
         menu->addSeparator();
         std::string label0_ = "Save history : " + this->name();
