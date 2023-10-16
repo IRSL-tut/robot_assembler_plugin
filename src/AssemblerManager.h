@@ -4,6 +4,8 @@
 #include "AssemblerForBase.h"
 #include "AssemblerItem.h"
 
+#include "exportdecl.h"
+
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
@@ -16,7 +18,7 @@ struct PanelSettings {
   std::vector<std::string> combo_list;
 };
 
-class AssemblerManager : public SceneWidgetEventHandler
+class CNOID_EXPORT AssemblerManager : public SceneWidgetEventHandler
 {
 public:
     //static void initializeClass(ExtensionManager* ext);
@@ -102,7 +104,7 @@ public:
     }
 
     bool isRunningAssembler();
-
+    bool isInitialized() { return !!ra_settings; }
     //// simple command without arguments for toolbar, etc.
     void com_attach()  { attachRobots(swap_order); }
     void com_attach_o(){ attachRobots(false); }
