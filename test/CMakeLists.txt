@@ -34,7 +34,7 @@ target_include_directories(${ldsettings} PUBLIC ${CHOREONOID_INCLUDE_DIRS})
 target_link_libraries(${ldsettings} ${targetlib} pthread)
 
 ###
-set(body2urdf choreonoid_body2urdf)
-choreonoid_add_executable(${body2urdf} body2urdf.cpp)
-target_include_directories(${body2urdf} PUBLIC ${CHOREONOID_INCLUDE_DIRS})
-target_link_libraries(${body2urdf} ${targetlib} ${ASSIMP_LIBRARIES} pthread)
+#set(body2urdf assembler_body2urdf)
+#choreonoid_add_executable(${body2urdf} body2urdf.cpp)
+#target_include_directories(${body2urdf} PUBLIC ${CHOREONOID_INCLUDE_DIRS})
+#target_link_libraries(${body2urdf} ${targetlib} ${ASSIMP_LIBRARIES} pthread)
