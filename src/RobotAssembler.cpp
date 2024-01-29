@@ -1060,6 +1060,9 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(const std::string &_name, const std::stri
     } else {
         pt_ = makeParts(_parts_key);
     }
+    if ( !pt_ ) {
+        return nullptr;
+    }
     pt_->color = _color;
     return makeRobot(_name, pt_);
 }
@@ -1161,6 +1164,9 @@ RoboasmRobotPtr RoboasmUtil::makeRobot(RoboasmFile &_roboasm_file)
         name_ = "AssebleRobot";
     }
     ret = makeRobot(name_, _roboasm_file.history);
+    if (!ret) {
+        return nullptr;
+    }
     // assemble-config
     if (!_roboasm_file.config.initial_coords.isInitial(1e-12)) {
         DEBUG_STREAM(" initial-coords : " << _roboasm_file.config.initial_coords);

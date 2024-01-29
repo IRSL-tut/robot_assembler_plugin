@@ -258,3 +258,22 @@ bool cnoidRAFile::updateRobotByInfo(RoboasmRobotPtr _rb)
     }
     return true;
 }
+RoboasmRobotPtr cnoidRAFile::makeRobot(RoboasmUtil &util, const std::string &name, bool rename)
+{
+    if(rename) {
+        StringMap rmap_;
+        util.renamePartsHistory(this->history, rmap_);
+        this->renameInfo(rmap_);
+    }
+    std::string name_;
+    if(!name.empty()) {
+        name_ = name;
+    } else if(!this->getRobotName(name_)) {
+        name_ = "AssembleRobot";
+    }
+    RoboasmRobotPtr rb_ = util.makeRobot(name_, this->history);
+    if(!!rb_) {
+        this->updateRobotByInfo(rb_);
+    }
+    return rb_;
+}
