@@ -439,6 +439,101 @@ void AssemblerManager::updateMatchedPoints(ra::RASceneConnectingPoint *_pt, bool
         }
     }
 }
+struct DistanceBetweenPoints {
+    int index;
+    double dist;
+    ra::RoboasmConnectingPointPtr src;
+    ra::RoboasmConnectingPointPtr dst;
+};
+void AssemblerManager::searchMatchedPoints(double threshold)
+{
+    DEBUG_STREAM(" threshold = " << threshold);
+    ra::connectingPointPtrList srclst;
+    ra::connectingPointPtrList dstlst;
+    std::vector<DistanceBetweenPoints> reslst_dist;
+    int cntr;
+    for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+        srclst.clear();
+        (*it)->robot()->activeConnectingPoints(srclst);
+        DEBUG_STREAM(" ssize: " <<  srclst.size());
+        DEBUG_STREAM(" srobot: " << (*it)->robot()->name());
+        DEBUG_STREAM(" srobot: " << (*it)->robot()->worldcoords());
+        for(auto nit = it; nit != srobot_set.end(); nit++) {
+            if ((*it) == (*nit)) {
+                continue;
+            }
+            dstlst.clear();
+            (*nit)->robot()->activeConnectingPoints(dstlst);
+            DEBUG_STREAM(" dsize: " <<  dstlst.size());
+            DEBUG_STREAM(" drobot: " << (*nit)->robot()->name());
+            DEBUG_STREAM(" drobot: " << (*nit)->robot()->worldcoords());
+            for(auto ps = srclst.begin(); ps != srclst.end(); ps++) {
+                const Vector3 vs = (*ps)->worldcoords().pos;
+                for(auto pd = dstlst.begin(); pd != dstlst.end(); pd++) {
+                    double dist = ( vs - (*pd)->worldcoords().pos ).norm();
+                    //std::cout << "d=" << dist << std::endl;
+                    if (dist < threshold) {
+                        DistanceBetweenPoints h;
+                        h.index = cntr++;
+                        h.dist  = dist;
+                        h.src = *ps;
+                        h.dst = *pd;
+                        reslst_dist.push_back(h);
+                    }
+                }
+            }
+        }
+    }
+    DEBUG_STREAM(" rsize: " << reslst_dist.size());
+    if (reslst_dist.size() <= 0) {
+        return;
+    }
+    // sort
+    std::sort(reslst_dist.begin(), reslst_dist.end(), [](const DistanceBetweenPoints &a, const DistanceBetweenPoints &b) { return a.dist < b.dist; });
+    // select nearest point
+    for(auto it = reslst_dist.begin(); it != reslst_dist.end(); it++) {
+        bool can_match = ra_util->canMatch((*it).src, (*it).dst);
+        if(can_match) {
+            for(auto rit = srobot_set.begin(); rit != srobot_set.end(); rit++) {
+                bool find = false;
+                auto pit_end = (*rit)->spoint_set.end();
+                for(auto pit = (*rit)->spoint_set.begin(); pit != pit_end; pit++) {
+                    if ( (*pit)->point() == (*it).src ) {
+                        clickedPoint0 = *pit;
+                        find = true;
+                        break;
+                    }
+                }
+                if (find) break;
+            }
+            updateMatchedPoints(clickedPoint0);
+            for(auto rit = srobot_set.begin(); rit != srobot_set.end(); rit++) {
+                bool find = false;
+                auto pit_end = (*rit)->spoint_set.end();
+                for(auto pit = (*rit)->spoint_set.begin(); pit != pit_end; pit++) {
+                    if ( (*pit)->point() == (*it).dst ) {
+                        clickedPoint1 = *pit;
+                        find = true;
+                        break;
+                    }
+                }
+                if (find) break;
+            }
+            if (!clickedPoint0) {
+                ERROR_STREAM(" can not find out0");
+            } else {
+                clickedPoint0->changeState(ra::RASceneConnectingPoint::SELECT_GOOD0);
+            }
+            if (!clickedPoint1) {
+                ERROR_STREAM(" can not find out1");
+            } else {
+                clickedPoint1->changeState(ra::RASceneConnectingPoint::SELECT_GOOD1);
+            }
+            notifyUpdate();
+            break;
+        }
+    }
+}
 void AssemblerManager::updateRobots()
 {
     ItemList<AssemblerItem> lst =  RootItem::instance()->checkedItems<AssemblerItem>();
@@ -795,6 +890,9 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     menu->addSeparator();
     menu->addItem("Unselect points")->sigTriggered().connect(
         [this](){ com_unselect_points(); } );
+    menu->addSeparator();
+    menu->addItem("Select nearest points")->sigTriggered().connect(
+        [this](){ searchMatchedPoints(0.03); } );
     //return true;
     return false;
 }
