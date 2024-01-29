@@ -248,6 +248,9 @@ public:
     bool parseActuator(ValueNode *vn, Actuator &act);
     bool parseExtraInfo(ValueNode *vn, ExtraInfo &einfo);
     //
+    void parseParts(YAMLReader &reader, std::vector<Parts> &results);
+    void parseParts(ValueNode *val, std::vector<Parts> &results);
+    //
     bool parseCoords(Mapping *map_, coordinates &cds);
 
     // reverse map (name -> index)
@@ -319,6 +322,115 @@ ConnectingConfiguration *Settings::searchConnectingConfiguration(const std::stri
         return &(listConnectingConfiguration[index]);
     }
     return nullptr;
+}
+bool Settings::validateParts(const Parts &pt)
+{
+    auto pt_ = mapParts.find(pt.type);
+    if (pt_ != mapParts.end()) {
+        ERROR_STREAM(" parseParts error: same type: " << pt.type);
+        return false;
+    }
+    // check : There are connecting points or actuators with the same name
+    {
+        std::vector<const std::string *> vec;
+        for(auto it = pt.connecting_points.cbegin();
+            it != pt.connecting_points.cend(); it++) {
+            vec.push_back(&(it->name));
+        }
+        for(auto it = pt.actuators.cbegin();
+            it != pt.actuators.cend(); it++) {
+            vec.push_back(&(it->name));
+        }
+        //
+        int len = vec.size();
+        for(int i = 0; i < len - 1; i++) {
+            for(int j = i + 1; j < len; j++) {
+                if ( *(vec[i]) == *(vec[j]) ) {
+                    ERROR_STREAM(" parseParts error: in type: " << pt.type << " / there are connecting-points with the same name [" << *(vec[i]) << "]");
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+bool Settings::parsePartsFromString(const std::string &settings, std::vector<Parts> &results)
+{
+    YAMLReader yaml_reader;
+    if (! yaml_reader.parse(settings)) {
+        ERROR_STREAM(" parts string Parsing error : " << settings);
+        return false;
+    }
+    impl->parseParts(yaml_reader, results);
+    return true;
+}
+bool Settings::parsePartsFromYaml(const std::string &filename, std::vector<Parts> &results)
+{
+    YAMLReader yaml_reader;
+    if (! yaml_reader.load(filename)) {
+        ERROR_STREAM(" parts file Loading error : " << filename);
+        return false;
+    }
+    impl->parseParts(yaml_reader, results);
+    return true;
+}
+bool Settings::parsePartsFromNode(ValueNode *val, std::vector<Parts> &results)
+{
+    impl->parseParts(val, results);
+    return true;
+}
+bool Settings::insertParts(const Parts &pt)
+{
+    mapParts.insert(std::make_pair(pt.type, pt));
+    return true;
+}
+bool Settings::insertPartsFromString(const std::string &settings)
+{
+    std::vector<Parts> lst;
+    bool res;
+    res = parsePartsFromString(settings, lst);
+    if (res && lst.size() > 0) {
+        for(auto it = lst.begin(); it != lst.end(); it++) {
+            if (validateParts(*it)) {
+                insertParts(*it);
+            } else {
+                res = false;
+            }
+        }
+    }
+    return res;
+}
+bool Settings::insertPartsFromYaml(const std::string &filename)
+{
+    std::vector<Parts> lst;
+    bool res;
+    res = parsePartsFromYaml(filename, lst);
+    if (res && lst.size() > 0) {
+        for(auto it = lst.begin(); it != lst.end(); it++) {
+            if (validateParts(*it)) {
+                insertParts(*it);
+            } else {
+                res = false;
+            }
+        }
+    }
+    return res;
+}
+bool Settings::insertPartsFromNode(ValueNode *val)
+{
+    std::vector<Parts> lst;
+    bool res;
+    res = parsePartsFromNode(val, lst);
+    if (res && lst.size() > 0) {
+        for(auto it = lst.begin(); it != lst.end(); it++) {
+            if (validateParts(*it)) {
+                insertParts(*it);
+            } else {
+                res = false;
+            }
+        }
+    }
+    return res;
 }
 //// [settings impl]
 bool Settings::Impl::parseYaml(const std::string &filename)
@@ -506,6 +618,30 @@ bool Settings::Impl::parseConnectingConstraintSettings(ValueNode *vn)
     }
     return true;
 }
+void Settings::Impl::parseParts(YAMLReader &reader, std::vector<Parts> &results)
+{
+    for(int i = 0; i < reader.numDocuments(); i++) {
+        ValueNode *val = reader.document(i);
+        parseParts(val, results);
+    }
+}
+void Settings::Impl::parseParts(ValueNode *val, std::vector<Parts> &results)
+{
+    if ( val->isMapping() ) {
+        Parts pt;
+        if(parseParts(val, pt)) {
+            results.push_back(pt);
+        }
+    } else if ( val->isListing() ) {
+        Listing *lst = val->toListing();
+        for(int i = 0; i < lst->size(); i++) {
+            Parts pt;
+            if(parseParts(lst->at(i), pt)) {
+                results.push_back(pt);
+            }
+        }
+    }
+}
 bool Settings::Impl::parseCoords(Mapping *map_, coordinates &cds)
 {
     bool all_res = true;
@@ -634,6 +770,12 @@ bool Settings::Impl::parsePartsSettings(ValueNode *vn)
     for(int i = 0; i < lst->size(); i++) {
         Parts pt;
         if(parseParts(lst->at(i), pt)) {
+            if(self->validateParts(pt)) {
+                self->insertParts(pt);
+            } else {
+                return false;
+            }
+#if 0
             // check : There are types with the same name.
             auto pt_ = self->mapParts.find(pt.type);
             if (pt_ != self->mapParts.end()) {
@@ -663,6 +805,7 @@ bool Settings::Impl::parsePartsSettings(ValueNode *vn)
                 }
             }
             self->mapParts.insert(std::make_pair(pt.type, pt));
+#endif
         } else {
             ERROR_STREAM(" parseParts error: ");
             ::printNode(std::cerr, lst->at(i));

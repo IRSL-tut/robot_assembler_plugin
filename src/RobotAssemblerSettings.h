@@ -10,6 +10,8 @@
 //#include <set>
 #include <limits>
 
+#include <cnoid/ValueTree>
+
 #include "exportdecl_lib.h"
 
 namespace cnoid {
@@ -243,6 +245,33 @@ public:
     // match / invert?
     // A, A => parent/child <-
     // B, C => parent/child <-
+    ConnectingTypeID searchConnectingTypeID(const std::string &name) {
+        ConnectingType *res = searchConnectingType(name);
+        if (!!res) {
+            return res->index;
+        }
+        return -1;
+    }
+    ConnectingConfigurationID searchConnectingConfigurationID(const std::string &name) {
+        ConnectingConfiguration *res = searchConnectingConfiguration(name);
+        if (!!res) {
+            return res->index;
+        }
+        return -1;
+    }
+// TODO
+// add ConnectingType
+// add ConnectingConfiguration
+// add ConnectingTypeMatch
+    bool validateParts(const Parts &pt);
+    bool parsePartsFromString(const std::string &settings, std::vector<Parts> &results);
+    bool parsePartsFromYaml(const std::string &filename, std::vector<Parts> &results);
+    bool parsePartsFromNode(ValueNode *val, std::vector<Parts> &results);// depend cnoid
+    bool insertParts(const Parts &pt);
+    bool insertPartsFromString(const std::string &settings);
+    bool insertPartsFromYaml(const std::string &filename);
+    bool insertPartsFromNode(ValueNode *val);// depend cnoid
+
 private:
     class Impl;
     Impl *impl;
