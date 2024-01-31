@@ -188,7 +188,9 @@ public:
     MappingPtr historyToMap(MappingPtr _main = nullptr);
     MappingPtr addInfo(MappingPtr _main = nullptr);
     bool updateRobotByInfo(RoboasmRobotPtr _rb);
+    RoboasmRobotPtr makeRobot(RoboasmUtil &util, const std::string &name = std::string(), bool rename = false);
 };
+
 } }
 #endif
 

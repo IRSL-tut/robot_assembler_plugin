@@ -47,6 +47,7 @@ public:
     void updateMatchedPoints(ra::RASceneConnectingPoint *_pt, bool clearSelf = true,
                              ra::RASceneConnectingPoint::Clicked clearState   = ra::RASceneConnectingPoint::DEFAULT,
                              ra::RASceneConnectingPoint::Clicked matchedState = ra::RASceneConnectingPoint::CAN_CONNECT1);
+    void searchMatchedPoints(double threshold);
     void clearAllPoints();
     void updateRobots();
     void updateRobotsCoords() {

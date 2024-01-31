@@ -49,7 +49,7 @@ void exportPyRobotAssemblerSettings(py::module &m)
     .def_property_readonly("color", [](ra::Geometry &self) { return self.color; })
     .def_property_readonly("type", [](ra::Geometry &self) { return self.type; })
     .def_property_readonly("parameter", [](ra::Geometry &self) { return self.parameter; })
-    .def("is_mesh", [](ra::Geometry &self) { return (self.type == ra::Geometry::Mesh); })
+    .def("isMesh", [](ra::Geometry &self) { return (self.type == ra::Geometry::Mesh); })
     ;
     //
     // ConnectingPoint
@@ -113,7 +113,7 @@ void exportPyRobotAssemblerSettings(py::module &m)
     .def_property_readonly("type", [](ra::ExtraInfo &self) { return self.type; })
     .def_property_readonly("coords", [](ra::ExtraInfo &self) { return self.coords; })
     .def_property_readonly("description", [](ra::ExtraInfo &self) { return self.description; })
-    .def_property_readonly("device_mapping", [](ra::ExtraInfo &self) { return self.device_mapping; })
+    .def_property_readonly("deviceMapping", [](ra::ExtraInfo &self) { return self.device_mapping; })
     .def_property_readonly("parameters", [](ra::ExtraInfo &self) { return self.parameters; })
     ;
     //
@@ -121,16 +121,16 @@ void exportPyRobotAssemblerSettings(py::module &m)
     //
     py::class_< ra::Parts > parts_cls(m, "RobotAssemblerParts");
     parts_cls.def(py::init<>())
-    .def_property_readonly("number_of_visuals", [](ra::Parts &self) { return self.visual.size(); })//
-    .def_property_readonly("number_of_collisions", [](ra::Parts &self) { return self.collision.size(); })//
-    .def_property_readonly("number_of_connecting_points", [](ra::Parts &self) { return self.connecting_points.size(); })//
-    .def_property_readonly("number_of_actuators", [](ra::Parts &self) { return self.actuators.size(); })//
-    .def_property_readonly("number_of_extra_data", [](ra::Parts &self) { return self.extra_data.size(); })//
+    .def_property_readonly("numberOfVisuals", [](ra::Parts &self) { return self.visual.size(); })//
+    .def_property_readonly("numberOfCollisions", [](ra::Parts &self) { return self.collision.size(); })//
+    .def_property_readonly("numberOfConnectingPoints", [](ra::Parts &self) { return self.connecting_points.size(); })//
+    .def_property_readonly("numberOfActuators", [](ra::Parts &self) { return self.actuators.size(); })//
+    .def_property_readonly("numberOfExtraData", [](ra::Parts &self) { return self.extra_data.size(); })//
     .def_property_readonly("mass", [](ra::Parts &self) { return self.mass; })
-    .def_property_readonly("center_of_mass", [](ra::Parts &self) { return self.COM; })
-    .def_property_readonly("inertia_tensor", [](ra::Parts &self) { return self.inertia_tensor; })
+    .def_property_readonly("centerOfMass", [](ra::Parts &self) { return self.COM; })
+    .def_property_readonly("inertiaTensor", [](ra::Parts &self) { return self.inertia_tensor; })
     .def_property_readonly("type", [](ra::Parts &self) { return self.type; })
-    .def_property_readonly("class_name", [](ra::Parts &self) { return self.class_name; })
+    .def_property_readonly("className", [](ra::Parts &self) { return self.class_name; })
     .def_property_readonly("description", [](ra::Parts &self) { return self.description; })
     .def_property_readonly("visualList", [](ra::Parts &self) {
         py::list _lst;
@@ -180,15 +180,15 @@ void exportPyRobotAssemblerSettings(py::module &m)
         for(int i = 0; i < _col.size() && i < 3; i++) col(i) = _col[i];
         ra::createSceneFromGeometry(ptr, self.visual, _dir, col); // Body
         return ptr;
-    }, py::arg("project_dir") = std::string(), py::arg("color") = std::vector<double>())
+    }, py::arg("projectDir") = std::string(), py::arg("color") = std::vector<double>())
     ;
     //
     // Settings
     //
     py::class_< ra::Settings, ra::SettingsPtr > settings_cls(m, "RobotAssemblerSettings");
     settings_cls.def(py::init<>())
-    .def_property_readonly("number_of_parts", [](ra::Settings &self) { return self.mapParts.size(); } )
-    .def_property_readonly("parts_names", [](ra::Settings &self) {
+    .def_property_readonly("numberOfParts", [](ra::Settings &self) { return self.mapParts.size(); } )
+    .def_property_readonly("partsNames", [](ra::Settings &self) {
         std::vector<std::string> lst_;
         for( auto it = self.mapParts.begin(); it != self.mapParts.end(); it++ ) {
             lst_.push_back(it->first);
@@ -210,6 +210,42 @@ void exportPyRobotAssemblerSettings(py::module &m)
         return py::cast(nullptr);
     })
     .def("parseYaml", &ra::Settings::parseYaml)
+    .def("insertPartsFromString", &ra::Settings::insertPartsFromString)
+    .def("insertPartsFromYaml", &ra::Settings::insertPartsFromYaml)
+    .def("insertPartsFromNode", &ra::Settings::insertPartsFromNode)
+    .def("parsePartsFromString", [](ra::Settings &self, const std::string &settings) {
+        py::list _lst; std::vector<ra::Parts> _res;
+        if (self.parsePartsFromString(settings, _res)) {
+            for (auto it = _res.begin(); it != _res.end(); it++) _lst.append( py::cast(*it) );
+        }
+        return _lst;
+    })
+    .def("parsePartsFromYaml", [](ra::Settings &self, const std::string &filename) {
+        py::list _lst; std::vector<ra::Parts> _res;
+        if (self.parsePartsFromYaml(filename, _res)) {
+            for (auto it = _res.begin(); it != _res.end(); it++) _lst.append( py::cast(*it) );
+        }
+        return _lst;
+    })
+    .def("parsePartsFromNode", [](ra::Settings &self, ValueNode *val) {
+        py::list _lst; std::vector<ra::Parts> _res;
+        if (self.parsePartsFromNode(val, _res)) {
+            for (auto it = _res.begin(); it != _res.end(); it++) _lst.append( py::cast(*it) );
+        }
+        return _lst;
+    })
+    ;
+    //
+    // RoboasmFile
+    //
+    py::class_< ra::RoboasmFile > roboasm_cls(m, "RoboasmFile");
+    roboasm_cls.def(py::init<>())
+    .def(py::init<const std::string &>())
+    .def("isValid", &ra::RoboasmFile::isValid)
+    .def("parseRoboasm", [](ra::RoboasmFile &self, const std::string &filename, bool parse_config) {
+        return self.parseRoboasm(filename, parse_config);
+    }, py::arg("filename"), py::arg("parseConfig") = true)
+    .def("dumpRoboasm", &ra::RoboasmFile::dumpRoboasm)
     ;
 }
 
