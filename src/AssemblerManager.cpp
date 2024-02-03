@@ -1243,3 +1243,78 @@ void AssemblerManager::com_swap_mode()
         break;
     }
 }
+void AssemblerManager::load_additional_settings()
+{
+    DEBUG_PRINT();
+    auto dialog = new FileDialog();
+    int filter_id = 0;
+    dialog->sigFilterSelected().connect( [&filter_id](int i) { filter_id = i; });
+    dialog->setWindowTitle("Load additional settings");
+    dialog->setFileMode(QFileDialog::ExistingFile);
+    dialog->setAcceptMode(QFileDialog::AcceptOpen);
+    dialog->setViewMode(QFileDialog::List);
+    dialog->setLabelText(QFileDialog::Accept, "Load");
+    dialog->setLabelText(QFileDialog::Reject, "Cancel");
+    dialog->setOption(QFileDialog::DontConfirmOverwrite);
+
+    // add option panel to Dialog, see BodyItemFileIO.cpp
+    QWidget *optionPanel = new QWidget;
+    QVBoxLayout *optionVBox = new QVBoxLayout;
+    optionVBox->setContentsMargins(0, 0, 0, 0);
+    optionPanel->setLayout(optionVBox);
+
+    auto hbox = new QHBoxLayout;
+    QCheckBox *comboCheck = new QCheckBox;
+    comboCheck->setText("add parts to combo-list");
+    comboCheck->setCheckState(Qt::Checked);
+    hbox->addWidget(comboCheck);
+
+    optionVBox->addLayout(hbox);
+    dialog->insertOptionPanel(optionPanel);
+
+    QStringList filters;
+    filters << "parts settings (*.yaml)";
+    filters << "Any files (*)";
+    dialog->setNameFilters(filters);
+
+    if(dialog->exec() == QDialog::Accepted) {
+        DEBUG_STREAM(" accepted: " << filter_id);
+        bool combo_ = false;
+        if(!!comboCheck) {
+            combo_ = comboCheck->isChecked();
+        }
+        // if( filter_id == 1 || filter_id == 3 ) rename_ = true;
+        auto fnames = dialog->selectedFiles();
+        std::string fname = fnames.front().toStdString();
+        if(fname.size() > 0) {
+            addPartsSettings(fname, combo_);
+        }
+    }
+    delete dialog;
+}
+void AssemblerManager::addPartsSettings(const std::string &_fname, bool addPartsCombo)
+{
+    DEBUG_STREAM(" file: " << _fname << " / combo: " << addPartsCombo);
+
+    if(!ra_settings) return;
+
+    AssemblerView *ptr = nullptr;
+    if (addPartsCombo) {
+        ptr = AssemblerView::instance();
+    }
+    std::vector<ra::Parts> res;
+    if(ra_settings->parsePartsFromYaml(_fname, res)) {
+        for(auto it = res.begin(); it != res.end(); it++) {
+            if(ra_settings->validateParts(*it)) {
+                ra_settings->insertParts(*it);
+                if(!!ptr) {
+                    ptr->addPartsCombo((*it).type);
+                }
+            } else {
+                // fail validate
+            }
+        }
+    } else {
+        // parse failed
+    }
+}
