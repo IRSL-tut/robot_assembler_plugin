@@ -70,6 +70,7 @@ public:
     void createButtons(PanelSettings &_settings);
     void createButtonsOrg();
     void createButtonClicked(const std::string &_name = std::string());
+    void addPartsCombo(const std::string &name);
     std::vector<PushButton *> partsButtons;
     std::vector<std::string> comboItems;
     //
@@ -148,6 +149,12 @@ void AssemblerView::createButtons(PanelSettings &_settings)
 {
     if(!!(impl->manager)) {
         impl->createButtons(_settings);
+    }
+}
+void AssemblerView::addPartsCombo(const std::string &name)
+{
+    if(!!(impl->manager)) {
+        impl->addPartsCombo(name);
     }
 }
 //// Impl
@@ -357,4 +364,9 @@ void AssemblerView::Impl::createButtonClicked(const std::string &_name)
         }
         manager->partsButtonClicked(*nm_, col_);
     }
+}
+void AssemblerView::Impl::addPartsCombo(const std::string &name)
+{
+    parts_combo->addItem(name.c_str());
+    comboItems.push_back(name);
 }

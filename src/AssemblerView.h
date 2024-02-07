@@ -18,7 +18,7 @@ public:
     virtual ~AssemblerView();
 
     void createButtons(PanelSettings &_settings);
-
+    void addPartsCombo(const std::string &name);
 protected:
     virtual void onActivated() override;
     virtual void onDeactivated() override;

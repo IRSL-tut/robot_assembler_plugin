@@ -8,6 +8,7 @@
 #include <cnoid/Buttons>
 #include <QGridLayout>
 #include <QLabel>
+#include <QScrollArea>
 
 #include <sstream>
 #include <iomanip>
@@ -72,6 +73,8 @@ public:
     AssemblerPartsView *self;
     AssemblerManager *manager;
     QGridLayout *grid_layout;
+    QScrollArea scrollArea;
+    QWidget sliderGridBase;
     MappingPtr current_info;
     ra::RoboasmCoordsPtr current_coords;
     void createPanel(ra::RoboasmCoordsPtr _coords, MappingPtr _info);
@@ -457,7 +460,8 @@ void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords, Mapping
     }
     current_info = _info;
     current_coords = _coords;
-    QLayout *layout_ = self->layout();
+    bool deleted = false;
+    QLayout *layout_ = (QLayout *)grid_layout;
     if(!!layout_) {
         QLayoutItem *item_;
         while(!!(item_ = layout_->takeAt(0))) {
@@ -467,12 +471,12 @@ void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords, Mapping
             item_->widget()->deleteLater();
             delete item_;
         }
+        deleted = true;
         delete layout_;
     }
     DEBUG_STREAM(" deleted");
 
     grid_layout = new QGridLayout();
-
     grid_layout->setAlignment(Qt::AlignTop);
     //grid_layout->setContentsMargins(0,0,0,0);
     grid_layout->setVerticalSpacing(6);
@@ -489,7 +493,26 @@ void AssemblerPartsView::Impl::createPanel(ra::RoboasmCoordsPtr _coords, Mapping
     } else if (_coords->isConnectingPoint()) {
         panelConnectingPoint(_coords, _info);
     }
-    self->setLayout(grid_layout);
+    //
+    // self->vbox->scrollArea->sliderGridBase->grid_layout
+    if (!deleted) { // just onece
+        sliderGridBase.setLayout(grid_layout);
+        scrollArea.setFrameShape(QFrame::NoFrame);
+        scrollArea.setStyleSheet("QScrollArea {background: transparent;}");
+        scrollArea.setWidgetResizable(true);
+        scrollArea.setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea.setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea.setWidget(&sliderGridBase);
+        sliderGridBase.setAutoFillBackground(false);
+    //
+        QVBoxLayout* vbox = new QVBoxLayout();
+        vbox->setSpacing(0);
+        vbox->addWidget(&scrollArea, 1);
+        self->setLayout(vbox);
+    } else {
+        sliderGridBase.setLayout(grid_layout);
+    }
+    //self->setLayout(grid_layout);
 }
 void AssemblerPartsView::Impl::panelRobot(ra::RoboasmCoordsPtr _coords, MappingPtr _info)
 {

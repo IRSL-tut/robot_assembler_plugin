@@ -36,6 +36,10 @@ public:
     void setAssemblerProject(const std::string &_proj) { _assembler_project = _proj; };
     bool parseButtonYaml(const std::string &filename, PanelSettings &_res);
 
+    //
+    void addPartsSettings(const std::string &_fname, bool addPartsCombo);
+    void load_additional_settings();
+
     void partsButtonClicked(const std::string &_name, const Vector3f &_color = Vector3f::Zero());
     AssemblerItemPtr addAssemblerItem(ra::RoboasmRobotPtr _rb, MappingPtr _info = nullptr);
     void save_model(ra::RASceneRobot *_sr);

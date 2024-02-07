@@ -76,6 +76,8 @@ AssemblerBar::Impl::Impl(AssemblerBar* _self)
     }
     addButton("DeleteAll", "Delete All", // Delete all
               [this](){ manager->com_delete_all(); } );
+    addButton("AddSettings", "Load additional settings",
+              [this](){ manager->load_additional_settings(); } );
 }
 
 void AssemblerBar::Impl::addButton(const char *icon, const char *tooltip, std::function<void()> func)
