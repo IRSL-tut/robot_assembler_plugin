@@ -694,33 +694,24 @@ static bool mergeLink(Link *plink, Link *clink)
 }
 bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
 {
-    std::cerr << "merge" << std::endl;
-    Link *lk = _bd->rootLink();
+    Link *root_ = _bd->rootLink();
     bool do_loop = true;
     while(do_loop) {
         Link *clink = nullptr;
-        Link *cur = lk->child();
-        while(!!cur) {
-            std::cerr << "nm: " << cur->name() << " : " << cur->isFixedJoint() << std::endl;
-            if(cur->isFixedJoint()) {
-                clink = cur;
+        const LinkTraverse &trv = _bd->linkTraverse();
+        for (int i = 0; i < trv.size(); i++) {
+            Link *lk = trv.link(i);
+            if(lk->isFixedJoint()) {
+                clink = lk;
                 break;
             }
-            if(!!cur->sibling()) {
-                cur = cur->sibling();
-            } else {
-                if(!!cur->parent()->child()) {
-                    cur = cur->parent()->child()->child();
-                } else {
-                    cur = nullptr;
-                }
-            }
         }
-        if(!clink) {
+        if(!clink) { // there is no fixed-joint, loop finished
             break;
         }
-        std::cout << "clink : " << clink->name() << std::endl;
+        DEBUG_STREAM(" clink : " << clink->name());
         if(!mergeLink(clink->parent(), clink)) {
+            DEBUG_STREAM(" merge failed");
             return false;
         }
         _bd->updateLinkTree();
