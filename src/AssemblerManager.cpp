@@ -1009,9 +1009,9 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
         "Replace with standard scene files", StdSceneWriter::ReplaceWithStdSceneFiles);
     hbox->addWidget(extModelFileModeCombo);
 
-    //QCheckBox *transformIntegrationCheck = new QCheckBox;
-    //transformIntegrationCheck->setText("Integrate transforms");
-    //hbox->addWidget(transformIntegrationCheck);
+    QCheckBox *mergeFixedLinksCheck = new QCheckBox;
+    mergeFixedLinksCheck->setText("Merge links with fixed-joint");
+    hbox->addWidget(mergeFixedLinksCheck);
 
     optionVBox->addLayout(hbox);
     dialog->insertOptionPanel(optionPanel);
@@ -1056,7 +1056,10 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
             } else {
             // createBody
             ra::RoboasmBodyCreator bc(_project_directory);
-            //bc.setMergeFixedJoint(true);
+            if (!!mergeFixedLinksCheck && mergeFixedLinksCheck->isChecked()) {
+                DEBUG_STREAM(" mergeFixedLink");
+                bc.setMergeFixedJoint(true);
+            }
             BodyPtr bd = bc.createBody(_sr->robot(), _sr->info);
             {
                 ra::cnoidRAFile raf;
