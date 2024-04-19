@@ -527,7 +527,7 @@ void AssemblerPartsView::Impl::panelRobot(ra::RoboasmCoordsPtr _coords, MappingP
     addEditorToPanel("name", nm_, row++,
                      [this] (const std::string &_s) { infoRobot("name", _s); } );
     addDescriptionToPanel("class", ra::RoboasmUtil::typeName(_coords), row++);
-    addCoordsToPanel("cuurent", _coords->worldcoords(), row++,
+    addCoordsToPanel("current", _coords->worldcoords(), row++,
                      [this] (const std::string &_s) { transCoords(_s); },
                      [this] (const std::string &_s) { aaxisCoords(_s); } );
     coordinates cds_;
