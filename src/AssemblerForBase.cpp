@@ -138,6 +138,7 @@ bool RASceneRobotBase::onDoubleClickEvent(SceneWidgetEvent* event)
 }
 bool RASceneRobotBase::onPointerMoveEvent(SceneWidgetEvent* event)
 {
+    //DEBUG_PRINT();
     if (event->modifiers() & Qt::AltModifier) {
         //DEBUG_STREAM(" mod:alt");
         //DEBUG_STREAM(" x: " << event->x() << " y: " << event->y());
@@ -147,6 +148,10 @@ bool RASceneRobotBase::onPointerMoveEvent(SceneWidgetEvent* event)
             //event->sceneWidget()
             int diffx = impl->pre_x - event->x();
             int diffy = impl->pre_y - event->y();
+            if (diffx == 0 and diffy == 0) {
+                // not detecting movement
+                return true;
+            }
             coordinates cam_pos(event->cameraPosition());
             const SgPerspectiveCamera *cam = dynamic_cast<const SgPerspectiveCamera *>(event->camera());
             if (!!cam) {
@@ -175,17 +180,21 @@ bool RASceneRobotBase::onPointerMoveEvent(SceneWidgetEvent* event)
         impl->pre_x = -1;
         impl->pre_y = -1;
     }
-    return false;
+    //return false;
+    return true;
+}
+void RASceneRobotBase::onPointerLeaveEvent(SceneWidgetEvent* event)
+{
+    //DEBUG_PRINT();
+    // end dragging
+    impl->pre_x = -1;
+    impl->pre_y = -1;
 }
 #if 0
 bool RASceneRobotBase::onButtonReleaseEvent(SceneWidgetEvent* event)
 {
     DEBUG_PRINT();
     return false;
-}
-void RASceneRobotBase::onPointerLeaveEvent(SceneWidgetEvent* event)
-{
-    DEBUG_PRINT();
 }
 bool RASceneRobotBase::onKeyPressEvent(SceneWidgetEvent* event)
 {

@@ -24,8 +24,9 @@ public:
     virtual bool onDoubleClickEvent(SceneWidgetEvent* event) override;
     //
     virtual bool onPointerMoveEvent(SceneWidgetEvent* event) override;
-#if 0
     virtual void onPointerLeaveEvent(SceneWidgetEvent* event) override;
+#if 0
+    //virtual void onPointerLeaveEvent(SceneWidgetEvent* event) override;
     virtual bool onButtonReleaseEvent(SceneWidgetEvent* event) override;
     virtual bool onKeyPressEvent(SceneWidgetEvent* event) override;
     virtual bool onKeyReleaseEvent(SceneWidgetEvent* event) override;
