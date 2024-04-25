@@ -16,10 +16,12 @@ using namespace cnoid::robot_assembler;
 namespace
 {
 static const Vector3f color_default(0.3f, 0.3f, 0.6f);
-static const Vector3f color_good0(0.0f, 1.0f, 0.0f);
-static const Vector3f color_good1(0.0f, 1.0f, 0.0f);
+static const Vector3f color_good0(0.33f, 1.0f, 0.0f);
+//static const Vector3f color_good1(0.0f, 1.0f, 0.33f);//
+static const Vector3f color_good1(0.0f, 0.5f, 0.166f);
 static const Vector3f color_bad0(1.0f, 0.0f, 0.0f);
-static const Vector3f color_bad1(1.0f, 0.0f, 0.0f);
+//static const Vector3f color_bad1(1.0f, 0.0f, 0.0f);
+static const Vector3f color_bad1(0.5f, 0.0f, 0.166f);
 static const Vector3f color_can_connect0(0.0f, 1.0f, 1.0f);
 static const Vector3f color_can_connect1(0.0f, 1.0f, 1.0f);
 static const Vector3f color_selected(0.5f, 0.0f, 0.5f);
