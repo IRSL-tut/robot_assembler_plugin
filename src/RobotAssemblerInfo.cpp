@@ -57,6 +57,7 @@ MappingPtr cnoid::robot_assembler::createInfo(RoboasmRobotPtr _rb)
 bool cnoid::robot_assembler::mergeInfo(Mapping *_dst, Mapping *_src)
 {
     if(!_dst || !_src) return false;
+    {
     Mapping *d_parts = _dst->findMapping("parts-info");
     Mapping *s_parts = _src->findMapping("parts-info");
     if(d_parts->isValid() && s_parts->isValid()) {
@@ -68,19 +69,20 @@ bool cnoid::robot_assembler::mergeInfo(Mapping *_dst, Mapping *_src)
         }
     } else if (!d_parts->isValid() && s_parts->isValid()) {
         _dst->insert("parts-info", s_parts);
-    }
+    }}
+    {
     Mapping *d_act = _dst->findMapping("actuator-info");
     Mapping *s_act = _src->findMapping("actuator-info");
     if(d_act->isValid() && s_act->isValid()) {
-        for(auto it = s_parts->begin(); it != s_parts->end(); it++) {
-            Mapping *mm_ = d_parts->findMapping(it->first);
+        for(auto it = s_act->begin(); it != s_act->end(); it++) {
+            Mapping *mm_ = d_act->findMapping(it->first);
             if(!mm_->isValid()) {
-                d_parts->insert(it->first, it->second);
+                d_act->insert(it->first, it->second);
             }
         }
     } else if (!d_act->isValid() && s_act->isValid()) {
         _dst->insert("actuator-info", s_act);
-    }
+    }}
     return true;
 }
 //
