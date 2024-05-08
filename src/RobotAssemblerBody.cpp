@@ -15,6 +15,7 @@
 #include <cnoid/Light>
 #include <cnoid/PointLight>
 #include <cnoid/SpotLight>
+#include <cnoid/DeviceList>
 
 #include <cnoid/UTF8>
 #include <cnoid/stdx/filesystem>
@@ -252,6 +253,9 @@ static cnoid::Device *createDevice(ExtraInfo &_info, int dev_no, coordinates &li
     }
 
     if (!ret) return ret;
+
+    //// settings uniq ID of device
+    ret->setId(dev_no);
 
     std::ostringstream oss_;
     oss_ << _info.name << dev_no;
@@ -547,9 +551,9 @@ BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb, const std::string &
             Device *dev = it->first;
             Link *lk = it->second;
             if (!body->addDevice(dev, lk)) {
-                ERROR_STREAM("failed : add device");
+                ERROR_STREAM(" failed : add device");
             } else {
-                DEBUG_STREAM("!!!!!!!!!!!! add device !!!!!!!!!!!!!");
+                DEBUG_STREAM(" !!!!!!!!!!!! add device !!!!!!!!!!!!!");
             }
         }
     }
@@ -614,7 +618,7 @@ BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, MappingPtr _info, co
 
     return body;
 }
-static bool mergeLink(Link *plink, Link *clink)
+static bool mergeLink(BodyPtr _bd, Link *plink, Link *clink)
 {
     if(!plink) {
         std::cerr << "plink does not exist" << std::endl;
@@ -632,6 +636,18 @@ static bool mergeLink(Link *plink, Link *clink)
         while(!!cur) {
             all_child.push_back(cur);
             cur = cur->sibling();
+        }
+    }
+    //
+    std::vector<DevicePtr> clink_devices;
+    const DeviceList<> dlst = _bd->devices();
+    for (auto &device : dlst) {
+        if (auto casted = dynamic_cast<Device *>(device.get())) {
+            if (casted->link() == clink) {
+                DEBUG_STREAM(" self-device : " << casted->index() << " / " << casted->id() );
+                DevicePtr ptr(casted);
+                clink_devices.push_back(ptr);
+            }
         }
     }
     //std::cout << "child : " << all_child.size() << std::endl;
@@ -690,6 +706,17 @@ static bool mergeLink(Link *plink, Link *clink)
         plink->appendChild(all_child[i]);
     }
     // [TODO] merge Devices
+    if (clink_devices.size() > 0) {
+        for(int i = 0; i < clink_devices.size(); i++) {
+            Device *dev = clink_devices[i];
+            Position newpos = cTb * dev->T_local();
+            dev->T_local() = newpos;
+            if (!_bd->addDevice(dev, plink)) {
+                ERROR_STREAM(" failed : add device (merge)");
+            }
+        }
+    }
+
     return true;
 }
 bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
@@ -710,7 +737,7 @@ bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
             break;
         }
         DEBUG_STREAM(" clink : " << clink->name());
-        if(!mergeLink(clink->parent(), clink)) {
+        if(!mergeLink(_bd, clink->parent(), clink)) {
             DEBUG_STREAM(" merge failed");
             return false;
         }
