@@ -144,7 +144,7 @@ void cnoid::robot_assembler::createSceneFromGeometry(SgGroup *sg_main, std::vect
         }
     }
 }
-static cnoid::Device *createDevice(ExtraInfo &_info, int dev_no, coordinates &link_origin_to_self_)
+static cnoid::Device *createDevice(ExtraInfo &_info, int dev_no, coordinates &link_origin_to_self_, MappingPtr additional_info)
 {
     cnoid::Device *ret = nullptr;
     MappingPtr mp_ = nullptr;
@@ -256,6 +256,14 @@ static cnoid::Device *createDevice(ExtraInfo &_info, int dev_no, coordinates &li
 
     //// settings uniq ID of device
     ret->setId(dev_no);
+
+    // store device info
+    {
+        Listing *devlst = additional_info->openListing("devices");
+        Mapping* devinfo = devlst->newMapping();
+        devinfo->write("id", dev_no);
+        devinfo->write("sensor_name", _info.name);
+    }
 
     std::ostringstream oss_;
     oss_ << _info.name << dev_no;
@@ -494,7 +502,7 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
     if(!!_pt->info && _pt->info->extra_data.size() > 0) {
         for(auto it = _pt->info->extra_data.begin();
             it != _pt->info->extra_data.end(); it++) {
-            cnoid::Device *dev = createDevice(*it, device_counter++, link_origin_to_self_);
+            cnoid::Device *dev = createDevice(*it, device_counter++, link_origin_to_self_, additional_info);
             if(!!dev) {
                 // device name
                 std::string devname_;
@@ -562,7 +570,7 @@ BodyPtr RoboasmBodyCreator::_createBody(RoboasmRobotPtr _rb, const std::string &
 BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, MappingPtr _info, const std::string &_name, bool reset_angle)
 {
     info = _info;
-
+    additional_info = new Mapping();
     body = new Body();
     currentRobot = _rb;
 
@@ -614,6 +622,10 @@ BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, MappingPtr _info, co
 
     if (merge_fixed_joint) {
         mergeFixedJoint(body);
+    }
+
+    if (!additional_info->empty()) {
+        body->info()->insert("IRSL_info", additional_info);
     }
 
     return body;

@@ -40,6 +40,7 @@ protected:
     //std::map<std::string, std::string> map_joint_cnoid_roboasm; // key: cnoid_name, value: roboasm_name
     //std::vector<std::string> joint_list; // cnoid_name
     MappingPtr info; // for accessing local info
+    MappingPtr additional_info;
     RoboasmRobotPtr currentRobot; // for accessing local info
 
     BodyPtr _createBody(RoboasmRobotPtr _rb, const std::string &_name);
