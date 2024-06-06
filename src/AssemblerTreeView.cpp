@@ -122,6 +122,7 @@ AssemblerTreeView::Impl::Impl(AssemblerTreeView *_self):
     modeCombo.addItem("ConnectingPoint");
     modeCombo.addItem("Link");
     modeCombo.addItem("Link + Actuator");
+    modeCombo.addItem("Device");
 
     vbox->addWidget(&modeCombo);
 
@@ -265,6 +266,20 @@ void AssemblerTreeView::Impl::updateTree(ra::RoboasmRobotPtr _rb)
                 } else {
                     ra::RoboasmConnectingPoint *cp_ = _rb->toConnectingPoint();
                     if(!!cp_ && cp_->isConnected() && cp_->isActuator()) return true; }
+                return false; } );
+        break;
+    case 8: // device
+        createTree(_rb, [](ra::RoboasmCoordsPtr _rb) {
+                if (_rb->isParts()) {
+                    ra::Parts *info = _rb->toParts()->info;
+                    bool has_sensor = false;
+                    if (info->extra_data.size() > 0) {
+                        has_sensor = true;
+                        // TODO: check_sensor type
+                        //for(int i = 0; i < extra_data.size(); i++) { }
+                    }
+                    if (has_sensor) { return true; }
+                }
                 return false; } );
         break;
     }

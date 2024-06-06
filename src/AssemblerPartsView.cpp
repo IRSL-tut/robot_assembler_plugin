@@ -629,7 +629,7 @@ void AssemblerPartsView::Impl::panelParts(ra::RoboasmCoordsPtr _coords, MappingP
                 break;
             }
 
-            addDescriptionToPanel("---", "", row++);
+            addDescriptionToPanel("--- deivce ---", "", row++);
             addDescriptionToPanel("  id", info->extra_data[i].name, row++);
             addDescriptionToPanel("type", tp, row++);
             std::string dev_ = _coords->name() + "/" + info->extra_data[i].name;
