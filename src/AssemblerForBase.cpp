@@ -148,7 +148,7 @@ bool RASceneRobotBase::onPointerMoveEvent(SceneWidgetEvent* event)
             //event->sceneWidget()
             int diffx = impl->pre_x - event->x();
             int diffy = impl->pre_y - event->y();
-            if (diffx == 0 and diffy == 0) {
+            if (diffx == 0 && diffy == 0) {
                 // not detecting movement
                 return true;
             }
