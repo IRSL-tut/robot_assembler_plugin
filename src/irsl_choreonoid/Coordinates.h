@@ -1,4 +1,7 @@
 //this is copy of irsl_choreonoid / 183ca0551256ebeaff22efd0168de1871339e681
+#ifndef __IRSL_COORDINATES_H__
+#define __IRSL_COORDINATES_H__
+
 #include <cnoid/EigenTypes>
 #include <cnoid/EigenUtil> // rotFromRpy
 #include <memory>
@@ -212,6 +215,7 @@ namespace cnoid {
         void set(const AngleAxis &ax) { rot = ax; }
         virtual void newcoords(const coordinates &c) { *this = c; }
         virtual void newcoords(const cnoidPosition &p) { *this = p; }
+        virtual void newcoords() { pos = Vector3::Zero(); rot = Matrix3::Identity(); }
         bool equal(const coordinates &c, const double eps = 0.00001) const
         {
             if (!eps_eq(pos, c.pos, eps)) return false;
@@ -651,3 +655,4 @@ typedef std::shared_ptr< coordinates > coordinatesPtr;
     }
 
 }
+#endif // __IRSL_COORDINATES_H__

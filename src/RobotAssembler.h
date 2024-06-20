@@ -41,7 +41,7 @@ public:
     coordinates &worldcoords() { return buf_worldcoords; }
     const coordinates &worldcoords() const {  return buf_worldcoords; }
     void copyWorldcoords(coordinates &w) { w = buf_worldcoords; }
-    virtual void newcoords(coordinates &c) {  pos = c.pos; rot = c.rot; update(); } // override
+    virtual void newcoords(const coordinates &c) override {  pos = c.pos; rot = c.rot; update(); } // override
     virtual void newcoords() { pos = Vector3::Zero(); rot = Matrix3::Identity(); update(); } // override
     RoboasmCoords *parent() { return parent_ptr; }
     bool hasParent() { return (!!parent_ptr); }

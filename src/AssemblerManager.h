@@ -146,6 +146,10 @@ public:
 
     bool isAssembler() { return (_current_mode == ASSEMBLER); }
 
+    //// controll
+    ra::RASceneRobot *searchNearest(const Vector3 pos, double threshold = 1.0);
+    bool moveRobot(ra::RASceneRobot *rb, const coordinates &cds);
+
     int uniq_id;
     ra::RASceneConnectingPoint *clickedPoint0;
     ra::RASceneConnectingPoint *clickedPoint1;
