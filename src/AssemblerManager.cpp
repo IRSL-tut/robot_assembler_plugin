@@ -1321,3 +1321,23 @@ void AssemblerManager::addPartsSettings(const std::string &_fname, bool addParts
         // parse failed
     }
 }
+//// control
+ra::RASceneRobot *AssemblerManager::searchNearest(const Vector3 pos, double threshold)
+{
+    ra::RASceneRobot *res = nullptr;
+    double min_dist = threshold;
+    for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
+        double dist = ((*it)->boundingBox().center() - pos).norm();
+        if (dist < min_dist) {
+            min_dist = dist;
+            res = (*it);
+        }
+    }
+    return res;
+}
+bool AssemblerManager::moveRobot(ra::RASceneRobot *rb, const coordinates &cds)
+{
+    rb->setCoords(cds);
+    rb->notifyUpdate(SgUpdate::MODIFIED);
+    return true;
+}

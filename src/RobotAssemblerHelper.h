@@ -100,7 +100,7 @@ public:
     {   // [TODO] concern initial
         self->toPosition(this->position());
     }
-    void setCoords(coordinates &_coords)
+    void setCoords(const coordinates &_coords)
     {
         self->newcoords(_coords);
         self->updateDescendants();
