@@ -57,6 +57,17 @@ void exportPyRobotAssemblerHelper(py::module &m)
         bd->info()->insert("roboasm", roboasm); return bd;
     }, py::arg("robot"), py::arg("rafile"), py::arg("name") = std::string(), py::arg("resetAngle") = true)
     ;
+
+    // RobotAssemblerBody
+    // Utility for Body
+    m.def("mergeLink", [](Link *p, Link *c, Body *bd) {
+        return ra::mergeLink(p, c, bd);
+    }, py::arg("plink"), py::arg("clink"), py::arg("body") = nullptr);
+    m.def("addRootOffset", [](Body *bd, const coordinates &cds) {
+        Isometry3 T; cds.toPosition(T);
+        return ra::addRootOffset(bd, T);
+    });
+
 }
 
 } // namespace cnoid
