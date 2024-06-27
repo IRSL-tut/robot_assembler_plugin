@@ -372,6 +372,8 @@ public:
 
     virtual bool parseRoboasm(const std::string &_filename, bool parse_config = true);
     virtual bool dumpRoboasm(const std::string &_filename);
+    virtual bool parseRoboasmFromString(const std::string &yml_string, bool parse_config = true);
+    virtual bool dumpRoboasmToString(std::string &result_yml);
 protected:
     bool valid_;
 };

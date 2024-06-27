@@ -28,6 +28,24 @@ MappingPtr cnoid::robot_assembler::parseInfo(const std::string &_fname)
     }
     return nullptr;
 }
+MappingPtr cnoid::robot_assembler::parseInfoFromString(const std::string &yml_string)
+{
+    YAMLReader yrdr;
+    if (!yrdr.parse(yml_string)) return nullptr;
+    if(yrdr.numDocuments() < 1) return nullptr;
+    for(int i = 0; i < yrdr.numDocuments(); i++) {
+        ValueNode *nd = yrdr.document(i);
+        if(nd->isValid() && nd->isMapping()) {
+            MappingPtr ret = nd->toMapping();
+            if (ret->find("robot-info")->isValid() ||
+                ret->find("parts-info")->isValid() ||
+                ret->find("actuator-info")->isValid()) {
+                return ret;
+            }
+        }
+    }
+    return nullptr;
+}
 MappingPtr cnoid::robot_assembler::createInfo(RoboasmRobotPtr _rb)
 {
     RoboasmPartsPtr root_ = _rb->rootParts();
@@ -145,6 +163,20 @@ bool cnoidRAInfo::renameInfo(StringMap &_rmap)
     return res_;
 }
 //
+bool cnoidRAFile::parseRoboasm(const std::string &_filename, bool parse_config)
+{
+    RoboasmFile::parseRoboasm(_filename, false);
+    info = parseInfo(_filename);
+    if(history.size() < 0 && !info) return false;
+    return true;
+}
+bool cnoidRAFile::parseRoboasmFromString(const std::string &yml_string, bool parse_config)
+{
+    RoboasmFile::parseRoboasmFromString(yml_string, false);
+    info = parseInfoFromString(yml_string);
+    if(history.size() < 0 && !info) return false;
+    return true;
+}
 bool cnoidRAFile::dumpRoboasm(const std::string &_filename)
 {
     MappingPtr mp_ = historyToMap();
@@ -278,4 +310,21 @@ RoboasmRobotPtr cnoidRAFile::makeRobot(RoboasmUtil &util, const std::string &nam
         this->updateRobotByInfo(rb_);
     }
     return rb_;
+}
+#include <sstream>
+bool cnoidRAFile::dumpRoboasmToString(std::string &result_yml)
+{
+    MappingPtr mp_ = historyToMap();
+    addInfo(mp_);
+
+    YAMLWriter ywtr;
+    ywtr.setMessageSink(std::cerr);
+    //ywtr.setDoubleFormat("%12.12f");
+    std::ostringstream oss;
+    ywtr.setOutput(oss);
+    ywtr.putNode(mp_);
+    ywtr.flush();
+    //ywtr.closeFile();
+    result_yml = oss.str();
+    return true;
 }
