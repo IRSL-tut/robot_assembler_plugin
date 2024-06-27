@@ -758,7 +758,7 @@ bool RoboasmRobot::checkAttach(RoboasmCoordsPtr robot_or_parts,
                                ConnectingTypeMatch * &_res_match, bool check)
 {
     if (check && !checkCorrectPoint(robot_or_parts, _parts_point, _robot_point)) {
-        // [todo]
+        ERROR_STREAM(" points are not correct : " << _parts_point->name() << ", " << _robot_point->name());
         return false;
     }
     std::vector<ConnectingTypeID> &rtp = _robot_point->info->type_list;
@@ -771,13 +771,16 @@ bool RoboasmRobot::checkAttach(RoboasmCoordsPtr robot_or_parts,
             } else {
                 tm_ = settings->searchConnection(rtp[i], ptp[j], _config->index);
             }
-            if (!!tm_) break;
+            if (!!tm_) {
+                goto exit_check;
+            }
         }
     }
     if (!tm_) {
-        // [todo]
+        ERROR_STREAM(" cloud not find type matching : " << _parts_point->name() << ", " << _robot_point->name());
         return false;
     }
+exit_check:
     _res_match = tm_;
     if( _config == nullptr ) {
         _config = &( settings->listConnectingConfiguration[tm_->allowed_configuration.front()] );
