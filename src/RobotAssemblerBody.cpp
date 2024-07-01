@@ -630,17 +630,17 @@ BodyPtr RoboasmBodyCreator::createBody(RoboasmRobotPtr _rb, MappingPtr _info, co
 
     return body;
 }
-static bool mergeLink(BodyPtr _bd, Link *plink, Link *clink)
+bool cnoid::robot_assembler::mergeLink(Link *plink, Link *clink, BodyPtr _bd)
 {
     if(!plink) {
-        std::cerr << "plink does not exist" << std::endl;
+        ERROR_STREAM(" plink does not exist");
         return false;
     }
     if(!clink) {
-        std::cerr << "clink does not exist" << std::endl;
+        ERROR_STREAM(" clink does not exist");
         return false;
     }
-    std::cerr << "p:" << plink->name() << " / " << "c:" << clink->name() << std::endl;
+    DEBUG_STREAM(" p:" << plink->name() << " / " << "c:" << clink->name());
     LinkPtr link_protect(clink);
     std::vector<LinkPtr> all_child;
     {
@@ -652,20 +652,22 @@ static bool mergeLink(BodyPtr _bd, Link *plink, Link *clink)
     }
     //
     std::vector<DevicePtr> clink_devices;
-    const DeviceList<> dlst = _bd->devices();
-    for (auto &device : dlst) {
-        if (auto casted = dynamic_cast<Device *>(device.get())) {
-            if (casted->link() == clink) {
-                DEBUG_STREAM(" self-device : " << casted->index() << " / " << casted->id() );
-                DevicePtr ptr(casted);
-                clink_devices.push_back(ptr);
+    if (_bd) {
+        const DeviceList<> dlst = _bd->devices();
+        for (auto &device : dlst) {
+            if (auto casted = dynamic_cast<Device *>(device.get())) {
+                if (casted->link() == clink) {
+                    DEBUG_STREAM(" self-device : " << casted->index() << " / " << casted->id() );
+                    DevicePtr ptr(casted);
+                    clink_devices.push_back(ptr);
+                }
             }
         }
     }
     //std::cout << "child : " << all_child.size() << std::endl;
     // remove child
     if(!plink->removeChild(clink)) {
-        std::cerr << "remove failed : " << clink->name() << std::endl;
+        ERROR_STREAM(" remove failed : " << clink->name());
         return false;
     }
     // update mass paramter of plink
@@ -717,7 +719,7 @@ static bool mergeLink(BodyPtr _bd, Link *plink, Link *clink)
         // append children of clink to plink
         plink->appendChild(all_child[i]);
     }
-    // [TODO] merge Devices
+    // merge Devices
     if (clink_devices.size() > 0) {
         for(int i = 0; i < clink_devices.size(); i++) {
             Device *dev = clink_devices[i];
@@ -749,11 +751,31 @@ bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
             break;
         }
         DEBUG_STREAM(" clink : " << clink->name());
-        if(!mergeLink(_bd, clink->parent(), clink)) {
+        if(!mergeLink( clink->parent(), clink, _bd)) {
             DEBUG_STREAM(" merge failed");
             return false;
         }
         _bd->updateLinkTree();
     }
+    return true;
+}
+
+//
+bool cnoid::robot_assembler::addRootOffset(BodyPtr _bd, const Isometry3 &T)
+{
+    Link *org_root = _bd->rootLink();
+    Link *new_root = new Link();
+    new_root->setMass(0.0);
+    new_root->setInertia(Matrix3::Zero());
+    new_root->setJointType(Link::JointType::FreeJoint);
+    org_root->setJointType(Link::JointType::FixedJoint);
+    new_root->setName(org_root->name());
+    std::string new_name("__new__" + org_root->name() + "__tmp__");
+    org_root->setName(new_name);
+    new_root->appendChild(org_root);
+    org_root->setOffsetPosition(T);
+    _bd->setRootLink(new_root);
+    mergeLink(new_root, org_root, _bd);
+    _bd->updateLinkTree();
     return true;
 }

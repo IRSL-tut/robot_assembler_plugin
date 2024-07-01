@@ -1387,13 +1387,8 @@ static bool parse(ValueNode *_vn, AssembleConfig& config)
     }
     return true;
 }
-bool RoboasmFile::parseRoboasm(const std::string &_filename, bool parse_config)
+static bool parseYaml(YAMLReader &yaml_reader, AttachHistory &history, AssembleConfig  &config, bool parse_config)
 {
-    YAMLReader yaml_reader;
-    if (! yaml_reader.load(_filename)) {
-        ERROR_STREAM(" roboasm file Loading error : " << _filename);
-        return false;
-    }
     bool ret = false;
     history.clear();
     for(int i = 0; i < yaml_reader.numDocuments(); i++) {
@@ -1429,6 +1424,24 @@ bool RoboasmFile::parseRoboasm(const std::string &_filename, bool parse_config)
         parse(target, config);
     }
     return true;
+}
+bool RoboasmFile::parseRoboasm(const std::string &_filename, bool parse_config)
+{
+    YAMLReader yaml_reader;
+    if (! yaml_reader.load(_filename)) {
+        ERROR_STREAM(" roboasm file Loading error : " << _filename);
+        return false;
+    }
+    return parseYaml(yaml_reader, this->history, this->config, parse_config);
+}
+bool RoboasmFile::parseRoboasmFromString(const std::string &yml_string, bool parse_config)
+{
+    YAMLReader yaml_reader;
+    if (! yaml_reader.parse(yml_string)) {
+        ERROR_STREAM(" roboasm yaml parsing error : " << yml_string);
+        return false;
+    }
+    return parseYaml(yaml_reader, this->history, this->config, parse_config);
 }
 static inline void dumpCoords(YAMLWriter &yaml_writer, const coordinates &cds, double eps = 1e-12)
 {
@@ -1479,14 +1492,8 @@ static inline void dumpCoords(YAMLWriter &yaml_writer, const coordinates &cds, d
     }
     yaml_writer.endMapping();
 }
-bool RoboasmFile::dumpRoboasm(const std::string &_filename)
+static bool dumpYaml(YAMLWriter &yaml_writer, AttachHistory &history, AssembleConfig  &config)
 {
-    YAMLWriter yaml_writer;
-    yaml_writer.setMessageSink(std::cerr);
-    yaml_writer.setDoubleFormat("%12.12f");
-    if(!yaml_writer.openFile(_filename)) {
-        return false;
-    }
     //
     yaml_writer.startDocument();
     yaml_writer.startMapping(); // main
@@ -1565,5 +1572,30 @@ bool RoboasmFile::dumpRoboasm(const std::string &_filename)
     yaml_writer.flush();
     yaml_writer.closeFile();
 
+    return true;
+}
+bool RoboasmFile::dumpRoboasm(const std::string &_filename)
+{
+    YAMLWriter yaml_writer;
+    yaml_writer.setMessageSink(std::cerr);
+    yaml_writer.setDoubleFormat("%12.12f");
+    if(!yaml_writer.openFile(_filename)) {
+        return false;
+    }
+    return dumpYaml(yaml_writer, this->history, this->config);
+}
+#include <sstream>
+bool RoboasmFile::dumpRoboasmToString(std::string &result_yml)
+{
+    YAMLWriter yaml_writer;
+    yaml_writer.setMessageSink(std::cerr);
+    yaml_writer.setDoubleFormat("%12.12f");
+    std::ostringstream oss;
+    yaml_writer.setOutput(oss);
+    bool res = dumpYaml(yaml_writer, this->history, this->config);
+    if (!res) {
+        return false;
+    }
+    result_yml = oss.str();
     return true;
 }

@@ -17,6 +17,10 @@ void CNOID_EXPORT createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry
                              const std::string &_proj_dir = std::string(), const Vector3f &_color = Vector3f::Zero());
 void CNOID_EXPORT createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry> &geom_list, const Vector3f &_color);
 
+// Utility for Body
+bool CNOID_EXPORT mergeLink(Link *plink, Link *clink, BodyPtr _bd = nullptr);
+bool CNOID_EXPORT addRootOffset(BodyPtr _bd, const Isometry3 &T);
+
 typedef std::pair<Device *, Link *> DevLinkPair;
 typedef std::vector<DevLinkPair> DevLinkList;
 
