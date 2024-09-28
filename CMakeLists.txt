@@ -72,10 +72,12 @@ set(libheaders
 if (NOT WIN32)
   add_definitions(-Wno-deprecated-declarations)
 endif()
-add_definitions(-DIRSL_DEBUG)
 option(BUILD_TEST "build executables for test" OFF)
+option(DEBUG_MESSAGE "print debug message" ON)
 
-QT5_ADD_RESOURCES(RC_SRCS src/RA.qrc)
+if(DEBUG_MESSAGE)
+  add_definitions(-DIRSL_DEBUG)
+endif()
 
 if ( ${CHOREONOID_VERSION_STRING} VERSION_LESS "2.1.0" )
   add_definitions(-DUSE_OLD_OPTION)
