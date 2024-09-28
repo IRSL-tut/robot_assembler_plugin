@@ -77,6 +77,10 @@ option(BUILD_TEST "build executables for test" OFF)
 
 QT5_ADD_RESOURCES(RC_SRCS src/RA.qrc)
 
+if ( ${CHOREONOID_VERSION_STRING} VERSION_LESS "2.1.0" )
+  add_definitions(-DUSE_OLD_OPTION)
+endif()
+
 if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   Message ("Build : RobotAssemblerPlugin (independent)")
   # Build as an independent project
