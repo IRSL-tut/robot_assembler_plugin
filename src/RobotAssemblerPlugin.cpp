@@ -15,12 +15,15 @@
 
 #include "RobotAssembler.h"
 
+//#define USE_OLD_OPTION 0
 //#define IRSL_DEBUG
 #include "irsl_debug.h"
 
 using namespace cnoid;
 
+#ifdef USE_OLD_OPTION
 namespace po = boost::program_options;
+#endif
 namespace ra = cnoid::robot_assembler;
 namespace filesystem = cnoid::stdx::filesystem;
 
@@ -36,9 +39,14 @@ public:
 
     RobotAssemblerPlugin *self;
 
+#ifdef USE_OLD_OPTION
     void onSigOptionsParsed(po::variables_map& variables);
+#else
+    void onSigOptionsParsed(OptionManager *_om);
+#endif
 };
 }
+#ifdef USE_OLD_OPTION
 void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables)
 {
     //// Order of initializaiton
@@ -123,6 +131,60 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
         }
     }
 }
+#else
+void RobotAssemblerPlugin::Impl::onSigOptionsParsed(OptionManager *_om)
+{
+    if(_om->count("--assembler")) {
+        AssemblerManager *manager = AssemblerManager::instance();
+        {
+            auto op = _om->get_option("--assembler");
+            std::string fname_ = op->as<std::string>();
+            if (!!manager) {
+                DEBUG_STREAM("robot_assembler config file: " << fname_);
+                manager->loadSettings(fname_);
+            }
+        }
+        if(_om->count("--assembler-robot")) {
+            auto op = _om->get_option("--assembler-robot");
+            std::string fname_ = op->as<std::string>();
+            if(!!manager) {
+                DEBUG_STREAM(" .roboasm file: " << fname_);
+                manager->loadRoboasm(fname_);
+            }
+        }
+        if(_om->count("original-project")) {
+            auto op = _om->get_option("--original-project");
+            std::string fname_ = op->as<std::string>();
+            if(!!manager) {
+                DEBUG_STREAM(" original-project : " << fname_);
+                manager->setOriginalProject(fname_);
+            }
+        }
+        if(_om->count("--project")) {
+            auto op = _om->get_option("--project");
+            std::vector<std::string> _fls = op->as<std::vector<std::string>>();
+            DEBUG_STREAM(" project : ");
+            for(int i = 0; i < _fls.size(); i++) {
+                DEBUG_STREAM(" " << i << ": " << _fls[i]);
+            }
+            if(!!manager) {
+                manager->setAssemblerProject(_fls[0]);
+            }
+        }
+        if(_om->count("--input-file")) {
+            auto op = _om->get_option("--input-file");
+            std::vector<std::string> _fls = op->as<std::vector<std::string>>();
+            DEBUG_STREAM(" input-file : ");
+            for(int i = 0; i < _fls.size(); i++) {
+                DEBUG_STREAM(" " << i << ": " << _fls[i]);
+            }
+            if(!!manager) {
+                manager->setAssemblerProject(_fls[0]);
+            }
+        }
+    }
+}
+#endif
 RobotAssemblerPlugin* RobotAssemblerPlugin::instance()
 {
     return instance_;
@@ -143,6 +205,7 @@ RobotAssemblerPlugin::~RobotAssemblerPlugin()
 bool RobotAssemblerPlugin::initialize()
 {
     DEBUG_PRINT();
+#ifdef USE_OLD_OPTION
     OptionManager& om = this->optionManager();
     om.addOption("assembler", po::value<std::string>(), "load robot_assembler config file");
     om.addOption("assembler-robot", po::value<std::string>(), "load robot_assembler .roboasm file");
@@ -150,6 +213,14 @@ bool RobotAssemblerPlugin::initialize()
     //om.sigOptionsParsed(1).connect(onSigOptionsParsed);
     om.sigOptionsParsed(1).connect(
         [&](po::variables_map& _v) { impl->onSigOptionsParsed(_v); } );
+#else
+    auto om = OptionManager::instance();
+    om->add_option("assembler,--assembler", "load robot_assembler config file");
+    om->add_option("assembler-robot,--assembler-robot", "load robot_assembler .roboasm file");
+    om->add_option("original-project,--original-project", "project file for original choreonoid");
+    om->sigOptionsParsed(1).connect(
+        [&](OptionManager *_om) { impl->onSigOptionsParsed(_om); } );
+#endif
 
     // classes
     AssemblerItem::initializeClass(this);
