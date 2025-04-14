@@ -1,0 +1,2 @@
+### jupytext : https://github.com/mwouts/jupytext
+formats: "ipynb,mymodules//py:percent"

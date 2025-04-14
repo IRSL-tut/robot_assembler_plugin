@@ -1,0 +1,19 @@
+history:
+  -
+    initial-parts: true
+    parts-name: XL-430_38439_0
+    parts-type: XL-430
+  -
+    parent: XL-430_38439_0
+    parent-point: horn
+    parts-name: Hinge_Short_Plug_38439_1
+    parts-point: side_connect_point
+    parts-type: Hinge_Short_Plug
+  -
+    parent: Hinge_Short_Plug_38439_1
+    parent-point: plug_3_0
+    parts-name: Hinge_Long_Socket_38439_2
+    parts-point: socket_3_3
+    parts-type: Hinge_Long_Socket
+robot-info:
+  name: AssembleRobot
