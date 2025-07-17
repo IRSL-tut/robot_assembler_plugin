@@ -73,6 +73,10 @@ public:
     void drawBoundingBox(bool _on = true);
     bool updateColor(const Vector3f &_color);
     void updateCoords();
+
+    const std::vector<RASceneConnectingPoint*>& getConnectingPoints() const {
+        return spoint_list;
+    }
 protected:
     RASceneRobot *robot_ptr;
     RoboasmPartsPtr self;

@@ -6,6 +6,7 @@
 
 #include "exportdecl.h"
 
+
 namespace ra = cnoid::robot_assembler;
 
 namespace cnoid {
@@ -149,7 +150,12 @@ public:
     //// controll
     ra::RASceneRobot *searchNearest(const Vector3 pos, double threshold = 1.0);
     bool moveRobot(ra::RASceneRobot *rb, const coordinates &cds);
-
+    void moveLastRobotTo(const coordinates& target_coords);
+    std::vector<ra::RASceneParts*> AssemblerManager::getAllSceneParts() const;
+    void test_getAllSceneParts();
+    void tryAutoConnectParts(double threshold);
+    void moveAllRobotsToPlane(const Vector3& basePos, double spacing);
+    void attachRobotsPreserveRotation();
     int uniq_id;
     ra::RASceneConnectingPoint *clickedPoint0;
     ra::RASceneConnectingPoint *clickedPoint1;

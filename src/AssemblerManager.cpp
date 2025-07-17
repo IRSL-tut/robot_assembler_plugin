@@ -17,6 +17,9 @@
 
 #include <cnoid/ProjectManager>
 
+
+#include <cnoid/MessageView>
+
 #include <vector>
 #include <QLabel>
 #include <QCheckBox>
@@ -1340,4 +1343,194 @@ bool AssemblerManager::moveRobot(ra::RASceneRobot *rb, const coordinates &cds)
     rb->setCoords(cds);
     rb->notifyUpdate(SgUpdate::MODIFIED);
     return true;
+}
+
+//最後に追加したロボットを特定の座標へ移動する
+void AssemblerManager::moveLastRobotTo(const coordinates& target_coords)
+{
+    if (srobot_set.empty()) {
+        ERROR_STREAM("No robot to move.");
+        return;
+    }
+    
+    ra::RASceneRobot* last_robot = *srobot_set.rbegin();//最後に追加されたロボットを把握
+    moveRobot(last_robot, target_coords);  // 既存関数で移動
+}
+//全部のscenePartsのリストを返す
+std::vector<ra::RASceneParts*> AssemblerManager::getAllSceneParts() const
+{
+    std::vector<ra::RASceneParts*> partsList;
+    std::set<ra::RASceneRobot*>::const_iterator robot_it;
+    for (robot_it = srobot_set.begin(); robot_it != srobot_set.end(); ++robot_it) {
+        ra::RASceneRobot* robot = *robot_it;
+        std::set<ra::RASceneParts*>::const_iterator part_it;
+        for (part_it = robot->sparts_set.begin(); part_it != robot->sparts_set.end(); ++part_it) {
+            ra::RASceneParts* part = *part_it;
+            partsList.push_back(part);
+        }
+    }
+    return partsList;
+}
+
+
+
+void AssemblerManager::test_getAllSceneParts()
+{
+    MessageView::instance()->cout() << "[TEST] getAllSceneParts()" << std::endl;
+
+    std::vector<robot_assembler::RASceneParts*> parts = getAllSceneParts();
+    MessageView::instance()->cout() << "  total parts: " << parts.size() << std::endl;
+
+    for (size_t i = 0; i < parts.size(); ++i) {
+        MessageView::instance()->cout() << "  part[" << i << "]: " << parts[i]->name() << std::endl;
+    }
+}
+
+void AssemblerManager::tryAutoConnectParts(double threshold)
+{
+    std::vector<ra::RASceneParts*> partsList = getAllSceneParts();//全ロボットパーツのリストを取得
+    double minDist = threshold;//接続距離を設定
+    ra::RASceneConnectingPoint* bestCP0 = nullptr;
+    ra::RASceneConnectingPoint* bestCP1 = nullptr;
+
+    
+    for (size_t i = 0; i < partsList.size(); ++i) {
+        for (size_t j = i + 1; j < partsList.size(); ++j) {
+            ra::RASceneParts* part1 = partsList[i];
+            ra::RASceneParts* part2 = partsList[j];
+
+            if (part1->scene_robot() == part2->scene_robot()) continue;
+
+            const std::vector<ra::RASceneConnectingPoint*>& cps1 = part1->getConnectingPoints();
+            const std::vector<ra::RASceneConnectingPoint*>& cps2 = part2->getConnectingPoints();
+
+            for (size_t m = 0; m < cps1.size(); ++m) {
+                for (size_t n = 0; n < cps2.size(); ++n) {
+                    double dist = (cps1[m]->position().translation() - cps2[n]->position().translation()).norm();
+                    if (dist < minDist && ra_util->canMatch(cps1[m]->point(), cps2[n]->point())) {
+                        minDist = dist;
+                        bestCP0 = cps1[m];
+                        bestCP1 = cps2[n];
+                    }
+                }
+            }
+        }
+    }
+
+    if (bestCP0 && bestCP1) {
+        // === ログ出力を追加 ===
+        Vector3 pos0 = bestCP0->position().translation();
+        Vector3 pos1 = bestCP1->position().translation();
+        MessageView::instance()->cout()
+            << "[AutoConnect] Connecting "
+            << bestCP0->name() << " (pos = " << pos0.transpose() << ") <-> "
+            << bestCP1->name() << " (pos = " << pos1.transpose() << ") "
+            << "(distance = " << minDist << ")" << std::endl;
+        // =====================
+
+        clickedPoint0 = bestCP0;
+        clickedPoint1 = bestCP1;
+        
+        attachRobots(true,true,1);
+    } else {
+        MessageView::instance()->cout() << "[AutoConnect] No matching pair found within threshold." << std::endl;
+    }
+}
+
+void AssemblerManager::moveAllRobotsToPlane(const Vector3& basePos, double spacing)
+{
+    if (srobot_set.empty()) {
+        MessageView::instance()->cout() << "[moveAllRobotsToPlane] No robot found." << std::endl;
+        return;
+    }
+
+    int index = 0;
+    for (ra::RASceneRobot* robot : srobot_set) {
+        Vector3 targetPos = basePos + Vector3(index * spacing, 0.0, 0.0); // X方向に間隔をあけて配置
+        coordinates coords;
+        coords.pos = targetPos;
+        coords.rot = Matrix3::Identity();
+
+        robot->setCoords(coords);
+        robot->updateStructure();
+        robot->notifyUpdate(SgUpdate::MODIFIED);
+
+        MessageView::instance()->cout()
+            << "[moveAllRobotsToPlane] Robot[" << index << "] moved to " << targetPos.transpose() << std::endl;
+        ++index;
+    }
+}
+
+void AssemblerManager::attachRobotsPreserveRotation()//回転を維持した状態で仮接続
+{
+    if (!clickedPoint0 || !clickedPoint1) {
+        MessageView::instance()->cout() << "[attachRobotsPreserveRotationBest] chose two connection point" << std::endl;
+        return;
+    }
+
+    ra::RASceneConnectingPoint* cp0 = clickedPoint0;
+    ra::RASceneConnectingPoint* cp1 = clickedPoint1;
+
+    ra::RASceneRobot* robot0 = cp0->scene_robot();
+    ra::RASceneRobot* robot1 = cp1->scene_robot();
+
+    if (!robot0 || !robot1) {
+        MessageView::instance()->cout() << "[attachRobotsPreserveRotationBest] cannot get point" << std::endl;
+        return;
+    }
+
+    ra::RoboasmRobotPtr rb0 = robot0->robot();
+    ra::RoboasmRobotPtr rb1 = robot1->robot();
+
+    std::vector<ra::ConnectingTypeMatch*> match_list;
+    bool found = rb0->searchMatch(rb1, cp1->point(), cp0->point(), match_list);
+    if (!found || match_list.empty()) {
+        MessageView::instance()->cout() << "[attachRobotsPreserveRotationBest]cannot find list of connect" << std::endl;
+        return;
+    }
+
+    // 現在の回転を保持
+    Matrix3 preserve_rotation = rb1->worldcoords().rot;
+
+    double min_diff = std::numeric_limits<double>::max();
+    ra::ConnectingConfigurationID best_ccid = match_list.front()->allowed_configuration.front();
+
+    MessageView::instance()->cout() << "[attachRobotsPreserveRotationBest] 適合候補探索中..." << std::endl;
+
+    // ======= 仮接続アプローチ =======
+    for (auto* match : match_list) {
+        for (auto ccid : match->allowed_configuration) {
+            // 仮接続
+            bool align_res = rb0->attach(rb1, cp1->point(), cp0->point(), ccid, true); // _just_align = true
+            if (!align_res) continue;
+
+            Matrix3 new_rotation = rb1->worldcoords().rot;
+            double diff = (preserve_rotation - new_rotation).norm();
+
+            MessageView::instance()->cout() << "  ccid=" << ccid << " diff=" << diff << std::endl;
+
+            if (diff < min_diff) {
+                min_diff = diff;
+                best_ccid = ccid;
+            }
+
+            // ロボット姿勢を元に戻す（仮接続解除）
+            rb1->update(); // この呼び出しで戻る場合が多いが、戻らない場合は座標保持→復元が必要
+        }
+    }
+    MessageView::instance()->cout() << "[attachRobotsPreserveRotationBest] Best ccid=" << best_ccid << " diff=" << min_diff << std::endl;
+
+    // ======= 本接続 =======
+    bool attach_res = rb0->attach(rb1, cp1->point(), cp0->point(), best_ccid, false);
+
+    if (attach_res) {
+        MessageView::instance()->cout() << "[attachRobotsPreserveRotationBest] 接続完了 (ccid=" << best_ccid << ")" << std::endl;
+    } else {
+        MessageView::instance()->cout() << "[attachRobotsPreserveRotationBest] 接続失敗" << std::endl;
+    }
+
+    // Update
+    cp0->scene_robot()->updateFromSelf();
+    cp1->scene_robot()->updateFromSelf();
+    notifyUpdate();
 }
