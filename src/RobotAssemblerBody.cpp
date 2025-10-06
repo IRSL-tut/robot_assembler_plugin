@@ -733,6 +733,33 @@ bool cnoid::robot_assembler::mergeLink(Link *plink, Link *clink, BodyPtr _bd)
 
     return true;
 }
+bool cnoid::robot_assembler::mergeFixedJoint(BodyPtr _bd)
+{
+    Link *root_ = _bd->rootLink();
+    bool do_loop = true;
+    while(do_loop) {
+        Link *clink = nullptr;
+        const LinkTraverse &trv = _bd->linkTraverse();
+        for (int i = 0; i < trv.size(); i++) {
+            Link *lk = trv.link(i);
+            if(lk->isFixedJoint()) {
+                clink = lk;
+                break;
+            }
+        }
+        if(!clink) { // there is no fixed-joint, loop finished
+            break;
+        }
+        DEBUG_STREAM(" clink : " << clink->name());
+        if(!mergeLink( clink->parent(), clink, _bd)) {
+            DEBUG_STREAM(" merge failed");
+            return false;
+        }
+        _bd->updateLinkTree();
+    }
+    return true;
+}
+#if 0
 bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
 {
     Link *root_ = _bd->rootLink();
@@ -759,7 +786,7 @@ bool RoboasmBodyCreator::mergeFixedJoint(BodyPtr _bd)
     }
     return true;
 }
-
+#endif
 //
 bool cnoid::robot_assembler::addRootOffset(BodyPtr _bd, const Isometry3 &T)
 {

@@ -20,6 +20,7 @@ void CNOID_EXPORT createSceneFromGeometry(SgGroup *sg_main, std::vector<Geometry
 // Utility for Body
 bool CNOID_EXPORT mergeLink(Link *plink, Link *clink, BodyPtr _bd = nullptr);
 bool CNOID_EXPORT addRootOffset(BodyPtr _bd, const Isometry3 &T);
+bool CNOID_EXPORT mergeFixedJoint(BodyPtr _bd);
 
 typedef std::pair<Device *, Link *> DevLinkPair;
 typedef std::vector<DevLinkPair> DevLinkList;
@@ -50,7 +51,7 @@ protected:
     BodyPtr _createBody(RoboasmRobotPtr _rb, const std::string &_name);
     Link *createLink(RoboasmPartsPtr _pt, bool _is_root, DevLinkList &lst);
     bool appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr _pt, DevLinkList &lst);
-    bool mergeFixedJoint(BodyPtr _bd);
+    //bool mergeFixedJoint(BodyPtr _bd);
 };
 
 } }
