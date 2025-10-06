@@ -134,6 +134,9 @@ void exportPyRobotAssemblerHelper(py::module &m)
         Isometry3 T; cds.toPosition(T);
         return ra::addRootOffset(bd, T);
     });
+    m.def("mergeFixedJoint", [](Body *bd) {
+        return ra::mergeFixedJoint(bd);
+    });
     m.def("testYaml", [](std::string fname) {
         //ValueNode *res = new ValueNode();
         YAMLReader yaml_reader;
