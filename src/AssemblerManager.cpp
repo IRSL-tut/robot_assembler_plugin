@@ -1004,6 +1004,8 @@ void AssemblerManager::save_model(ra::RASceneRobot *_sr)
     extModelFileModeCombo->addItem(
         "Link to the original model files", StdSceneWriter::LinkToOriginalModelFiles);
     extModelFileModeCombo->addItem(
+        "Copy model files", StdSceneWriter::CopyModelFiles);
+    extModelFileModeCombo->addItem(
         "Replace with OBJ model files", StdSceneWriter::ReplaceWithObjModelFiles);
     extModelFileModeCombo->addItem(
         "Replace with standard scene files", StdSceneWriter::ReplaceWithStdSceneFiles);

@@ -88,8 +88,8 @@ void cnoid::robot_assembler::createSceneFromGeometry(SgGroup *sg_main, std::vect
             SgNodePtr shape = sceneLoader.load(geom_file_path);
             if (!!shape) {
                 DEBUG_STREAM(" mesh loaded!");
-                shape->setName(name_ + "/geom");
-                shape->setUri(geom.url, geom_file_path);
+                shape->setName(name_ + "/shape");
+                //shape->setUri(geom.url, geom_file_path);
                 if(!_color.isZero()) {
                     addMaterial(shape, _color);
                 } else if (geom.color[0] >= 0.0) { // checking color is changed
