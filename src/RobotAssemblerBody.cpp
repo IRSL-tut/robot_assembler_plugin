@@ -285,6 +285,14 @@ RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(null
 }
 Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLinkList &_dev_list)
 {
+    std::vector<Link *> res;
+    if (createLinks(_pt, _is_root, res, _dev_list)) {
+        return res[0];
+    }
+    return nullptr;
+}
+bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, std::vector<Link *> &res, DevLinkList &_dev_list)
+{
     Link *lk = new Link();
     coordinates link_origin_to_self_;
     cnoidRAInfo cinfo(info);
@@ -310,14 +318,16 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
         if(!_pt->parentParts(p_pt_, p_cp_, s_cp_)) {
             ERROR_STREAM(" miss fetch : " << _pt->name());
             delete lk;
-            return nullptr;
+            return false;
+            //return nullptr;
         }
         s_cp_->worldcoords().transformation(link_origin_to_self_,
                                             _pt->worldcoords());
         if(!p_pt_->parent()) {
             ERROR_STREAM(" invalid parts : " << p_pt_->name());
             delete lk;
-            return nullptr;
+            return false;
+            //return nullptr;
         }
         coordinates p_origin = p_pt_->parent()->worldcoords();
         if(p_pt_->parent()->isRobot()) {
@@ -335,11 +345,146 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
         DEBUG_STREAM(" link_origin_to_self : " << link_origin_to_self_);
 
         RoboasmConnectingPointPtr act_;
+        RoboasmConnectingPointPtr act2_;
         if (p_cp_->isActuator()) {
             act_ = p_cp_;
+            if (s_cp_->isActuator()) {
+                act_  = s_cp_;
+                act2_ = p_cp_;
+                INFO_STREAM(" DOUBELLLLLLLLLLLLLLLLLLLLLLLLL");
+            }
         } else if (s_cp_->isActuator()) {
             act_ = s_cp_;
         }
+        if( !!act2_ ) {
+            // link-name
+            std::ostringstream ss_;
+            ss_ << "LINK_" << joint_counter;
+            std::string lnm_ = ss_.str();
+            cinfo.getPartsName(_pt->name(), lnm_);
+            lk->setName(lnm_);
+            // joint-name
+            std::string jnm_ = lnm_;
+            if(cinfo.getActuatorName(act_->name(), jnm_)) {
+                lk->setJointName(jnm_);
+            }
+            DEBUG_STREAM("  _pt->name() : " << _pt->name());
+            DEBUG_STREAM(" act_->name() : " << act_->name());
+            DEBUG_STREAM("         lnm_ : " << lnm_);
+            DEBUG_STREAM("         jnm_ : " << jnm_);
+            lk->setJointId(joint_counter  + 1); // [todo] overwrite id by info
+            map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(lnm_, _pt->name()));
+            //map_joint_cnoid_roboasm.insert(std::pair<std::string, std::string>(jnm_, _pt->name()));
+            {
+            Actuator *ainfo_ = dynamic_cast<Actuator*>(act_->info);
+            if(!!ainfo_) {
+                if (act_ == s_cp_) {
+                    lk->setJointAxis(- ainfo_->axis); // [todo] update direction by info
+                } else {
+                    lk->setJointAxis(ainfo_->axis); // [todo] update direction by info
+                }
+                switch (ainfo_->getType()) {
+                case ConnectingPoint::Rotational:
+                    lk->setJointType(Link::RevoluteJoint);
+                    break;
+                case ConnectingPoint::Linear:
+                    lk->setJointType(Link::PrismaticJoint);
+                    break;
+                case ConnectingPoint::Fixed: // ??
+                    lk->setJointType(Link::RevoluteJoint);
+                    lk->setJointRange(0, 0);
+                    break;
+                case ConnectingPoint::Free: // ??
+                    lk->setJointType(Link::FreeJoint);
+                    break;
+                }
+                if (lk->jointType() != Link::FreeJoint && lk->jointType() != Link::FixedJoint) {
+                    lk->setEquivalentRotorInertia(0.1); // magic word
+                }
+                DEBUG_STREAM(" limit : " << ainfo_->limit[0] << " / " << ainfo_->limit[1]);
+                double lim_min_, lim_max_;
+                if(cinfo.getActuatorLimit(act_->name(), "limit", lim_min_, lim_max_)) {
+                    lk->setJointRange(lim_min_, lim_max_);
+                } else {
+                    lk->setJointRange(ainfo_->limit[0], ainfo_->limit[1]);
+                }
+                if(cinfo.getActuatorLimit(act_->name(), "vlimit", lim_min_, lim_max_)) {
+                    lk->setJointVelocityRange(lim_min_, lim_max_);
+                } else {
+                    lk->setJointVelocityRange(ainfo_->vlimit[0], ainfo_->vlimit[1]);
+                }
+                if(cinfo.getActuatorLimit(act_->name(), "tqlimit", lim_min_, lim_max_)) {
+                    lk->setJointEffortRange(lim_min_, lim_max_);
+                } else {
+                    lk->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
+                }
+                double init_ang;
+                if (cinfo.getActuatorValue(act_->name(), "initial-angle",  init_ang)) {
+                    DEBUG_STREAM(" " << act_->name() << ", initial-angle <= " << init_ang);
+                    lk->setInitialJointAngle(init_ang);
+                }
+            } else {
+                // no ainfo
+            }
+            }
+            // dummy
+            {
+            Link *midjoint = new Link();
+            midjoint->setJointId(joint_counter); // [todo] overwrite id by info
+            joint_counter += 2;
+            std::ostringstream ss2_;
+            ss2_ << "dymmy_" << joint_counter;
+            midjoint->setName(ss2_.str());
+            Actuator *ainfo_ = dynamic_cast<Actuator*>(act2_->info);
+            if(!!ainfo_) {
+                midjoint->setJointAxis(ainfo_->axis); // [todo] update direction by info
+                switch (ainfo_->getType()) {
+                case ConnectingPoint::Rotational:
+                    midjoint->setJointType(Link::RevoluteJoint);
+                    break;
+                case ConnectingPoint::Linear:
+                    midjoint->setJointType(Link::PrismaticJoint);
+                    break;
+                case ConnectingPoint::Fixed: // ??
+                    midjoint->setJointType(Link::RevoluteJoint);
+                    midjoint->setJointRange(0, 0);
+                    break;
+                case ConnectingPoint::Free: // ??
+                    midjoint->setJointType(Link::FreeJoint);
+                    break;
+                }
+                if (midjoint->jointType() != Link::FreeJoint && midjoint->jointType() != Link::FixedJoint) {
+                    midjoint->setEquivalentRotorInertia(0.1); // magic word
+                }
+                DEBUG_STREAM(" limit : " << ainfo_->limit[0] << " / " << ainfo_->limit[1]);
+                double lim_min_, lim_max_;
+                if(cinfo.getActuatorLimit(act2_->name(), "limit", lim_min_, lim_max_)) {
+                    midjoint->setJointRange(lim_min_, lim_max_);
+                } else {
+                    midjoint->setJointRange(ainfo_->limit[0], ainfo_->limit[1]);
+                }
+                if(cinfo.getActuatorLimit(act2_->name(), "vlimit", lim_min_, lim_max_)) {
+                    midjoint->setJointVelocityRange(lim_min_, lim_max_);
+                } else {
+                    midjoint->setJointVelocityRange(ainfo_->vlimit[0], ainfo_->vlimit[1]);
+                }
+                if(cinfo.getActuatorLimit(act2_->name(), "tqlimit", lim_min_, lim_max_)) {
+                    midjoint->setJointEffortRange(lim_min_, lim_max_);
+                } else {
+                    midjoint->setJointEffortRange(ainfo_->tqlimit[0], ainfo_->tqlimit[1]);
+                }
+                double init_ang;
+                if (cinfo.getActuatorValue(act2_->name(), "initial-angle",  init_ang)) {
+                    DEBUG_STREAM(" " << act2_->name() << ", initial-angle <= " << init_ang);
+                    midjoint->setInitialJointAngle(init_ang);
+                }
+            }
+            midjoint->setOffsetPosition(lk->offsetPosition());
+            Isometry3 zero; zero.setIdentity();
+            lk->setOffsetPosition( zero );
+            res.push_back(midjoint);
+            }
+        } else
         if( !!act_ ) {
             // link-name
             std::ostringstream ss_;
@@ -513,18 +658,29 @@ Link *RoboasmBodyCreator::createLink(RoboasmPartsPtr _pt, bool _is_root, DevLink
             }
         }
     }
-    return lk;
+    res.push_back(lk);
+    return true;
 }
 bool RoboasmBodyCreator::appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr _pt, DevLinkList &_dev_list)
 {
     partsPtrList plst;
     _pt->childParts(plst);
     for (auto it = plst.begin(); it != plst.end(); it++) {
-        Link *clk = createLink(*it, false, _dev_list);
-        if(!!clk) {
-            _lk->appendChild(clk);
-            _bd->updateLinkTree();
-            appendChildLink(_bd, clk, (*it), _dev_list);
+        std::vector<Link *> lks;
+        //Link *clk = createLink(*it, false, _dev_list);
+        //if(!!clk) {
+        //    _lk->appendChild(clk);
+        //    _bd->updateLinkTree();
+        //    appendChildLink(_bd, clk, (*it), _dev_list);
+        //}
+        createLinks(*it, false, lks, _dev_list);
+        if ( lks.size() > 0 ) {
+            _lk->appendChild(lks[0]);
+            for(int i = 1; i < lks.size(); i++) {
+                lks[i-1]->appendChild(lks[i]);
+                _bd->updateLinkTree();
+            }
+            appendChildLink(_bd, lks[lks.size()-1], (*it), _dev_list);
         }
     }
     return true;

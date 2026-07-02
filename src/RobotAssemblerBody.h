@@ -50,6 +50,7 @@ protected:
 
     BodyPtr _createBody(RoboasmRobotPtr _rb, const std::string &_name);
     Link *createLink(RoboasmPartsPtr _pt, bool _is_root, DevLinkList &lst);
+    bool createLinks(const RoboasmPartsPtr _pt, bool _is_root, std::vector<Link *> &res, DevLinkList &lst);
     bool appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr _pt, DevLinkList &lst);
     //bool mergeFixedJoint(BodyPtr _bd);
 };
