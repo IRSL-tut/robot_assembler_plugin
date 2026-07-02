@@ -931,6 +931,28 @@ bool Settings::Impl::parseParts(ValueNode *vn, Parts &out)
             }
         }
     } } // >>actuators
+    {   // <<points
+    ValueNode *val = mp->find("points");
+    if ( ! val->isValid() ) {
+        // [todo]
+    } else if ( ! val->isListing() ) {
+        // [todo]
+    } else {
+        Listing *lst = val->toListing();
+        for(int i = 0; i < lst->size(); i++) {
+            if ( lst->at(i)->toMapping()->find("actuator-type")->isValid() ) {
+                Actuator act;
+                if(parseActuator(lst->at(i), act)) {
+                    out.actuators.push_back(act);
+                }
+            } else {
+                ConnectingPoint cpt;
+                if(parseConnectingPoint(lst->at(i), cpt)) {
+                    out.connecting_points.push_back(cpt);
+                }
+            }
+        }
+    } } // >>points
     {   // <<extra-data
     ValueNode *val = mp->find("extra-data");
     if ( ! val->isValid() ) {
