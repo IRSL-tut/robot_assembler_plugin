@@ -623,6 +623,91 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
     notifyUpdate();
     SceneView::instance()->sceneWidget()->viewAll();
 }
+bool AssemblerManager::virtualAttach(bool move_angles)
+{
+    if(!clickedPoint0 || !clickedPoint1) {
+        DEBUG_STREAM( " require 2 clicked point" );
+        return false;
+    }
+    ra::RASceneConnectingPoint *cp0 = clickedPoint0;
+    ra::RASceneConnectingPoint *cp1 = clickedPoint1;
+    //if(_swap_order && (cp1->scene_robot()->robot()->partsNum() >
+    //                   cp0->scene_robot()->robot()->partsNum() ) ) { // swap 0 and 1
+    //    ra::RASceneConnectingPoint *tmp = cp0;
+    //    cp0 = cp1; cp1 = tmp;
+    //}
+
+    ra::RoboasmRobotPtr rb0 = cp0->scene_robot()->robot();
+    ra::RoboasmRobotPtr rb1 = cp1->scene_robot()->robot();
+
+    bool res;
+    std::vector<ra::ConnectingTypeMatch*> res_match_lst;
+    res = rb0->searchMatch(rb1, cp1->point(), cp0->point(),
+                           res_match_lst);
+    if(!res) {
+        DEBUG_STREAM(" not matched " );
+        return false;
+    }
+
+    DEBUG_STREAM(" matched : " << res_match_lst.size() );
+    ra::ConnectingConfigurationID ccid = res_match_lst.front()->allowed_configuration.front();
+#if 0
+    int counter_ = 0; bool find_ = false;
+    int target_config_;
+    if(_just_align) {
+        target_config_ = current_align_configuration + increment;
+    } else {
+        if(current_align_configuration < 0) {
+            target_config_ = 0; // attach by initial condition
+        } else {
+            target_config_ = current_align_configuration;
+        }
+    }
+    ra::ConnectingConfigurationID ccid = res_match_lst.front()->allowed_configuration.front();
+    for(int i = 0; i < res_match_lst.size(); i++) {
+        ra::ConnectingTypeMatch* mt_ = res_match_lst[i];
+        for(int j = 0; j < mt_->allowed_configuration.size(); j++) {
+            if (counter_ == target_config_) {
+                ccid = mt_->allowed_configuration[j];
+                find_ = true;
+            }
+            counter_++;
+        }
+    }
+    if(target_config_ < 0) {
+        current_align_configuration = counter_ - 1;
+        ccid = res_match_lst.back()->allowed_configuration.back();
+    } else if(!find_) {
+        current_align_configuration = 0;
+    } else {
+        current_align_configuration = target_config_;
+    }
+    if(_just_align) {
+        DEBUG_STREAM(" align: " << ccid);
+    } else {
+        DEBUG_STREAM(" attach: " << ccid);
+    }
+#endif
+    // check same robot
+    ra::RoboasmParts *parts0 = dynamic_cast<ra::RoboasmParts*>(cp0->point()->parent());
+    ra::RoboasmParts *parts1 = dynamic_cast<ra::RoboasmParts*>(cp1->point()->parent());
+    coordinates trs0;
+    parts0->worldcoords().transformation(trs0, cp0->point()->worldcoords());
+    coordinates trs1;
+    parts1->worldcoords().transformation(trs1, cp1->point()->worldcoords());
+    DEBUG_STREAM(" ### VirtualAttach ###");
+    DEBUG_STREAM("  p0 " << parts0->name());
+    DEBUG_STREAM("  p1 " << parts1->name());
+    DEBUG_STREAM(" cp0 " << cp0->point()->name() << " | " << cp0->point()->point_name() << " : " << cp0->point()->isActuator());
+    DEBUG_STREAM(" cp1 " << cp1->point()->name() << " | " << cp1->point()->point_name() << " : " << cp1->point()->isActuator());
+    Quaternion q0(trs0.rot);
+    DEBUG_STREAM(" t0: fv(" << trs0.pos.x() << ", " << trs0.pos.y() << ", " << trs0.pos.z() << ")");
+    DEBUG_STREAM(" t0: fv(" << q0.x() << ", " << q0.y() << ", " << q0.z() << ", " << q0.w() << ")");
+    Quaternion q1(trs1.rot);
+    DEBUG_STREAM(" t1: fv(" << trs1.pos.x() << ", " << trs1.pos.y() << ", " << trs1.pos.z() << ")");
+    DEBUG_STREAM(" t1: fv(" << q1.x() << ", " << q1.y() << ", " << q1.z() << ", " << q1.w() << ")");
+    return true;
+}
 void AssemblerManager::attachRobots(bool _swap_order, bool _just_align, int increment)
 {
     DEBUG_STREAM(" swap: " << _swap_order);

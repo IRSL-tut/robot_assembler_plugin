@@ -109,10 +109,11 @@ public:
         }
         return nullptr;
     }
-
+    bool virtualAttach(bool move_angles);
     bool isRunningAssembler();
     bool isInitialized() { return !!ra_settings; }
     //// simple command without arguments for toolbar, etc.
+    void com_virtual_attach() { virtualAttach(false); }
     void com_attach()  { attachRobots(swap_order); }
     void com_attach_o(){ attachRobots(false); }
     void com_align()   { attachRobots(swap_order, true); }

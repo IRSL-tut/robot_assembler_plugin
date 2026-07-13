@@ -67,6 +67,8 @@ AssemblerBar::Impl::Impl(AssemblerBar* _self)
               [this](){ manager->com_unalign(); } );
     addButton("Attach", "Attach", // A
               [this](){ manager->com_attach(); } );
+    addButton("V A", "Virtual Attach", // A
+              [this](){ manager->com_virtual_attach(); } );
     addButton("Undo", "Undo", // U
               [this](){ manager->com_undo(); } );
     {
