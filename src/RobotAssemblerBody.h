@@ -32,6 +32,7 @@ public:
 
     void setName(const std::string &_nm) { name = _nm; }
     void setMergeFixedJoint(bool on = true) { merge_fixed_joint = on; };
+    void useOriginalPartsName(bool use = true) { use_original_parts_name = use; };
     BodyPtr createBody(RoboasmRobotPtr _rb, MappingPtr _info = nullptr, const std::string &_name = std::string(), bool reset_angle = true);
 
 protected:
@@ -41,6 +42,7 @@ protected:
     int joint_counter;
     int device_counter;
     bool merge_fixed_joint;
+    bool use_original_parts_name;
     std::map<std::string, std::string> map_link_cnoid_roboasm;  // key: cnoid_name, value: roboasm_name
     //std::map<std::string, std::string> map_joint_cnoid_roboasm; // key: cnoid_name, value: roboasm_name
     //std::vector<std::string> joint_list; // cnoid_name

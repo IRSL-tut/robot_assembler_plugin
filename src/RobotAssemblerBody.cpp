@@ -281,7 +281,8 @@ static cnoid::Device *createDevice(ExtraInfo &_info, int dev_no, coordinates &li
 
     return ret;
 }
-RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(nullptr), joint_counter(0), device_counter(0), merge_fixed_joint(false)
+RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(nullptr), joint_counter(0), device_counter(0), merge_fixed_joint(false),
+                                                                       use_original_parts_name(true)
 {
     project_directory = _proj_dir;
 }
@@ -300,7 +301,12 @@ bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, s
     cnoidRAInfo cinfo(info);
 
     if (_is_root) { // for root link
-        std::string nm_("Root");
+        std::string nm_;
+        if (use_original_parts_name) {
+            nm_ = _pt->name();
+        } else {
+            nm_ = "Root";
+        }
         cinfo.getPartsName(_pt->name(), nm_);
         lk->setName(nm_);
         //lk->setJointName();
@@ -360,9 +366,14 @@ bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, s
         }
         if( !!act2_ ) {
             // link-name
-            std::ostringstream ss_;
-            ss_ << "LINK_" << joint_counter;
-            std::string lnm_ = ss_.str();
+            std::string lnm_;
+            if (use_original_parts_name) {
+                lnm_ = _pt->name();
+            } else {
+                std::ostringstream ss_;
+                ss_ << "LINK_" << joint_counter;
+                lnm_ = ss_.str();
+            }
             cinfo.getPartsName(_pt->name(), lnm_);
             lk->setName(lnm_);
             // joint-name
@@ -489,9 +500,14 @@ bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, s
         } else
         if( !!act_ ) {
             // link-name
-            std::ostringstream ss_;
-            ss_ << "LINK_" << joint_counter;
-            std::string lnm_ = ss_.str();
+            std::string lnm_;
+            if (use_original_parts_name) {
+                lnm_ = _pt->name();
+            } else {
+                std::ostringstream ss_;
+                ss_ << "LINK_" << joint_counter;
+                lnm_ = ss_.str();
+            }
             cinfo.getPartsName(_pt->name(), lnm_);
             lk->setName(lnm_);
             // joint-name
