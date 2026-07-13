@@ -676,6 +676,7 @@ bool RoboasmBodyCreator::appendChildLink(BodyPtr _bd, Link *_lk, RoboasmPartsPtr
         createLinks(*it, false, lks, _dev_list);
         if ( lks.size() > 0 ) {
             _lk->appendChild(lks[0]);
+            _bd->updateLinkTree();
             for(int i = 1; i < lks.size(); i++) {
                 lks[i-1]->appendChild(lks[i]);
                 _bd->updateLinkTree();
