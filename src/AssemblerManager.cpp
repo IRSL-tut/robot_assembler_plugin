@@ -50,7 +50,7 @@ AssemblerManager* AssemblerManager::instance()
     static AssemblerManager* instance_ = new AssemblerManager();
     return instance_;
 }
-AssemblerManager::AssemblerManager() : clickedPoint0(nullptr), clickedPoint1(nullptr), clickedParts(nullptr)
+AssemblerManager::AssemblerManager() : uniq_id(-1), clickedPoint0(nullptr), clickedPoint1(nullptr), clickedParts(nullptr)
 {
     DEBUG_PRINT();
 
@@ -58,12 +58,20 @@ AssemblerManager::AssemblerManager() : clickedPoint0(nullptr), clickedPoint1(nul
 
     swap_order = true;
     _current_mode = ASSEMBLER;
-    uniq_id = SceneWidget::issueUniqueCustomModeId();
-    SceneView::instance()->sceneWidget()->activateCustomMode(this, uniq_id);
 }
 AssemblerManager::~AssemblerManager()
 {
     delete impl;
+}
+bool AssemblerManager::initialize()
+{
+    if (uniq_id == -1) {
+        uniq_id = SceneWidget::issueUniqueCustomModeId();
+        SceneView::instance()->sceneWidget()->activateCustomMode(this, uniq_id);
+        DEBUG_STREAM(" initialize : " << uniq_id );
+        return true;
+    }
+    return false;
 }
 void AssemblerManager::loadSettings(const std::string _fname)
 {

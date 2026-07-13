@@ -27,6 +27,8 @@ public:
     AssemblerManager();
     virtual ~AssemblerManager();
 
+    bool initialize();
+
     void loadSettings(const std::string _fname);
     const std::string &project_directory() { return _project_directory; }
     void setProjectDirectory(const std::string &_proj) { _project_directory = _proj; };
