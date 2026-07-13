@@ -61,6 +61,7 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(po::variables_map& variables
         AssemblerManager *manager = AssemblerManager::instance();
         if (!!manager) {
             manager->loadSettings(fname_);
+            manager->initialize();
         }
 #if 0
         filesystem::path path_(fromUTF8(fname_));
@@ -142,6 +143,7 @@ void RobotAssemblerPlugin::Impl::onSigOptionsParsed(OptionManager *_om)
             if (!!manager) {
                 DEBUG_STREAM("robot_assembler config file: " << fname_);
                 manager->loadSettings(fname_);
+                manager->initialize();
             }
         }
         if(_om->count("--assembler-robot")) {
