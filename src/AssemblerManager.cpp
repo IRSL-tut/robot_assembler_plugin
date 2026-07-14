@@ -876,11 +876,19 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     auto menu = event->contextMenu();
 
     menu->addSeparator();
+    //
     menu->addItem("Align")->sigTriggered().connect(
         [this](){ com_align(); } );
     menu->addItem("UnAlign")->sigTriggered().connect(
         [this](){ com_unalign(); } );
     menu->addSeparator();
+    //
+    menu->addItem("Unselect points")->sigTriggered().connect(
+        [this](){ com_unselect_points(); } );
+    menu->addItem("Select nearest points")->sigTriggered().connect(
+        [this](){ searchMatchedPoints(0.03); } );
+    menu->addSeparator();
+    //
     menu->addItem("Attach")->sigTriggered().connect(
         [this](){ com_attach(); } );
     menu->addItem("Attach Order")->sigTriggered().connect(
@@ -888,19 +896,19 @@ bool AssemblerManager::onContextMenuRequest(SceneWidgetEvent* event)
     menu->addItem("Undo")->sigTriggered().connect(
         [this](){ com_undo(); } );
     menu->addSeparator();
+    //
     menu->addItem("Save history")->sigTriggered().connect(
         [this](){ com_save_history(); } );
     menu->addItem("Save model")->sigTriggered().connect(
         [this](){ com_save_model(); } );
     menu->addSeparator();
+    //
+    std::string label = "## Warning (Delete) ##";
+    menu->addItem(label)->sigTriggered().connect(
+        [this](){ } );
     menu->addItem("Delete All")->sigTriggered().connect(
         [this](){ com_delete_all(); } );
     menu->addSeparator();
-    menu->addItem("Unselect points")->sigTriggered().connect(
-        [this](){ com_unselect_points(); } );
-    menu->addSeparator();
-    menu->addItem("Select nearest points")->sigTriggered().connect(
-        [this](){ searchMatchedPoints(0.03); } );
     //return true;
     return false;
 }

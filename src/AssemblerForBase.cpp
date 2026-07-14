@@ -227,11 +227,22 @@ bool RASceneRobotBase::onContextMenuRequest(SceneWidgetEvent* event)
 
     menu->addSeparator();
     {
-#if 0
-        std::string label = "Move : " + this->name();
-        menu->addItem(label)->sigTriggered().connect(
-            [this](){ } );
-#endif
+        //
+        if (!!lastClickedParts) {
+            menu->addSeparator();
+            //
+            std::string label3_ = "Select Parts : " + lastClickedParts->name();
+            menu->addItem(label3_);
+            std::string label4_ = "Detach Parts : " + lastClickedParts->name();
+            menu->addItem(label4_)->sigTriggered().connect(
+                [this](){ manager->detachSceneRobot(lastClickedParts); });
+        }
+        if (!!lastClickedPoint) {
+            menu->addSeparator();
+            std::string label_ = "Select Point : ";
+            label_ += lastClickedPoint->name();
+            menu->addItem(label_);
+        }
         //
         menu->addSeparator();
         std::string label0_ = "Save history : " + this->name();
@@ -242,25 +253,12 @@ bool RASceneRobotBase::onContextMenuRequest(SceneWidgetEvent* event)
             [this](){ manager->save_model(this); });
         //
         menu->addSeparator();
+        std::string label = "## Warning (Delete)##";
+        menu->addItem(label)->sigTriggered().connect(
+            [this](){ } );
         std::string label2_ = "Delete Robot: " + this->name();
         menu->addItem(label2_)->sigTriggered().connect(
             [this](){ manager->deleteRobot(this); });
-    }
-
-    if (!!lastClickedParts) {
-        menu->addSeparator();
-        //
-        std::string label3_ = "Select Parts : " + lastClickedParts->name();
-        menu->addItem(label3_);
-        std::string label4_ = "Detach Parts : " + lastClickedParts->name();
-        menu->addItem(label4_)->sigTriggered().connect(
-            [this](){ manager->detachSceneRobot(lastClickedParts); });
-    }
-    if (!!lastClickedPoint) {
-        menu->addSeparator();
-        std::string label_ = "Select Point : ";
-        label_ += lastClickedPoint->name();
-        menu->addItem(label_);
     }
     //menu->addSeparator();
     //menu->addItem("Attach")->sigTriggered().connect(
