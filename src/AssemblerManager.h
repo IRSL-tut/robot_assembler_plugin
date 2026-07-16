@@ -52,7 +52,7 @@ public:
     void updateConnectingPoints();
     void updateMatchedPoints(ra::RASceneConnectingPoint *_pt, bool clearSelf = true,
                              ra::RASceneConnectingPoint::Clicked clearState   = ra::RASceneConnectingPoint::DEFAULT,
-                             ra::RASceneConnectingPoint::Clicked matchedState = ra::RASceneConnectingPoint::CAN_CONNECT1);
+                             ra::RASceneConnectingPoint::Clicked matchedState = ra::RASceneConnectingPoint::CAN_CONNECT0);
     void searchMatchedPoints(double threshold);
     void clearAllPoints();
     void updateRobots();

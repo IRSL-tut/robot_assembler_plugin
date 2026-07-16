@@ -17,6 +17,8 @@
 #include <cnoid/SpotLight>
 #include <cnoid/DeviceList>
 
+#include "ValueTreeUtil.h"
+
 #include <cnoid/UTF8>
 #include <cnoid/stdx/filesystem>
 
@@ -312,9 +314,9 @@ bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, s
         //
         map_link_cnoid_roboasm.insert(std::pair<std::string, std::string>(nm_, _pt->name()));
     } else { // usual (has parent) link
-        RoboasmPartsPtr p_pt_;
-        RoboasmConnectingPointPtr p_cp_;
-        RoboasmConnectingPointPtr s_cp_;
+        RoboasmPartsPtr p_pt_; // parent parts
+        RoboasmConnectingPointPtr p_cp_; // parent point
+        RoboasmConnectingPointPtr s_cp_; // self point
         if(!_pt->parentParts(p_pt_, p_cp_, s_cp_)) {
             ERROR_STREAM(" miss fetch : " << _pt->name());
             delete lk;
@@ -658,6 +660,10 @@ bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, s
             }
         }
     }
+    // info
+    {
+        addCoordsToMapping(lk->info(), "link_origin_to_self", link_origin_to_self_);
+    }
     res.push_back(lk);
     return true;
 }
@@ -887,7 +893,27 @@ bool cnoid::robot_assembler::mergeLink(Link *plink, Link *clink, BodyPtr _bd)
             }
         }
     }
-
+    //merge-info:
+    //  clink->name():
+    //    merge-info: clink->info->mergeinfo
+    //    offset_from_parent: 
+    {
+        Mapping *mi_ = plink->info()->findMapping("merge-info");
+        if ( !mi_->isValid() ) {
+            mi_ = new Mapping();
+            plink->info()->insert("merge-info", mi_);
+        }
+        MappingPtr cinfo = new Mapping();
+        Mapping *cmi_ = clink->info()->findMapping("merge-info");
+        if ( cmi_->isValid() ) {
+            cinfo->insert("merge-info", cmi_);
+        }
+        // add offset to cinfo
+        coordinates cds_Tb(clink->Tb());
+        addCoordsToMapping(cinfo, "offset_from_parent", cds_Tb);
+        //
+        mi_->insert(clink->name(), cinfo);
+    }
     return true;
 }
 bool cnoid::robot_assembler::mergeFixedJoint(BodyPtr _bd)

@@ -15,16 +15,19 @@ using namespace cnoid::robot_assembler;
 
 namespace
 {
-static const Vector3f color_default(0.3f, 0.3f, 0.6f);
-static const Vector3f color_good0(0.33f, 1.0f, 0.0f);
+static const Vector3f color_default(0.3f, 0.3f, 0.6f); // dark purple
+static const Vector3f color_used(0.15f, 0.15f, 0.30f); // dark
+static const Vector3f color_good0(0.33f, 1.0f, 0.0f);  // light green
 //static const Vector3f color_good1(0.0f, 1.0f, 0.33f);//
-static const Vector3f color_good1(0.0f, 0.5f, 0.166f);
-static const Vector3f color_bad0(1.0f, 0.0f, 0.0f);
+static const Vector3f color_good1(0.0f, 0.5f, 0.166f); // dark green
+static const Vector3f color_bad0(1.0f, 0.0f, 0.0f);    // red
 //static const Vector3f color_bad1(1.0f, 0.0f, 0.0f);
-static const Vector3f color_bad1(0.5f, 0.0f, 0.166f);
-static const Vector3f color_can_connect0(0.0f, 1.0f, 1.0f);
-static const Vector3f color_can_connect1(0.0f, 1.0f, 1.0f);
+static const Vector3f color_bad1(0.5f, 0.0f, 0.166f);  // dark red
+static const Vector3f color_can_connect0(0.0f, 1.0f, 1.0f); // cyan
+static const Vector3f color_can_connect1(0.15f, 0.65f, 0.60f); // dark cyan
 static const Vector3f color_selected(0.5f, 0.0f, 0.5f);
+static const Vector3f color_pair0a(1.1f, 1.0f, 0.0f);  // light yellow
+static const Vector3f color_pair0b(0.65f, 0.65f, 0.15f);  // dark yellow
 }
 
 #define SCP_LENGTH_LONG  0.015
@@ -175,6 +178,11 @@ void RASceneConnectingPoint::changeState(RASceneConnectingPoint::Clicked _clk)
         material->setDiffuseColor(color_default);
     }
     break;
+    case USED:
+    {
+        material->setDiffuseColor(color_used);
+    }
+    break;
     case SELECT_GOOD0:
     {
         material->setDiffuseColor(color_good0);
@@ -203,6 +211,16 @@ void RASceneConnectingPoint::changeState(RASceneConnectingPoint::Clicked _clk)
     case CAN_CONNECT1:
     {
         material->setDiffuseColor(color_can_connect1);
+    }
+    break;
+    case SELECT_PAIR0A:
+    {
+        material->setDiffuseColor(color_pair0a);
+    }
+    break;
+    case SELECT_PAIR0B:
+    {
+        material->setDiffuseColor(color_pair0b);
     }
     break;
     }
@@ -250,8 +268,7 @@ RASceneParts::RASceneParts(RoboasmPartsPtr _p, const std::string &_proj_dir)
                 _p->worldcoords().transformation(newtrans, ptr->worldcoords());
                 newtrans.toPosition(cp->position());
                 // add color
-                Vector3f col(1.0f, 1.0f, 0);
-                cp->material->setDiffuseColor(col);
+                cp->material->setDiffuseColor(color_used);
                 partsScene->addChild(cp);
                 spoint_list.push_back(cp);
             }
