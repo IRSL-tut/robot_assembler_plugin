@@ -222,6 +222,12 @@ MappingPtr cnoidRAFile::addInfo(MappingPtr _main)
             _main->insert("device-info", tmp);
         }
     }
+    {
+        Mapping *tmp = info->findMapping("virtual-attach-info");
+        if(tmp->isValid()) {
+            _main->insert("virtual-attach-info", tmp);
+        }
+    }
     return _main;
 }
 MappingPtr cnoidRAFile::historyToMap(MappingPtr _main)

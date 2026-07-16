@@ -652,6 +652,15 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
     notifyUpdate();
     SceneView::instance()->sceneWidget()->viewAll();
 }
+#define p_cds(cds) \
+    { Quaternion q0(cds.rot);                                           \
+        DEBUG_STREAM(" " #cds " coordinates(fv(" << cds.pos.x() << ", " << cds.pos.y() << ", " << cds.pos.z() << "), fv(" << q0.x() << ", " << q0.y() << ", " << q0.z() << ", " << q0.w() << "))"); \
+    }
+#define p_cds_nm(nm, cds)                                                \
+    { Quaternion q0(cds.rot);                                           \
+    DEBUG_STREAM(" " << nm <<" coordinates(fv(" << cds.pos.x() << ", " << cds.pos.y() << ", " << cds.pos.z() << "), fv(" << q0.x() << ", " << q0.y() << ", " << q0.z() << ", " << q0.w() << "))"); \
+    }
+
 bool AssemblerManager::virtualAttach(bool move_angles)
 {
     if(!clickedPoint0 || !clickedPoint1) {
@@ -668,7 +677,20 @@ bool AssemblerManager::virtualAttach(bool move_angles)
 
     ra::RoboasmRobotPtr rb0 = cp0->scene_robot()->robot();
     ra::RoboasmRobotPtr rb1 = cp1->scene_robot()->robot();
-
+#if 0
+    { // print links and points
+        ra::partsPtrList lst;
+        rb0->allParts(lst);
+        for (auto pt = lst.begin(); pt != lst.end(); pt++) {
+            ra::connectingPointPtrList plst;
+            (*pt)->connectingPoints(plst);
+            p_cds_nm((*pt)->name(), (*pt)->worldcoords());
+            for (auto p = plst.begin(); p != plst.end(); p++) {
+                p_cds_nm((*p)->name(), (*p)->worldcoords());
+            }
+        }
+    }
+#endif
     if (rb0 != rb1) {
         DEBUG_STREAM(" Both points are required to be part of the same robot");
         return false;
@@ -722,7 +744,6 @@ bool AssemblerManager::virtualAttach(bool move_angles)
         DEBUG_STREAM(" attach: " << ccid);
     }
 #endif
-    // check same robot
     ra::RoboasmParts *parts0 = dynamic_cast<ra::RoboasmParts*>(cp0->point()->parent());
     ra::RoboasmParts *parts1 = dynamic_cast<ra::RoboasmParts*>(cp1->point()->parent());
     coordinates trs0;
@@ -736,10 +757,67 @@ bool AssemblerManager::virtualAttach(bool move_angles)
     DEBUG_STREAM(" cp1 " << cp1->point()->name() << " | " << cp1->point()->point_name() << " : " << cp1->point()->isActuator());
     Quaternion q0(trs0.rot);
     DEBUG_STREAM(" t0: fv(" << trs0.pos.x() << ", " << trs0.pos.y() << ", " << trs0.pos.z() << ")");
-    DEBUG_STREAM(" t0: fv(" << q0.x() << ", " << q0.y() << ", " << q0.z() << ", " << q0.w() << ")");
+    DEBUG_STREAM(" q0: fv(" << q0.x() << ", " << q0.y() << ", " << q0.z() << ", " << q0.w() << ")");
     Quaternion q1(trs1.rot);
     DEBUG_STREAM(" t1: fv(" << trs1.pos.x() << ", " << trs1.pos.y() << ", " << trs1.pos.z() << ")");
-    DEBUG_STREAM(" t1: fv(" << q1.x() << ", " << q1.y() << ", " << q1.z() << ", " << q1.w() << ")");
+    DEBUG_STREAM(" q1: fv(" << q1.x() << ", " << q1.y() << ", " << q1.z() << ", " << q1.w() << ")");
+
+    p_cds(parts0->worldcoords());
+    p_cds(cp0->point()->worldcoords());
+    p_cds(parts1->worldcoords());
+    p_cds(cp1->point()->worldcoords());
+
+    MappingPtr info_ = cp0->scene_robot()->info;
+    MappingPtr v_attach = info_->findMapping("virtual-attach-info");
+    if(!v_attach->isValid()) {
+        v_attach = new Mapping();
+        info_->insert("virtual-attach-info", v_attach);
+    }
+    MappingPtr v_joints = v_attach->findMapping("virtual_joints");
+    if(!v_joints->isValid()) {
+        v_joints = new Mapping();
+        v_attach->insert("virtual_joints", v_joints);
+    }
+    {
+        int vsize = v_joints->size();
+        std::ostringstream ss;
+        ss << "va" << vsize;
+        MappingPtr points = new Mapping();
+        addToMapping(points, "name", ss.str());
+
+        // TODO making joint_type, axis, weight from ainfo ??configuration
+        if ( cp0->point()->isActuator() ) {
+            Actuator *ainfo_ = dynamic_cast<Actuator*>(cp0->point()->info);
+        }
+        if ( cp1->point()->isActuator() ) {
+            Actuator *ainfo_ = dynamic_cast<Actuator*>(cp1->point()->info);
+        }
+        //addToMapping(points, "joint_type", "");
+        //addToMapping(points, "axis", "");
+        std::vector<double> weight = {0, 0, 0, 0, 0, 0};
+        addToMapping(points, "weight", weight);
+        //
+
+        {
+            MappingPtr maplink1 = new Mapping();
+            addToMapping(maplink1, "name", parts0->name());
+            addToMapping(maplink1, "point", cp0->point()->name());
+            coordinates trs0;
+            parts0->worldcoords().transformation(trs0, cp0->point()->worldcoords());
+            addCoordsToMapping(maplink1, "local_pos", trs0);
+            points->insert("link1", maplink1);
+        }
+        {
+            MappingPtr maplink2 = new Mapping();
+            addToMapping(maplink2, "name", parts1->name());
+            addToMapping(maplink2, "point", cp1->point()->name());
+            coordinates trs1;
+            parts1->worldcoords().transformation(trs1, cp1->point()->worldcoords());
+            addCoordsToMapping(maplink2, "local_pos", trs1);
+            points->insert("link2", maplink2);
+        }
+        v_joints->insert(ss.str(), points);
+    }
     return true;
 }
 void AssemblerManager::attachRobots(bool _swap_order, bool _just_align, int increment)
