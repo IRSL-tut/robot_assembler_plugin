@@ -419,7 +419,11 @@ void AssemblerManager::clearAllPoints()
     for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
         auto pit_end = (*it)->spoint_set.end();
         for(auto pit = (*it)->spoint_set.begin(); pit != pit_end; pit++) {
-            (*pit)->changeState(ra::RASceneConnectingPoint::DEFAULT);
+            if ( (*pit)->point()->isConnected() ) {
+                (*pit)->changeState(ra::RASceneConnectingPoint::USED);
+            } else {
+                (*pit)->changeState(ra::RASceneConnectingPoint::DEFAULT);
+            }
         }
     }
 }

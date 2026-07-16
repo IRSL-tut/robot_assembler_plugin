@@ -26,7 +26,9 @@ class CNOID_EXPORT RASceneConnectingPoint : public RASceneBase
 {
 public:
     enum Clicked {
+        NOT_CONNECT = 0,
         DEFAULT,
+        USED,
         SELECT_GOOD0,
         SELECT_GOOD1,
         SELECT_BAD0,
@@ -35,7 +37,8 @@ public:
         CAN_CONNECT1,
         CAN_CONNECT,
         SELECTED,
-        NOT_CONNECT
+        SELECT_PAIR0A,
+        SELECT_PAIR0B,
     };
     RASceneConnectingPoint() = delete;
     RASceneConnectingPoint(RoboasmConnectingPointPtr _c);
