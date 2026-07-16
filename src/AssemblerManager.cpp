@@ -211,6 +211,7 @@ int AssemblerManager::pointClickedProcess(ra::RASceneConnectingPoint *_cp)
         DEBUG_STREAM(" robot not exist??" );
     }
     bool modified = false;
+    bool on_same_robot = false;
     if (clickedPoint0 == _cp) {
         if (!!clickedPoint1) {
             // move 1 -> 0 / (0: a, 1: b) :=> (0: b, 1: null)
@@ -236,6 +237,9 @@ int AssemblerManager::pointClickedProcess(ra::RASceneConnectingPoint *_cp)
         modified = true;
     } else if (!!clickedPoint0 && !!clickedPoint1) {
         DEBUG_STREAM(" state4 : " << _cp->name() );
+        if(clickedPoint0->scene_robot() == clickedPoint1->scene_robot()) {
+            on_same_robot = true;
+        }
         if(clickedPoint0->scene_robot() == _cp->scene_robot()) {
             DEBUG_STREAM(" state4.0 : " << _cp->name() );
             // same robot of selection0
@@ -256,9 +260,17 @@ int AssemblerManager::pointClickedProcess(ra::RASceneConnectingPoint *_cp)
         DEBUG_STREAM(" state5 : " << _cp->name() );
         if(clickedPoint0->scene_robot() == _cp->scene_robot()) {
             DEBUG_STREAM(" state5.0 : " << _cp->name() );
-            // replace selection0
-            clickedPoint0 = _cp;
-            modified = true;
+            if(ra_util->canMatch(clickedPoint0->point(), _cp->point())) {
+                DEBUG_STREAM(" state5.0.0 : match");
+                clickedPoint1 = _cp;
+                modified = true;
+                on_same_robot = true;
+            } else {
+                DEBUG_STREAM(" state5.0.1 : not match");
+                // replace selection0
+                clickedPoint0 = _cp;
+                modified = true;
+            }
         } else {
             DEBUG_STREAM(" state5.1 : " << _cp->name() );
             // add second one
@@ -391,8 +403,13 @@ void AssemblerManager::updateConnectingPoints()
         updateMatchedPoints(clickedPoint0);
         // updateMatchedPoints(clickedPoint1);
         if(can_match) {
-            clickedPoint0->changeState(ra::RASceneConnectingPoint::SELECT_GOOD0);
-            clickedPoint1->changeState(ra::RASceneConnectingPoint::SELECT_GOOD1);
+            if(clickedPoint0->scene_robot() == clickedPoint1->scene_robot()) {
+                clickedPoint0->changeState(ra::RASceneConnectingPoint::SELECT_PAIR0A);
+                clickedPoint1->changeState(ra::RASceneConnectingPoint::SELECT_PAIR0B);
+            } else {
+                clickedPoint0->changeState(ra::RASceneConnectingPoint::SELECT_GOOD0);
+                clickedPoint1->changeState(ra::RASceneConnectingPoint::SELECT_GOOD1);
+            }
         } else {
             clickedPoint0->changeState(ra::RASceneConnectingPoint::SELECT_BAD0);
             clickedPoint1->changeState(ra::RASceneConnectingPoint::SELECT_BAD1);
@@ -434,11 +451,23 @@ void AssemblerManager::updateMatchedPoints(ra::RASceneConnectingPoint *_pt, bool
     ra::RoboasmConnectingPointPtr cp_ = _pt->point();
     for(auto it = srobot_set.begin(); it != srobot_set.end(); it++) {
         if( (*it) == _pt->scene_robot() ) {
+#if 0
             if(clearSelf) {
                 auto pit_end = (*it)->spoint_set.end();
                 for(auto pit = (*it)->spoint_set.begin(); pit != pit_end; pit++)
                     (*pit)->changeState(clearState);
             }
+#else
+            auto pit_end = (*it)->spoint_set.end();
+            for(auto pit = (*it)->spoint_set.begin(); pit != pit_end; pit++) {
+                if(ra_util->canMatch(cp_, (*pit)->point())) {
+                    //(*pit)->changeState(matchedState);
+                    (*pit)->changeState(ra::RASceneConnectingPoint::CAN_CONNECT1);
+                } else {
+                    (*pit)->changeState(clearState);
+                }
+            }
+#endif
             continue;
         }
         auto pit_end = (*it)->spoint_set.end();
@@ -626,7 +655,7 @@ void AssemblerManager::deleteRobot(ra::RASceneRobot *_rb)
 bool AssemblerManager::virtualAttach(bool move_angles)
 {
     if(!clickedPoint0 || !clickedPoint1) {
-        DEBUG_STREAM( " require 2 clicked point" );
+        DEBUG_STREAM(" require 2 clicked points");
         return false;
     }
     ra::RASceneConnectingPoint *cp0 = clickedPoint0;
@@ -639,6 +668,11 @@ bool AssemblerManager::virtualAttach(bool move_angles)
 
     ra::RoboasmRobotPtr rb0 = cp0->scene_robot()->robot();
     ra::RoboasmRobotPtr rb1 = cp1->scene_robot()->robot();
+
+    if (rb0 != rb1) {
+        DEBUG_STREAM(" Both points are required to be part of the same robot");
+        return false;
+    }
 
     bool res;
     std::vector<ra::ConnectingTypeMatch*> res_match_lst;
@@ -729,6 +763,11 @@ void AssemblerManager::attachRobots(bool _swap_order, bool _just_align, int incr
 
     DEBUG_STREAM(" rb0: " << rb0->name() << " <=(attach) rb1:" << rb1->name() );
     DEBUG_STREAM(" cp0-point(): " << cp0->point()->name() << " | cp1-point(): " << cp1->point()->name() );
+
+    if (rb0 == rb1) {
+        DEBUG_STREAM(" Points are required to be part of the different robot");
+        return;
+    }
 
     bool res;
     std::vector<ra::ConnectingTypeMatch*> res_match_lst;
