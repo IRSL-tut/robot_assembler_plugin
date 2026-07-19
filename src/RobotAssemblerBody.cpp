@@ -919,6 +919,7 @@ bool cnoid::robot_assembler::mergeLink(Link *plink, Link *clink, BodyPtr _bd)
             mi_ = new Mapping();
             plink->info()->insert("merge-info", mi_);
         }
+#if 0
         MappingPtr cinfo = new Mapping();
         Mapping *cmi_ = clink->info()->findMapping("merge-info");
         if ( cmi_->isValid() ) {
@@ -927,6 +928,17 @@ bool cnoid::robot_assembler::mergeLink(Link *plink, Link *clink, BodyPtr _bd)
         // add offset to cinfo
         coordinates cds_Tb(clink->Tb());
         addCoordsToMapping(cinfo, "offset_from_parent", cds_Tb);
+        //
+        Mapping *lo = clink->info()->findMapping("link_origin_to_self");
+        if ( lo->isValid() ) {
+            cinfo->insert("link_origin_to_self", lo);
+        }
+#else
+        MappingPtr cinfo = clink->info()->cloneMapping();
+        // add offset to cinfo
+        coordinates cds_Tb(clink->Tb());
+        addCoordsToMapping(cinfo, "offset_from_parent", cds_Tb);
+#endif
         //
         mi_->insert(clink->name(), cinfo);
     }
