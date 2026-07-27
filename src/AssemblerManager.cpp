@@ -210,6 +210,11 @@ int AssemblerManager::pointClickedProcess(ra::RASceneConnectingPoint *_cp)
     if ( !robotExist(_cp->scene_robot()) ) {
         DEBUG_STREAM(" robot not exist??" );
     }
+    // _cp->point()->isActuator()
+    if ( _cp->point()->isConnected() ) {
+        DEBUG_STREAM(" is connected <do nothing>");
+        return 0;
+    }
     bool modified = false;
     bool on_same_robot = false;
     if (clickedPoint0 == _cp) {
@@ -785,7 +790,7 @@ bool AssemblerManager::virtualAttach(bool move_angles)
         MappingPtr points = new Mapping();
         addToMapping(points, "name", ss.str());
 
-        // TODO making joint_type, axis, weight from ainfo ??configuration
+        // TODO [virtual attach] making joint_type, axis, weight from ainfo ??configuration
         if ( cp0->point()->isActuator() ) {
             Actuator *ainfo_ = dynamic_cast<Actuator*>(cp0->point()->info);
         }
