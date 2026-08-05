@@ -281,7 +281,7 @@ static cnoid::Device *createDevice(ExtraInfo &_info, int dev_no, coordinates &li
 
     return ret;
 }
-RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(nullptr), joint_counter(0), device_counter(0), merge_fixed_joint(false),
+RoboasmBodyCreator::RoboasmBodyCreator(const std::string &_proj_dir) : body(nullptr), joint_counter(0), device_counter(0), dummy_counter(0), merge_fixed_joint(false),
                                                                        use_original_parts_name(true)
 {
     project_directory = _proj_dir;
@@ -491,10 +491,15 @@ bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, s
                     DEBUG_STREAM(" " << act2_->name() << ", initial-angle <= " << init_ang);
                     midjoint->setInitialJointAngle(init_ang);
                 }
-            }
+            }// if(!!ainfo)
             midjoint->setOffsetPosition(lk->offsetPosition());
             Isometry3 zero; zero.setIdentity();
             lk->setOffsetPosition( zero );
+            //
+            addToMapping(lk->info(), "assembler_combined_joint_id", dummy_counter);
+            addToMapping(midjoint->info(), "assembler_combined_joint_id", dummy_counter);
+            dummy_counter++;
+            //
             res.push_back(midjoint);
             }
         } else

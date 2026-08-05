@@ -41,6 +41,7 @@ protected:
     BodyPtr body;
     int joint_counter;
     int device_counter;
+    int dummy_counter;
     bool merge_fixed_joint;
     bool use_original_parts_name;
     std::map<std::string, std::string> map_link_cnoid_roboasm;  // key: cnoid_name, value: roboasm_name
