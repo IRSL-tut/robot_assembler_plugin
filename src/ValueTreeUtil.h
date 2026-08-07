@@ -257,6 +257,14 @@ inline void addToMapping(Mapping *_mp, const std::string &_key, bool _bl)
     }
     _mp->write(_key, _bl);
 }
+inline void addToMapping(Mapping *_mp, const std::string &_key, int _intl)
+{
+    ValueNode *vn = _mp->find(_key);
+    if(vn->isValid()) {
+        _mp->remove(_key);
+    }
+    _mp->write(_key, _intl);
+}
 inline void addCoordsToMapping(Mapping *_mp, const std::string &_key, const coordinates &_cds)
 {
     if(_cds.isInitial()) return;
