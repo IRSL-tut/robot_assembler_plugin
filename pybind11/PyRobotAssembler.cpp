@@ -19,7 +19,7 @@ void exportPyRobotAssembler(py::module &m)
     //
     // RoboasmCoords
     //
-    py::class_< ra::RoboasmCoords, ra::RoboasmCoordsPtr, coordinates > roboasmcoords_cls(m, "RoboasmCoords");
+    py::class_< ra::RoboasmCoords, ra::RoboasmCoordsPtr, coordinates > roboasmcoords_cls(m, "RoboasmCoords", py::dynamic_attr());
     roboasmcoords_cls.def(py::init<const std::string &>())
     .def_property_readonly("name", &ra::RoboasmCoords::name)
     .def_property_readonly("worldcoords", (coordinates & (ra::RoboasmCoords::*)()) &ra::RoboasmCoords::worldcoords)
@@ -34,17 +34,15 @@ void exportPyRobotAssembler(py::module &m)
     //
     // RoboasmConnectingPoint
     //
-    py::class_< ra::RoboasmConnectingPoint, ra::RoboasmConnectingPointPtr, ra::RoboasmCoords> roboasmconnectingpoint_cls(m, "RoboasmConnectingPoint");
-
+    py::class_< ra::RoboasmConnectingPoint, ra::RoboasmConnectingPointPtr, ra::RoboasmCoords> roboasmconnectingpoint_cls(m, "RoboasmConnectingPoint", py::dynamic_attr());
     //
     // RoboasmParts
     //
-    py::class_< ra::RoboasmParts,  ra::RoboasmPartsPtr, ra::RoboasmCoords> roboasmparts_cls(m, "RoboasmParts");
-
+    py::class_< ra::RoboasmParts,  ra::RoboasmPartsPtr, ra::RoboasmCoords> roboasmparts_cls(m, "RoboasmParts", py::dynamic_attr());
     //
     // RoboasmRobot
     //
-    py::class_< ra::RoboasmRobot,  ra::RoboasmRobotPtr, ra::RoboasmCoords> roboasmrobot_cls(m, "RoboasmRobot");
+    py::class_< ra::RoboasmRobot,  ra::RoboasmRobotPtr, ra::RoboasmCoords> roboasmrobot_cls(m, "RoboasmRobot", py::dynamic_attr());
     roboasmrobot_cls
     .def("attach", [](ra::RoboasmRobot &self, ra::RoboasmPartsPtr parts,  const std::string &parts_point,
                       const std::string &robot_point, const std::string &config, bool just_align) {

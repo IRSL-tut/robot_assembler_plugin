@@ -29,7 +29,7 @@ void exportPyRobotAssemblerSettings(py::module &m)
     //
     // Geometry
     //
-    py::class_< ra::Geometry > geometry_cls(m, "RobotAssemblerGeometry");
+    py::class_< ra::Geometry > geometry_cls(m, "RobotAssemblerGeometry", py::dynamic_attr());
     py::enum_<ra::Geometry::Type>(geometry_cls, "Type")
     //'.value("{}", ra::Geometry::Type::{})'
     .value("None", ra::Geometry::Type::None)
@@ -54,7 +54,7 @@ void exportPyRobotAssemblerSettings(py::module &m)
     //
     // ConnectingPoint
     //
-    py::class_< ra::ConnectingPoint > connecting_point_cls(m, "RobotAssemblerConnectingPoint");
+    py::class_< ra::ConnectingPoint > connecting_point_cls(m, "RobotAssemblerConnectingPoint", py::dynamic_attr());
     py::enum_<ra::ConnectingPoint::PartsType>(connecting_point_cls, "PartsType")
     //'.value("{}", ra::ConnectingPoint::PartsType::{})'
     .value("Parts", ra::ConnectingPoint::PartsType::Parts)
@@ -76,7 +76,7 @@ void exportPyRobotAssemblerSettings(py::module &m)
     //
     // Actuator
     //
-    py::class_< ra::Actuator, ra::ConnectingPoint > actuator_cls(m, "RobotAssemblerActuator");
+    py::class_< ra::Actuator, ra::ConnectingPoint > actuator_cls(m, "RobotAssemblerActuator", py::dynamic_attr());
     actuator_cls
     .def_property_readonly("axis", [](ra::Actuator &self) { return self.axis; })
     .def_property_readonly("limit", [](ra::Actuator &self) { return self.limit; })
@@ -86,7 +86,7 @@ void exportPyRobotAssemblerSettings(py::module &m)
     //
     // ExtraInfo
     //
-    py::class_< ra::ExtraInfo > extra_info_cls(m, "RobotAssemblerExtraInfo");
+    py::class_< ra::ExtraInfo > extra_info_cls(m, "RobotAssemblerExtraInfo", py::dynamic_attr());
     py::enum_<ra::ExtraInfo::Type>(extra_info_cls, "Type")
     //'.value("{}", ra::ExtraInfo::Type::{})'.format(nm, nm))
     .value("None", ra::ExtraInfo::Type::None)
@@ -119,7 +119,7 @@ void exportPyRobotAssemblerSettings(py::module &m)
     //
     // Parts
     //
-    py::class_< ra::Parts > parts_cls(m, "RobotAssemblerParts");
+    py::class_< ra::Parts > parts_cls(m, "RobotAssemblerParts", py::dynamic_attr());
     parts_cls.def(py::init<>())
     .def_property_readonly("numberOfVisuals", [](ra::Parts &self) { return self.visual.size(); })//
     .def_property_readonly("numberOfCollisions", [](ra::Parts &self) { return self.collision.size(); })//

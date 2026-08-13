@@ -91,7 +91,7 @@ void exportPyRobotAssemblerHelper(py::module &m)
     //
     // RASceneParts
     //
-    py::class_< ra::RASceneParts, ra::RAScenePartsPtr, SgPosTransform > ra_parts_cls(m, "RASceneParts");
+    py::class_< ra::RASceneParts, ra::RAScenePartsPtr, SgPosTransform > ra_parts_cls(m, "RASceneParts", py::dynamic_attr());
     ra_parts_cls.def(py::init<ra::RoboasmPartsPtr, const std::string &>())
     .def_property_readonly("parts", &ra::RASceneParts::parts)
     .def("drawBoundingBox", &ra::RASceneParts::drawBoundingBox)
@@ -102,7 +102,7 @@ void exportPyRobotAssemblerHelper(py::module &m)
     //
     // RASceneRobot
     //
-    py::class_< ra::RASceneRobot, ra::RASceneRobotPtr, SgPosTransform > ra_robot_cls(m, "RASceneRobot");
+    py::class_< ra::RASceneRobot, ra::RASceneRobotPtr, SgPosTransform > ra_robot_cls(m, "RASceneRobot", py::dynamic_attr());
     ra_robot_cls.def(py::init<ra::RoboasmRobotPtr>())
     .def(py::init<ra::RoboasmRobotPtr, const std::string &>())
     ;
