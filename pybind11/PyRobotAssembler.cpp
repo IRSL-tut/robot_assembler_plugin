@@ -22,23 +22,91 @@ void exportPyRobotAssembler(py::module &m)
     py::class_< ra::RoboasmCoords, ra::RoboasmCoordsPtr, coordinates > roboasmcoords_cls(m, "RoboasmCoords", py::dynamic_attr());
     roboasmcoords_cls.def(py::init<const std::string &>())
     .def_property_readonly("name", &ra::RoboasmCoords::name)
+    .def_property_readonly("point_name", &ra::RoboasmCoords::point_name)
     .def_property_readonly("worldcoords", (coordinates & (ra::RoboasmCoords::*)()) &ra::RoboasmCoords::worldcoords)
-    .def("hasParent", &ra::RoboasmCoords::hasParent)
-    .def("hasDescendants", &ra::RoboasmCoords::hasDescendants)
-    .def("isConnectingPoint", &ra::RoboasmCoords::isConnectingPoint)
-    .def("isActuator", &ra::RoboasmCoords::isActuator)
-    .def("isParts", &ra::RoboasmCoords::isParts)
-    .def("isRobot", &ra::RoboasmCoords::isRobot)
+    .def("assoc", &ra::RoboasmCoords::assoc)
+    .def("dissoc", &ra::RoboasmCoords::dissoc)
+    .def("dissocFromParent", &ra::RoboasmCoords::dissocFromParent)
+    .def("update", &ra::RoboasmCoords::update)
+    .def("updateDescendants", &ra::RoboasmCoords::updateDescendants)
+    .def("newcoords", (void (ra::RoboasmCoords::*)()) &ra::RoboasmCoords::newcoords)
+    .def("newcoords", (void (ra::RoboasmCoords::*)(const coordinates &)) &ra::RoboasmCoords::newcoords)
+    .def_property_readonly("parent", &ra::RoboasmCoords::parent)
+    .def_property_readonly("hasParent", &ra::RoboasmCoords::hasParent)
+    .def_property_readonly("hasDescendants", &ra::RoboasmCoords::hasDescendants)
+    .def_property_readonly("isConnectingPoint", &ra::RoboasmCoords::isConnectingPoint)
+    .def_property_readonly("isActuator", &ra::RoboasmCoords::isActuator)
+    .def_property_readonly("isParts", &ra::RoboasmCoords::isParts)
+    .def_property_readonly("isRobot", &ra::RoboasmCoords::isRobot)
+    .def_property_readonly("allDescendants", [](ra::RoboasmCoords &self) {
+        ra::coordsPtrList lst;
+        self.allDescendants(lst);
+        return lst;
+    })
+    .def_property_readonly("connectingPoints", [](ra::RoboasmCoords &self) {
+        ra::connectingPointPtrList lst;
+        self.connectingPoints(lst);
+        return lst;
+    })
+    .def_property_readonly("activeConnectingPoints", [](ra::RoboasmCoords &self) {
+        ra::connectingPointPtrList lst;
+        self.activeConnectingPoints(lst);
+        return lst;
+    })
+    .def_property_readonly("inactiveConnectingPoints", [](ra::RoboasmCoords &self) {
+        ra::connectingPointPtrList lst;
+        self.inactiveConnectingPoints(lst);
+        return lst;
+    })
+    .def_property_readonly("actuators", [](ra::RoboasmCoords &self) {
+        ra::connectingPointPtrList lst;
+        self.actuators(lst);
+        return lst;
+    })
+    .def_property_readonly("activeActuators", [](ra::RoboasmCoords &self) {
+        ra::connectingPointPtrList lst;
+        self.activeActuators(lst);
+        return lst;
+    })
+    .def_property_readonly("inactiveActuators", [](ra::RoboasmCoords &self) {
+        ra::connectingPointPtrList lst;
+        self.inactiveActuators(lst);
+        return lst;
+    })
+    .def_property_readonly("allParts", [](ra::RoboasmCoords &self) {
+        ra::partsPtrList lst;
+        self.allParts(lst);
+        return lst;
+    })
     ;
 
     //
     // RoboasmConnectingPoint
     //
     py::class_< ra::RoboasmConnectingPoint, ra::RoboasmConnectingPointPtr, ra::RoboasmCoords> roboasmconnectingpoint_cls(m, "RoboasmConnectingPoint", py::dynamic_attr());
+    roboasmconnectingpoint_cls
+    .def_property_readonly("info", [](ra::RoboasmConnectingPoint &self) {
+        return self.info;
+    })
+    //.def_property_readonly("point_name", &ra::RoboasmCoords::point_name)
+    .def_property_readonly("isActuator", &ra::RoboasmConnectingPoint::isActuator)
+    .def_property_readonly("hasConfiguration", &ra::RoboasmConnectingPoint::hasConfiguration)
+    .def_property_readonly("isActive", &ra::RoboasmConnectingPoint::isActive)
+    .def_property_readonly("isConnected", &ra::RoboasmConnectingPoint::isConnected)
+    .def_property_readonly("isInverted", &ra::RoboasmConnectingPoint::isInverted)
+    .def_property_readonly("currentConfiguration", &ra::RoboasmConnectingPoint::currentConfiguration)
+    .def_property_readonly("configurationID", &ra::RoboasmConnectingPoint::configurationID)
+    ;
     //
     // RoboasmParts
     //
     py::class_< ra::RoboasmParts,  ra::RoboasmPartsPtr, ra::RoboasmCoords> roboasmparts_cls(m, "RoboasmParts", py::dynamic_attr());
+    roboasmparts_cls
+    .def_property_readonly("info", [](ra::RoboasmParts &self) {
+        return self.info;
+    })
+    //.def_property_readonly("point_name", &ra::RoboasmCoords::point_name)
+    ;
     //
     // RoboasmRobot
     //
