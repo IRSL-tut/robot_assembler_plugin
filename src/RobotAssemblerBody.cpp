@@ -684,6 +684,8 @@ bool RoboasmBodyCreator::createLinks(const RoboasmPartsPtr _pt, bool _is_root, s
     // info
     {
         addCoordsToMapping(lk->info(), "link_origin_to_self", link_origin_to_self_);
+        addToMapping(lk->info(), "assembler_parts_name", _pt->name());
+        addToMapping(lk->info(), "assembler_parts_type", _pt->info->type);
     }
     res.push_back(lk);
     return true;
