@@ -144,7 +144,6 @@ public:
     RoboasmConnectingPoint(const std::string &_name, ConnectingPoint *_info);
     ~RoboasmConnectingPoint();
     bool checkValidity();
-    // inline??
     virtual const std::string &point_name() override { return info->name; };
     bool isActuator() {
         if (info->getType() != ConnectingPoint::Parts) {
@@ -234,6 +233,7 @@ public:
     RoboasmParts(const std::string &_name, Parts *_info);
     ~RoboasmParts();
     bool checkValidity();
+    virtual const std::string &point_name() override { return info->type; };
     bool dumpConnectionFromParent(AttachHistory &history);
     void childParts(partsPtrList &lst);  // parts of just direct child
     bool parentParts(RoboasmPartsPtr &_res_parent,
